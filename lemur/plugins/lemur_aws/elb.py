@@ -143,7 +143,7 @@ def _filter_ignored_elbs(elbs, key_field, arg_name, response_key_field, **kwargs
                     current_app.logger.info(f"Ignoring ELB due to ignore tag: {key}")
                     ignored_keys[key] = True
 
-        return [elb for elb in elbs if not elb[key_field] in ignored_keys]
+        return [elb for elb in elbs if elb[key_field] not in ignored_keys]
 
     except Exception as e:  # noqa
         metrics.send("describe_tags_error", "counter", 1)

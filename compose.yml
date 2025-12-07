@@ -1,0 +1,66 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: lemur-postgres
+    environment:
+      POSTGRES_USER: lemur
+      POSTGRES_PASSWORD: lemur
+      POSTGRES_HOST: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U lemur" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+#  redis:
+#    image: redis:8-alpine
+#    container_name: lemur-redis
+#    ports:
+#      - "6379:6379"
+#    healthcheck:
+#      test: [ "CMD", "redis-cli", "ping" ]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+
+#  caddy:
+#    image: caddy:2-alpine
+#    container_name: lemur-caddy
+#    depends_on:
+#      lemur:
+#        condition: service_healthy
+#    ports:
+#      - "80:80"
+#      - "443:443"
+#    volumes:
+#      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+##      - ./lemur/static/dist:/opt/lemur/lemur/static/dist:ro
+
+  lemur:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lemur-app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      LOG_FILE: "/opt/lemur/lemur.log"
+      SQLALCHEMY_DATABASE_URI: "postgresql://lemur:lemur@postgres:5432/lemur"
+      LEMUR_CONF: "/opt/lemur/lemur.conf.py"
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8000/api/1/healthcheck" ]
+      interval: 15s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+volumes:
+  postgres_data:
+    driver: local

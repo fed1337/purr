@@ -1,0 +1,942 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lemur_aws Package &mdash; lemur 1.3.dev0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=57ae1f5f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="lemur_cfssl Package" href="lemur.plugins.lemur_cfssl.html" />
+    <link rel="prev" title="bases Package" href="lemur.plugins.bases.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            lemur
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart/index.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../production/index.html">Production</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">User Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#command-line-interface">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#upgrading-lemur">Upgrading Lemur</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#plugins">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#rd-party-plugins">3rd Party Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#iam-target">Identity and Access Management</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#writing-a-plugin">Writing a Plugin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#rest-api">REST API</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html#internals">Internals</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="lemur.html">lemur Package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#id1"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lemur</span></code> Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#constants-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">constants</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#database-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">database</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#exceptions-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">exceptions</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#extensions-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">extensions</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#factory-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">factory</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#manage-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">manage</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#models-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models</span></code> Module</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="lemur.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="lemur.auth.html">auth Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.authorities.html">authorities Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.certificates.html">certificates Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.common.html">common Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.destinations.html">destinations Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.domains.html">domains Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.notifications.html">notifications Package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="lemur.plugins.html">plugins Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.roles.html">roles Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.users.html">users Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.sources.html">sources Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.logs.html">logs Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.reporting.html">reporting Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.tests.html">tests Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.deployment.html">deployment Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.endpoints.html">endpoints Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.defaults.html">defaults Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_acme.html">lemur_acme package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_atlas.html">lemur_atlas package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_cryptography.html">lemur_cryptography package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_digicert.html">lemur_digicert package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_jks.html">lemur_jks package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_kubernetes.html">lemur_kubernetes package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_openssl.html">lemur_openssl package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_slack.html">lemur_slack package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../security.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../doing-a-release.html">Doing a release</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license/index.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">lemur</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Contributing</a></li>
+          <li class="breadcrumb-item"><a href="lemur.html">lemur Package</a></li>
+          <li class="breadcrumb-item"><a href="lemur.plugins.html">plugins Package</a></li>
+      <li class="breadcrumb-item active">lemur_aws Package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/developer/internals/lemur.plugins.lemur_aws.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="lemur-aws-package">
+<h1>lemur_aws Package<a class="headerlink" href="#lemur-aws-package" title="Link to this heading"></a></h1>
+<section id="id1">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">lemur_aws</span></code> Package<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+</section>
+<section id="elb-module">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">elb</span></code> Module<a class="headerlink" href="#elb-module" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.elb.</span></span><span class="sig-name descname"><span class="pre">attach_certificate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">certificate_id</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Attaches a certificate to a listener, throws exception
+if certificate specified does not exist in a particular account.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong></p></li>
+<li><p><strong>port</strong></p></li>
+<li><p><strong>certificate_id</strong></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.elb.</span></span><span class="sig-name descname"><span class="pre">attach_certificate_v2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">listener_arn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">certificates</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Attaches a certificate to a listener, throws exception
+if certificate specified does not exist in a particular account.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>listener_arn</strong></p></li>
+<li><p><strong>port</strong></p></li>
+<li><p><strong>certificates</strong></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.elb.</span></span><span class="sig-name descname"><span class="pre">describe_listeners_v2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Fetches one page of listener objects for a given elb arn.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kwargs</strong></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.elb.</span></span><span class="sig-name descname"><span class="pre">describe_load_balancer_policies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">load_balancer_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy_names</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Fetching all policies currently associated with an ELB.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>load_balancer_name</strong></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.elb.</span></span><span class="sig-name descname"><span class="pre">describe_load_balancer_types</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">policies</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Describe the policies with policy details.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>policies</strong></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.elb.</span></span><span class="sig-name descname"><span class="pre">describe_ssl_policies_v2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">policy_names</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Fetching all policies currently associated with an ELB.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>policy_names</strong></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.elb.</span></span><span class="sig-name descname"><span class="pre">get_all_elbs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Fetches all elbs for a given account/region</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kwargs</strong></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.elb.</span></span><span class="sig-name descname"><span class="pre">get_all_elbs_v2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Fetches all elbs for a given account/region</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kwargs</strong></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.elb.</span></span><span class="sig-name descname"><span class="pre">get_elbs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Fetches one page elb objects for a given account and region.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.elb.</span></span><span class="sig-name descname"><span class="pre">get_elbs_v2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Fetches one page of elb objects for a given account and region.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kwargs</strong></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.elb.</span></span><span class="sig-name descname"><span class="pre">get_listener_arn_from_endpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoint_port</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Get a listener ARN from an endpoint.
+:param endpoint_name:
+:param endpoint_port:
+:return:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.elb.</span></span><span class="sig-name descname"><span class="pre">get_load_balancer_arn_from_endpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint_name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Get a load balancer ARN from an endpoint.
+:param endpoint_name:
+:return:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.elb.</span></span><span class="sig-name descname"><span class="pre">has_listener_cert_for_sni</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">listener_arn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Describe listener to list certificates in use
+For cert added as SNI listener, it will be listed with both, default true and false
+:param listener_arn:
+:return: True/False</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.elb.</span></span><span class="sig-name descname"><span class="pre">is_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">listener_tuple</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>There are a few rules that aws has when creating listeners,
+this function ensures those rules are met before we try and create
+or update a listener.</p>
+<p>While these could be caught with boto exception handling, I would
+rather be nice and catch these early before we sent them out to aws.
+It also gives us an opportunity to create nice user warnings.</p>
+<p>This validity check should also be checked in the frontend
+but must also be enforced by server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>listener_tuple</strong></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.elb.</span></span><span class="sig-name descname"><span class="pre">retry_throttled</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exception</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Determines if this exception is due to throttling
+:param exception:
+:return:</p>
+</dd></dl>
+
+</section>
+<section id="iam-module">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">iam</span></code> Module<a class="headerlink" href="#iam-module" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.iam.</span></span><span class="sig-name descname"><span class="pre">create_arn_from_cert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">partition</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">certificate_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Create an ARN from a certificate.
+:param path:
+:param account_number:
+:param partition:
+:param certificate_name:
+:return:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.iam.</span></span><span class="sig-name descname"><span class="pre">delete_cert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cert_name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Delete a certificate from AWS</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cert_name</strong></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.iam.</span></span><span class="sig-name descname"><span class="pre">get_all_certificates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">restrict_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Use STS to fetch all of the SSL certificates from a given account
+:param restrict_path: If provided, only return certificates with a matching Path value.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.iam.</span></span><span class="sig-name descname"><span class="pre">get_certificate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Retrieves an SSL certificate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.iam.</span></span><span class="sig-name descname"><span class="pre">get_certificate_id_to_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Use STS to fetch a map of IAM certificate IDs to names</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.iam.</span></span><span class="sig-name descname"><span class="pre">get_certificates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Fetches one page of certificate objects for a given account.
+:param kwargs:
+:return:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.iam.</span></span><span class="sig-name descname"><span class="pre">get_name_from_arn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arn</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Extract the certificate name from an arn.</p>
+<p>examples:
+‘arn:aws:iam::123456789012:server-certificate/example.com’  –&gt;  ‘example.com’
+‘arn:aws:iam::123456789012:server-certificate/cloudfront/example.com-cloudfront’ –&gt; ‘example.com-cloudfront’
+‘arn:aws:acm:us-west-2:123456789012:certificate/example.com’ –&gt; ‘example.com’</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>arn</strong> – IAM TLS certificate arn</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>name of the certificate as uploaded to AWS</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.iam.</span></span><span class="sig-name descname"><span class="pre">get_path_from_arn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arn</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Get the certificate path from the certificate arn.</p>
+<p>examples:
+‘arn:aws:iam::123456789012:server-certificate/example.com’   –&gt;  ‘’
+‘arn:aws:iam::123456789012:server-certificate/cloudfront/example.com-cloudfront’  –&gt;  ‘cloudfront’
+‘arn:aws:iam::123456789012:server-certificate/cloudfront/2/example.com-cloudfront’  –&gt;  ‘cloudfront/2’
+‘arn:aws:acm:us-west-2:123456789012:certificate/example.com’  –&gt;  ‘’</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>arn</strong> – IAM TLS certificate arn</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>empty or the certificate path without the certificate name</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.iam.</span></span><span class="sig-name descname"><span class="pre">get_registry_type_from_arn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arn</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Get the registery type based on the arn.</p>
+<p>examples:
+‘arn:aws:iam::123456789000:server-certificate/example.com’  –&gt;  ‘iam’
+‘arn:aws:iam::123456789000:server-certificate/cloudfront/example.com-cloudfront’  –&gt; ‘iam’
+‘arn:aws:acm:us-west-2:123456789000:certificate/example.com’  –&gt;  ‘acm’</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>arn</strong> – IAM TLS certificate arn</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>iam or acm or unkown</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.iam.</span></span><span class="sig-name descname"><span class="pre">retry_throttled</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exception</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Determines if this exception is due to throttling
+:param exception:
+:return:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.iam.</span></span><span class="sig-name descname"><span class="pre">upload_cert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">private_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cert_chain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Upload a certificate to AWS</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong></p></li>
+<li><p><strong>body</strong></p></li>
+<li><p><strong>private_key</strong></p></li>
+<li><p><strong>cert_chain</strong></p></li>
+<li><p><strong>path</strong></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="plugin-module">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">plugin</span></code> Module<a class="headerlink" href="#plugin-module" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.plugin.</span></span><span class="sig-name descname"><span class="pre">ACMDestinationPlugin</span></span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DestinationPlugin</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">author_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://github.com/Netflix/lemur'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">clean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">certificate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Allow</span> <span class="pre">the</span> <span class="pre">uploading</span> <span class="pre">of</span> <span class="pre">certificates</span> <span class="pre">to</span> <span class="pre">Amazon</span> <span class="pre">ACM'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">options</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[{'helpMessage':</span> <span class="pre">'A</span> <span class="pre">valid</span> <span class="pre">AWS</span> <span class="pre">account</span> <span class="pre">number</span> <span class="pre">with</span> <span class="pre">permission</span> <span class="pre">to</span> <span class="pre">access</span> <span class="pre">ACM',</span> <span class="pre">'name':</span> <span class="pre">'accountNumber',</span> <span class="pre">'required':</span> <span class="pre">True,</span> <span class="pre">'type':</span> <span class="pre">'str',</span> <span class="pre">'validation':</span> <span class="pre">'[0-9]{12}'},</span> <span class="pre">{'available':</span> <span class="pre">['us-east-1',</span> <span class="pre">'us-west-2',</span> <span class="pre">'eu-west-1'],</span> <span class="pre">'default':</span> <span class="pre">'us-east-1',</span> <span class="pre">'helpMessage':</span> <span class="pre">'Region</span> <span class="pre">bucket</span> <span class="pre">exists',</span> <span class="pre">'name':</span> <span class="pre">'region',</span> <span class="pre">'required':</span> <span class="pre">False,</span> <span class="pre">'type':</span> <span class="pre">'str'}]</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">slug</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'aws-acm-dest'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'AWS-ACM'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">upload</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">private_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cert_chain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'unknown'</span></em></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.plugin.</span></span><span class="sig-name descname"><span class="pre">AWSACMSourcePlugin</span></span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SourcePlugin</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">author_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://github.com/netflix/lemur'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Discovers</span> <span class="pre">all</span> <span class="pre">ACM</span> <span class="pre">TLS</span> <span class="pre">certificates</span> <span class="pre">in</span> <span class="pre">an</span> <span class="pre">AWS</span> <span class="pre">account'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_certificates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">options</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[{'helpMessage':</span> <span class="pre">'Must</span> <span class="pre">be</span> <span class="pre">a</span> <span class="pre">valid</span> <span class="pre">AWS</span> <span class="pre">account</span> <span class="pre">number!',</span> <span class="pre">'name':</span> <span class="pre">'accountNumber',</span> <span class="pre">'required':</span> <span class="pre">True,</span> <span class="pre">'type':</span> <span class="pre">'str',</span> <span class="pre">'validation':</span> <span class="pre">'^[0-9]{12,12}$'},</span> <span class="pre">{'helpMessage':</span> <span class="pre">'Comma</span> <span class="pre">separated</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">regions</span> <span class="pre">to</span> <span class="pre">search</span> <span class="pre">in,</span> <span class="pre">if</span> <span class="pre">no</span> <span class="pre">region</span> <span class="pre">is</span> <span class="pre">specified</span> <span class="pre">we</span> <span class="pre">look</span> <span class="pre">in</span> <span class="pre">all</span> <span class="pre">regions.',</span> <span class="pre">'name':</span> <span class="pre">'regions',</span> <span class="pre">'type':</span> <span class="pre">'str'}]</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">slug</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'aws-acm-source'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'AWS-ACM'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'unknown'</span></em></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.plugin.</span></span><span class="sig-name descname"><span class="pre">AWSDestinationPlugin</span></span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DestinationPlugin</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">author</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Kevin</span> <span class="pre">Glisson'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">author_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://github.com/netflix/lemur'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">clean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">certificate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">deploy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elb_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">certificate</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Allow</span> <span class="pre">the</span> <span class="pre">uploading</span> <span class="pre">of</span> <span class="pre">certificates</span> <span class="pre">to</span> <span class="pre">AWS</span> <span class="pre">IAM'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">options</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[{'helpMessage':</span> <span class="pre">'Must</span> <span class="pre">be</span> <span class="pre">a</span> <span class="pre">valid</span> <span class="pre">AWS</span> <span class="pre">account</span> <span class="pre">number!',</span> <span class="pre">'name':</span> <span class="pre">'accountNumber',</span> <span class="pre">'required':</span> <span class="pre">True,</span> <span class="pre">'type':</span> <span class="pre">'str',</span> <span class="pre">'validation':</span> <span class="pre">'[0-9]{12}'},</span> <span class="pre">{'default':</span> <span class="pre">'/',</span> <span class="pre">'helpMessage':</span> <span class="pre">'Path</span> <span class="pre">prefix</span> <span class="pre">for</span> <span class="pre">uploaded</span> <span class="pre">certificates.',</span> <span class="pre">'name':</span> <span class="pre">'path',</span> <span class="pre">'type':</span> <span class="pre">'str',</span> <span class="pre">'validation':</span> <span class="pre">'^(?:|/|/\\S+/)$'}]</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">slug</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'aws-destination'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">sync_as_source</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">sync_as_source_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'aws-source'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'AWS'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">upload</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">private_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cert_chain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'unknown'</span></em></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.plugin.</span></span><span class="sig-name descname"><span class="pre">AWSSourcePlugin</span></span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SourcePlugin</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">author</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Kevin</span> <span class="pre">Glisson'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">author_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://github.com/netflix/lemur'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">clean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">certificate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Discovers</span> <span class="pre">all</span> <span class="pre">SSL</span> <span class="pre">certificates</span> <span class="pre">and</span> <span class="pre">ELB</span> <span class="pre">or</span> <span class="pre">Cloudfront</span> <span class="pre">endpoints</span> <span class="pre">in</span> <span class="pre">an</span> <span class="pre">AWS</span> <span class="pre">account'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_certificate_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">certificate_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_certificates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_distributions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_endpoint_certificate_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_endpoints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_load_balancers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">options</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[{'helpMessage':</span> <span class="pre">'Must</span> <span class="pre">be</span> <span class="pre">a</span> <span class="pre">valid</span> <span class="pre">AWS</span> <span class="pre">account</span> <span class="pre">number!',</span> <span class="pre">'name':</span> <span class="pre">'accountNumber',</span> <span class="pre">'required':</span> <span class="pre">True,</span> <span class="pre">'type':</span> <span class="pre">'str',</span> <span class="pre">'validation':</span> <span class="pre">'^[0-9]{12,12}$'},</span> <span class="pre">{'helpMessage':</span> <span class="pre">'Comma</span> <span class="pre">separated</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">regions</span> <span class="pre">to</span> <span class="pre">search</span> <span class="pre">in,</span> <span class="pre">if</span> <span class="pre">no</span> <span class="pre">region</span> <span class="pre">is</span> <span class="pre">specified</span> <span class="pre">we</span> <span class="pre">look</span> <span class="pre">in</span> <span class="pre">all</span> <span class="pre">regions.',</span> <span class="pre">'name':</span> <span class="pre">'regions',</span> <span class="pre">'type':</span> <span class="pre">'str'},</span> <span class="pre">{'default':</span> <span class="pre">'/',</span> <span class="pre">'helpMessage':</span> <span class="pre">&quot;Only</span> <span class="pre">discover</span> <span class="pre">certificates</span> <span class="pre">with</span> <span class="pre">this</span> <span class="pre">path</span> <span class="pre">prefix.</span> <span class="pre">Must</span> <span class="pre">begin</span> <span class="pre">and</span> <span class="pre">end</span> <span class="pre">with</span> <span class="pre">slash.</span> <span class="pre">For</span> <span class="pre">CloudFront</span> <span class="pre">sources,</span> <span class="pre">use</span> <span class="pre">'/cloudfront/'.&quot;,</span> <span class="pre">'name':</span> <span class="pre">'path',</span> <span class="pre">'type':</span> <span class="pre">'str',</span> <span class="pre">'validation':</span> <span class="pre">'^(?:|/|/\\S+/)$'},</span> <span class="pre">{'available':</span> <span class="pre">['elb',</span> <span class="pre">'cloudfront',</span> <span class="pre">'none'],</span> <span class="pre">'default':</span> <span class="pre">'elb',</span> <span class="pre">'helpMessage':</span> <span class="pre">'Type</span> <span class="pre">of</span> <span class="pre">AWS</span> <span class="pre">endpoint</span> <span class="pre">to</span> <span class="pre">discover.</span> <span class="pre">Defaults</span> <span class="pre">to</span> <span class="pre">elb</span> <span class="pre">if</span> <span class="pre">not</span> <span class="pre">set.',</span> <span class="pre">'name':</span> <span class="pre">'endpointType',</span> <span class="pre">'type':</span> <span class="pre">'select'}]</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">slug</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'aws-source'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'AWS'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">update_endpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">certificate</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'unknown'</span></em></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.plugin.</span></span><span class="sig-name descname"><span class="pre">S3DestinationPlugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ExportDestinationPlugin</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">additional_options</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[{'helpMessage':</span> <span class="pre">'Must</span> <span class="pre">be</span> <span class="pre">a</span> <span class="pre">valid</span> <span class="pre">S3</span> <span class="pre">bucket</span> <span class="pre">name!',</span> <span class="pre">'name':</span> <span class="pre">'bucket',</span> <span class="pre">'required':</span> <span class="pre">True,</span> <span class="pre">'type':</span> <span class="pre">'str',</span> <span class="pre">'validation':</span> <span class="pre">'[0-9a-z.-]{3,63}'},</span> <span class="pre">{'helpMessage':</span> <span class="pre">'A</span> <span class="pre">valid</span> <span class="pre">AWS</span> <span class="pre">account</span> <span class="pre">number</span> <span class="pre">with</span> <span class="pre">permission</span> <span class="pre">to</span> <span class="pre">access</span> <span class="pre">S3',</span> <span class="pre">'name':</span> <span class="pre">'accountNumber',</span> <span class="pre">'required':</span> <span class="pre">True,</span> <span class="pre">'type':</span> <span class="pre">'str',</span> <span class="pre">'validation':</span> <span class="pre">'[0-9]{12}'},</span> <span class="pre">{'available':</span> <span class="pre">['us-east-1',</span> <span class="pre">'us-west-2',</span> <span class="pre">'eu-west-1'],</span> <span class="pre">'default':</span> <span class="pre">'us-east-1',</span> <span class="pre">'helpMessage':</span> <span class="pre">'Region</span> <span class="pre">bucket</span> <span class="pre">exists',</span> <span class="pre">'name':</span> <span class="pre">'region',</span> <span class="pre">'required':</span> <span class="pre">False,</span> <span class="pre">'type':</span> <span class="pre">'str'},</span> <span class="pre">{'default':</span> <span class="pre">True,</span> <span class="pre">'helpMessage':</span> <span class="pre">'Enable</span> <span class="pre">server</span> <span class="pre">side</span> <span class="pre">encryption',</span> <span class="pre">'name':</span> <span class="pre">'encrypt',</span> <span class="pre">'required':</span> <span class="pre">False,</span> <span class="pre">'type':</span> <span class="pre">'bool'},</span> <span class="pre">{'default':</span> <span class="pre">'',</span> <span class="pre">'helpMessage':</span> <span class="pre">'Must</span> <span class="pre">be</span> <span class="pre">a</span> <span class="pre">valid</span> <span class="pre">S3</span> <span class="pre">object</span> <span class="pre">prefix!',</span> <span class="pre">'name':</span> <span class="pre">'prefix',</span> <span class="pre">'required':</span> <span class="pre">False,</span> <span class="pre">'type':</span> <span class="pre">'str',</span> <span class="pre">'validation':</span> <span class="pre">'^(?:[^/].*|)$'}]</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">allow_multiple_per_account</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Specifies whether or not multiple of this destination type may be added per AWS account.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">author</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Mikhail</span> <span class="pre">Khodorovskiy,</span> <span class="pre">Harm</span> <span class="pre">Weites</span> <span class="pre">&lt;harm&#64;weites.com&gt;'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">author_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://github.com/Netflix/lemur'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">clean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">certificate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">delete_acme_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Allow</span> <span class="pre">the</span> <span class="pre">uploading</span> <span class="pre">of</span> <span class="pre">certificates</span> <span class="pre">to</span> <span class="pre">Amazon</span> <span class="pre">S3'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">slug</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'aws-s3'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'AWS-S3'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">upload</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">private_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">upload_acme_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>This is called from the acme http challenge</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong></p></li>
+<li><p><strong>token_path</strong></p></li>
+<li><p><strong>token</strong></p></li>
+<li><p><strong>options</strong></p></li>
+<li><p><strong>kwargs</strong></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.plugin.</span></span><span class="sig-name descname"><span class="pre">SNSNotificationPlugin</span></span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ExpirationNotificationPlugin</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">additional_options</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[{'helpMessage':</span> <span class="pre">'A</span> <span class="pre">valid</span> <span class="pre">AWS</span> <span class="pre">account</span> <span class="pre">number</span> <span class="pre">with</span> <span class="pre">permission</span> <span class="pre">to</span> <span class="pre">access</span> <span class="pre">the</span> <span class="pre">SNS</span> <span class="pre">topic',</span> <span class="pre">'name':</span> <span class="pre">'accountNumber',</span> <span class="pre">'required':</span> <span class="pre">True,</span> <span class="pre">'type':</span> <span class="pre">'str',</span> <span class="pre">'validation':</span> <span class="pre">'[0-9]{12}'},</span> <span class="pre">{'helpMessage':</span> <span class="pre">'Region</span> <span class="pre">in</span> <span class="pre">which</span> <span class="pre">the</span> <span class="pre">SNS</span> <span class="pre">topic</span> <span class="pre">is</span> <span class="pre">located,</span> <span class="pre">e.g.</span> <span class="pre">&quot;us-east-1&quot;',</span> <span class="pre">'name':</span> <span class="pre">'region',</span> <span class="pre">'required':</span> <span class="pre">True,</span> <span class="pre">'type':</span> <span class="pre">'str',</span> <span class="pre">'validation':</span> <span class="pre">'[0-9a-z\\-]{1,25}'},</span> <span class="pre">{'helpMessage':</span> <span class="pre">'The</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">topic</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">for</span> <span class="pre">expiration</span> <span class="pre">notifications',</span> <span class="pre">'name':</span> <span class="pre">'topicName',</span> <span class="pre">'required':</span> <span class="pre">True,</span> <span class="pre">'type':</span> <span class="pre">'str',</span> <span class="pre">'validation':</span> <span class="pre">'^[a-zA-Z0-9_\\-]{1,256}$'}]</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">author</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Jasmine</span> <span class="pre">Schladen</span> <span class="pre">&lt;jschladen&#64;netflix.com&gt;'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">author_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://github.com/Netflix/lemur'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Sends</span> <span class="pre">notifications</span> <span class="pre">to</span> <span class="pre">AWS</span> <span class="pre">SNS'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">notification_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">excluded_targets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>While we receive a <cite>targets</cite> parameter here, it is unused, as the SNS topic is pre-configured in the
+plugin configuration, and can’t reasonably be changed dynamically.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">slug</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'aws-sns'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'AWS</span> <span class="pre">SNS'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'unknown'</span></em></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.plugin.</span></span><span class="sig-name descname"><span class="pre">format_elb_cipher_policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">policy</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Attempts to format cipher policy information into a common format.
+:param policy:
+:return:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.plugin.</span></span><span class="sig-name descname"><span class="pre">format_elb_cipher_policy_v2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">policy</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Attempts to format cipher policy information for elbv2 into a common format.
+:param policy:
+:return:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.plugin.</span></span><span class="sig-name descname"><span class="pre">get_distribution_endpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cert_id_to_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distrib_dict</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Constructs endpoint data from a distribution response, or None if it does
+not represent a distribution Lemur cares about.
+:param account_number:
+:param cert_id_to_name: map of IAM certificate IDs to names
+:param distrib_dict:
+:return: a list of endpoint dictionaries</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.plugin.</span></span><span class="sig-name descname"><span class="pre">get_elb_endpoints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elb_dict</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Retrieves endpoint information from elb response data.
+:param account_number:
+:param region:
+:param elb_dict:
+:return:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.plugin.</span></span><span class="sig-name descname"><span class="pre">get_elb_endpoints_v2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elb_dict</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Retrieves endpoint information from elbv2 response data.
+:param account_number:
+:param region:
+:param elb_dict:
+:return:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.plugin.</span></span><span class="sig-name descname"><span class="pre">get_region_from_dns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dns</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+</section>
+<section id="sts-module">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">sts</span></code> Module<a class="headerlink" href="#sts-module" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_aws.sts.</span></span><span class="sig-name descname"><span class="pre">sts_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'client'</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="lemur.plugins.bases.html" class="btn btn-neutral float-left" title="bases Package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="lemur.plugins.lemur_cfssl.html" class="btn btn-neutral float-right" title="lemur_cfssl Package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018, Netflix Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -24,31 +24,31 @@ def build_sdist(sdist_directory, config_settings=None):
 def _build_static():
     """Build static assets using npm and gulp."""
     root = os.path.dirname(os.path.abspath(__file__))
-    
+
     # Check if static assets already exist
     if os.path.exists(os.path.join(root, 'lemur/static/dist')):
         logging.info("Static assets already exist, skipping build")
         return
-    
+
     logging.info(f"Building static assets in {root}")
-    
+
     try:
         # Run npm install
         logging.info("Running npm install --quiet")
         subprocess.check_call(['npm', 'install', '--quiet'], cwd=root)
-        
+
         # Run gulp build
         logging.info("Running gulp build")
         subprocess.check_call([
             os.path.join(root, 'node_modules', '.bin', 'gulp'), 'build'
         ], cwd=root)
-        
-        # Run gulp package  
+
+        # Run gulp package
         logging.info("Running gulp package")
         subprocess.check_call([
             os.path.join(root, 'node_modules', '.bin', 'gulp'), 'package'
         ], cwd=root)
-        
+
     except subprocess.CalledProcessError as e:
         logging.warning(f"Unable to build static content: {e}")
     except Exception as e:

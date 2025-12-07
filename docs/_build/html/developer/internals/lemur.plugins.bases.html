@@ -1,0 +1,408 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>bases Package &mdash; lemur 1.3.dev0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=57ae1f5f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="lemur_aws Package" href="lemur.plugins.lemur_aws.html" />
+    <link rel="prev" title="base Package" href="lemur.plugins.base.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            lemur
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart/index.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../production/index.html">Production</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">User Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#command-line-interface">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#upgrading-lemur">Upgrading Lemur</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#plugins">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#rd-party-plugins">3rd Party Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#iam-target">Identity and Access Management</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#writing-a-plugin">Writing a Plugin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#rest-api">REST API</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html#internals">Internals</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="lemur.html">lemur Package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#id1"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lemur</span></code> Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#constants-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">constants</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#database-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">database</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#exceptions-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">exceptions</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#extensions-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">extensions</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#factory-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">factory</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#manage-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">manage</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#models-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models</span></code> Module</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="lemur.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="lemur.auth.html">auth Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.authorities.html">authorities Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.certificates.html">certificates Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.common.html">common Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.destinations.html">destinations Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.domains.html">domains Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.notifications.html">notifications Package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="lemur.plugins.html">plugins Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.roles.html">roles Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.users.html">users Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.sources.html">sources Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.logs.html">logs Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.reporting.html">reporting Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.tests.html">tests Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.deployment.html">deployment Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.endpoints.html">endpoints Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.defaults.html">defaults Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_acme.html">lemur_acme package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_atlas.html">lemur_atlas package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_cryptography.html">lemur_cryptography package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_digicert.html">lemur_digicert package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_jks.html">lemur_jks package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_kubernetes.html">lemur_kubernetes package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_openssl.html">lemur_openssl package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_slack.html">lemur_slack package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../security.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../doing-a-release.html">Doing a release</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license/index.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">lemur</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Contributing</a></li>
+          <li class="breadcrumb-item"><a href="lemur.html">lemur Package</a></li>
+          <li class="breadcrumb-item"><a href="lemur.plugins.html">plugins Package</a></li>
+      <li class="breadcrumb-item active">bases Package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/developer/internals/lemur.plugins.bases.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="bases-package">
+<h1>bases Package<a class="headerlink" href="#bases-package" title="Link to this heading"></a></h1>
+<section id="id1">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">bases</span></code> Package<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+</section>
+<section id="destination-module">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">destination</span></code> Module<a class="headerlink" href="#destination-module" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.plugins.bases.destination.</span></span><span class="sig-name descname"><span class="pre">DestinationPlugin</span></span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">allow_multiple_per_account</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Specifies whether or not multiple of this destination type may be added per AWS account.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">requires_key</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">sync_as_source</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">sync_as_source_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'destination'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">upload</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">private_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cert_chain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.plugins.bases.destination.</span></span><span class="sig-name descname"><span class="pre">ExportDestinationPlugin</span></span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DestinationPlugin</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">default_options</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[{'helpMessage':</span> <span class="pre">'Export</span> <span class="pre">plugin</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">before</span> <span class="pre">sending</span> <span class="pre">data</span> <span class="pre">to</span> <span class="pre">destination.',</span> <span class="pre">'name':</span> <span class="pre">'exportPlugin',</span> <span class="pre">'required':</span> <span class="pre">True,</span> <span class="pre">'type':</span> <span class="pre">'export-plugin'}]</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">export</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">body</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">private_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cert_chain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">options</span></span></dt>
+<dd><p>Gets/sets options for the plugin.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">upload</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">private_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cert_chain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="issuer-module">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">issuer</span></code> Module<a class="headerlink" href="#issuer-module" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.plugins.bases.issuer.</span></span><span class="sig-name descname"><span class="pre">IssuerPlugin</span></span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code></p>
+<p>This is the base class from which all of the supported
+issuers will inherit from.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">cancel_ordered_certificate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pending_cert</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">create_authority</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">create_certificate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">csr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">issuer_options</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">deactivate_certificate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">certificate</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_ordered_certificate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">certificate</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">revoke_certificate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">certificate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'issuer'</span></em></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="notification-module">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">notification</span></code> Module<a class="headerlink" href="#notification-module" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.plugins.bases.notification.</span></span><span class="sig-name descname"><span class="pre">ExpirationNotificationPlugin</span></span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">NotificationPlugin</span></code></p>
+<p>This is the base class for all expiration notification plugins.
+It contains some default options that are needed for all expiration
+notification plugins.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">default_options</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[{'helpMessage':</span> <span class="pre">'Number</span> <span class="pre">of</span> <span class="pre">days</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">alert</span> <span class="pre">before</span> <span class="pre">expiration.',</span> <span class="pre">'name':</span> <span class="pre">'interval',</span> <span class="pre">'required':</span> <span class="pre">True,</span> <span class="pre">'type':</span> <span class="pre">'int',</span> <span class="pre">'validation':</span> <span class="pre">'^\\d+$'},</span> <span class="pre">{'available':</span> <span class="pre">['days',</span> <span class="pre">'weeks',</span> <span class="pre">'months'],</span> <span class="pre">'helpMessage':</span> <span class="pre">'Interval</span> <span class="pre">unit',</span> <span class="pre">'name':</span> <span class="pre">'unit',</span> <span class="pre">'required':</span> <span class="pre">True,</span> <span class="pre">'type':</span> <span class="pre">'select',</span> <span class="pre">'validation':</span> <span class="pre">''}]</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">options</span></span></dt>
+<dd><p>Gets/sets options for the plugin.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">notification_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">excluded_targets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.plugins.bases.notification.</span></span><span class="sig-name descname"><span class="pre">NotificationPlugin</span></span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code></p>
+<p>This is the base class from which all of the supported
+issuers will inherit from.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_recipients</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">additional_recipients</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Given a set of options (which should include configured recipient info), returns the parsed list of recipients
+from those options plus the additional recipients specified. The returned value has no duplicates.</p>
+<p>For any notification types where recipients can’t be dynamically modified, this returns only the additional recipients.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">notification_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">targets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'notification'</span></em></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="source-module">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">source</span></code> Module<a class="headerlink" href="#source-module" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.plugins.bases.source.</span></span><span class="sig-name descname"><span class="pre">SourcePlugin</span></span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">clean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">certificate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">default_options</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[{'default':</span> <span class="pre">'60',</span> <span class="pre">'helpMessage':</span> <span class="pre">'Rate</span> <span class="pre">in</span> <span class="pre">seconds</span> <span class="pre">to</span> <span class="pre">poll</span> <span class="pre">source</span> <span class="pre">for</span> <span class="pre">new</span> <span class="pre">information.',</span> <span class="pre">'name':</span> <span class="pre">'pollRate',</span> <span class="pre">'required':</span> <span class="pre">False,</span> <span class="pre">'type':</span> <span class="pre">'int'}]</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_certificates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_endpoints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">options</span></span></dt>
+<dd><p>Gets/sets options for the plugin.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'source'</span></em></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="lemur.plugins.base.html" class="btn btn-neutral float-left" title="base Package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="lemur.plugins.lemur_aws.html" class="btn btn-neutral float-right" title="lemur_aws Package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018, Netflix Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

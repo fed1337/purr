@@ -1,0 +1,11 @@
+**/__pycache__
+.git
+.idea
+.mypy_cache
+.pytest_cache
+.ruff_cache
+.venv
+lemur/static/dist
+node_modules
+bower_components
+.tmp

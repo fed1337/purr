@@ -33,7 +33,7 @@ if on_rtd:
     MOCK_MODULES = ["ldap"]
     sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
-autodoc_mock_imports = ["python-ldap", "acme", "certsrv", "dnspython3", "dyn", "factory-boy", "flask_replicated",
+autodoc_mock_imports = ["python-ldap", "acme", "certsrv", "dnspython", "dyn", "factory-boy", "flask_replicated",
                         "josepy", "logmatic", "pem"]
 
 # -- General configuration ------------------------------------------------
@@ -44,7 +44,7 @@ autodoc_mock_imports = ["python-ldap", "acme", "certsrv", "dnspython3", "dyn", "
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ["sphinx.ext.autodoc", "sphinxcontrib.autohttp.flask", "sphinx.ext.todo"]
+extensions = ["sphinx.ext.autodoc", "sphinxcontrib.autohttp.flask", "sphinx.ext.todo", "sphinx.ext.doctest"]  # may want to remove doctest ext in favor of pytest-doctest
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -121,7 +121,7 @@ if not on_rtd:  # only import and set the theme if we're building docs locally
     import sphinx_rtd_theme
 
     html_theme = "sphinx_rtd_theme"
-    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+    # html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the

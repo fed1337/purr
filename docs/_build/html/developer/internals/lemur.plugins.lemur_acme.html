@@ -1,0 +1,1142 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lemur_acme package &mdash; lemur 1.3.dev0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=57ae1f5f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="lemur_atlas package" href="lemur.plugins.lemur_atlas.html" />
+    <link rel="prev" title="defaults Package" href="lemur.defaults.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            lemur
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart/index.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../production/index.html">Production</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">User Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#command-line-interface">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#upgrading-lemur">Upgrading Lemur</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#plugins">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#rd-party-plugins">3rd Party Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#iam-target">Identity and Access Management</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#writing-a-plugin">Writing a Plugin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#rest-api">REST API</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html#internals">Internals</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="lemur.html">lemur Package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#id1"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lemur</span></code> Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#constants-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">constants</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#database-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">database</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#exceptions-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">exceptions</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#extensions-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">extensions</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#factory-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">factory</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#manage-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">manage</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#models-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models</span></code> Module</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="lemur.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="lemur.auth.html">auth Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.authorities.html">authorities Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.certificates.html">certificates Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.common.html">common Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.destinations.html">destinations Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.domains.html">domains Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.notifications.html">notifications Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.html">plugins Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.roles.html">roles Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.users.html">users Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.sources.html">sources Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.logs.html">logs Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.reporting.html">reporting Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.tests.html">tests Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.deployment.html">deployment Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.endpoints.html">endpoints Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.defaults.html">defaults Package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">lemur_acme package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_atlas.html">lemur_atlas package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_cryptography.html">lemur_cryptography package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_digicert.html">lemur_digicert package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_jks.html">lemur_jks package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_kubernetes.html">lemur_kubernetes package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_openssl.html">lemur_openssl package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_slack.html">lemur_slack package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../security.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../doing-a-release.html">Doing a release</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license/index.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">lemur</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Contributing</a></li>
+          <li class="breadcrumb-item"><a href="lemur.html">lemur Package</a></li>
+      <li class="breadcrumb-item active">lemur_acme package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/developer/internals/lemur.plugins.lemur_acme.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="lemur-acme-package">
+<h1>lemur_acme package<a class="headerlink" href="#lemur-acme-package" title="Link to this heading"></a></h1>
+<section id="lemur-acme-module">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">lemur_acme</span></code> Module<a class="headerlink" href="#lemur-acme-module" title="Link to this heading"></a></h2>
+</section>
+<section id="acme-handlers-module">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">acme_handlers</span></code> Module<a class="headerlink" href="#acme-handlers-module" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.acme_handlers.</span></span><span class="sig-name descname"><span class="pre">AcmeDnsHandler</span></span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AcmeHandler</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">autodetect_dns_providers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Get DNS providers associated with a domain when it has not been provided for certificate creation.
+:param domain:
+:return: dns_providers: List of DNS providers that have the correct zone.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">cleanup_dns_challenges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acme_client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authorizations</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Best effort attempt to delete DNS challenges that may not have been deleted previously. This is usually called
+on an exception</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>acme_client</strong></p></li>
+<li><p><strong>authorizations</strong></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">complete_dns_challenge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acme_client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authz_record</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">finalize_authorizations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acme_client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authorizations</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_all_zones</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dns_provider</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_authorizations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acme_client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_info</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>The list can be empty if all hostname validations are still valid</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_cname</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em><span class="sig-paren">)</span></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>domain</strong> – Domain name to look up a CNAME for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>First CNAME target or False if no CNAME record exists.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_dns_challenges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authorizations</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Get dns challenges for provided domain
+Also indicate if the hostname is already validated</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_dns_provider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">start_dns_challenge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acme_client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dns_provider</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dns_provider_options</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.acme_handlers.</span></span><span class="sig-name descname"><span class="pre">AcmeHandler</span></span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">extract_cert_and_chain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fullchain_pem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alternative_fullchains_pem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preferred_issuer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_domains</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Fetches all domains currently requested
+:param options:
+:return:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">log_remaining_validation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">authorizations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acme_account</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">maybe_add_extension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dns_provider_options</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">request_certificate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acme_client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authorizations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">reuse_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">authority</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">revoke_certificate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">certificate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crl_reason</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">setup_acme_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">authority</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">setup_acme_client_no_retry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">authority</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">strip_wildcard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Removes the leading wildcard and returns Host and whether it was removed or not (True/False)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.acme_handlers.</span></span><span class="sig-name descname"><span class="pre">AuthorizationRecord</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dns_challenge</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">change_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cname_delegation</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+</section>
+<section id="challenge-types-module">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">challenge_types</span></code> Module<a class="headerlink" href="#challenge-types-module" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.challenge_types.</span></span><span class="sig-name descname"><span class="pre">AcmeChallenge</span></span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This is the base class, all ACME challenges will need to extend, allowing for future extendability</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">cleanup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">challenge</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acme_client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validation_target</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Ideally the challenge should be cleaned up, after the validation is done
+:param challenge: Needed to identify the challenge to be removed
+:param acme_client: an already bootstrapped acme_client, to avoid passing all issuer_options and so on
+:param validation_target: Needed to remove the validation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">create_certificate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">csr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">issuer_options</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Create the new certificate, using the provided CSR and issuer_options.
+Right now this is basically a copy of the create_certificate methods in the AcmeHandlers, but should be cleaned
+and tried to make use of the deploy and cleanup methods</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>csr</strong></p></li>
+<li><p><strong>issuer_options</strong></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">deploy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">challenge</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acme_client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validation_target</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>In here the challenge validation is fetched and deployed somewhere that it can be validated by the provider</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong></p></li>
+<li><p><strong>challenge</strong> – the challenge object, must match for the challenge implementation</p></li>
+<li><p><strong>acme_client</strong> – an already bootstrapped acme_client, to avoid passing all issuer_options and so on</p></li>
+<li><p><strong>validation_target</strong> – an identifier for the validation target, e.g. the name of a DNS provider</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.challenge_types.</span></span><span class="sig-name descname"><span class="pre">AcmeChallengeMissmatchError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LemurException</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.challenge_types.</span></span><span class="sig-name descname"><span class="pre">AcmeDnsChallenge</span></span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AcmeChallenge</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">cleanup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">authorizations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acme_client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validation_target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Best effort attempt to delete DNS challenges that may not have been deleted previously. This is usually called
+on an exception</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>authorizations</strong> – all the authorizations to be cleaned up</p></li>
+<li><p><strong>acme_client</strong> – an already bootstrapped acme_client, to avoid passing all issuer_options and so on</p></li>
+<li><p><strong>validation_target</strong> – Unused right now</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">create_certificate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">csr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">issuer_options</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Creates an ACME certificate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>csr</strong></p></li>
+<li><p><strong>issuer_options</strong></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="field-list simple">
+<dt class="field-odd">raise Exception<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">create_certificate_immediately</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acme_client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">csr</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">deploy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">challenge</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acme_client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validation_target</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>In here the challenge validation is fetched and deployed somewhere that it can be validated by the provider</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong></p></li>
+<li><p><strong>challenge</strong> – the challenge object, must match for the challenge implementation</p></li>
+<li><p><strong>acme_client</strong> – an already bootstrapped acme_client, to avoid passing all issuer_options and so on</p></li>
+<li><p><strong>validation_target</strong> – an identifier for the validation target, e.g. the name of a DNS provider</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.challenge_types.</span></span><span class="sig-name descname"><span class="pre">AcmeHttpChallenge</span></span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AcmeChallenge</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">cleanup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validation_target</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Ideally the challenge should be cleaned up, after the validation is done
+:param challenge: Needed to identify the challenge to be removed
+:param acme_client: an already bootstrapped acme_client, to avoid passing all issuer_options and so on
+:param validation_target: Needed to remove the validation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">create_certificate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">csr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">issuer_options</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Creates an ACME certificate using the HTTP-01 challenge.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>csr</strong></p></li>
+<li><p><strong>issuer_options</strong></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="field-list simple">
+<dt class="field-odd">raise Exception<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">deploy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">challenge</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acme_client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validation_target</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>In here the challenge validation is fetched and deployed somewhere that it can be validated by the provider</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong></p></li>
+<li><p><strong>challenge</strong> – the challenge object, must match for the challenge implementation</p></li>
+<li><p><strong>acme_client</strong> – an already bootstrapped acme_client, to avoid passing all issuer_options and so on</p></li>
+<li><p><strong>validation_target</strong> – an identifier for the validation target, e.g. the name of a DNS provider</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="cloudflare-module">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">cloudflare</span></code> Module<a class="headerlink" href="#cloudflare-module" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.cloudflare.</span></span><span class="sig-name descname"><span class="pre">cf_api_call</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.cloudflare.</span></span><span class="sig-name descname"><span class="pre">create_txt_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_number</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.cloudflare.</span></span><span class="sig-name descname"><span class="pre">delete_txt_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">change_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.cloudflare.</span></span><span class="sig-name descname"><span class="pre">find_zone_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.cloudflare.</span></span><span class="sig-name descname"><span class="pre">wait_for_dns_change</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">change_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+</section>
+<section id="dyn-module">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">dyn</span></code> Module<a class="headerlink" href="#dyn-module" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.dyn.</span></span><span class="sig-name descname"><span class="pre">create_txt_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_number</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.dyn.</span></span><span class="sig-name descname"><span class="pre">delete_acme_txt_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.dyn.</span></span><span class="sig-name descname"><span class="pre">delete_txt_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">change_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.dyn.</span></span><span class="sig-name descname"><span class="pre">get_authoritative_nameserver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.dyn.</span></span><span class="sig-name descname"><span class="pre">get_dynect_session</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.dyn.</span></span><span class="sig-name descname"><span class="pre">get_zone_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.dyn.</span></span><span class="sig-name descname"><span class="pre">get_zones</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account_number</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.dyn.</span></span><span class="sig-name descname"><span class="pre">wait_for_dns_change</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">change_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+</section>
+<section id="nsone-module">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">nsone</span></code> Module<a class="headerlink" href="#nsone-module" title="Link to this heading"></a></h2>
+<p>ACME DNS providor for NS1</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.nsone.</span></span><span class="sig-name descname"><span class="pre">create_txt_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Create a TXT record for the given domain and token and return a change_id tuple</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>domain</strong> – FQDN</p></li>
+<li><p><strong>token</strong> – challenge value</p></li>
+<li><p><strong>account_number</strong></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple of domain/token</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.nsone.</span></span><span class="sig-name descname"><span class="pre">delete_txt_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">change_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Delete the TXT record for the given domain and token</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>change_id</strong> – tuple of domain/token</p></li>
+<li><p><strong>account_number</strong></p></li>
+<li><p><strong>domain</strong> – FQDN</p></li>
+<li><p><strong>token</strong> – challenge to delete</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.nsone.</span></span><span class="sig-name descname"><span class="pre">get_zones</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Retrieve authoritative zones from the NS1 API and return a list of zones</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raise<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Exception</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of Zone Objects</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.nsone.</span></span><span class="sig-name descname"><span class="pre">wait_for_dns_change</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">change_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Checks the authoritative DNS Server to see if changes have propagated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>change_id</strong> – tuple of domain/token</p></li>
+<li><p><strong>account_number</strong></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="plugin-module">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">plugin</span></code> Module<a class="headerlink" href="#plugin-module" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.plugin.</span></span><span class="sig-name descname"><span class="pre">ACMEHttpIssuerPlugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IssuerPlugin</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">author</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Netflix'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">author_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://github.com/netflix/lemur.git'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">cancel_ordered_certificate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pending_cert</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_authority</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Creates an authority, this authority is then used by Lemur to allow a user
+to specify which Certificate Authority they want to sign their certificate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>options</strong></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">create_certificate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">csr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">issuer_options</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Creates an ACME certificate using the HTTP-01 challenge.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>csr</strong></p></li>
+<li><p><strong>issuer_options</strong></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="field-list simple">
+<dt class="field-odd">raise Exception<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&quot;Enables</span> <span class="pre">the</span> <span class="pre">creation</span> <span class="pre">of</span> <span class="pre">certificates</span> <span class="pre">via</span> <span class="pre">ACME</span> <span class="pre">CAs</span> <span class="pre">(including</span> <span class="pre">Let's</span> <span class="pre">Encrypt),</span> <span class="pre">using</span> <span class="pre">the</span> <span class="pre">HTTP-01</span> <span class="pre">challenge&quot;</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">options</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[{'helpMessage':</span> <span class="pre">'Must</span> <span class="pre">be</span> <span class="pre">a</span> <span class="pre">valid</span> <span class="pre">web</span> <span class="pre">url</span> <span class="pre">starting</span> <span class="pre">with</span> <span class="pre">http[s]://',</span> <span class="pre">'name':</span> <span class="pre">'acme_url',</span> <span class="pre">'required':</span> <span class="pre">True,</span> <span class="pre">'type':</span> <span class="pre">'str',</span> <span class="pre">'validation':</span> <span class="pre">'http[s]?://(?:[a-zA-Z]|[0-9]|[$_&#64;.&amp;+-]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'},</span> <span class="pre">{'default':</span> <span class="pre">'',</span> <span class="pre">'helpMessage':</span> <span class="pre">'Telephone</span> <span class="pre">to</span> <span class="pre">use',</span> <span class="pre">'name':</span> <span class="pre">'telephone',</span> <span class="pre">'type':</span> <span class="pre">'str'},</span> <span class="pre">{'default':</span> <span class="pre">'',</span> <span class="pre">'helpMessage':</span> <span class="pre">'Email</span> <span class="pre">to</span> <span class="pre">use',</span> <span class="pre">'name':</span> <span class="pre">'email',</span> <span class="pre">'type':</span> <span class="pre">'str',</span> <span class="pre">'validation':</span> <span class="pre">'([-!#-\'*+/-9=?A-Z^-~]+(\\.[-!#-\'*+/-9=?A-Z^-~]+)*|\\&quot;([]!#-[^-~</span> <span class="pre">\\t]|(\\\\[\\t</span> <span class="pre">-~]))+\\&quot;)&#64;([-!#-\'*+/-9=?A-Z^-~]+(\\.[-!#-\'*+/-9=?A-Z^-~]+)*|\\[[\\t</span> <span class="pre">-Z^-~]*])'},</span> <span class="pre">{'default':</span> <span class="pre">'',</span> <span class="pre">'helpMessage':</span> <span class="pre">'ACME</span> <span class="pre">root</span> <span class="pre">Certificate',</span> <span class="pre">'name':</span> <span class="pre">'certificate',</span> <span class="pre">'type':</span> <span class="pre">'textarea',</span> <span class="pre">'validation':</span> <span class="pre">'^-----BEGIN</span> <span class="pre">CERTIFICATE-----'},</span> <span class="pre">{'default':</span> <span class="pre">False,</span> <span class="pre">'helpMessage':</span> <span class="pre">'Disable</span> <span class="pre">to</span> <span class="pre">create</span> <span class="pre">a</span> <span class="pre">new</span> <span class="pre">account</span> <span class="pre">for</span> <span class="pre">each</span> <span class="pre">ACME</span> <span class="pre">request',</span> <span class="pre">'name':</span> <span class="pre">'store_account',</span> <span class="pre">'required':</span> <span class="pre">False,</span> <span class="pre">'type':</span> <span class="pre">'bool'},</span> <span class="pre">{'default':</span> <span class="pre">'',</span> <span class="pre">'helpMessage':</span> <span class="pre">'Key</span> <span class="pre">identifier</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">external</span> <span class="pre">account.',</span> <span class="pre">'name':</span> <span class="pre">'eab_kid',</span> <span class="pre">'required':</span> <span class="pre">False,</span> <span class="pre">'type':</span> <span class="pre">'str'},</span> <span class="pre">{'default':</span> <span class="pre">'',</span> <span class="pre">'helpMessage':</span> <span class="pre">'HMAC</span> <span class="pre">key</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">external</span> <span class="pre">account.',</span> <span class="pre">'name':</span> <span class="pre">'eab_hmac_key',</span> <span class="pre">'required':</span> <span class="pre">False,</span> <span class="pre">'type':</span> <span class="pre">'str'},</span> <span class="pre">{'default':</span> <span class="pre">'',</span> <span class="pre">'helpMessage':</span> <span class="pre">'Account</span> <span class="pre">Private</span> <span class="pre">Key.</span> <span class="pre">Will</span> <span class="pre">be</span> <span class="pre">encrypted.',</span> <span class="pre">'name':</span> <span class="pre">'acme_private_key',</span> <span class="pre">'required':</span> <span class="pre">False,</span> <span class="pre">'type':</span> <span class="pre">'textarea'},</span> <span class="pre">{'default':</span> <span class="pre">'',</span> <span class="pre">'helpMessage':</span> <span class="pre">'Account</span> <span class="pre">Registration',</span> <span class="pre">'name':</span> <span class="pre">'acme_regr',</span> <span class="pre">'required':</span> <span class="pre">False,</span> <span class="pre">'type':</span> <span class="pre">'textarea'},</span> <span class="pre">{'helpMessage':</span> <span class="pre">'The</span> <span class="pre">destination</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">to</span> <span class="pre">deploy</span> <span class="pre">the</span> <span class="pre">token.',</span> <span class="pre">'name':</span> <span class="pre">'tokenDestination',</span> <span class="pre">'required':</span> <span class="pre">True,</span> <span class="pre">'type':</span> <span class="pre">'destinationSelect'},</span> <span class="pre">{'default':</span> <span class="pre">False,</span> <span class="pre">'helpMessage':</span> <span class="pre">'Drops</span> <span class="pre">the</span> <span class="pre">last</span> <span class="pre">certificate,</span> <span class="pre">i.e.,</span> <span class="pre">the</span> <span class="pre">Cross</span> <span class="pre">Signed</span> <span class="pre">root,</span> <span class="pre">from</span> <span class="pre">the</span> <span class="pre">Chain',</span> <span class="pre">'name':</span> <span class="pre">'drop_last_cert_from_chain',</span> <span class="pre">'required':</span> <span class="pre">False,</span> <span class="pre">'type':</span> <span class="pre">'bool'}]</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">revoke_certificate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">certificate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">slug</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'acme-http-issuer'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Acme</span> <span class="pre">HTTP-01'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'unknown'</span></em></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.plugin.</span></span><span class="sig-name descname"><span class="pre">ACMEIssuerPlugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IssuerPlugin</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">author</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Netflix'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">author_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://github.com/netflix/lemur.git'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">cancel_ordered_certificate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pending_cert</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_authority</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Creates an authority, this authority is then used by Lemur to allow a user
+to specify which Certificate Authority they want to sign their certificate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>options</strong></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">create_certificate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">csr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">issuer_options</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Creates an ACME certificate using the DNS-01 challenge.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>csr</strong></p></li>
+<li><p><strong>issuer_options</strong></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="field-list simple">
+<dt class="field-odd">raise Exception<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&quot;Enables</span> <span class="pre">the</span> <span class="pre">creation</span> <span class="pre">of</span> <span class="pre">certificates</span> <span class="pre">via</span> <span class="pre">ACME</span> <span class="pre">CAs</span> <span class="pre">(including</span> <span class="pre">Let's</span> <span class="pre">Encrypt),</span> <span class="pre">using</span> <span class="pre">the</span> <span class="pre">DNS-01</span> <span class="pre">challenge&quot;</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_ordered_certificate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pending_cert</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_ordered_certificates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pending_certs</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">options</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[{'helpMessage':</span> <span class="pre">'ACME</span> <span class="pre">resource</span> <span class="pre">URI.</span> <span class="pre">Must</span> <span class="pre">be</span> <span class="pre">a</span> <span class="pre">valid</span> <span class="pre">web</span> <span class="pre">url</span> <span class="pre">starting</span> <span class="pre">with</span> <span class="pre">http[s]://',</span> <span class="pre">'name':</span> <span class="pre">'acme_url',</span> <span class="pre">'required':</span> <span class="pre">True,</span> <span class="pre">'type':</span> <span class="pre">'str',</span> <span class="pre">'validation':</span> <span class="pre">'http[s]?://(?:[a-zA-Z]|[0-9]|[$_&#64;.&amp;+-]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'},</span> <span class="pre">{'default':</span> <span class="pre">'',</span> <span class="pre">'helpMessage':</span> <span class="pre">'Telephone</span> <span class="pre">to</span> <span class="pre">use',</span> <span class="pre">'name':</span> <span class="pre">'telephone',</span> <span class="pre">'type':</span> <span class="pre">'str'},</span> <span class="pre">{'default':</span> <span class="pre">'',</span> <span class="pre">'helpMessage':</span> <span class="pre">'Email</span> <span class="pre">to</span> <span class="pre">use',</span> <span class="pre">'name':</span> <span class="pre">'email',</span> <span class="pre">'type':</span> <span class="pre">'str',</span> <span class="pre">'validation':</span> <span class="pre">'([-!#-\'*+/-9=?A-Z^-~]+(\\.[-!#-\'*+/-9=?A-Z^-~]+)*|\\&quot;([]!#-[^-~</span> <span class="pre">\\t]|(\\\\[\\t</span> <span class="pre">-~]))+\\&quot;)&#64;([-!#-\'*+/-9=?A-Z^-~]+(\\.[-!#-\'*+/-9=?A-Z^-~]+)*|\\[[\\t</span> <span class="pre">-Z^-~]*])'},</span> <span class="pre">{'default':</span> <span class="pre">'',</span> <span class="pre">'helpMessage':</span> <span class="pre">'ACME</span> <span class="pre">root</span> <span class="pre">certificate',</span> <span class="pre">'name':</span> <span class="pre">'certificate',</span> <span class="pre">'type':</span> <span class="pre">'textarea',</span> <span class="pre">'validation':</span> <span class="pre">'^-----BEGIN</span> <span class="pre">CERTIFICATE-----'},</span> <span class="pre">{'default':</span> <span class="pre">False,</span> <span class="pre">'helpMessage':</span> <span class="pre">'Disable</span> <span class="pre">to</span> <span class="pre">create</span> <span class="pre">a</span> <span class="pre">new</span> <span class="pre">account</span> <span class="pre">for</span> <span class="pre">each</span> <span class="pre">ACME</span> <span class="pre">request',</span> <span class="pre">'name':</span> <span class="pre">'store_account',</span> <span class="pre">'required':</span> <span class="pre">False,</span> <span class="pre">'type':</span> <span class="pre">'bool'},</span> <span class="pre">{'helpMessage':</span> <span class="pre">'Key</span> <span class="pre">identifier</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">external</span> <span class="pre">account.',</span> <span class="pre">'name':</span> <span class="pre">'eab_kid',</span> <span class="pre">'required':</span> <span class="pre">False,</span> <span class="pre">'type':</span> <span class="pre">'str'},</span> <span class="pre">{'helpMessage':</span> <span class="pre">'HMAC</span> <span class="pre">key</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">external</span> <span class="pre">account.',</span> <span class="pre">'name':</span> <span class="pre">'eab_hmac_key',</span> <span class="pre">'required':</span> <span class="pre">False,</span> <span class="pre">'type':</span> <span class="pre">'str'},</span> <span class="pre">{'default':</span> <span class="pre">'',</span> <span class="pre">'helpMessage':</span> <span class="pre">'Account</span> <span class="pre">Private</span> <span class="pre">Key.</span> <span class="pre">Will</span> <span class="pre">be</span> <span class="pre">encrypted.',</span> <span class="pre">'name':</span> <span class="pre">'acme_private_key',</span> <span class="pre">'required':</span> <span class="pre">False,</span> <span class="pre">'type':</span> <span class="pre">'textarea'},</span> <span class="pre">{'default':</span> <span class="pre">'',</span> <span class="pre">'helpMessage':</span> <span class="pre">'Account</span> <span class="pre">Registration',</span> <span class="pre">'name':</span> <span class="pre">'acme_regr',</span> <span class="pre">'required':</span> <span class="pre">False,</span> <span class="pre">'type':</span> <span class="pre">'textarea'},</span> <span class="pre">{'default':</span> <span class="pre">False,</span> <span class="pre">'helpMessage':</span> <span class="pre">'Drops</span> <span class="pre">the</span> <span class="pre">last</span> <span class="pre">certificate,</span> <span class="pre">i.e.,</span> <span class="pre">the</span> <span class="pre">Cross</span> <span class="pre">Signed</span> <span class="pre">root,</span> <span class="pre">from</span> <span class="pre">the</span> <span class="pre">Chain',</span> <span class="pre">'name':</span> <span class="pre">'drop_last_cert_from_chain',</span> <span class="pre">'required':</span> <span class="pre">False,</span> <span class="pre">'type':</span> <span class="pre">'bool'}]</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">revoke_certificate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">certificate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">slug</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'acme-issuer'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Acme'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'unknown'</span></em></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="powerdns-module">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">powerdns</span></code> Module<a class="headerlink" href="#powerdns-module" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.powerdns.</span></span><span class="sig-name descname"><span class="pre">Record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_data</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class implements a PowerDNS record.</p>
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">content</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">disabled</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ttl</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">type</span></span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.powerdns.</span></span><span class="sig-name descname"><span class="pre">Zone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_data</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class implements a PowerDNS zone in JSON.</p>
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span></dt>
+<dd><p>Zone id, has a trailing “.” at the end, which we manually remove.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">kind</span></span></dt>
+<dd><p>Indicates whether the zone is setup as a PRIMARY or SECONDARY</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span></dt>
+<dd><p>Zone name, has a trailing “.” at the end, which we manually remove.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.powerdns.</span></span><span class="sig-name descname"><span class="pre">create_txt_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_number</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Create a TXT record for the given domain and token and return a change_id tuple</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>domain</strong> – FQDN</p></li>
+<li><p><strong>token</strong> – challenge value</p></li>
+<li><p><strong>account_number</strong></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple of domain/token</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.powerdns.</span></span><span class="sig-name descname"><span class="pre">delete_txt_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">change_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Delete the TXT record for the given domain and token</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>change_id</strong> – tuple of domain/token</p></li>
+<li><p><strong>account_number</strong></p></li>
+<li><p><strong>domain</strong> – FQDN</p></li>
+<li><p><strong>token</strong> – challenge to delete</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.powerdns.</span></span><span class="sig-name descname"><span class="pre">get_zones</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account_number</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Retrieve authoritative zones from the PowerDNS API and return a list of zones</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>account_number</strong></p>
+</dd>
+<dt class="field-even">Raise<span class="colon">:</span></dt>
+<dd class="field-even"><p>Exception</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of Zone Objects</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.powerdns.</span></span><span class="sig-name descname"><span class="pre">wait_for_dns_change</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">change_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Checks the authoritative DNS Server to see if changes have propagated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>change_id</strong> – tuple of domain/token</p></li>
+<li><p><strong>account_number</strong></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="route53-module">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">route53</span></code> Module<a class="headerlink" href="#route53-module" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.route53.</span></span><span class="sig-name descname"><span class="pre">change_txt_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.route53.</span></span><span class="sig-name descname"><span class="pre">create_txt_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_number</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.route53.</span></span><span class="sig-name descname"><span class="pre">delete_txt_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">change_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.route53.</span></span><span class="sig-name descname"><span class="pre">find_zone_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.route53.</span></span><span class="sig-name descname"><span class="pre">get_zones</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.route53.</span></span><span class="sig-name descname"><span class="pre">wait_for_dns_change</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">change_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+</section>
+<section id="ultradns-module">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">ultradns</span></code> Module<a class="headerlink" href="#ultradns-module" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.ultradns.</span></span><span class="sig-name descname"><span class="pre">Record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_data</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class implements an Ultra DNS record.</p>
+<p>Accepts the response from the API call as the argument.</p>
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rdata</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rrtype</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ttl</span></span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.ultradns.</span></span><span class="sig-name descname"><span class="pre">Zone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Client'</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class implements an Ultra DNS zone.</p>
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">authoritative_type</span></span></dt>
+<dd><p>Indicates whether the zone is setup as a PRIMARY or SECONDARY</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span></dt>
+<dd><p>Zone name, has a trailing “.” at the end, which we manually remove.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">record_count</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">status</span></span></dt>
+<dd><p>Returns the status of the zone - ACTIVE, SUSPENDED, etc</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.ultradns.</span></span><span class="sig-name descname"><span class="pre">create_txt_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_number</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Create a TXT record for the given domain.</p>
+<p>The part of the domain that matches with the zone becomes the zone name.
+The remainder becomes the owner name (referred to as node name here)
+Example: Let’s say we have a zone named “exmaple.com” in UltraDNS and we
+get a request to create a cert for lemur.example.com
+Domain - _acme-challenge.lemur.example.com
+Matching zone - example.com
+Owner name - _acme-challenge.lemur</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.ultradns.</span></span><span class="sig-name descname"><span class="pre">delete_acme_txt_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.ultradns.</span></span><span class="sig-name descname"><span class="pre">delete_txt_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">change_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Delete the TXT record that was created in the create_txt_record() function.</p>
+<p>UltraDNS handles records differently compared to Dyn. It creates an RRSet
+which is a set of records of the same type and owner. This means
+that while deleting the record, we cannot delete any individual record from
+the RRSet. Instead, we have to delete the entire RRSet. If multiple certs are
+being created for the same domain at the same time, the challenge TXT records
+that are created will be added under the same RRSet. If the RRSet had more
+than 1 record, then we create a new RRSet on UltraDNS minus the record that
+has to be deleted.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.ultradns.</span></span><span class="sig-name descname"><span class="pre">get_authoritative_nameserver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Get the authoritative nameserver for the given domain</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.ultradns.</span></span><span class="sig-name descname"><span class="pre">get_public_authoritative_nameserver</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.ultradns.</span></span><span class="sig-name descname"><span class="pre">get_ultradns_token</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Function to call the UltraDNS Authorization API.</p>
+<p>Returns the Authorization access_token which is valid for 1 hour.
+Each request calls this function and we generate a new token every time.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.ultradns.</span></span><span class="sig-name descname"><span class="pre">get_zone_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_number</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Get the matching zone for the given domain</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.ultradns.</span></span><span class="sig-name descname"><span class="pre">get_zones</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account_number</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Get zones from the UltraDNS</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.plugins.lemur_acme.ultradns.</span></span><span class="sig-name descname"><span class="pre">wait_for_dns_change</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">change_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Waits and checks if the DNS changes have propagated or not.</p>
+<p>First check the domains authoritative server. Once this succeeds,
+we ask a public DNS server (Google &lt;8.8.8.8&gt; in our case).</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="lemur.defaults.html" class="btn btn-neutral float-left" title="defaults Package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="lemur.plugins.lemur_atlas.html" class="btn btn-neutral float-right" title="lemur_atlas package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018, Netflix Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

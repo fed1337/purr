@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -e
+
+echo "[entrypoint] Starting Lemur container..."
+
+install -Dm644 /opt/lemur/lemur.conf.py /home/lemur/.lemur/lemur.conf.py
+
+# Detect whether DB was already initialized
+#if [ ! -f "/opt/lemur/.db_initialized" ]; then
+#    echo "[entrypoint] Initializing database..."
+#
+#    lemur db create || true
+#    lemur db init || true
+#    lemur db migrate
+#    lemur init -p password
+#
+#    touch /opt/lemur/.db_initialized
+#    echo "[entrypoint] DB initialization complete."
+#else
+#    echo "[entrypoint] DB already initialized; skipping."
+#fi
+
+# Interpret CMD
+case "$1" in
+  start)
+    echo "[entrypoint] Starting Lemur server..."
+    exec lemur start -w 4 -b 0.0.0.0:8000
+    ;;
+  migrate)
+    echo "[entrypoint] Running migrations..."
+    exec lemur db migrate
+    ;;
+  *)
+    echo "[entrypoint] Running custom command: $@"
+    exec "$@"
+    ;;
+esac

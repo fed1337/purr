@@ -54,7 +54,15 @@ def create_app(app_name=None, blueprints=None, config=None):
     if not app_name:
         app_name = __name__
 
-    app = Flask(app_name)
+    app = Flask(app_name, static_folder='static/dist', static_url_path='')
+
+    @app.route('/')
+    @app.route('/<path:path>')
+    def index(path=None):
+        if path and path.startswith('api/'):
+            return "Not Found", 404
+        return app.send_static_file('index.html')
+
     ctx = get_current_context(silent=True)
 
     # get config option value from command line

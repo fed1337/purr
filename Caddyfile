@@ -1,0 +1,11 @@
+:80 {
+    encode gzip zstd
+    handle /api/* {
+        reverse_proxy localhost:8000
+    }
+    handle {
+        root * /opt/lemur/lemur/static/dist
+        try_files {path} /index.html
+        file_server
+    }
+}

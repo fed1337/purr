@@ -21,8 +21,6 @@ package-lock.json
 /dist
 /node_modules/
 /bower_components/
-/docs/html
-/docs/doctrees
 /lemur/static/dist/
 /lemur/static/app/vendor/
 /wheelhouse
@@ -31,7 +29,7 @@ package-lock.json
 /lemur/lib64
 /lemur/include
 
-docs/_build
+docs/_build/doctrees
 .editorconfig
 .idea
 .pytest_cache

@@ -1,0 +1,516 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HTTP Routing Table &mdash; lemur 1.3.dev0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=57ae1f5f"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+ 
+
+    <script>
+      DOCUMENTATION_OPTIONS.COLLAPSE_INDEX = true;
+    </script>
+
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            lemur
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart/index.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="production/index.html">Production</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guide/index.html">User Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="administration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="administration.html#command-line-interface">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="administration.html#upgrading-lemur">Upgrading Lemur</a></li>
+<li class="toctree-l1"><a class="reference internal" href="administration.html#plugins">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="administration.html#rd-party-plugins">3rd Party Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="administration.html#iam-target">Identity and Access Management</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developer/index.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer/index.html#writing-a-plugin">Writing a Plugin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer/index.html#rest-api">REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer/index.html#internals">Internals</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="doing-a-release.html">Doing a release</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license/index.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">lemur</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">HTTP Routing Table</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+   <h1>HTTP Routing Table</h1>
+
+   <div class="modindex-jumpbox">
+   <a href="#cap-/auth"><strong>/auth</strong></a> | 
+   <a href="#cap-/authorities"><strong>/authorities</strong></a> | 
+   <a href="#cap-/certificates"><strong>/certificates</strong></a> | 
+   <a href="#cap-/defaults"><strong>/defaults</strong></a> | 
+   <a href="#cap-/destinations"><strong>/destinations</strong></a> | 
+   <a href="#cap-/domains"><strong>/domains</strong></a> | 
+   <a href="#cap-/endpoints"><strong>/endpoints</strong></a> | 
+   <a href="#cap-/logs"><strong>/logs</strong></a> | 
+   <a href="#cap-/notifications"><strong>/notifications</strong></a> | 
+   <a href="#cap-/plugins"><strong>/plugins</strong></a> | 
+   <a href="#cap-/roles"><strong>/roles</strong></a> | 
+   <a href="#cap-/sources"><strong>/sources</strong></a> | 
+   <a href="#cap-/users"><strong>/users</strong></a>
+   </div>
+
+   <table class="indextable modindextable">
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/auth"><td></td><td>
+       <strong>/auth</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.users.html#get--auth-me"><code class="xref">GET /auth/me</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.auth.html#post--auth-login"><code class="xref">POST /auth/login</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/authorities"><td></td><td>
+       <strong>/authorities</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.authorities.html#get--authorities"><code class="xref">GET /authorities</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.authorities.html#get--authorities-1"><code class="xref">GET /authorities/1</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.roles.html#get--authorities-1-roles"><code class="xref">GET /authorities/1/roles</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.authorities.html#get--authorities-1-visualize"><code class="xref">GET /authorities/1/visualize</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.authorities.html#post--authorities"><code class="xref">POST /authorities</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.authorities.html#put--authorities-1"><code class="xref">PUT /authorities/1</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/certificates"><td></td><td>
+       <strong>/certificates</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.certificates.html#get--certificates"><code class="xref">GET /certificates</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.certificates.html#get--certificates-1"><code class="xref">GET /certificates/1</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.authorities.html#get--certificates-1-authority"><code class="xref">GET /certificates/1/authority</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.users.html#get--certificates-1-creator"><code class="xref">GET /certificates/1/creator</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.destinations.html#get--certificates-1-destinations"><code class="xref">GET /certificates/1/destinations</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.domains.html#get--certificates-1-domains"><code class="xref">GET /certificates/1/domains</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.certificates.html#get--certificates-1-key"><code class="xref">GET /certificates/1/key</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.notifications.html#get--certificates-1-notifications"><code class="xref">GET /certificates/1/notifications</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.certificates.html#get--certificates-1-replacements"><code class="xref">GET /certificates/1/replacements</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.sources.html#get--certificates-1-sources"><code class="xref">GET /certificates/1/sources</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.certificates.html#get--certificates-name--query-"><code class="xref">GET /certificates/name/&lt;query&gt;</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.certificates.html#get--certificates-valid--query-"><code class="xref">GET /certificates/valid/&lt;query&gt;</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.certificates.html#post--certificates"><code class="xref">POST /certificates</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.certificates.html#post--certificates-1-export"><code class="xref">POST /certificates/1/export</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.certificates.html#post--certificates-1-update-owner"><code class="xref">POST /certificates/1/update/owner</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.certificates.html#post--certificates-1-update-switches"><code class="xref">POST /certificates/1/update/switches</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.certificates.html#post--certificates-upload"><code class="xref">POST /certificates/upload</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.certificates.html#put--certificates-1"><code class="xref">PUT /certificates/1</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.certificates.html#put--certificates-1-deactivate"><code class="xref">PUT /certificates/1/deactivate</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.certificates.html#put--certificates-1-description"><code class="xref">PUT /certificates/1/description</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.certificates.html#put--certificates-1-revoke"><code class="xref">PUT /certificates/1/revoke</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.certificates.html#delete--certificates-1"><code class="xref">DELETE /certificates/1</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/defaults"><td></td><td>
+       <strong>/defaults</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.defaults.html#get--defaults"><code class="xref">GET /defaults</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/destinations"><td></td><td>
+       <strong>/destinations</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.destinations.html#get--destinations"><code class="xref">GET /destinations</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.destinations.html#get--destinations-1"><code class="xref">GET /destinations/1</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.destinations.html#post--destinations"><code class="xref">POST /destinations</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.destinations.html#put--destinations-1"><code class="xref">PUT /destinations/1</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/domains"><td></td><td>
+       <strong>/domains</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.domains.html#get--domains"><code class="xref">GET /domains</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.domains.html#get--domains-1"><code class="xref">GET /domains/1</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.domains.html#post--domains"><code class="xref">POST /domains</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/endpoints"><td></td><td>
+       <strong>/endpoints</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.endpoints.html#get--endpoints"><code class="xref">GET /endpoints</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.endpoints.html#get--endpoints-1"><code class="xref">GET /endpoints/1</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/logs"><td></td><td>
+       <strong>/logs</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.logs.html#get--logs"><code class="xref">GET /logs</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/notifications"><td></td><td>
+       <strong>/notifications</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.notifications.html#get--notifications"><code class="xref">GET /notifications</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.notifications.html#get--notifications-1"><code class="xref">GET /notifications/1</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.certificates.html#get--notifications-1-certificates"><code class="xref">GET /notifications/1/certificates</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.notifications.html#post--notifications"><code class="xref">POST /notifications</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.notifications.html#put--notifications-1"><code class="xref">PUT /notifications/1</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/plugins"><td></td><td>
+       <strong>/plugins</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.plugins.html#get--plugins"><code class="xref">GET /plugins</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.plugins.html#get--plugins--name-"><code class="xref">GET /plugins/&lt;name&gt;</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/roles"><td></td><td>
+       <strong>/roles</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.roles.html#get--roles"><code class="xref">GET /roles</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.roles.html#get--roles-1"><code class="xref">GET /roles/1</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.roles.html#get--roles-1-credentials"><code class="xref">GET /roles/1/credentials</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.users.html#get--roles-1-users"><code class="xref">GET /roles/1/users</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.roles.html#post--roles"><code class="xref">POST /roles</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.roles.html#put--roles-1"><code class="xref">PUT /roles/1</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.roles.html#delete--roles-1"><code class="xref">DELETE /roles/1</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/sources"><td></td><td>
+       <strong>/sources</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.sources.html#get--sources"><code class="xref">GET /sources</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.sources.html#get--sources-1"><code class="xref">GET /sources/1</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.sources.html#post--sources"><code class="xref">POST /sources</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.sources.html#put--sources-1"><code class="xref">PUT /sources/1</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/users"><td></td><td>
+       <strong>/users</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.users.html#get--users"><code class="xref">GET /users</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.users.html#get--users-1"><code class="xref">GET /users/1</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.roles.html#get--users-1-roles"><code class="xref">GET /users/1/roles</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.users.html#post--users"><code class="xref">POST /users</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="developer/internals/lemur.users.html#put--users-1"><code class="xref">PUT /users/1</code></a></td><td>
+       <em></em></td></tr>
+   </table>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018, Netflix Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

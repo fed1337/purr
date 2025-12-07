@@ -1,0 +1,3064 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configuration &mdash; lemur 1.3.dev0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=57ae1f5f"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Contributing" href="developer/index.html" />
+    <link rel="prev" title="User Guide" href="guide/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            lemur
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart/index.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="production/index.html">Production</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guide/index.html">User Guide</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#basic-configuration">Basic Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#certificate-default-options">Certificate Default Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#notification-options">Notification Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#celery-options">Celery Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#authentication-options">Authentication Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#idp-configuration-options">IDP Configuration Options</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ldap-options">LDAP Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#authentication-providers">Authentication Providers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#authorization-providers">Authorization Providers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#metric-providers">Metric Providers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#plugin-specific-options">Plugin Specific Options</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#acme-plugin">ACME Plugin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#active-directory-certificate-services-plugin">Active Directory Certificate Services Plugin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#entrust-plugin">Entrust Plugin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#verisign-issuer-plugin">Verisign Issuer Plugin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#digicert-issuer-plugin">Digicert Issuer Plugin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#digicert-source">Digicert Source</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#digicert-cis-issuer-plugin">Digicert CIS Issuer Plugin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cfssl-issuer-plugin">CFSSL Issuer Plugin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hashicorp-vault-source-destination-plugin">Hashicorp Vault Source/Destination Plugin</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#vault-source">Vault Source</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vault-destination">Vault Destination</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#aws-source-destination-plugin">AWS Source/Destination Plugin</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#setting-up-iam-roles">Setting up IAM roles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setting-up-sts-access">Setting up STS access</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#adding-n-1-accounts">Adding N+1 accounts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setting-up-ses">Setting up SES</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#ns1-acme-plugin">NS1 ACME Plugin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#powerdns-acme-plugin">PowerDNS ACME Plugin</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#command-line-interface">Command Line Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#builtin-commands">Builtin Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#create_config"><code class="docutils literal notranslate"><span class="pre">create_config</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#init"><code class="docutils literal notranslate"><span class="pre">init</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#start"><code class="docutils literal notranslate"><span class="pre">start</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#check_revoked"><code class="docutils literal notranslate"><span class="pre">check_revoked</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sync"><code class="docutils literal notranslate"><span class="pre">sync</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#notify"><code class="docutils literal notranslate"><span class="pre">notify</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#acme"><code class="docutils literal notranslate"><span class="pre">acme</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#sub-commands">Sub-commands</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#upgrading-lemur">Upgrading Lemur</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#plugins">Plugins</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#verisign-symantec">Verisign/Symantec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cryptography">Cryptography</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Acme</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#atlas">Atlas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#email">Email</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#slack">Slack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#aws-source">AWS (Source)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#aws-destination">AWS (Destination)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#aws-sns-notification">AWS (SNS Notification)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kubernetes">Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#java">Java</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#openssl">Openssl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cfssl">CFSSL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vault">Vault</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Vault</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#rd-party-plugins">3rd Party Plugins</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#digicert">Digicert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#influxdb">InfluxDB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hashicorp-vault">Hashicorp Vault</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#iam-target">Identity and Access Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#membership-plugin">Membership Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#authorization-plugins">Authorization Plugins</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developer/index.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer/index.html#writing-a-plugin">Writing a Plugin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer/index.html#rest-api">REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer/index.html#internals">Internals</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="doing-a-release.html">Doing a release</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license/index.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">lemur</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Configuration</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/administration.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="configuration">
+<h1>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>There are many secrets that Lemur uses that must be protected. All of these options are set via the Lemur configuration
+file. It is highly advised that you do not store your secrets in this file! Lemur provides functions
+that allow you to encrypt files at rest and decrypt them when it’s time for deployment. See <a class="reference internal" href="production/index.html#credentialmanagement"><span class="std std-ref">Credential Management</span></a>
+for more information.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All configuration values are python strings unless otherwise noted.</p>
+</div>
+<section id="basic-configuration">
+<h2>Basic Configuration<a class="headerlink" href="#basic-configuration" title="Link to this heading"></a></h2>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LOG_LEVEL</span></span></dt>
+<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LOG_LEVEL</span> <span class="o">=</span> <span class="s2">&quot;DEBUG&quot;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LOG_FILE</span></span></dt>
+<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LOG_FILE</span> <span class="o">=</span> <span class="s2">&quot;/logs/lemur/lemur-test.log&quot;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LOG_UPGRADE_FILE</span></span></dt>
+<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LOG_UPGRADE_FILE</span> <span class="o">=</span> <span class="s2">&quot;/logs/lemur/db_upgrade.log&quot;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LOG_REQUEST_HEADERS</span></span></dt>
+<dd><dl>
+<dt>::</dt><dd><p>Defaults to False (off).  This adds logging similar to a webserver, where each request made to the API is logged.
+Useful for tracing where requests are being made from, or for auditing purposes.</p>
+<p>LOG_REQUEST_HEADERS = True</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LOG_SANITIZE_REQUEST_HEADERS</span></span></dt>
+<dd><dl>
+<dt>::</dt><dd><p>Defaults to True (on).  This sanitizes the requests logging to remove the query parameters,
+as those parameters often contain sensitivity information.</p>
+<p>LOG_SANITIZE_REQUEST_HEADERS = True</p>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This should never be used in a production environment as it exposes sensitivite information.</p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LOG_REQUEST_HEADERS_SKIP_ENDPOINT</span></span></dt>
+<dd><dl>
+<dt>::</dt><dd><p>Defaults to the metrics and healthcheck endpoints.  Some endpoints are not useful to log and can generate a lot of noise.
+If an endpoint is listed here, it will be skipped and not logged.  It is only recommended to add endpoints that are purely
+informational or only used internally.</p>
+<p>LOG_REQUEST_HEADERS_SKIP_ENDPOINT = [“/metrics”, “/healthcheck”]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DEBUG</span></span></dt>
+<dd><blockquote>
+<div><p>Sets the flask debug flag to true (if supported by the webserver)</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DEBUG</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This should never be used in a production environment as it exposes Lemur to
+remote code execution through the debug console.</p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">CORS</span></span></dt>
+<dd><blockquote>
+<div><p>Allows for cross domain requests, this is most commonly used for development but could
+be use in production if you decided to host the webUI on a different domain than the server.</p>
+<p>For CORS configuration options, please refer to <a class="reference external" href="https://flask-cors.readthedocs.io/en/latest/configuration.html">Flask-CORS Documentation</a></p>
+<p>Use this cautiously, if you’re not sure. Set it to <cite>False</cite></p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CORS</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">CUSTOM_RESPONSE_HEADERS</span></span></dt>
+<dd><blockquote>
+<div><p>Allows for the creation of multiple response headers. A response header is an HTTP header that can be used in an HTTP response and that doesn’t relate to the content of the message. Response headers, like Age, Location or Server are used to give a more detailed context of the response.</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CUSTOM_RESPONSE_HEADERS</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="n">Example</span><span class="p">:</span>
+
+<span class="n">CUSTOM_RESPONSE_HEADERS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Content-Security-Policy&quot;</span><span class="p">:</span> <span class="s2">&quot;default-src &#39;self&#39;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;X-Frame-Options&quot;</span><span class="p">:</span> <span class="s2">&quot;DENY&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">SQLALCHEMY_DATABASE_URI</span></span></dt>
+<dd><blockquote>
+<div><p>If you have ever used sqlalchemy before this is the standard connection string used. Lemur uses a postgres database and the connection string would look something like:</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SQLALCHEMY_DATABASE_URI</span> <span class="o">=</span> <span class="s1">&#39;postgresql://&lt;user&gt;:&lt;password&gt;@&lt;hostname&gt;:5432/lemur&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">SQLALCHEMY_ENGINE_OPTIONS</span></span></dt>
+<dd><blockquote>
+<div><p>This is an optional config that handles all engine_options to SQLAlchemy.
+Please refer to the <a class="reference external" href="https://flask-sqlalchemy.palletsprojects.com/en/2.x/config/">flask-sqlalchemy website</a> for
+more details about the individual configs.</p>
+<p>The default connection pool size is 5 for sqlalchemy managed connections.
+Depending on the number of Lemur instances, please specify the per instance connection <cite>pool_size</cite>.
+Below is an example to set connection <cite>pool_size</cite> to 10.</p>
+<p><cite>max_overflow</cite> allows to create connections in addition to specified number of connections in pool size.
+By default, sqlalchemy allows 10 connections to create in addition to the pool size.
+If <cite>pool_size</cite> and <cite>max_overflow</cite> are not specified then each Lemur instance may create maximum of 15 connections.</p>
+<p><cite>pool_recycle</cite> defines number of seconds after which a connection is automatically recycled.</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SQLALCHEMY_ENGINE_OPTIONS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;pool_size&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s1">&#39;pool_recycle&#39;</span><span class="p">:</span> <span class="mi">600</span><span class="p">,</span>
+    <span class="s1">&#39;pool_timeout&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+    <span class="s1">&#39;max_overflow&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Specifying <cite>pool_size</cite> is an optional setting but important to review and set for optimal database connection usage and for overall database performance.
+Note that <cite>SQLALCHEMY_POOL_SIZE</cite>, <cite>SQLALCHEMY_MAX_OVERFLOW</cite>, <cite>SQLALCHEMY_POOL_TIMEOUT</cite> are deprecated since sqlalchemy v2.4.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Specifying <cite>max_overflow</cite> to 0 will enforce limit to not create connections above specified pool size.</p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_ALLOW_WEEKEND_EXPIRATION</span></span></dt>
+<dd><blockquote>
+<div><p>Specifies whether to allow certificates created by Lemur to expire on weekends. Default is True.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_ALLOWED_DOMAINS</span></span></dt>
+<dd><blockquote>
+<div><p>List of regular expressions for domain restrictions; if the list is not empty, normal users can only issue
+certificates for domain names matching at least one pattern on this list. Administrators are exempt from this
+restriction.</p>
+<p>Cerificate common name is matched against these rules <em>if</em> it does not contain a space. SubjectAltName DNS names
+are always matched against these rules.</p>
+<p>Take care to write patterns in such way to not allow the <cite>*</cite> wildcard character inadvertently. To match a <cite>.</cite>
+character, it must be escaped (as <cite>.</cite>).</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_OWNER_EMAIL_IN_SUBJECT</span></span></dt>
+<dd><blockquote>
+<div><p>By default, Lemur will add the certificate owner’s email address to certificate subject (for CAs that allow it).
+Set this to <cite>False</cite> to disable this.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_TOKEN_SECRET</span></span></dt>
+<dd><blockquote>
+<div><p>The TOKEN_SECRET is the secret used to create JWT tokens for users and api keys. This should be securely generated and kept private.</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEMUR_TOKEN_SECRET</span> <span class="o">=</span> <span class="s1">&#39;supersecret&#39;</span>
+
+<span class="n">An</span> <span class="n">example</span> <span class="n">of</span> <span class="n">how</span> <span class="n">you</span> <span class="n">might</span> <span class="n">generate</span> <span class="n">a</span> <span class="n">random</span> <span class="n">string</span><span class="p">:</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">secrets</span>
+        <span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">string</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">chars</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_uppercase</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_lowercase</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">digits</span> <span class="o">+</span> <span class="s2">&quot;~!@#$%^&amp;*()_+&quot;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">secret_key</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">secrets</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">chars</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">24</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_TOKEN_SECRETS</span></span></dt>
+<dd><blockquote>
+<div><p>Defines a priority ordering of versions of LEMUR_TOKEN_SECRET. This is useful when rotating the token secret.
+The first element is used to create new JWTs. When verifying JWTs, each token is attempted in order. If all verifies
+fail, the exception from the first verify will be raised.</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEMUR_TOKEN_SECRETS</span> <span class="o">=</span> <span class="p">[</span><span class="n">LEMUR_TOKEN_SECRET</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_ENCRYPTION_KEYS</span></span></dt>
+<dd><blockquote>
+<div><p>The LEMUR_ENCRYPTION_KEYS is used to encrypt data at rest within Lemur’s database. Without a key Lemur will refuse
+to start. Multiple keys can be provided to facilitate key rotation. The first key in the list is used for
+encryption and all keys are tried for decryption until one works. Each key must be 32 URL safe base-64 encoded bytes.</p>
+<p>Only fields of type <code class="docutils literal notranslate"><span class="pre">Vault</span></code> will be encrypted. At present, only the following fields are encrypted:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">certificates.private_key</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pending_certificates.private_key</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dns_providers.credentials</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">roles.password</span></code></p></li>
+</ul>
+<p>For implementation details, see <code class="docutils literal notranslate"><span class="pre">Vault</span></code> in <code class="docutils literal notranslate"><span class="pre">utils.py</span></code>.</p>
+<p>Running lemur create_config will securely generate a key for your configuration file.
+If you would like to generate your own, we recommend the following method:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">base64</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">base64</span><span class="o">.</span><span class="n">urlsafe_b64encode</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span>
+</pre></div>
+</div>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEMUR_ENCRYPTION_KEYS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;1YeftooSbxCiX2zo8m1lXtpvQjy27smZcUUaGmffhMY=&#39;</span><span class="p">,</span> <span class="s1">&#39;LAfQt6yrkLqOK5lwpvQcT4jf2zdeTQJV1uYeh9coT5s=&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">PUBLIC_CA_DEFAULT_VALIDITY_DAYS</span></span></dt>
+<dd><blockquote>
+<div><p>Use this config to set a default validity for certificates issued by CA/Browser compliant authorities.
+The authorities with cab_compliant option set to true will use this config. This value defaults to
+<cite>PUBLIC_CA_MAX_VALIDITY_DAYS</cite> (see below) if not configured. The example below overrides the default validity
+to 365 days.</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PUBLIC_CA_DEFAULT_VALIDITY_DAYS</span> <span class="o">=</span> <span class="mi">365</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">PUBLIC_CA_MAX_VALIDITY_DAYS</span></span></dt>
+<dd><blockquote>
+<div><p>Use this config to override the limit of 397 days of validity for certificates issued by CA/Browser compliant authorities.
+The authorities with cab_compliant option set to true will use this config. The example below overrides the default max validity
+of 397 days and sets it to 365 days.</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PUBLIC_CA_MAX_VALIDITY_DAYS</span> <span class="o">=</span> <span class="mi">365</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DEFAULT_VALIDITY_DAYS</span></span></dt>
+<dd><blockquote>
+<div><p>Use this config to override the default validity of 365 days for certificates offered through Lemur UI. Any CA which
+is not CA/Browser Forum compliant will be using this value as default validity to be displayed on UI. Please
+note that this config is used for cert issuance only through Lemur UI. The example below overrides the default validity
+of 365 days and sets it to 1095 days (3 years).</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DEFAULT_VALIDITY_DAYS</span> <span class="o">=</span> <span class="mi">1095</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_AUTOROTATION_USE_DEFAULT_VALIDITY</span></span></dt>
+<dd><blockquote>
+<div><p>When set to True, certificates with autorotation enabled will use the authority’s default validity period upon
+reissuance, instead of maintaining the original certificate’s validity span. This is useful when you want all
+autorotated certificates to use a standardized validity period based on the authority’s configuration (e.g.,
+PUBLIC_CA_DEFAULT_VALIDITY_DAYS for CAB-compliant authorities, or DEFAULT_VALIDITY_DAYS for other authorities).</p>
+<p>This feature only affects certificates that have autorotation (rotation flag) enabled. Certificates without
+autorotation will continue to maintain their original validity span during reissuance, regardless of this setting.</p>
+<p>The default value is False, which maintains backward compatibility by preserving the original certificate’s
+validity span during reissuance.</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEMUR_AUTOROTATION_USE_DEFAULT_VALIDITY</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DEBUG_DUMP</span></span></dt>
+<dd><blockquote>
+<div><p>Dump all imported or generated CSR and certificate details to stdout using OpenSSL. (default: <cite>False</cite>)</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ALLOW_CERT_DELETION</span></span></dt>
+<dd><blockquote>
+<div><p>When set to True, certificates can be marked as deleted via the API and deleted certificates will not be displayed
+in the UI. When set to False (the default), the certificate delete API will always return “405 method not allowed”
+and deleted certificates will always be visible in the UI. (default: <cite>False</cite>)</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_AWS_REGION</span></span></dt>
+<dd><blockquote>
+<div><p>This is an optional config applicable for settings where Lemur is deployed in AWS.
+When specified, this will override the default regional AWS endpoints that are used
+for accessing STS and services such as IAM for example. You must set this if running
+in an alternative AWS partition such as GovCloud, for example.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_AWS_PARTITION</span></span></dt>
+<dd><blockquote>
+<div><p>Specifies the AWS partition that Lemur should use. Valid values are ‘aws’, ‘aws-us-gov’, and ‘aws-cn’. Defaults to ‘aws’.
+If Lemur is deployed in and managing endpoints AWS GovCloud, for example, you must set this to <cite>aws-us-gov</cite>.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_STRICT_ROLE_ENFORCEMENT</span></span></dt>
+<dd><blockquote>
+<div><p>When set to True, this property enforces the default Lemur role functionality. The default Lemur roles are
+<code class="docutils literal notranslate"><span class="pre">admin</span></code>, <code class="docutils literal notranslate"><span class="pre">operator</span></code>, and <code class="docutils literal notranslate"><span class="pre">read-only</span></code>. Users will be required to have a default role assigned
+upon creation. The <code class="docutils literal notranslate"><span class="pre">operator</span></code> and <code class="docutils literal notranslate"><span class="pre">read-only</span></code> roles are strictly enforced. Users assigned the <code class="docutils literal notranslate"><span class="pre">read-only</span></code>
+role will not be able to create/update resources.</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEMUR_STRICT_ROLE_ENFORCEMENT</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">SENTRY_DSN</span></span></dt>
+<dd><blockquote>
+<div><p>To initialize the Sentry integration to capture errors and exceptions, the <cite>SENTRY_DSN</cite> is required to be set to
+the respective URL. <cite>LEMUR_ENV</cite> is also a related variable to define the environment for sentry events, e.g.,
+‘test’ or ‘prod’.</p>
+<p>Note that previously Lemur relied on Raven[flask] before migrating to <cite>sentry_sdk</cite>. In this case, you might be
+using the legacy <cite>SENTRY_CONFIG</cite>, which Lemur attempts to respect, in case <cite>SENTRY_DSN</cite> is missing,
+with environment set to empty.</p>
+<p>Example for using Senty to capture exceptions:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="kn">from</span> <span class="nn">sentry_sdk</span> <span class="kn">import</span> <span class="n">capture_exception</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="o">..</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="n">capture_exception</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="c1"># supplying extra information</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="n">capture_exception</span><span class="p">(</span><span class="n">extra</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;certificate_name&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">certificate</span><span class="o">.</span><span class="n">name</span><span class="p">)})</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ADMIN_ONLY_AUTHORITY_CREATION</span></span></dt>
+<dd><blockquote>
+<div><p>Allows authority creation to be an admin-only operation. By default, any user can create new authorities.</p>
+</div></blockquote>
+</dd></dl>
+
+</section>
+<section id="certificate-default-options">
+<h2>Certificate Default Options<a class="headerlink" href="#certificate-default-options" title="Link to this heading"></a></h2>
+<p>Lemur allows you to fine tune your certificates to your organization. The following defaults are presented in the UI
+and are used when Lemur creates the CSR for your certificates.</p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_DEFAULT_COUNTRY</span></span></dt>
+<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEMUR_DEFAULT_COUNTRY</span> <span class="o">=</span> <span class="s2">&quot;US&quot;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_DEFAULT_STATE</span></span></dt>
+<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEMUR_DEFAULT_STATE</span> <span class="o">=</span> <span class="s2">&quot;California&quot;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_DEFAULT_LOCATION</span></span></dt>
+<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEMUR_DEFAULT_LOCATION</span> <span class="o">=</span> <span class="s2">&quot;Los Gatos&quot;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_DEFAULT_ORGANIZATION</span></span></dt>
+<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEMUR_DEFAULT_ORGANIZATION</span> <span class="o">=</span> <span class="s2">&quot;Netflix&quot;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_DEFAULT_ORGANIZATIONAL_UNIT</span></span></dt>
+<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEMUR_DEFAULT_ORGANIZATIONAL_UNIT</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_DEFAULT_ISSUER_PLUGIN</span></span></dt>
+<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEMUR_DEFAULT_ISSUER_PLUGIN</span> <span class="o">=</span> <span class="s2">&quot;verisign-issuer&quot;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_DEFAULT_AUTHORITY</span></span></dt>
+<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEMUR_DEFAULT_AUTHORITY</span> <span class="o">=</span> <span class="s2">&quot;verisign&quot;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="notification-options">
+<span id="notificationoptions"></span><h2>Notification Options<a class="headerlink" href="#notification-options" title="Link to this heading"></a></h2>
+<p>Lemur supports a small variety of notification types through a set of notification plugins.
+By default, Lemur configures a standard set of email notifications for all certificates.</p>
+<p><strong>Plugin-capable notifications</strong></p>
+<p>These notifications can be configured to use all available notification plugins.</p>
+<p>Supported types:</p>
+<ul class="simple">
+<li><p>Certificate expiration (Celery: <cite>notify_expirations</cite>, cron: <cite>notify expirations</cite>)</p></li>
+</ul>
+<p><strong>Email-only notifications</strong></p>
+<p>These notifications can only be sent via email and cannot use other notification plugins.</p>
+<p>Supported types:</p>
+<ul class="simple">
+<li><p>CA certificate expiration (Celery: <cite>notify_authority_expirations</cite>, cron: <cite>notify authority_expirations</cite>)</p></li>
+<li><p>Pending ACME certificate failure</p></li>
+<li><p>Certificate rotation</p></li>
+<li><p>Certificate reissued with no endpoints</p></li>
+<li><p>Certificate reissue failed</p></li>
+<li><p>Certificate revocation</p></li>
+<li><p>Security certificate expiration summary (Celery: <cite>send_security_expiration_summary</cite>, cron: <cite>notify security_expiration_summary</cite>)</p></li>
+<li><p>Certificate expiration where certificates are still detected as deployed at any associated domain (Celery: <cite>notify_expiring_deployed_certificates</cite>, cron: <cite>notify expiring_deployed_certificates</cite>)</p></li>
+</ul>
+<p><strong>Default notifications</strong></p>
+<p>When a certificate is created, the following email notifications are created for it if they do not exist.
+If these notifications already exist, they will be associated with the new certificate.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">DEFAULT_&lt;OWNER&gt;_X_DAY</span></code>, where X is the set of values specified in <code class="docutils literal notranslate"><span class="pre">LEMUR_DEFAULT_EXPIRATION_NOTIFICATION_INTERVALS</span></code> and defaults to 30, 15, and 2 if not specified. The owner’s username will replace <code class="docutils literal notranslate"><span class="pre">&lt;OWNER&gt;</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DEFAULT_SECURITY_X_DAY</span></code>, where X is the set of values specified in <code class="docutils literal notranslate"><span class="pre">LEMUR_SECURITY_TEAM_EMAIL_INTERVALS</span></code> and defaults to <code class="docutils literal notranslate"><span class="pre">LEMUR_DEFAULT_EXPIRATION_NOTIFICATION_INTERVALS</span></code> if not specified (which also defaults to 30, 15, and 2 if not specified).</p></li>
+</ul>
+<p>These notifications can be disabled if desired. They can also be unassociated with a specific certificate.</p>
+<p><strong>Disabling notifications</strong></p>
+<p>Notifications can be disabled either for an individual certificate (which disables all notifications for that certificate)
+or for an individual notification object (which disables that notification for all associated certificates).
+At present, disabling a notification object will only disable certificate expiration notifications, and not other types,
+since other notification types don’t use notification objects.</p>
+<p><strong>Certificate expiration</strong></p>
+<p>Certificate expiration notifications are sent when the scheduled task to send certificate expiration notifications runs
+(see <a class="reference internal" href="production/index.html#periodictasks"><span class="std std-ref">Periodic Tasks</span></a>). Specific patterns of certificate names may be excluded using <code class="docutils literal notranslate"><span class="pre">--exclude</span></code> (when using
+cron; you may specify this multiple times for multiple patterns) or via the config option <code class="docutils literal notranslate"><span class="pre">EXCLUDE_CN_FROM_NOTIFICATION</span></code>
+(when using celery; this is a list configuration option, meaning you specify multiple values, such as
+<code class="docutils literal notranslate"><span class="pre">['exclude',</span> <span class="pre">'also</span> <span class="pre">exclude']</span></code>). The specified exclude pattern will match if found anywhere in the certificate name.</p>
+<p>When the periodic task runs, Lemur checks for certificates meeting the following conditions:</p>
+<ul class="simple">
+<li><p>Certificate has notifications enabled</p></li>
+<li><p>Certificate is not expired</p></li>
+<li><p>Certificate is not revoked</p></li>
+<li><p>Certificate name does not match the <cite>exclude</cite> parameter</p></li>
+<li><p>Certificate has at least one associated notification object</p></li>
+<li><p>That notification is active</p></li>
+<li><p>That notification’s configured interval and unit match the certificate’s remaining lifespan</p></li>
+</ul>
+<p>All eligible certificates are then grouped by owner and applicable notification. For each notification and certificate group,
+Lemur will send the expiration notification using whichever plugin was configured for that notification object.
+In addition, Lemur will send an email to the certificate owner and security team (as specified by the
+<code class="docutils literal notranslate"><span class="pre">LEMUR_SECURITY_TEAM_EMAIL</span></code> configuration parameter). The security team will be omitted if
+<code class="docutils literal notranslate"><span class="pre">LEMUR_DISABLE_SECURITY_TEAM_EXPIRATION_EMAILS</span></code> is enabled.</p>
+<p><strong>CA certificate expiration</strong></p>
+<p>Certificate authority certificate expiration notifications are sent when the scheduled task to send authority certificate
+expiration notifications runs (see <a class="reference internal" href="production/index.html#periodictasks"><span class="std std-ref">Periodic Tasks</span></a>). Notifications are sent via the intervals configured in the
+configuration parameter <code class="docutils literal notranslate"><span class="pre">LEMUR_AUTHORITY_CERT_EXPIRATION_EMAIL_INTERVALS</span></code>, with a default of 365 and 180 days.</p>
+<p>When the periodic task runs, Lemur checks for certificates meeting the following conditions:</p>
+<ul class="simple">
+<li><p>Certificate has notifications enabled</p></li>
+<li><p>Certificate is not expired</p></li>
+<li><p>Certificate is not revoked</p></li>
+<li><p>Certificate is associated with a CA</p></li>
+<li><p>Certificate’s remaining lifespan matches one of the configured intervals</p></li>
+</ul>
+<p>All eligible certificates are then grouped by owner and expiration interval. For each interval and certificate group,
+Lemur will send the CA certificate expiration notification via email to the certificate owner and security team
+(as specified by the <code class="docutils literal notranslate"><span class="pre">LEMUR_SECURITY_TEAM_EMAIL</span></code> configuration parameter).</p>
+<p><strong>Pending ACME certificate failure</strong></p>
+<p>Whenever a pending ACME certificate fails to be issued, Lemur will send a notification via email to the certificate owner
+and security team (as specified by the <code class="docutils literal notranslate"><span class="pre">LEMUR_SECURITY_TEAM_EMAIL</span></code> configuration parameter). This email is not sent if
+the pending certificate had notifications disabled.</p>
+<p>Lemur will attempt 3x times to resolve a pending certificate.
+This can at times result into 3 duplicate certificates, if all certificate attempts get resolved. There is a way to
+deduplicate these certificates periodically using a celery task <code class="docutils literal notranslate"><span class="pre">disable_rotation_of_duplicate_certificates</span></code>.</p>
+<p>This needs 2 configurations</p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">AUTHORITY_TO_DISABLE_ROTATE_OF_DUPLICATE_CERTIFICATES</span></span></dt>
+<dd><blockquote>
+<div><p>List names of the authorities for which <cite>disable_rotation_of_duplicate_certificates</cite> should run. The task will
+consider certificates issued by authorities configured here.</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">AUTHORITY_TO_DISABLE_ROTATE_OF_DUPLICATE_CERTIFICATES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;LetsEncrypt&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<p><strong>Certificate re-issuance</strong></p>
+<p>When a cert is reissued (i.e. a new certificate is minted to replace it), <em>and</em> the re-issuance either fails or
+succeeds but the certificate has no associated endpoints (meaning the subsequent rotation step will not occur),
+Lemur will send a notification via email to the certificate owner. This notification is disabled by default;
+to enable it, you must set the option <code class="docutils literal notranslate"><span class="pre">--notify</span></code> (when using cron) or the configuration parameter
+<code class="docutils literal notranslate"><span class="pre">ENABLE_REISSUE_NOTIFICATION</span></code> (when using celery).</p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DAYS_SINCE_ISSUANCE_DISABLE_ROTATE_OF_DUPLICATE_CERTIFICATES</span></span></dt>
+<dd><blockquote>
+<div><p>Use this config (optional) to configure the number of days. The task <cite>disable_rotation_of_duplicate_certificates</cite>
+will then consider valid certificates issued only in last those many number of days for deduplication. If not configured,
+the task considers all the valid certificates. Ideally set this config to a value which is same as the number of
+days between the two runs of <cite>disable_rotation_of_duplicate_certificates</cite></p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DAYS_SINCE_ISSUANCE_DISABLE_ROTATE_OF_DUPLICATE_CERTIFICATES</span> <span class="o">=</span> <span class="mi">7</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ROTATE_AUTHORITY_TRANSLATION</span></span></dt>
+<dd><blockquote>
+<div><p>Use this config (optional) to migrate from one authority id to another on reissuance (useful for expiring authorities,
+key migrations, etc).</p>
+<p>This configuration supports two types of values:</p>
+<ol class="arabic simple">
+<li><p><strong>Static mapping</strong> (integer): Maps an old authority ID directly to a new authority ID.</p></li>
+<li><p><strong>Dynamic callback</strong> (callable): A function that receives a certificate object and returns the new authority ID based on certificate properties.</p></li>
+</ol>
+</div></blockquote>
+<p>Static mapping example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ROTATE_AUTHORITY_TRANSLATION</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Callback function example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">select_authority_for_renewal</span><span class="p">(</span><span class="n">certificate</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Dynamically determine the authority for certificate renewal.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        certificate: Certificate object with properties like:</span>
+<span class="sd">            - owner: str</span>
+<span class="sd">            - destinations: list of Destination objects</span>
+<span class="sd">            - key_type: str</span>
+<span class="sd">            - cn: str</span>
+<span class="sd">            - san: str</span>
+<span class="sd">            - authority: Authority object</span>
+<span class="sd">            - authority_id: int</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        int: The new authority ID to use</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Example: Select authority based on destinations</span>
+    <span class="n">destination_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">dest</span><span class="o">.</span><span class="n">label</span> <span class="k">for</span> <span class="n">dest</span> <span class="ow">in</span> <span class="n">certificate</span><span class="o">.</span><span class="n">destinations</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s1">&#39;production-aws&#39;</span> <span class="ow">in</span> <span class="n">destination_labels</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">3</span>  <span class="c1"># Use cross-signed chain for production AWS</span>
+    <span class="k">elif</span> <span class="s1">&#39;legacy-systems&#39;</span> <span class="ow">in</span> <span class="n">destination_labels</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">4</span>  <span class="c1"># Use older authority for legacy compatibility</span>
+    <span class="k">return</span> <span class="n">certificate</span><span class="o">.</span><span class="n">authority_id</span>  <span class="c1"># Keep original authority</span>
+
+<span class="n">ROTATE_AUTHORITY_TRANSLATION</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="n">select_authority_for_renewal</span><span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<p><strong>Certificate rotation</strong></p>
+<p>Whenever a cert is rotated, Lemur will send a notification via email to the certificate owner. This notification is
+disabled by default; to enable it, you must set the option <code class="docutils literal notranslate"><span class="pre">--notify</span></code> (when using cron) or the configuration parameter
+<code class="docutils literal notranslate"><span class="pre">ENABLE_ROTATION_NOTIFICATION</span></code> (when using celery).</p>
+<p><strong>Certificate revocation</strong></p>
+<p>Whenever a cert is revoked, Lemur will send a notification via email to the certificate owner. This notification will
+only be sent if the certificate’s “notify” option is enabled.</p>
+<p><strong>Security certificate expiration summary</strong></p>
+<p>If you enable the Celery or cron task to send this notification type, Lemur will send a summary of all
+certificates with upcoming expiration date that occurs within the number of days specified by the
+<code class="docutils literal notranslate"><span class="pre">LEMUR_EXPIRATION_SUMMARY_EMAIL_THRESHOLD_DAYS</span></code> configuration parameter (with a fallback of 14 days).
+Note that certificates will be included in this summary even if they do not have any associated notifications.</p>
+<p>This notification type also supports the same <code class="docutils literal notranslate"><span class="pre">--exclude</span></code> and <code class="docutils literal notranslate"><span class="pre">EXCLUDE_CN_FROM_NOTIFICATION</span></code> options as expiration emails.</p>
+<p>NOTE: At present, this summary email essentially duplicates the certificate expiration notifications, since all
+certificate expiration notifications are also sent to the security team. This issue will be fixed in the future.</p>
+<p><strong>Notification configuration</strong></p>
+<p>The following configuration options are supported:</p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EXCLUDE_CN_FROM_NOTIFICATION</span></span></dt>
+<dd><p>Specifies CNs to exclude from notifications. This includes both single notifications as well as the notification summary. The specified exclude pattern will match if found anywhere in the certificate name.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<blockquote>
+<div><p>This is only used for celery. The equivalent for cron is ‘-e’ or ‘–exclude’.</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">EXCLUDE_CN_FROM_NOTIFICATION</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;exclude&#39;</span><span class="p">,</span> <span class="s1">&#39;also exclude&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DISABLE_NOTIFICATION_PLUGINS</span></span></dt>
+<dd><p>Specifies a set of notification plugins to disable. Notifications will not be sent using these plugins. Currently only applies to expiration notifications, since they are the only type that utilize plugins.
+This option may be particularly useful in a test environment, where you might wish to enable the notification job without actually sending notifications of a certain type (or all types).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<blockquote>
+<div><p>This is only used for celery. The equivalent for cron is ‘-d’ or ‘–disabled-notification-plugins’.</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DISABLE_NOTIFICATION_PLUGINS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;email-notification&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</dd></dl>
+
+<p><strong>Email notifications</strong></p>
+<p>Templates for emails are located under <cite>lemur/plugins/lemur_email/templates</cite> and can be modified for your needs.</p>
+<p>The following configuration options are supported:</p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_EMAIL_SENDER</span></span></dt>
+<dd><p>Specifies which service will be delivering notification emails. Valid values are <cite>SMTP</cite> or <cite>SES</cite></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If using SMTP as your provider you will need to define additional configuration options as specified by Flask-Mail.
+See: <a class="reference external" href="https://pythonhosted.org/Flask-Mail">Flask-Mail</a></p>
+<p>If you are using SES the email specified by the <cite>LEMUR_EMAIL</cite> configuration will need to be verified by AWS before
+you can send any mail. See: <a class="reference external" href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-email-addresses.html">Verifying Email Address in Amazon SES</a></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_SES_SOURCE_ARN</span></span></dt>
+<dd><p>Specifies an ARN to use as the SourceArn when sending emails via SES.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This parameter is only required if you’re using a sending authorization with SES.
+See: <a class="reference external" href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Using sending authorization with Amazon SES</a></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_SES_REGION</span></span></dt>
+<dd><p>Specifies a region for sending emails via SES.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This parameter defaults to us-east-1 and is only required if you wish to use a different region.</p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_EMAIL</span></span></dt>
+<dd><blockquote>
+<div><p>Lemur sender’s email</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEMUR_EMAIL</span> <span class="o">=</span> <span class="s1">&#39;lemur@example.com&#39;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_SECURITY_TEAM_EMAIL</span></span></dt>
+<dd><blockquote>
+<div><p>This is an email or list of emails that should be notified when a certificate is expiring. It is also the contact email address for any discovered certificate.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEMUR_SECURITY_TEAM_EMAIL</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;security@example.com&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_DISABLE_SECURITY_TEAM_EXPIRATION_EMAILS</span></span></dt>
+<dd><blockquote>
+<div><p>This specifies whether or not LEMUR_SECURITY_TEAM_EMAIL will be included on all expiration emails. IMPORTANT: You will also need to disable the DEFAULT_SECURITY_X_DAY notifications to truly disable sending expiration emails to the security team. This double configuration is required for backwards compatibility.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEMUR_DISABLE_SECURITY_TEAM_EXPIRATION_EMAILS</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_DEFAULT_EXPIRATION_NOTIFICATION_INTERVALS</span></span></dt>
+<dd><blockquote>
+<div><p>Lemur notification intervals. If unspecified, the value [30, 15, 2] is used.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEMUR_DEFAULT_EXPIRATION_NOTIFICATION_INTERVALS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_SECURITY_TEAM_EMAIL_INTERVALS</span></span></dt>
+<dd><blockquote>
+<div><p>Alternate notification interval set for security team notifications. Use this if you would like the default security team notification interval for new certificates to differ from the global default as specified in LEMUR_DEFAULT_EXPIRATION_NOTIFICATION_INTERVALS. If unspecified, the value of LEMUR_DEFAULT_EXPIRATION_NOTIFICATION_INTERVALS is used. Security team default notifications for new certificates can effectively be disabled by setting this value to an empty array.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEMUR_SECURITY_TEAM_EMAIL_INTERVALS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_AUTHORITY_CERT_EXPIRATION_EMAIL_INTERVALS</span></span></dt>
+<dd><blockquote>
+<div><p>Notification interval set for CA certificate expiration notifications. If unspecified, the value [365, 180] is used (roughly one year and 6 months).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEMUR_AUTHORITY_CERT_EXPIRATION_EMAIL_INTERVALS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">365</span><span class="p">,</span> <span class="mi">180</span><span class="p">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_PORTS_FOR_DEPLOYED_CERTIFICATE_CHECK</span></span></dt>
+<dd><blockquote>
+<div><p>Specifies the set of ports to use when checking if a certificate is still deployed at a given domain. This is utilized for the alert that is sent when an expiring certificate is detected to still be deployed.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEMUR_PORTS_FOR_DEPLOYED_CERTIFICATE_CHECK</span> <span class="o">=</span> <span class="p">[</span><span class="mi">443</span><span class="p">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_DEPLOYED_CERTIFICATE_CHECK_COMMIT_MODE</span></span></dt>
+<dd><blockquote>
+<div><p>Specifies whether or not to commit changes when running the deployed certificate check. If False, the DB will not be updated; network calls will still be made and logs/metrics will be emitted.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEMUR_DEPLOYED_CERTIFICATE_CHECK_COMMIT_MODE</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_DEPLOYED_CERTIFICATE_CHECK_EXCLUDED_DOMAINS</span></span></dt>
+<dd><blockquote>
+<div><p>Specifies a set of domains to exclude from the deployed certificate checks. Anything specified here is treated as a substring; in other words, if you set this to [‘excluded.com’], then ‘abc.excluded.com’ and ‘unexcluded.com’ will both be excluded; ‘ex-cluded.com’ will not be excluded.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEMUR_DEPLOYED_CERTIFICATE_CHECK_EXCLUDED_DOMAINS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;excluded.com&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_DEPLOYED_CERTIFICATE_CHECK_EXCLUDED_OWNERS</span></span></dt>
+<dd><blockquote>
+<div><p>Specifies a set of owners to exclude from the deployed certificate checks. Anything specified here is treated as an exact match, NOT as a substring.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEMUR_DEPLOYED_CERTIFICATE_CHECK_EXCLUDED_OWNERS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;excludedowner@example.com&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_REISSUE_NOTIFICATION_EXCLUDED_DESTINATIONS</span></span></dt>
+<dd><blockquote>
+<div><p>Specifies a set of destination labels to exclude from the reissued with endpoint notification checks. If a certificate is reissued without endpoints, but any of its destination labels are specified in this list, no “reissued without endpoints” notification will be sent.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEMUR_REISSUE_NOTIFICATION_EXCLUDED_DESTINATIONS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;excluded-destination&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+</section>
+<section id="celery-options">
+<h2>Celery Options<a class="headerlink" href="#celery-options" title="Link to this heading"></a></h2>
+<p>To make use of automated tasks within lemur (e.g. syncing source/destinations, or reissuing ACME certificates), you
+need to configure celery. See <a class="reference internal" href="production/index.html#periodictasks"><span class="std std-ref">Periodic Tasks</span></a> for more in depth documentation.</p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">CELERY_RESULT_BACKEND</span></span></dt>
+<dd><blockquote>
+<div><p>The url to your redis backend (needs to be in the format <cite>redis://&lt;host&gt;:&lt;port&gt;/&lt;database&gt;</cite>)</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">CELERY_BROKER_URL</span></span></dt>
+<dd><blockquote>
+<div><p>The url to your redis broker (needs to be in the format <cite>redis://&lt;host&gt;:&lt;port&gt;/&lt;database&gt;</cite>)</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">CELERY_IMPORTS</span></span></dt>
+<dd><blockquote>
+<div><p>The module that celery needs to import, in our case thats <cite>lemur.common.celery</cite></p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">CELERY_TIMEZONE</span></span></dt>
+<dd><blockquote>
+<div><p>The timezone for celery to work with</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">CELERYBEAT_SCHEDULE</span></span></dt>
+<dd><blockquote>
+<div><p>This defines the schedule, with which the celery beat makes the worker run the specified tasks.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">CELERY_ENDPOINTS_EXPIRE_TIME_IN_HOURS</span></span></dt>
+<dd><blockquote>
+<div><p>This is an optional parameter that defines the expiration time for endpoints when the endpoint expiration celery task is running. Default value is set to 2h.</p>
+</div></blockquote>
+</dd></dl>
+
+<p>Since the celery module, relies on the RedisHandler, the following options also need to be set.</p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">REDIS_HOST</span></span></dt>
+<dd><blockquote>
+<div><p>Hostname of your redis instance</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">REDIS_PORT</span></span></dt>
+<dd><blockquote>
+<div><p>Port on which redis is running (default: 6379)</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">REDIS_DB</span></span></dt>
+<dd><blockquote>
+<div><p>Which redis database to be used, by default redis offers databases 0-15 (default: 0)</p>
+</div></blockquote>
+</dd></dl>
+
+</section>
+<section id="authentication-options">
+<h2>Authentication Options<a class="headerlink" href="#authentication-options" title="Link to this heading"></a></h2>
+<p>Lemur currently supports Basic Authentication, LDAP Authentication, Ping OAuth2, and Google out of the box. Additional flows can be added relatively easily.</p>
+</section>
+<section id="idp-configuration-options">
+<h2>IDP Configuration Options<a class="headerlink" href="#idp-configuration-options" title="Link to this heading"></a></h2>
+<p>Lemur historically was hard coded for supporting creating or adding groups from the <cite>googleGroups</cite> key. This was great if you used Google, but a limitation
+if you used another IDP. These settings allow you to customize your IDP and do one of two things:
+* Uses a fixed mapping in our config, if the user has that group we give a specified Lemur role.
+* Dynamically takes all the groups assigned to a user (such as <cite>profile[‘roles’]</cite> or <cite>profile[‘googleGroups’]</cite>), creates a Lemur group if it doesn’t already exist, then assigns it to the user.</p>
+<p>Group to role mapping can be either very static with a hard mapping (<cite>IDP_ROLES_MAPPING</cite>) or entirely dynamic from your designated IDP groups (<cite>IDP_GROUPS_KEYS</cite>).
+Using both methods at once is supported.</p>
+<p>Here is an example IDP configuration stanza you can add to your config. Adjust to suit your environment of course.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">IDP_ROLES_MAPPING</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;security&quot;</span><span class="p">:</span> <span class="s2">&quot;admin&quot;</span><span class="p">,</span> <span class="s2">&quot;engineering&quot;</span><span class="p">:</span> <span class="s2">&quot;operator&quot;</span><span class="p">,</span> <span class="s2">&quot;jane_from_accounting&quot;</span><span class="p">:</span> <span class="s2">&quot;read-only&quot;</span><span class="p">}</span>
+<span class="n">IDP_GROUPS_KEYS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;googleGroups&quot;</span><span class="p">,</span> <span class="s2">&quot;roles&quot;</span><span class="p">]</span>
+<span class="n">IDP_ASSIGN_ROLES_FROM_USER_GROUPS</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">IDP_CREATE_ROLES_FROM_USER_GROUPS</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">IDP_CREATE_PER_USER_ROLE</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">IDP_PROTECT_BUILTINS</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">IDP_ROLES_MAPPING</span></span></dt>
+<dd><blockquote>
+<div><p>Defaults to <cite>{}</cite>.</p>
+<p>This is used to create a fixed user mapping from an IDP group to a Lemur group.  This is very useful if you have do very static assigments using a set number of groups.
+The dynamic group assignment will not assign built-in groups (<cite>admin</cite>, <cite>operator</cite>, or <cite>read-only</cite>) by default, using <cite>IDP_ROLES_MAPPING</cite> is the recommended way to assign
+these groups.</p>
+<p>Custom created Lemur groups may be assigned through <cite>IDP_ROLES_MAPPING</cite>, but they must be created before attempting to assign them, this will not automatically create any groups.</p>
+<p>The dictionary is defined with the IDP group as the dictionary key, and the matching Lemur group as the value. (e.g. <cite>{“idp_group”: “lemur_group”</cite>)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">IDP_ROLES_MAPPING</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;security&quot;</span><span class="p">:</span> <span class="s2">&quot;admin&quot;</span><span class="p">,</span> <span class="s2">&quot;engineering&quot;</span><span class="p">:</span> <span class="s2">&quot;operator&quot;</span><span class="p">,</span> <span class="s2">&quot;jane_from_accounting&quot;</span><span class="p">:</span> <span class="s2">&quot;read-only&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">IDP_GROUPS_KEYS</span></span></dt>
+<dd><blockquote>
+<div><p>Defaults to <cite>[“googleGroups”]</cite> as this is historically what was hard coded in Lemur.</p>
+<p>Provide a list of dictionary keys used by IDP(s) to return user groups.  In code, you can look at the dictionary object provided by your IDP and find the dictionary key that contains
+the groups you would like to add.  You can also check in Lemur code and look at the <cite>profile</cite> dictionary object for the user.</p>
+<p>You can chain as many fields as you desire, this could be useful if pulling from multiple IDPs or if an IDP provides two different types of groups.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Here is a list of key names that may be useful. Double check that these keys match your environment as your results may differ.</p>
+<p>GCP: <cite>googleGroups</cite>
+LDAP: <cite>roles</cite></p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Any keys provided here will be used additively, so care must be taken as unintentional group assignments may be made if using multiple IDPs.</p>
+<p>It is highly recommended to use <cite>IDP_ROLES_PREFIX</cite> and/or <cite>IDP_ROLES_SUFFIX</cite> to create a naming schema to avoid importing all groups assigned in your IDP.</p>
+<p>The groups that are built into Lemur (<cite>admin</cite>, <cite>operator</cite>, <cite>read-only</cite>) will not be assigned by default. See: <cite>IDP_PROTECT_BUILTINS</cite></p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">IDP_GROUPS_KEYS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;googleGroups&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">IDP_ROLES_PREFIX</span></span></dt>
+<dd><blockquote>
+<div><p>Defaults to <cite>“”</cite>. (No filtering, all groups will be included)</p>
+<p>This is used to create a naming schema/convention to provide a method for only importing a certain set of groups.  A simple string comparison is used
+to see if the group name starts with the prefix provided here.  If it matches the group will be used; if it doesn’t it will be skipped.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">IDP_ROLES_PREFIX</span> <span class="o">=</span> <span class="s2">&quot;LEMUR-&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">IDP_ROLES_SUFFIX</span></span></dt>
+<dd><blockquote>
+<div><p>Defaults to <cite>“”</cite>. (No filtering, all groups will be included)</p>
+<p>This is used to create a naming schema/convention to provide a method for only importing a certain set of groups.  A simple string comparison is used
+to see if the group name ends with the suffix provided here.  If it matches the group will be used; if it doesn’t it will be skipped.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">IDP_ROLES_SUFFIX</span> <span class="o">=</span> <span class="s2">&quot;_LEMUR&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">IDP_ROLES_DESCRIPTION</span></span></dt>
+<dd><blockquote>
+<div><p>Defaults to <cite>Identity provider role from ‘{idp_groups_key}’ (generated by Lemur)</cite>.</p>
+<p>Allows for a custom group description for automatically created groups.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>While the default description will automatically inject the IDP group key into the description, a custom version will not.
+If you are using multiple group fields or IDPs, you may want to leave this at the default.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">IDP_ROLES_DESCRIPTION</span> <span class="o">=</span> <span class="s2">&quot;Automatically generated role from my IDP&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">IDP_ASSIGN_ROLES_FROM_USER_GROUPS</span></span></dt>
+<dd><blockquote>
+<div><p>Defaults to <cite>True</cite>.</p>
+<p>Enables automatic assignment of groups found in the IDP key to the user.  This is used to dynamically assign groups based on your IDP groups assignments.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This does not create groups if they are not found, for that functionality see <cite>IDP_CREATE_ROLES_FROM_USER_GROUPS</cite>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>While automatic group assignment can be very useful, this can potentially assign groups unexpectedly as once this is enabled group assignment is done from the IDP.
+If you want more strict or controlled group assignments, it is recommended to use <cite>IDP_ROLES_MAPPING</cite>.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">IDP_ASSIGN_ROLES_FROM_USER_GROUPS</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">IDP_CREATE_ROLES_FROM_USER_GROUPS</span></span></dt>
+<dd><blockquote>
+<div><p>Defaults to <cite>True</cite>.</p>
+<p>Enables automatic creation of groups found in the IDP key to the user.  This is used to dynamically create groups based on your IDP groups assignments.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This does not assign groups to a user, for that functionality see <cite>IDP_ASSIGN_ROLES_FROM_USER_GROUPS</cite>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>While automatic group creation can be very useful, this can potentially create groups unexpectedly as once this is enabled group assignment is done from the IDP.
+If you want more strict or controlled group assignments, it is recommended to use <cite>IDP_ROLES_MAPPING</cite>.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">IDP_CREATE_ROLES_FROM_USER_GROUPS</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">IDP_CREATE_PER_USER_ROLE</span></span></dt>
+<dd><blockquote>
+<div><p>Defaults to <cite>True</cite>.</p>
+<p>Creates a group for each user.  While this is very noisy, this can be useful to assign a cert to a singular user.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Organizations with very large numbers of users may want to condsider disabling this, due to the potential load.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">IDP_CREATE_PER_USER_ROLE</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">IDP_PROTECT_BUILTINS</span></span></dt>
+<dd><blockquote>
+<div><p>Defaults to <cite>True</cite>.</p>
+<p>Prevents dynamic assignment of the built in groups (<cite>admin</cite>, <cite>operator</cite>, <cite>read-only</cite>) to users. If a group provided by the IDP key has these values,
+it is skipped.  The built in groups are protected by default as accidential adding assignments is very easy to do.  For example, an LDAP administrator
+adds a group named <cite>admin</cite> and now all of your LDAP admins are also Lemur admins.</p>
+<p>If you want to assign built in groups, it is recommended to use <cite>IDP_ROLES_MAPPING</cite>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Historically Lemur allowed for dynamic assignment of the built-in groups.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Disabling this protection is not recommended.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">IDP_PROTECT_BUILTINS</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<section id="ldap-options">
+<h3>LDAP Options<a class="headerlink" href="#ldap-options" title="Link to this heading"></a></h3>
+<p>Lemur supports the use of an LDAP server in conjunction with Basic Authentication. Lemur local users can still be defined and take precedence over LDAP users. If a local user does not exist, LDAP will be queried for authentication. Only simple ldap binding with or without TLS is supported.</p>
+<p>LDAP support requires the pyldap python library, which also depends on the following openldap packages.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+$<span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>libldap2-dev<span class="w"> </span>libsasl2-dev<span class="w"> </span>libldap2-dev<span class="w"> </span>libssl-dev
+</pre></div>
+</div>
+<p>To configure the use of an LDAP server, a number of settings need to be configured in <cite>lemur.conf.py</cite>.</p>
+<p>Here is an example LDAP configuration stanza you can add to your config. Adjust to suit your environment of course.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">LDAP_AUTH</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">LDAP_BIND_URI</span><span class="o">=</span><span class="s1">&#39;ldaps://secure.evilcorp.net&#39;</span>
+<span class="n">LDAP_BASE_DN</span><span class="o">=</span><span class="s1">&#39;DC=users,DC=evilcorp,DC=net&#39;</span>
+<span class="n">LDAP_EMAIL_DOMAIN</span><span class="o">=</span><span class="s1">&#39;evilcorp.net&#39;</span>
+<span class="n">LDAP_USE_TLS</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">LDAP_CACERT_FILE</span> <span class="o">=</span> <span class="s1">&#39;/opt/lemur/trusted.pem&#39;</span>
+<span class="n">LDAP_REQUIRED_GROUP</span> <span class="o">=</span> <span class="s1">&#39;certificate-management-access&#39;</span>
+<span class="n">LDAP_GROUPS_TO_ROLES</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;certificate-management-admin&#39;</span><span class="p">:</span> <span class="s1">&#39;admin&#39;</span><span class="p">,</span> <span class="s1">&#39;certificate-management-read-only&#39;</span><span class="p">:</span> <span class="s1">&#39;read-only&#39;</span><span class="p">}</span>
+<span class="n">LDAP_IS_ACTIVE_DIRECTORY</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+<p>The lemur ldap module uses the <cite>user principal name</cite> (upn) of the authenticating user to bind. This is done once for each user at login time. The UPN is effectively the email address in AD/LDAP of the user. If the user doesn’t provide the email address, it constructs one based on the username supplied (which should normally match the samAccountName) and the value provided by the config LDAP_EMAIL_DOMAIN.
+The config LDAP_BASE_DN tells lemur where to search within the AD/LDAP tree for the given UPN (user). If the bind with those credentials is successful - there is a valid user in AD with correct password.</p>
+<p>Each of the LDAP options are described below.</p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LDAP_AUTH</span></span></dt>
+<dd><blockquote>
+<div><p>This enables the use of LDAP</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LDAP_AUTH</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LDAP_BIND_URI</span></span></dt>
+<dd><blockquote>
+<div><p>Specifies the LDAP server connection string</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LDAP_BIND_URI</span> <span class="o">=</span> <span class="s1">&#39;ldaps://hostname&#39;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LDAP_BASE_DN</span></span></dt>
+<dd><blockquote>
+<div><p>Specifies the LDAP distinguished name location to search for users</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LDAP_BASE_DN</span> <span class="o">=</span> <span class="s1">&#39;DC=Users,DC=Evilcorp,DC=com&#39;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LDAP_EMAIL_DOMAIN</span></span></dt>
+<dd><blockquote>
+<div><p>The email domain used by users in your directory. This is used to build the userPrincipalName to search with.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LDAP_EMAIL_DOMAIN</span> <span class="o">=</span> <span class="s1">&#39;evilcorp.com&#39;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<p>The following LDAP options are not required, however TLS is always recommended.</p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LDAP_USE_TLS</span></span></dt>
+<dd><blockquote>
+<div><p>Enables the use of TLS when connecting to the LDAP server. Ensure the LDAP_BIND_URI is using ldaps scheme.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LDAP_USE_TLS</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LDAP_CACERT_FILE</span></span></dt>
+<dd><blockquote>
+<div><p>Specify a Certificate Authority file containing PEM encoded trusted issuer certificates. This can be used if your LDAP server is using certificates issued by a private CA.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LDAP_CACERT_FILE</span> <span class="o">=</span> <span class="s1">&#39;/path/to/cacert/file&#39;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LDAP_REQUIRED_GROUP</span></span></dt>
+<dd><blockquote>
+<div><p>Lemur has pretty open permissions. You can define an LDAP group to specify who can access Lemur. Only members of this group will be able to login.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LDAP_REQUIRED_GROUP</span> <span class="o">=</span> <span class="s1">&#39;Lemur LDAP Group Name&#39;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LDAP_GROUPS_TO_ROLES</span></span></dt>
+<dd><blockquote>
+<div><p>You can also define a dictionary of ldap groups mapped to lemur roles. This allows you to use ldap groups to manage access to owner/creator roles in Lemur</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LDAP_GROUPS_TO_ROLES</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;lemur_admins&#39;</span><span class="p">:</span> <span class="s1">&#39;admin&#39;</span><span class="p">,</span> <span class="s1">&#39;Lemur Team DL Group&#39;</span><span class="p">:</span> <span class="s1">&#39;team@example.com&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LDAP_IS_ACTIVE_DIRECTORY</span></span></dt>
+<dd><blockquote>
+<div><p>When set to True, nested group memberships are supported, by searching for groups with the member:1.2.840.113556.1.4.1941 attribute set to the user DN.
+When set to False, the list of groups will be determined by the ‘memberof’ attribute of the LDAP user logging in.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LDAP_IS_ACTIVE_DIRECTORY</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+</section>
+<section id="authentication-providers">
+<h3>Authentication Providers<a class="headerlink" href="#authentication-providers" title="Link to this heading"></a></h3>
+<p>If you are not using an authentication provider you do not need to configure any of these options.</p>
+<p>For more information about how to use social logins, see: <a class="reference external" href="https://github.com/sahat/satellizer">Satellizer</a></p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ACTIVE_PROVIDERS</span></span></dt>
+<dd><blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ACTIVE_PROVIDERS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ping&quot;</span><span class="p">,</span> <span class="s2">&quot;google&quot;</span><span class="p">,</span> <span class="s2">&quot;oauth2&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">PING_SECRET</span></span></dt>
+<dd><blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PING_SECRET</span> <span class="o">=</span> <span class="s1">&#39;somethingsecret&#39;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">PING_ACCESS_TOKEN_URL</span></span></dt>
+<dd><blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PING_ACCESS_TOKEN_URL</span> <span class="o">=</span> <span class="s2">&quot;https://&lt;yourpingserver&gt;/as/token.oauth2&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">PING_USER_API_URL</span></span></dt>
+<dd><blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PING_USER_API_URL</span> <span class="o">=</span> <span class="s2">&quot;https://&lt;yourpingserver&gt;/idp/userinfo.openid&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">PING_JWKS_URL</span></span></dt>
+<dd><blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PING_JWKS_URL</span> <span class="o">=</span> <span class="s2">&quot;https://&lt;yourpingserver&gt;/pf/JWKS&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">PING_NAME</span></span></dt>
+<dd><blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PING_NAME</span> <span class="o">=</span> <span class="s2">&quot;Example Oauth2 Provider&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">PING_CLIENT_ID</span></span></dt>
+<dd><blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PING_CLIENT_ID</span> <span class="o">=</span> <span class="s2">&quot;client-id&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">PING_URL</span></span></dt>
+<dd><blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PING_URL</span> <span class="o">=</span> <span class="s2">&quot;https://&lt;yourlemurserver&gt;&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">PING_REDIRECT_URI</span></span></dt>
+<dd><blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PING_REDIRECT_URI</span> <span class="o">=</span> <span class="s2">&quot;https://&lt;yourlemurserver&gt;/api/1/auth/ping&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">PING_AUTH_ENDPOINT</span></span></dt>
+<dd><blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PING_AUTH_ENDPOINT</span> <span class="o">=</span> <span class="s2">&quot;https://&lt;yourpingserver&gt;/oauth2/authorize&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">OAUTH2_SECRET</span></span></dt>
+<dd><blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">OAUTH2_SECRET</span> <span class="o">=</span> <span class="s1">&#39;somethingsecret&#39;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">OAUTH2_ACCESS_TOKEN_URL</span></span></dt>
+<dd><blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">OAUTH2_ACCESS_TOKEN_URL</span> <span class="o">=</span> <span class="s2">&quot;https://&lt;youroauthserver&gt; /oauth2/v1/authorize&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">OAUTH2_USER_API_URL</span></span></dt>
+<dd><blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">OAUTH2_USER_API_URL</span> <span class="o">=</span> <span class="s2">&quot;https://&lt;youroauthserver&gt;/oauth2/v1/userinfo&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">OAUTH2_JWKS_URL</span></span></dt>
+<dd><blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">OAUTH2_JWKS_URL</span> <span class="o">=</span> <span class="s2">&quot;https://&lt;youroauthserver&gt;/oauth2/v1/keys&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">OAUTH2_NAME</span></span></dt>
+<dd><blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">OAUTH2_NAME</span> <span class="o">=</span> <span class="s2">&quot;Example Oauth2 Provider&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">OAUTH2_CLIENT_ID</span></span></dt>
+<dd><blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">OAUTH2_CLIENT_ID</span> <span class="o">=</span> <span class="s2">&quot;client-id&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">OAUTH2_URL</span></span></dt>
+<dd><blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">OAUTH2_URL</span> <span class="o">=</span> <span class="s2">&quot;https://&lt;yourlemurserver&gt;&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">OAUTH2_REDIRECT_URI</span></span></dt>
+<dd><blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">OAUTH2_REDIRECT_URI</span> <span class="o">=</span> <span class="s2">&quot;https://&lt;yourlemurserver&gt;/api/1/auth/oauth2&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">OAUTH2_AUTH_ENDPOINT</span></span></dt>
+<dd><blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">OAUTH2_AUTH_ENDPOINT</span> <span class="o">=</span> <span class="s2">&quot;https://&lt;youroauthserver&gt;/oauth2/v1/authorize&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">OAUTH2_VERIFY_CERT</span></span></dt>
+<dd><blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">OAUTH2_VERIFY_CERT</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">OAUTH2_SCOPE</span></span></dt>
+<dd><blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">OAUTH2_SCOPE</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;openid&quot;</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="p">,</span> <span class="s2">&quot;profile&quot;</span><span class="p">,</span> <span class="s2">&quot;groups&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">OAUTH_STATE_TOKEN_SECRET</span></span></dt>
+<dd><blockquote>
+<div><p>The OAUTH_STATE_TOKEN_SECRET is used to sign state tokens to guard against CSRF attacks. Without a secret configured, Lemur will create
+a fallback secret on a per-server basis that would last for the length of the server’s lifetime (e.g., between redeploys). The secret must be <cite>bytes-like &lt;https://cryptography.io/en/latest/glossary/#term-bytes-like&gt;</cite>;
+it will be used to instantiate the key parameter of <cite>HMAC &lt;https://cryptography.io/en/latest/hazmat/primitives/mac/hmac/#cryptography.hazmat.primitives.hmac.HMAC&gt;</cite>.</p>
+<p>For implementation details, see <code class="docutils literal notranslate"><span class="pre">generate_state_token()</span></code> and <code class="docutils literal notranslate"><span class="pre">verify_state_token()</span></code> in <code class="docutils literal notranslate"><span class="pre">lemur/auth/views.py</span></code>.</p>
+<p>Running lemur create_config will securely generate a key for your configuration file.
+If you would like to generate your own, we recommend the following method:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">base64</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">KEY_LENGTH</span> <span class="o">=</span> <span class="mi">32</span>  <span class="c1"># tweak as needed</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="n">KEY_LENGTH</span><span class="p">))</span>
+</pre></div>
+</div>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">OAUTH_STATE_TOKEN_SECRET</span> <span class="o">=</span> <span class="n">lemur</span><span class="o">.</span><span class="n">common</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">get_state_token_secret</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">OAUTH_STATE_TOKEN_STALE_TOLERANCE_SECONDS</span></span></dt>
+<dd><blockquote>
+<div><p>Defaults to 15 seconds if configuration is not discovered.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">OAUTH_STATE_TOKEN_STALE_TOLERANCE_SECONDS</span> <span class="o">=</span> <span class="mi">15</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">GOOGLE_CLIENT_ID</span></span></dt>
+<dd><blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GOOGLE_CLIENT_ID</span> <span class="o">=</span> <span class="s2">&quot;client-id&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">GOOGLE_SECRET</span></span></dt>
+<dd><blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GOOGLE_SECRET</span> <span class="o">=</span> <span class="s2">&quot;somethingsecret&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">TOKEN_AUTH_HEADER_CASE_SENSITIVE</span></span></dt>
+<dd><blockquote>
+<div><p>This is an optional parameter to change the case sensitivity of the access token request authorization header.
+This is required if the oauth provider has implemented the access token request authorization header in a case-sensitive way</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TOKEN_AUTH_HEADER_CASE_SENSITIVE</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">USER_MEMBERSHIP_PROVIDER</span></span></dt>
+<dd><blockquote>
+<div><p>An optional plugin to provide membership details. Provide plugin slug here. Plugin is used post user validation
+to update membership details in Lemur. Also, it is configured to provide APIs to validate user email, team email/DL.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">USER_MEMBERSHIP_PROVIDER</span> <span class="o">=</span> <span class="s2">&quot;&lt;yourmembershippluginslug&gt;&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+</section>
+<section id="authorization-providers">
+<h3>Authorization Providers<a class="headerlink" href="#authorization-providers" title="Link to this heading"></a></h3>
+<p>If you are not using a custom authorization provider you do not need to configure any of these options</p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">USER_DOMAIN_AUTHORIZATION_PROVIDER</span></span></dt>
+<dd><blockquote>
+<div><p>An optional plugin to perform domain level authorization during certificate issuance. Provide plugin slug here.
+Plugin is used to check if caller is authorized to issue a certificate for a given Common Name and Subject Alternative
+Name (SAN) of type DNSName. Plugin shall be an implementation of DomainAuthorizationPlugin.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">USER_DOMAIN_AUTHORIZATION_PROVIDER</span> <span class="o">=</span> <span class="s2">&quot;&lt;yourauthorizationpluginslug&gt;&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LEMUR_PRIVATE_AUTHORITY_PLUGIN_NAMES</span></span></dt>
+<dd><blockquote>
+<div><p>Lemur can be used to issue certificates with private CA. One can write own issuer plugin to do so. Domain level authorization
+is skipped for private CA i.e., the one implementing custom issuer plugin. Currently this config is not used elsewhere.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEMUR_PRIVATE_AUTHORITY_PLUGIN_NAMES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;issuerpluginslug1&quot;</span><span class="p">,</span> <span class="s2">&quot;issuerpluginslug2&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+</section>
+<section id="metric-providers">
+<h3>Metric Providers<a class="headerlink" href="#metric-providers" title="Link to this heading"></a></h3>
+<p>If you are not using a metric provider you do not need to configure any of these options.</p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ACTIVE_PROVIDERS</span></span></dt>
+<dd><blockquote>
+<div><p>A list of metric plugins slugs to be ativated.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">METRIC_PROVIDERS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;atlas-metric&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+</section>
+</section>
+<section id="plugin-specific-options">
+<h2>Plugin Specific Options<a class="headerlink" href="#plugin-specific-options" title="Link to this heading"></a></h2>
+<section id="acme-plugin">
+<h3>ACME Plugin<a class="headerlink" href="#acme-plugin" title="Link to this heading"></a></h3>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ACME_DNS_PROVIDER_TYPES</span></span></dt>
+<dd><blockquote>
+<div><p>Dictionary of ACME DNS Providers and their requirements.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ACME_ENABLE_DELEGATED_CNAME</span></span></dt>
+<dd><blockquote>
+<div><p>Enables delegated DNS domain validation using CNAMES.  When enabled, Lemur will attempt to follow CNAME records to authoritative DNS servers when creating DNS-01 challenges.</p>
+</div></blockquote>
+</dd></dl>
+
+<p>The following configration properties are optional for the ACME plugin to use. They allow reusing an existing ACME
+account. See <a class="reference internal" href="production/index.html#acmeaccountreuse"><span class="std std-ref">Using a pre-existing ACME account</span></a> for more details.</p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ACME_PRIVATE_KEY</span></span></dt>
+<dd><blockquote>
+<div><p>This is the private key, the account was registered with (in JWK format)</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ACME_REGR</span></span></dt>
+<dd><blockquote>
+<div><p>This is the registration for the ACME account, the most important part is the uri attribute (in JSON)</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ACME_PREFERRED_ISSUER</span></span></dt>
+<dd><blockquote>
+<div><p>This is an optional parameter to indicate the preferred chain to retrieve from ACME when finalizing the order.
+This is applicable to Let’s Encrypts recent <a class="reference external" href="https://letsencrypt.org/certificates/">migration</a> to their
+own root, where they provide two distinct certificate chains (fullchain_pem vs. alternative_fullchains_pem);
+the main chain will be the long chain that is rooted in the expiring DTS root, whereas the alternative chain
+is rooted in X1 root CA.
+Select “X1” to get the shorter chain (currently alternative), leave blank or “DST Root CA X3” for the longer chain.</p>
+</div></blockquote>
+</dd></dl>
+
+</section>
+<section id="active-directory-certificate-services-plugin">
+<h3>Active Directory Certificate Services Plugin<a class="headerlink" href="#active-directory-certificate-services-plugin" title="Link to this heading"></a></h3>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ADCS_SERVER</span></span></dt>
+<dd><blockquote>
+<div><p>FQDN of your ADCS Server</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ADCS_AUTH_METHOD</span></span></dt>
+<dd><blockquote>
+<div><p>The chosen authentication method. Either ‘basic’ (the default), ‘ntlm’ or ‘cert’ (SSL client certificate). The next 2 variables are interpreted differently for different methods.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ADCS_USER</span></span></dt>
+<dd><blockquote>
+<div><p>The username (basic) or the path to the public cert (cert) of the user accessing PKI</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ADCS_PWD</span></span></dt>
+<dd><blockquote>
+<div><p>The passwd (basic) or the path to the private key (cert) of the user accessing PKI</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ADCS_TEMPLATE</span></span></dt>
+<dd><blockquote>
+<div><p>Template to be used for certificate issuing. Usually display name w/o spaces</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ADCS_TEMPLATE_&lt;upper(authority.name)&gt;</span></span></dt>
+<dd><blockquote>
+<div><p>If there is a config variable ADCS_TEMPLATE_&lt;upper(authority.name)&gt; take the value as Cert template else default to ADCS_TEMPLATE to be compatible with former versions. Template to be used for certificate issuing. Usually display name w/o spaces</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ADCS_START</span></span></dt>
+<dd><blockquote>
+<div><p>Used in ADCS-Sourceplugin. Minimum id of the first certificate to be returned. ID is increased by one until ADCS_STOP. Missing cert-IDs are ignored</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ADCS_STOP</span></span></dt>
+<dd><blockquote>
+<div><p>Used for ADCS-Sourceplugin. Maximum id of the certificates returned.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ADCS_ISSUING</span></span></dt>
+<dd><blockquote>
+<div><p>Contains the issuing cert of the CA</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ADCS_ROOT</span></span></dt>
+<dd><blockquote>
+<div><p>Contains the root cert of the CA</p>
+</div></blockquote>
+</dd></dl>
+
+</section>
+<section id="entrust-plugin">
+<h3>Entrust Plugin<a class="headerlink" href="#entrust-plugin" title="Link to this heading"></a></h3>
+<p>Enables the creation of Entrust certificates. You need to set the API access up with Entrust support. Check the information in the Entrust Portal as well.
+Certificates are created as “SERVER_AND_CLIENT_AUTH”.
+Caution: Sometimes the entrust API does not respond in a timely manner. This error is handled and reported by the plugin. Should this happen you just have to hit the create button again after to create a valid certificate.
+The following parameters have to be set in the configuration files.</p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ENTRUST_URL</span></span></dt>
+<dd><blockquote>
+<div><p>This is the url for the Entrust API. Refer to the API documentation.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ENTRUST_API_CERT</span></span></dt>
+<dd><blockquote>
+<div><p>Path to the certificate file in PEM format. This certificate is created in the onboarding process. Refer to the API documentation.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ENTRUST_API_KEY</span></span></dt>
+<dd><blockquote>
+<div><p>Path to the key file in RSA format. This certificate is created in the onboarding process. Refer to the API documentation. Caution: the request library cannot handle encrypted keys. The keyfile therefore has to contain the unencrypted key. Please put this in a secure location on the server.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ENTRUST_API_USER</span></span></dt>
+<dd><blockquote>
+<div><p>String with the API user. This user is created in the onboarding process. Refer to the API documentation.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ENTRUST_API_PASS</span></span></dt>
+<dd><blockquote>
+<div><p>String with the password for the API user. This password is created in the onboarding process. Refer to the API documentation.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ENTRUST_NAME</span></span></dt>
+<dd><blockquote>
+<div><p>String with the name that should appear as certificate owner in the Entrust portal. Refer to the API documentation.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ENTRUST_EMAIL</span></span></dt>
+<dd><blockquote>
+<div><p>String with the email address that should appear as certificate contact email in the Entrust portal. Refer to the API documentation.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ENTRUST_PHONE</span></span></dt>
+<dd><blockquote>
+<div><p>String with the phone number that should appear as certificate contact in the Entrust portal. Refer to the API documentation.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ENTRUST_ISSUING</span></span></dt>
+<dd><blockquote>
+<div><p>Contains the issuing cert of the CA</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ENTRUST_ROOT</span></span></dt>
+<dd><blockquote>
+<div><p>Contains the root cert of the CA</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ENTRUST_PRODUCT_&lt;upper(authority.name)&gt;</span></span></dt>
+<dd><blockquote>
+<div><p>If there is a config variable ENTRUST_PRODUCT_&lt;upper(authority.name)&gt; take the value as cert product name else default to “STANDARD_SSL”. Refer to the API documentation for valid products names.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ENTRUST_CROSS_SIGNED_RSA_L1K</span></span></dt>
+<dd><blockquote>
+<div><p>This is optional. Entrust provides support for cross-signed subCAS. One can set ENTRUST_CROSS_SIGNED_RSA_L1K to the respective cross-signed RSA-based subCA PEM and Lemur will replace the retrieved subCA with ENTRUST_CROSS_SIGNED_RSA_L1K.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ENTRUST_CROSS_SIGNED_ECC_L1F</span></span></dt>
+<dd><blockquote>
+<div><p>This is optional. Entrust provides support for cross-signed subCAS. One can set ENTRUST_CROSS_SIGNED_ECC_L1F to the respective cross-signed EC-based subCA PEM and Lemur will replace the retrieved subCA with ENTRUST_CROSS_SIGNED_ECC_L1F.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ENTRUST_USE_DEFAULT_CLIENT_ID</span></span></dt>
+<dd><blockquote>
+<div><p>If set to True, Entrust will use the primary client ID of 1, which applies to most use-case.
+Otherwise, Entrust will first lookup the clientId before ordering the certificate.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ENTRUST_CLIENT_IDS</span></span></dt>
+<dd><blockquote>
+<div><p>If set and ENTRUST_USE_DEFAULT_CLIENT_ID is not set, Entrust will randomly pick a client id from the provided list.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ENTRUST_INFER_EKU</span></span></dt>
+<dd><blockquote>
+<div><p>When set, we attempt to determine the appropriate EKU field setting; if we can’t tell, we default to “SERVER_AND_CLIENT_AUTH”; default = False.</p>
+</div></blockquote>
+</dd></dl>
+
+</section>
+<section id="verisign-issuer-plugin">
+<h3>Verisign Issuer Plugin<a class="headerlink" href="#verisign-issuer-plugin" title="Link to this heading"></a></h3>
+<p>Authorities will each have their own configuration options. There is currently just one plugin bundled with Lemur,
+Verisign/Symantec. Additional plugins may define additional options. Refer to the plugin’s own documentation
+for those plugins.</p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">VERISIGN_URL</span></span></dt>
+<dd><blockquote>
+<div><p>This is the url for the Verisign API</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">VERISIGN_PEM_PATH</span></span></dt>
+<dd><blockquote>
+<div><p>This is the path to the mutual TLS certificate used for communicating with Verisign</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">VERISIGN_FIRST_NAME</span></span></dt>
+<dd><blockquote>
+<div><p>This is the first name to be used when requesting the certificate</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">VERISIGN_LAST_NAME</span></span></dt>
+<dd><blockquote>
+<div><p>This is the last name to be used when requesting the certificate</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">VERISIGN_EMAIL</span></span></dt>
+<dd><blockquote>
+<div><p>This is the email to be used when requesting the certificate</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">VERISIGN_INTERMEDIATE</span></span></dt>
+<dd><blockquote>
+<div><p>This is the intermediate to be used for your CA chain</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">VERISIGN_ROOT</span></span></dt>
+<dd><blockquote>
+<div><p>This is the root to be used for your CA chain</p>
+</div></blockquote>
+</dd></dl>
+
+</section>
+<section id="digicert-issuer-plugin">
+<h3>Digicert Issuer Plugin<a class="headerlink" href="#digicert-issuer-plugin" title="Link to this heading"></a></h3>
+<p>The following configuration properties are required to use the Digicert issuer plugin.</p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DIGICERT_URL</span></span></dt>
+<dd><blockquote>
+<div><p>This is the url for the Digicert API (e.g. <a class="reference external" href="https://www.digicert.com">https://www.digicert.com</a>)</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DIGICERT_ORDER_TYPE</span></span></dt>
+<dd><blockquote>
+<div><p>This is the type of certificate to order. (e.g. ssl_plus, ssl_ev_plus see: <a class="reference external" href="https://www.digicert.com/services/v2/documentation/order/overview-submit">https://www.digicert.com/services/v2/documentation/order/overview-submit</a>)</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DIGICERT_API_KEY</span></span></dt>
+<dd><blockquote>
+<div><p>This is the Digicert API key</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DIGICERT_ORG_ID</span></span></dt>
+<dd><blockquote>
+<div><p>This is the Digicert organization ID tied to your API key</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DIGICERT_ROOT</span></span></dt>
+<dd><blockquote>
+<div><p>This is the root to be used for your CA chain</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DIGICERT_DEFAULT_VALIDITY_DAYS</span></span></dt>
+<dd><blockquote>
+<div><p>This is the default validity (in days), if no end date is specified. (Default: 397)</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DIGICERT_MAX_VALIDITY_DAYS</span></span></dt>
+<dd><blockquote>
+<div><p>This is the maximum validity (in days). (Default: value of DIGICERT_DEFAULT_VALIDITY_DAYS)</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DIGICERT_PRIVATE</span></span></dt>
+<dd><blockquote>
+<div><p>This is whether or not to issue a private certificate. (Default: False)</p>
+</div></blockquote>
+</dd></dl>
+
+</section>
+<section id="digicert-source">
+<h3>Digicert Source<a class="headerlink" href="#digicert-source" title="Link to this heading"></a></h3>
+<p>The Digicert Source Plugin will read from one Digicert organization.</p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DIGICERT_SOURCE_ENABLED</span></span></dt>
+<dd><blockquote>
+<div><p>Boolean. This enables or disables the plugin.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DIGICERT_URL</span></span></dt>
+<dd><blockquote>
+<div><p>This is the url for the Digicert API (e.g. <a class="reference external" href="https://www.digicert.com">https://www.digicert.com</a>)</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DIGICERT_API_KEY</span></span></dt>
+<dd><blockquote>
+<div><p>This is the Digicert API key</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DIGICERT_ORG_ID</span></span></dt>
+<dd><blockquote>
+<div><p>This is the Digicert organization ID</p>
+</div></blockquote>
+</dd></dl>
+
+</section>
+<section id="digicert-cis-issuer-plugin">
+<h3>Digicert CIS Issuer Plugin<a class="headerlink" href="#digicert-cis-issuer-plugin" title="Link to this heading"></a></h3>
+<p>The following configuration properties are required to use the Digicert CIS issuer plugin.</p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DIGICERT_CIS_URL</span></span></dt>
+<dd><blockquote>
+<div><p>This is the url for the Digicert CIS API (e.g. <a class="reference external" href="https://ws.digicert.com">https://ws.digicert.com</a>)</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DIGICERT_CIS_API_KEY</span></span></dt>
+<dd><blockquote>
+<div><p>This is the Digicert API key</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DIGICERT_CIS_PROFILE_NAMES</span></span></dt>
+<dd><blockquote>
+<div><p>A string-&gt;string mapping from human readable representations to profile identifiers. For example {“Digicert”: “my_company_ssl”} specifies that when users
+request a Digicert issuer cert, the plugin will pass profile=my_company_ssl to the API.</p>
+</div></blockquote>
+</dd></dl>
+
+<p>The following configuration properties are optional when using the Digicert CIS issuer plugin.</p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DIGICERT_CIS_SIGNING_ALGORITHMS</span></span></dt>
+<dd><blockquote>
+<div><p>Defines the default signing algorithm for a given issuer name e.g. {“Digicert”: “sha1”} will result in sha1 certs issued with the Digicert issuer (default = {}).</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DIGICERT_CIS_USE_CSR_FIELDS</span></span></dt>
+<dd><blockquote>
+<div><p>Controls the setting of the <cite>use_csr_fields</cite> parameter of the create certificate endpoint. When set, certificates will be issued with values from the csr instead of via API fields (default = False).</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DIGICERT_CIS_ROOTS</span></span></dt>
+<dd><blockquote>
+<div><p>A string-&gt;string mapping from authority name to root certificate PEM. This is used during authority creation to store the root certificate in Lemur’s database.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DIGICERT_CIS_ALTERNATE_CHAINS</span></span></dt>
+<dd><blockquote>
+<div><p>A string-&gt;string mapping from authority name to alternate/cross-signed chain PEM. When configured, the specified chain will be appended to certificates issued by that authority. This is useful for providing cross-signed roots for compatibility with older systems.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DIGICERT_CIS_ALTERNATE_CHAINS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;DigiCert-G2-RSA-Cross-Global&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;-----BEGIN CERTIFICATE-----</span>
+<span class="s2">MIIEgjCCA2qgAwIBAgIQBEbB7LuEYrWpF3L5qhjmezANBgkqhkiG9w0BAQsFADBh</span>
+<span class="s2">...</span>
+<span class="s2">-----END CERTIFICATE-----&quot;&quot;&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+</section>
+<section id="cfssl-issuer-plugin">
+<h3>CFSSL Issuer Plugin<a class="headerlink" href="#cfssl-issuer-plugin" title="Link to this heading"></a></h3>
+<p>The following configuration properties are required to use the CFSSL issuer plugin.</p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">CFSSL_URL</span></span></dt>
+<dd><blockquote>
+<div><p>This is the URL for the CFSSL API</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">CFSSL_ROOT</span></span></dt>
+<dd><blockquote>
+<div><p>This is the root to be used for your CA chain</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">CFSSL_INTERMEDIATE</span></span></dt>
+<dd><blockquote>
+<div><p>This is the intermediate to be used for your CA chain</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">CFSSL_KEY</span></span></dt>
+<dd><blockquote>
+<div><p>This is the hmac key to authenticate to the CFSSL service. (Optional)</p>
+</div></blockquote>
+</dd></dl>
+
+</section>
+<section id="hashicorp-vault-source-destination-plugin">
+<h3>Hashicorp Vault Source/Destination Plugin<a class="headerlink" href="#hashicorp-vault-source-destination-plugin" title="Link to this heading"></a></h3>
+<p>Lemur can import and export certificate data to and from a Hashicorp Vault secrets store. Lemur can connect to a different Vault service per source/destination.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This plugin does not supersede or overlap the 3rd party Vault Issuer plugin.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Vault does not have any configuration properties however it does read from a file on disk for a vault access token. The Lemur service account needs read access to this file.</p>
+</div>
+<section id="vault-source">
+<h4>Vault Source<a class="headerlink" href="#vault-source" title="Link to this heading"></a></h4>
+<p>The Vault Source Plugin will read from one Vault object location per source defined. There is expected to be one or more certificates defined in each object in Vault.</p>
+</section>
+<section id="vault-destination">
+<h4>Vault Destination<a class="headerlink" href="#vault-destination" title="Link to this heading"></a></h4>
+<p>A Vault destination can be one object in Vault or a directory where all certificates will be stored as their own object by CN.</p>
+<p>Vault Destination supports a regex filter to prevent certificates with SAN that do not match the regex filter from being deployed. This is an optional feature per destination defined.</p>
+</section>
+</section>
+<section id="aws-source-destination-plugin">
+<h3>AWS Source/Destination Plugin<a class="headerlink" href="#aws-source-destination-plugin" title="Link to this heading"></a></h3>
+<p>In order for Lemur to manage its own account and other accounts we must ensure it has the correct AWS permissions.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>AWS usage is completely optional. Lemur can upload, find and manage TLS certificates in AWS. But is not required to do so.</p>
+</div>
+<section id="setting-up-iam-roles">
+<h4>Setting up IAM roles<a class="headerlink" href="#setting-up-iam-roles" title="Link to this heading"></a></h4>
+<p>Lemur’s AWS plugin uses boto heavily to talk to all the AWS resources it manages. By default it uses the on-instance credentials to make the necessary calls.</p>
+<p>In order to limit the permissions, we will create two new IAM roles for Lemur. You can name them whatever you would like but for example sake we will be calling them LemurInstanceProfile and Lemur.</p>
+<p>Lemur uses to STS to talk to different accounts. For managing one account this isn’t necessary but we will still use it so that we can easily add new accounts.</p>
+<p>LemurInstanceProfile is the IAM role you will launch your instance with. It actually has almost no rights. In fact it should really only be able to use STS to assume role to the Lemur role.</p>
+<p>Here are example policies for the LemurInstanceProfile:</p>
+<p>SES-SendEmail</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;Version&quot;</span><span class="p">:</span> <span class="s2">&quot;2012-10-17&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;Statement&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;Effect&quot;</span><span class="p">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Action&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;ses:SendEmail&quot;</span>
+      <span class="p">],</span>
+      <span class="s2">&quot;Resource&quot;</span><span class="p">:</span> <span class="s2">&quot;*&quot;</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>STS-AssumeRole</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;Version&quot;</span><span class="p">:</span> <span class="s2">&quot;2012-10-17&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;Statement&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;Effect&quot;</span><span class="p">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Action&quot;</span><span class="p">:</span>
+        <span class="s2">&quot;sts:AssumeRole&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Resource&quot;</span><span class="p">:</span> <span class="s2">&quot;*&quot;</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Next we will create the Lemur IAM role.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The default IAM role that Lemur assumes into is called <cite>Lemur</cite>, if you need to change this ensure you set <cite>LEMUR_INSTANCE_PROFILE</cite> to your role name in the configuration.</p>
+</div>
+<p>Here is an example policy for Lemur:</p>
+<p>IAM-ServerCertificate</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;Statement&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                     <span class="s2">&quot;Action&quot;</span><span class="p">:</span> <span class="p">[</span>
+                          <span class="s2">&quot;iam:ListServerCertificates&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;iam:UpdateServerCertificate&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;iam:GetServerCertificate&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;iam:UploadServerCertificate&quot;</span>
+                     <span class="p">],</span>
+                     <span class="s2">&quot;Resource&quot;</span><span class="p">:</span> <span class="p">[</span>
+                          <span class="s2">&quot;*&quot;</span>
+                     <span class="p">],</span>
+                     <span class="s2">&quot;Effect&quot;</span><span class="p">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+                     <span class="s2">&quot;Sid&quot;</span><span class="p">:</span> <span class="s2">&quot;Stmt1404836868000&quot;</span>
+                <span class="p">}</span>
+           <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;Statement&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                     <span class="s2">&quot;Action&quot;</span><span class="p">:</span> <span class="p">[</span>
+                          <span class="s2">&quot;cloudfront:GetDistribution&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;cloudfront:GetDistributionConfig&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;cloudfront:ListDistributions&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;cloudfront:UpdateDistribution&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;elasticloadbalancing:DescribeInstanceHealth&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;elasticloadbalancing:DescribeLoadBalancerAttributes&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;elasticloadbalancing:DescribeLoadBalancerPolicyTypes&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;elasticloadbalancing:DescribeLoadBalancerPolicies&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;elasticloadbalancing:DescribeLoadBalancers&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;elasticloadbalancing:DeleteLoadBalancerListeners&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;elasticloadbalancing:CreateLoadBalancerListeners&quot;</span>
+                     <span class="p">],</span>
+                     <span class="s2">&quot;Resource&quot;</span><span class="p">:</span> <span class="p">[</span>
+                          <span class="s2">&quot;*&quot;</span>
+                     <span class="p">],</span>
+                     <span class="s2">&quot;Effect&quot;</span><span class="p">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+                     <span class="s2">&quot;Sid&quot;</span><span class="p">:</span> <span class="s2">&quot;Stmt1404841912000&quot;</span>
+                <span class="p">}</span>
+           <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="setting-up-sts-access">
+<h4>Setting up STS access<a class="headerlink" href="#setting-up-sts-access" title="Link to this heading"></a></h4>
+<p>Once we have setup our accounts we need to ensure that we create a trust relationship so that LemurInstanceProfile can assume the Lemur role.</p>
+<p>In the AWS console select the Lemur IAM role and select the Trust Relationships tab and click Edit Trust Relationship</p>
+<p>Below is an example policy:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;Version&quot;</span><span class="p">:</span> <span class="s2">&quot;2008-10-17&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;Statement&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;Sid&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Effect&quot;</span><span class="p">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Principal&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;AWS&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="s2">&quot;arn:aws:iam::&lt;awsaccountnumber&gt;:role/LemurInstanceProfile&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+      <span class="p">},</span>
+      <span class="s2">&quot;Action&quot;</span><span class="p">:</span> <span class="s2">&quot;sts:AssumeRole&quot;</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="adding-n-1-accounts">
+<h4>Adding N+1 accounts<a class="headerlink" href="#adding-n-1-accounts" title="Link to this heading"></a></h4>
+<p>To add another account we go to the new account and create a new Lemur IAM role with the same policy as above.</p>
+<p>Then we would go to the account that Lemur is running is and edit the trust relationship policy.</p>
+<p>An example policy:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;Version&quot;</span><span class="p">:</span> <span class="s2">&quot;2008-10-17&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;Statement&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;Sid&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Effect&quot;</span><span class="p">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Principal&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;AWS&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="s2">&quot;arn:aws:iam::&lt;awsaccountnumber&gt;:role/LemurInstanceProfile&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;arn:aws:iam::&lt;awsaccountnumber1&gt;:role/LemurInstanceProfile&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+      <span class="p">},</span>
+      <span class="s2">&quot;Action&quot;</span><span class="p">:</span> <span class="s2">&quot;sts:AssumeRole&quot;</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="setting-up-ses">
+<h4>Setting up SES<a class="headerlink" href="#setting-up-ses" title="Link to this heading"></a></h4>
+<p>Lemur has built in support for sending it’s certificate notifications via Amazon’s simple email service (SES). To force
+Lemur to use SES ensure you are the running as the IAM role defined above and that you have followed the steps outlined
+in Amazon’s documentation <a class="reference external" href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/setting-up-ses.html">Setting up Amazon SES</a></p>
+<p>The configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEMUR_EMAIL</span> <span class="o">=</span> <span class="s1">&#39;lemur@example.com&#39;</span>
+</pre></div>
+</div>
+<p>Will be the sender of all notifications, so ensure that it is verified with AWS.</p>
+<p>SES if the default notification gateway and will be used unless SMTP settings are configured in the application configuration
+settings.</p>
+</section>
+</section>
+<section id="ns1-acme-plugin">
+<h3>NS1 ACME Plugin<a class="headerlink" href="#ns1-acme-plugin" title="Link to this heading"></a></h3>
+<p>The NS1 ACME plugin allows DNS1 validation using NS1 domain services.</p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">NS1_KEY</span></span></dt>
+<dd><blockquote>
+<div><p>The NS1 read/write API key for managing TXT records for domain validation</p>
+</div></blockquote>
+</dd></dl>
+
+</section>
+<section id="powerdns-acme-plugin">
+<h3>PowerDNS ACME Plugin<a class="headerlink" href="#powerdns-acme-plugin" title="Link to this heading"></a></h3>
+<p>The following configuration properties are required to use the PowerDNS ACME Plugin for domain validation.</p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ACME_POWERDNS_DOMAIN</span></span></dt>
+<dd><blockquote>
+<div><p>This is the FQDN for the PowerDNS API (without path)</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ACME_POWERDNS_SERVERID</span></span></dt>
+<dd><blockquote>
+<div><p>This is the ServerID attribute of the PowerDNS API Server (i.e. “localhost”)</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ACME_POWERDNS_APIKEYNAME</span></span></dt>
+<dd><blockquote>
+<div><p>This is the Key name to use for authentication (i.e. “X-API-Key”)</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ACME_POWERDNS_APIKEY</span></span></dt>
+<dd><blockquote>
+<div><p>This is the API Key to use for authentication (i.e. “Password”)</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ACME_POWERDNS_RETRIES</span></span></dt>
+<dd><blockquote>
+<div><p>This is the number of times DNS Verification should be attempted (i.e. 20)</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ACME_POWERDNS_VERIFY</span></span></dt>
+<dd><blockquote>
+<div><p>This configures how TLS certificates on the PowerDNS API target are validated.  The PowerDNS Plugin depends on the PyPi requests library, which supports the following options for the verify parameter:</p>
+<p>True: Verifies the TLS certificate was issued by a known publicly-trusted CA. (Default)</p>
+<p>False: Disables certificate validation (Not Recommended)</p>
+<p>File/Dir path to CA Bundle: Verifies the TLS certificate was issued by a Certificate Authority in the provided CA bundle.</p>
+</div></blockquote>
+</dd></dl>
+
+</section>
+</section>
+</section>
+<section id="command-line-interface">
+<span id="commandlineinterface"></span><h1>Command Line Interface<a class="headerlink" href="#command-line-interface" title="Link to this heading"></a></h1>
+<p>Lemur installs a command line script under the name <code class="docutils literal notranslate"><span class="pre">lemur</span></code>. This will allow you to
+perform most required operations that are unachievable within the web UI.</p>
+<p>If you’re using a non-standard configuration location, you’ll need to prefix every command with
+–config (excluding create_config, which is a special case). For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lemur</span> <span class="o">--</span><span class="n">config</span><span class="o">=/</span><span class="n">etc</span><span class="o">/</span><span class="n">lemur</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">py</span> <span class="n">help</span>
+</pre></div>
+</div>
+<p>For a list of commands, you can also use <code class="docutils literal notranslate"><span class="pre">lemur</span> <span class="pre">help</span></code>, or <code class="docutils literal notranslate"><span class="pre">lemur</span> <span class="pre">[command]</span> <span class="pre">--help</span></code>
+for help on a specific command.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The script is powered by a library called <a class="reference external" href="https://github.com/smurfix/flask-script">Flask-Script</a></p>
+</div>
+<section id="builtin-commands">
+<h2>Builtin Commands<a class="headerlink" href="#builtin-commands" title="Link to this heading"></a></h2>
+<p>All commands default to <cite>~/.lemur/lemur.conf.py</cite> if a configuration is not specified.</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="create_config">
+<span class="sig-name descname"><span class="pre">create_config</span></span><a class="headerlink" href="#create_config" title="Link to this definition"></a></dt>
+<dd><p>Creates a default configuration file for Lemur.</p>
+<p>Path defaults to <code class="docutils literal notranslate"><span class="pre">~/.lemur/lemur.config.py</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lemur</span> <span class="n">create_config</span> <span class="o">.</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This command is a special case and does not depend on the configuration file
+being set.</p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="init">
+<span class="sig-name descname"><span class="pre">init</span></span><a class="headerlink" href="#init" title="Link to this definition"></a></dt>
+<dd><p>Initializes the configuration file for Lemur.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lemur</span> <span class="o">-</span><span class="n">c</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">lemur</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">py</span> <span class="n">init</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="start">
+<span class="sig-name descname"><span class="pre">start</span></span><a class="headerlink" href="#start" title="Link to this definition"></a></dt>
+<dd><p>Starts a Lemur service. You can also pass any flag that Gunicorn uses to specify the webserver configuration.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lemur</span> <span class="n">start</span> <span class="o">-</span><span class="n">w</span> <span class="mi">6</span> <span class="o">-</span><span class="n">b</span> <span class="mf">127.0.0.1</span><span class="p">:</span><span class="mi">8080</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">db</span> <span class="pre">upgrade</span></span></dt>
+<dd><p>Performs any needed database migrations.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lemur</span> <span class="n">db</span> <span class="n">upgrade</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="check_revoked">
+<span class="sig-name descname"><span class="pre">check_revoked</span></span><a class="headerlink" href="#check_revoked" title="Link to this definition"></a></dt>
+<dd><p>Traverses every certificate that Lemur is aware of and attempts to understand its validity.
+It utilizes both OCSP and CRL. If Lemur is unable to come to a conclusion about a certificates
+validity its status is marked ‘unknown’.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="sync">
+<span class="sig-name descname"><span class="pre">sync</span></span><a class="headerlink" href="#sync" title="Link to this definition"></a></dt>
+<dd><p>Sync attempts to discover certificates in the environment that were not created by Lemur. If you wish to only sync
+a few sources you can pass a comma delimited list of sources to sync.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lemur</span> <span class="n">sync</span> <span class="o">-</span><span class="n">s</span> <span class="n">source1</span><span class="p">,</span><span class="n">source2</span>
+</pre></div>
+</div>
+<p>Additionally you can also list the available sources that Lemur can sync.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lemur</span> <span class="n">sync</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="notify">
+<span class="sig-name descname"><span class="pre">notify</span></span><a class="headerlink" href="#notify" title="Link to this definition"></a></dt>
+<dd><p>Will traverse all current notifications and see if any of them need to be triggered.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lemur</span> <span class="n">notify</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="acme">
+<span class="sig-name descname"><span class="pre">acme</span></span><a class="headerlink" href="#acme" title="Link to this definition"></a></dt>
+<dd><p>Handles all ACME related tasks, like ACME plugin testing.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lemur</span> <span class="n">acme</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="sub-commands">
+<h2>Sub-commands<a class="headerlink" href="#sub-commands" title="Link to this heading"></a></h2>
+<p>Lemur includes several sub-commands for interacting with Lemur such as creating new users, creating new roles and even
+issuing certificates.</p>
+<p>The best way to discover these commands is by using the built in help pages</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lemur</span> <span class="o">--</span><span class="n">help</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>and to get help on sub-commands</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lemur</span> <span class="n">certificates</span> <span class="o">--</span><span class="n">help</span>
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+</section>
+<section id="upgrading-lemur">
+<h1>Upgrading Lemur<a class="headerlink" href="#upgrading-lemur" title="Link to this heading"></a></h1>
+<p>To upgrade Lemur to the newest release you will need to ensure you have the latest code and have run any needed
+database migrations.</p>
+<p>To get the latest code from github run</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">&lt;</span><span class="n">lemur</span><span class="o">-</span><span class="n">source</span><span class="o">-</span><span class="n">directory</span><span class="o">&gt;</span>
+<span class="n">git</span> <span class="n">pull</span> <span class="o">-</span><span class="n">t</span> <span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span>
+<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">develop</span>
+</pre></div>
+</div>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It’s important to grab the latest release by specifying the release tag. This tags denote stable versions of Lemur.
+If you want to try the bleeding edge version of Lemur you can by using the main branch.</p>
+</div>
+<p>After you have the latest version of the Lemur code base you must run any needed database migrations. To run migrations</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">&lt;</span><span class="n">lemur</span><span class="o">-</span><span class="n">source</span><span class="o">-</span><span class="n">directory</span><span class="o">&gt;/</span><span class="n">lemur</span>
+<span class="n">lemur</span> <span class="n">db</span> <span class="n">upgrade</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>This will ensure that any needed tables or columns are created or destroyed.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Internally, this uses <a class="reference external" href="http://alembic.zzzcomputing.com/en/latest/">Alembic</a> to manage database migrations.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>By default Alembic looks for the <cite>migrations</cite> folder in the current working directory.The migrations folder is
+located under <cite>&lt;LEMUR_HOME&gt;/lemur/migrations</cite> if you are running the lemur command from any location besides
+<cite>&lt;LEMUR_HOME&gt;/lemur</cite> you will need to pass the <cite>-d</cite> flag to specify the absolute file path to the <cite>migrations</cite> folder.</p>
+</div>
+</section>
+<section id="plugins">
+<h1>Plugins<a class="headerlink" href="#plugins" title="Link to this heading"></a></h1>
+<p>There are several interfaces currently available to extend Lemur. These are a work in
+progress and the API is not frozen.</p>
+<p>Lemur includes several plugins by default. Including extensive support for AWS, VeriSign/Symantec.</p>
+<section id="verisign-symantec">
+<h2>Verisign/Symantec<a class="headerlink" href="#verisign-symantec" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Authors<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Kevin Glisson &lt;<a class="reference external" href="mailto:kglisson&#37;&#52;&#48;netflix&#46;com">kglisson<span>&#64;</span>netflix<span>&#46;</span>com</a>&gt;,
+Curtis Castrapel &lt;<a class="reference external" href="mailto:ccastrapel&#37;&#52;&#48;netflix&#46;com">ccastrapel<span>&#64;</span>netflix<span>&#46;</span>com</a>&gt;,
+Hossein Shafagh &lt;<a class="reference external" href="mailto:hshafagh&#37;&#52;&#48;netflix&#46;com">hshafagh<span>&#64;</span>netflix<span>&#46;</span>com</a>&gt;</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Issuer</p>
+</dd>
+<dt class="field-odd">Description<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Basic support for the VICE 2.0 API</p>
+</dd>
+</dl>
+</section>
+<section id="cryptography">
+<h2>Cryptography<a class="headerlink" href="#cryptography" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Authors<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Kevin Glisson &lt;<a class="reference external" href="mailto:kglisson&#37;&#52;&#48;netflix&#46;com">kglisson<span>&#64;</span>netflix<span>&#46;</span>com</a>&gt;,
+Mikhail Khodorovskiy &lt;<a class="reference external" href="mailto:mikhail&#46;khodorovskiy&#37;&#52;&#48;jivesoftware&#46;com">mikhail<span>&#46;</span>khodorovskiy<span>&#64;</span>jivesoftware<span>&#46;</span>com</a>&gt;</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Issuer</p>
+</dd>
+<dt class="field-odd">Description<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Toy certificate authority that creates self-signed certificate authorities.
+Allows for the creation of arbitrary authorities and end-entity certificates.
+This is <em>not</em> recommended for production use.</p>
+</dd>
+</dl>
+</section>
+<section id="id1">
+<h2>Acme<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Authors<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Kevin Glisson &lt;<a class="reference external" href="mailto:kglisson&#37;&#52;&#48;netflix&#46;com">kglisson<span>&#64;</span>netflix<span>&#46;</span>com</a>&gt;,
+Curtis Castrapel &lt;<a class="reference external" href="mailto:ccastrapel&#37;&#52;&#48;netflix&#46;com">ccastrapel<span>&#64;</span>netflix<span>&#46;</span>com</a>&gt;,
+Hossein Shafagh &lt;<a class="reference external" href="mailto:hshafagh&#37;&#52;&#48;netflix&#46;com">hshafagh<span>&#64;</span>netflix<span>&#46;</span>com</a>&gt;,
+Mikhail Khodorovskiy &lt;<a class="reference external" href="mailto:mikhail&#46;khodorovskiy&#37;&#52;&#48;jivesoftware&#46;com">mikhail<span>&#46;</span>khodorovskiy<span>&#64;</span>jivesoftware<span>&#46;</span>com</a>&gt;,
+Chad Sine &lt;<a class="reference external" href="mailto:csine&#37;&#52;&#48;netflix&#46;com">csine<span>&#64;</span>netflix<span>&#46;</span>com</a>&gt;</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Issuer</p>
+</dd>
+<dt class="field-odd">Description<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Adds support for the ACME protocol (including LetsEncrypt) with domain validation using several providers.</p>
+</dd>
+</dl>
+</section>
+<section id="atlas">
+<h2>Atlas<a class="headerlink" href="#atlas" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Authors<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Kevin Glisson &lt;<a class="reference external" href="mailto:kglisson&#37;&#52;&#48;netflix&#46;com">kglisson<span>&#64;</span>netflix<span>&#46;</span>com</a>&gt;,
+Curtis Castrapel &lt;<a class="reference external" href="mailto:ccastrapel&#37;&#52;&#48;netflix&#46;com">ccastrapel<span>&#64;</span>netflix<span>&#46;</span>com</a>&gt;,
+Hossein Shafagh &lt;<a class="reference external" href="mailto:hshafagh&#37;&#52;&#48;netflix&#46;com">hshafagh<span>&#64;</span>netflix<span>&#46;</span>com</a>&gt;</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Metric</p>
+</dd>
+<dt class="field-odd">Description<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Adds basic support for the <a class="reference external" href="https://github.com/Netflix/atlas/wiki">Atlas</a> telemetry system.</p>
+</dd>
+</dl>
+</section>
+<section id="email">
+<h2>Email<a class="headerlink" href="#email" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Authors<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Kevin Glisson &lt;<a class="reference external" href="mailto:kglisson&#37;&#52;&#48;netflix&#46;com">kglisson<span>&#64;</span>netflix<span>&#46;</span>com</a>&gt;,
+Curtis Castrapel &lt;<a class="reference external" href="mailto:ccastrapel&#37;&#52;&#48;netflix&#46;com">ccastrapel<span>&#64;</span>netflix<span>&#46;</span>com</a>&gt;,
+Hossein Shafagh &lt;<a class="reference external" href="mailto:hshafagh&#37;&#52;&#48;netflix&#46;com">hshafagh<span>&#64;</span>netflix<span>&#46;</span>com</a>&gt;</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Notification</p>
+</dd>
+<dt class="field-odd">Description<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Adds support for basic email notifications via SES.</p>
+</dd>
+</dl>
+</section>
+<section id="slack">
+<h2>Slack<a class="headerlink" href="#slack" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Authors<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Harm Weites &lt;<a class="reference external" href="mailto:harm&#37;&#52;&#48;weites&#46;com">harm<span>&#64;</span>weites<span>&#46;</span>com</a>&gt;</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Notification</p>
+</dd>
+<dt class="field-odd">Description<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Adds support for slack notifications.</p>
+</dd>
+</dl>
+</section>
+<section id="aws-source">
+<h2>AWS (Source)<a class="headerlink" href="#aws-source" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Authors<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Kevin Glisson &lt;<a class="reference external" href="mailto:kglisson&#37;&#52;&#48;netflix&#46;com">kglisson<span>&#64;</span>netflix<span>&#46;</span>com</a>&gt;,
+Curtis Castrapel &lt;<a class="reference external" href="mailto:ccastrapel&#37;&#52;&#48;netflix&#46;com">ccastrapel<span>&#64;</span>netflix<span>&#46;</span>com</a>&gt;,
+Hossein Shafagh &lt;<a class="reference external" href="mailto:hshafagh&#37;&#52;&#48;netflix&#46;com">hshafagh<span>&#64;</span>netflix<span>&#46;</span>com</a>&gt;</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Source</p>
+</dd>
+<dt class="field-odd">Description<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Uses AWS IAM as a source of certificates to manage. Supports a multi-account deployment.</p>
+</dd>
+</dl>
+</section>
+<section id="aws-destination">
+<h2>AWS (Destination)<a class="headerlink" href="#aws-destination" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Authors<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Kevin Glisson &lt;<a class="reference external" href="mailto:kglisson&#37;&#52;&#48;netflix&#46;com">kglisson<span>&#64;</span>netflix<span>&#46;</span>com</a>&gt;,
+Curtis Castrapel &lt;<a class="reference external" href="mailto:ccastrapel&#37;&#52;&#48;netflix&#46;com">ccastrapel<span>&#64;</span>netflix<span>&#46;</span>com</a>&gt;,
+Hossein Shafagh &lt;<a class="reference external" href="mailto:hshafagh&#37;&#52;&#48;netflix&#46;com">hshafagh<span>&#64;</span>netflix<span>&#46;</span>com</a>&gt;</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Destination</p>
+</dd>
+<dt class="field-odd">Description<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Uses AWS IAM as a destination for Lemur generated certificates. Support a multi-account deployment.</p>
+</dd>
+</dl>
+</section>
+<section id="aws-sns-notification">
+<h2>AWS (SNS Notification)<a class="headerlink" href="#aws-sns-notification" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Authors<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Jasmine Schladen &lt;<a class="reference external" href="mailto:jschladen&#37;&#52;&#48;netflix&#46;com">jschladen<span>&#64;</span>netflix<span>&#46;</span>com</a>&gt;</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Notification</p>
+</dd>
+<dt class="field-odd">Description<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Adds support for SNS notifications. SNS notifications (like other notification plugins) are currently only supported
+for certificate expiration. Configuration requires a region, account number, and SNS topic name; these elements
+are then combined to build the topic ARN. Lemur must have access to publish messages to the specified SNS topic.</p>
+</dd>
+</dl>
+</section>
+<section id="kubernetes">
+<h2>Kubernetes<a class="headerlink" href="#kubernetes" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Authors<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Mikhail Khodorovskiy &lt;<a class="reference external" href="mailto:mikhail&#46;khodorovskiy&#37;&#52;&#48;jivesoftware&#46;com">mikhail<span>&#46;</span>khodorovskiy<span>&#64;</span>jivesoftware<span>&#46;</span>com</a>&gt;</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Destination</p>
+</dd>
+<dt class="field-odd">Description<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Allows Lemur to upload generated certificates to the Kubernetes certificate store.</p>
+</dd>
+</dl>
+</section>
+<section id="java">
+<h2>Java<a class="headerlink" href="#java" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Authors<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Kevin Glisson &lt;<a class="reference external" href="mailto:kglisson&#37;&#52;&#48;netflix&#46;com">kglisson<span>&#64;</span>netflix<span>&#46;</span>com</a>&gt;</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Export</p>
+</dd>
+<dt class="field-odd">Description<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Generates java compatible .jks keystores and truststores from Lemur managed certificates.</p>
+</dd>
+</dl>
+</section>
+<section id="openssl">
+<h2>Openssl<a class="headerlink" href="#openssl" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Authors<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Kevin Glisson &lt;<a class="reference external" href="mailto:kglisson&#37;&#52;&#48;netflix&#46;com">kglisson<span>&#64;</span>netflix<span>&#46;</span>com</a>&gt;</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Export</p>
+</dd>
+<dt class="field-odd">Description<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Leverages Openssl to support additional export formats (pkcs12)</p>
+</dd>
+</dl>
+</section>
+<section id="cfssl">
+<h2>CFSSL<a class="headerlink" href="#cfssl" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Authors<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Charles Hendrie &lt;<a class="reference external" href="mailto:chad&#46;hendrie&#37;&#52;&#48;thomsonreuters&#46;com">chad<span>&#46;</span>hendrie<span>&#64;</span>thomsonreuters<span>&#46;</span>com</a>&gt;</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Issuer</p>
+</dd>
+<dt class="field-odd">Description<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Basic support for generating certificates from the private certificate authority CFSSL</p>
+</dd>
+</dl>
+</section>
+<section id="vault">
+<h2>Vault<a class="headerlink" href="#vault" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Authors<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Christopher Jolley &lt;<a class="reference external" href="mailto:chris&#37;&#52;&#48;alwaysjolley&#46;com">chris<span>&#64;</span>alwaysjolley<span>&#46;</span>com</a>&gt;</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Source</p>
+</dd>
+<dt class="field-odd">Description<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Source plugin imports certificates from Hashicorp Vault secret store.</p>
+</dd>
+</dl>
+</section>
+<section id="id3">
+<h2>Vault<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Authors<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Christopher Jolley &lt;<a class="reference external" href="mailto:chris&#37;&#52;&#48;alwaysjolley&#46;com">chris<span>&#64;</span>alwaysjolley<span>&#46;</span>com</a>&gt;</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Destination</p>
+</dd>
+<dt class="field-odd">Description<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Destination plugin to deploy certificates to Hashicorp Vault secret store.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="rd-party-plugins">
+<h1>3rd Party Plugins<a class="headerlink" href="#rd-party-plugins" title="Link to this heading"></a></h1>
+<p>The following plugins are available and maintained by members of the Lemur community:</p>
+<section id="digicert">
+<h2>Digicert<a class="headerlink" href="#digicert" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Authors<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Chris Dorros</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Issuer</p>
+</dd>
+<dt class="field-odd">Description<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Adds support for basic Digicert</p>
+</dd>
+<dt class="field-even">Links<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://github.com/opendns/lemur-digicert">https://github.com/opendns/lemur-digicert</a></p>
+</dd>
+</dl>
+</section>
+<section id="influxdb">
+<h2>InfluxDB<a class="headerlink" href="#influxdb" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Authors<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Titouan Christophe</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Metric</p>
+</dd>
+<dt class="field-odd">Description<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Sends key metrics to InfluxDB</p>
+</dd>
+<dt class="field-even">Links<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://github.com/titouanc/lemur-influxdb">https://github.com/titouanc/lemur-influxdb</a></p>
+</dd>
+</dl>
+</section>
+<section id="hashicorp-vault">
+<h2>Hashicorp Vault<a class="headerlink" href="#hashicorp-vault" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Authors<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Ron Cohen</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Issuer</p>
+</dd>
+<dt class="field-odd">Description<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Adds support for basic Vault PKI secret backend.</p>
+</dd>
+<dt class="field-even">Links<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://github.com/RcRonco/lemur_vault">https://github.com/RcRonco/lemur_vault</a></p>
+</dd>
+</dl>
+<p>Have an extension that should be listed here? Submit a <a class="reference external" href="https://github.com/netflix/lemur">pull request</a> and we’ll
+get it added.</p>
+<p>Want to create your own extension? See <a class="reference internal" href="developer/plugins/index.html"><span class="doc">Structure</span></a> to get started.</p>
+</section>
+</section>
+<section id="iam-target">
+<span id="identity-and-access-management"></span><h1>Identity and Access Management<a class="headerlink" href="#iam-target" title="Link to this heading"></a></h1>
+<p>Lemur uses a Role Based Access Control (RBAC) mechanism to control which users have access to which resources. When a
+user is first created in Lemur they can be assigned one or more roles. These roles are typically dynamically created
+depending on an external identity provider (Google, LDAP, etc.), or are hardcoded within Lemur and associated with special
+meaning.</p>
+<p>Within Lemur there are three main permissions: AdminPermission, CreatorPermission, OwnerPermission. Sub-permissions such
+as ViewPrivateKeyPermission are compositions of these three main Permissions.</p>
+<p>Lets take a look at how these permissions are used:</p>
+<p>Each <cite>Authority</cite> has a set of roles associated with it. If a user is also associated with the same roles
+that the <cite>Authority</cite> is associated with, Lemur allows that user to user/view/update that <cite>Authority</cite>.</p>
+<p>This RBAC is also used when determining which users can access which certificate private key. Lemur’s current permission
+structure is setup such that if the user is a <cite>Creator</cite> or <cite>Owner</cite> of a given certificate they are allow to view that
+private key. Owners can also be a role name, such that any user with the same role as owner will be allowed to view the
+private key information.</p>
+<p>These permissions are applied to the user upon login and refreshed on every request.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="https://pythonhosted.org/Flask-Principal">Flask-Principal</a></p>
+</div>
+<p>To allow integration with external access/membership management tools that may exist in your organization, lemur offers
+below plugins in addition to it’s own RBAC implementation.</p>
+<section id="membership-plugin">
+<h2>Membership Plugin<a class="headerlink" href="#membership-plugin" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Authors<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Sayali Charhate &lt;<a class="reference external" href="mailto:scharhate&#37;&#52;&#48;netflix&#46;com">scharhate<span>&#64;</span>netflix<span>&#46;</span>com</a>&gt;</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>User Membership</p>
+</dd>
+<dt class="field-odd">Description<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Adds support to learn and validate user membership details from an external service. User memberships are used to
+create user roles dynamically as described in <a class="reference internal" href="#iam-target"><span class="std std-ref">Identity and Access Management</span></a>. Configure this plugin slug as <cite>USER_MEMBERSHIP_PROVIDER</cite></p>
+</dd>
+</dl>
+</section>
+<section id="authorization-plugins">
+<h2>Authorization Plugins<a class="headerlink" href="#authorization-plugins" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Authors<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Sayali Charhate &lt;<a class="reference external" href="mailto:scharhate&#37;&#52;&#48;netflix&#46;com">scharhate<span>&#64;</span>netflix<span>&#46;</span>com</a>&gt;</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>External Authorization</p>
+</dd>
+<dt class="field-odd">Description<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Adds support to implement custom authorization logic that is best suited for your enterprise. Lemur offers <cite>AuthorizationPlugin</cite>
+and its extended version <cite>DomainAuthorizationPlugin</cite>. One can implement <cite>DomainAuthorizationPlugin</cite> and configure its
+slug as <cite>USER_DOMAIN_AUTHORIZATION_PROVIDER</cite> to check if caller is authorized to issue a certificate for a given Common
+Name and Subject Alternative Name (SAN) of type DNSName</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="guide/index.html" class="btn btn-neutral float-left" title="User Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="developer/index.html" class="btn btn-neutral float-right" title="Contributing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018, Netflix Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,383 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>plugins Package &mdash; lemur 1.3.dev0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=57ae1f5f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="base Package" href="lemur.plugins.base.html" />
+    <link rel="prev" title="notifications Package" href="lemur.notifications.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            lemur
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart/index.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../production/index.html">Production</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">User Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#command-line-interface">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#upgrading-lemur">Upgrading Lemur</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#plugins">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#rd-party-plugins">3rd Party Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#iam-target">Identity and Access Management</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#writing-a-plugin">Writing a Plugin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#rest-api">REST API</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html#internals">Internals</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="lemur.html">lemur Package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#id1"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lemur</span></code> Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#constants-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">constants</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#database-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">database</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#exceptions-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">exceptions</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#extensions-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">extensions</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#factory-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">factory</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#manage-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">manage</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.html#models-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models</span></code> Module</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="lemur.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="lemur.auth.html">auth Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.authorities.html">authorities Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.certificates.html">certificates Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.common.html">common Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.destinations.html">destinations Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.domains.html">domains Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.notifications.html">notifications Package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">plugins Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.roles.html">roles Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.users.html">users Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.sources.html">sources Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.logs.html">logs Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.reporting.html">reporting Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.tests.html">tests Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.deployment.html">deployment Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.endpoints.html">endpoints Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.defaults.html">defaults Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_acme.html">lemur_acme package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_atlas.html">lemur_atlas package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_cryptography.html">lemur_cryptography package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_digicert.html">lemur_digicert package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_jks.html">lemur_jks package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_kubernetes.html">lemur_kubernetes package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_openssl.html">lemur_openssl package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_slack.html">lemur_slack package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../security.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../doing-a-release.html">Doing a release</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license/index.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">lemur</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Contributing</a></li>
+          <li class="breadcrumb-item"><a href="lemur.html">lemur Package</a></li>
+      <li class="breadcrumb-item active">plugins Package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/developer/internals/lemur.plugins.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="plugins-package">
+<h1>plugins Package<a class="headerlink" href="#plugins-package" title="Link to this heading"></a></h1>
+<section id="id1">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">plugins</span></code> Package<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+</section>
+<section id="views-module">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">views</span></code> Module<a class="headerlink" href="#views-module" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.plugins.views.</span></span><span class="sig-name descname"><span class="pre">Plugins</span></span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AuthenticatedResource</span></code></p>
+<p>Defines the ‘plugins’ endpoint</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">endpoint</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pluginName'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span></dt>
+<dd><dl class="http get">
+<dt class="sig sig-object http" id="get--plugins--name-">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/plugins/&lt;name&gt;</span></span><a class="headerlink" href="#get--plugins--name-" title="Link to this definition"></a></dt>
+<dd><p>The current plugin list</p>
+<p><strong>Example request</strong>:</p>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="nf">GET</span> <span class="nn">/plugins</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="o">:</span> <span class="l">example.com</span>
+<span class="na">Accept</span><span class="o">:</span> <span class="l">application/json, text/javascript</span>
+</pre></div>
+</div>
+<p><strong>Example response</strong>:</p>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="na">Vary</span><span class="o">:</span> <span class="l">Accept</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">text/javascript</span>
+
+<span class="p">{</span>
+<span class="w">    </span><span class="s2">&quot;accountNumber&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">222222222</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;label&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;account2&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;description&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;this is a thing&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Request Headers<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc7235#section-4.2">Authorization</a></span> – OAuth token to authenticate</p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – no error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">mediatypes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">methods</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">t.ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">t.Collection</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'GET'}</span></em></dt>
+<dd><p>The methods this view is registered for. Uses the same default
+(<code class="docutils literal notranslate"><span class="pre">[&quot;GET&quot;,</span> <span class="pre">&quot;HEAD&quot;,</span> <span class="pre">&quot;OPTIONS&quot;]</span></code>) as <code class="docutils literal notranslate"><span class="pre">route</span></code> and
+<code class="docutils literal notranslate"><span class="pre">add_url_rule</span></code> by default.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.plugins.views.</span></span><span class="sig-name descname"><span class="pre">PluginsList</span></span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AuthenticatedResource</span></code></p>
+<p>Defines the ‘plugins’ endpoint</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">endpoint</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'plugins'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><dl class="http get">
+<dt class="sig sig-object http" id="get--plugins">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/plugins</span></span><a class="headerlink" href="#get--plugins" title="Link to this definition"></a></dt>
+<dd><p>The current plugin list</p>
+<p><strong>Example request</strong>:</p>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="nf">GET</span> <span class="nn">/plugins</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="o">:</span> <span class="l">example.com</span>
+<span class="na">Accept</span><span class="o">:</span> <span class="l">application/json, text/javascript</span>
+</pre></div>
+</div>
+<p><strong>Example response</strong>:</p>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="na">Vary</span><span class="o">:</span> <span class="l">Accept</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">text/javascript</span>
+
+<span class="p">{</span>
+<span class="w">  </span><span class="s2">&quot;items&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="s2">&quot;id&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;accountNumber&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">222222222</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;label&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;account2&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;description&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;this is a thing&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="s2">&quot;id&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;accountNumber&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">11111111111</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;label&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;account1&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;description&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;this is a thing&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="s2">&quot;total&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">2</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Request Headers<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc7235#section-4.2">Authorization</a></span> – OAuth token to authenticate</p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – no error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">mediatypes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">methods</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">t.ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">t.Collection</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'GET'}</span></em></dt>
+<dd><p>The methods this view is registered for. Uses the same default
+(<code class="docutils literal notranslate"><span class="pre">[&quot;GET&quot;,</span> <span class="pre">&quot;HEAD&quot;,</span> <span class="pre">&quot;OPTIONS&quot;]</span></code>) as <code class="docutils literal notranslate"><span class="pre">route</span></code> and
+<code class="docutils literal notranslate"><span class="pre">add_url_rule</span></code> by default.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="lemur.plugins.base.html">base Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.base.html#id1"><code class="xref py py-mod docutils literal notranslate"><span class="pre">base</span></code> Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.base.html#manager-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">manager</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.base.html#v1-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">v1</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.plugins.bases.html">bases Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.bases.html#id1"><code class="xref py py-mod docutils literal notranslate"><span class="pre">bases</span></code> Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.bases.html#destination-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">destination</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.bases.html#issuer-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">issuer</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.bases.html#notification-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">notification</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.bases.html#source-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">source</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.plugins.lemur_aws.html">lemur_aws Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_aws.html#id1"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lemur_aws</span></code> Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_aws.html#elb-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">elb</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_aws.html#iam-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iam</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_aws.html#plugin-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">plugin</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_aws.html#sts-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sts</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.plugins.lemur_cfssl.html">lemur_cfssl Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_cfssl.html#id1"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lemur_cfssl</span></code> Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_cfssl.html#plugin-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">plugin</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.plugins.lemur_email.html">lemur_email Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_email.html#id1"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lemur_email</span></code> Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_email.html#plugin-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">plugin</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_email.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="lemur.plugins.lemur_email.templates.html">templates Package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_email.templates.html#config-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">config</span></code> Module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.plugins.lemur_verisign.html">lemur_verisign Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_verisign.html#id1"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lemur_verisign</span></code> Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_verisign.html#plugin-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">plugin</span></code> Module</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="lemur.notifications.html" class="btn btn-neutral float-left" title="notifications Package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="lemur.plugins.base.html" class="btn btn-neutral float-right" title="base Package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018, Netflix Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
