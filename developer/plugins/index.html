@@ -1,0 +1,522 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Structure &mdash; lemur 1.3.dev0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=57ae1f5f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="lemur Package" href="../internals/lemur.html" />
+    <link rel="prev" title="Contributing" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            lemur
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart/index.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../production/index.html">Production</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">User Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#command-line-interface">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#upgrading-lemur">Upgrading Lemur</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#plugins">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#rd-party-plugins">3rd Party Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#iam-target">Identity and Access Management</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Contributing</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html#writing-a-plugin">Writing a Plugin</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#plugin-interfaces">Plugin Interfaces</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#issuer">Issuer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#destination">Destination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#notification">Notification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#source">Source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#export">Export</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#membership">Membership</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#custom-tls-provider">Custom TLS Provider</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#testing">Testing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#setup-py">setup.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#conftest-py">conftest.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#test-cases">Test Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-tests">Running Tests</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#rest-api">REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#internals">Internals</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../security.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../doing-a-release.html">Doing a release</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license/index.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">lemur</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Contributing</a></li>
+      <li class="breadcrumb-item active">Structure</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/developer/plugins/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <p>Several interfaces exist for extending Lemur:</p>
+<ul class="simple">
+<li><p>Issuer (lemur.plugins.base.issuer)</p></li>
+<li><p>Destination (lemur.plugins.base.destination)</p></li>
+<li><p>Source (lemur.plugins.base.source)</p></li>
+<li><p>Notification (lemur.plugins.base.notification)</p></li>
+</ul>
+<p>Each interface has its own functions that will need to be defined in order for
+your plugin to work correctly. See <a class="reference internal" href="#plugininterfaces"><span class="std std-ref">Plugin Interfaces</span></a> for details.</p>
+<section id="structure">
+<h1>Structure<a class="headerlink" href="#structure" title="Link to this heading"></a></h1>
+<p>A plugins layout generally looks like the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="o">.</span><span class="n">py</span>
+<span class="n">lemur_pluginname</span><span class="o">/</span>
+<span class="n">lemur_pluginname</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+<span class="n">lemur_pluginname</span><span class="o">/</span><span class="n">plugin</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> file should contain no plugin logic, and at most, a VERSION = ‘x.x.x’ line. For example,
+if you want to pull the version using pkg_resources (which is what we recommend), your file might contain:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">VERSION</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span><span class="s1">&#39;pkg_resources&#39;</span><span class="p">)</span> \
+        <span class="o">.</span><span class="n">get_distribution</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span><span class="o">.</span><span class="n">version</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">VERSION</span> <span class="o">=</span> <span class="s1">&#39;unknown&#39;</span>
+</pre></div>
+</div>
+<p>Inside of <code class="docutils literal notranslate"><span class="pre">plugin.py</span></code>, you’ll declare your Plugin class:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lemur_pluginname</span>
+<span class="kn">from</span> <span class="nn">lemur.plugins.base.issuer</span> <span class="kn">import</span> <span class="n">IssuerPlugin</span>
+
+<span class="k">class</span> <span class="nc">PluginName</span><span class="p">(</span><span class="n">IssuerPlugin</span><span class="p">):</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Plugin Name&#39;</span>
+    <span class="n">slug</span> <span class="o">=</span> <span class="s1">&#39;pluginname&#39;</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;My awesome plugin!&#39;</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="n">lemur_pluginname</span><span class="o">.</span><span class="n">VERSION</span>
+
+    <span class="n">author</span> <span class="o">=</span> <span class="s1">&#39;Your Name&#39;</span>
+    <span class="n">author_url</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/yourname/lemur_pluginname&#39;</span>
+
+    <span class="k">def</span> <span class="nf">widget</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;p&gt;Absolutely useless widget&lt;/p&gt;&quot;</span>
+</pre></div>
+</div>
+<p>And you’ll register it via <code class="docutils literal notranslate"><span class="pre">entry_points</span></code> in your <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="p">(</span>
+    <span class="c1"># ...</span>
+    <span class="n">entry_points</span><span class="o">=</span><span class="p">{</span>
+       <span class="s1">&#39;lemur.plugins&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s1">&#39;pluginname = lemur_pluginname.issuers:PluginName&#39;</span>
+        <span class="p">],</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>You can potentially package multiple plugin types in one package, say you want to create a source and
+destination plugins for the same third-party. To accomplish this simply alias the plugin in entry points to point
+at multiple plugins within your package:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="p">(</span>
+    <span class="c1"># ...</span>
+    <span class="n">entry_points</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;lemur.plugins&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s1">&#39;pluginnamesource = lemur_pluginname.plugin:PluginNameSource&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;pluginnamedestination = lemur_pluginname.plugin:PluginNameDestination&#39;</span>
+        <span class="p">],</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Once your plugin files are in place and the <code class="docutils literal notranslate"><span class="pre">/www/lemur/setup.py</span></code> file has been modified, you can load your plugin into your instance by reinstalling lemur:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(lemur)$cd /www/lemur
+(lemur)$pip install -e .
+</pre></div>
+</div>
+<p>That’s it! Users will be able to install your plugin via <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">&lt;package</span> <span class="pre">name&gt;</span></code>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>For more information about python packages see <a class="reference external" href="https://packaging.python.org/en/latest/distributing.html">Python Packaging</a></p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>For an example of a plugin operation outside of Lemur’s core, see <a class="reference external" href="https://github.com/opendns/lemur-digicert">lemur-digicert</a></p>
+</div>
+<section id="plugin-interfaces">
+<span id="plugininterfaces"></span><h2>Plugin Interfaces<a class="headerlink" href="#plugin-interfaces" title="Link to this heading"></a></h2>
+<p>In order to use the interfaces all plugins are required to inherit and override unimplemented functions
+of the parent object.</p>
+</section>
+</section>
+<section id="issuer">
+<h1>Issuer<a class="headerlink" href="#issuer" title="Link to this heading"></a></h1>
+<p>Issuer plugins are used when you have an external service that creates certificates or authorities.
+In the simple case the third party only issues certificates (Verisign, DigiCert, etc.).</p>
+<p>If you have a third party or internal service that creates authorities (EJBCA, etc.), Lemur has you covered,
+it can treat any issuer plugin as both a source of creating new certificates as well as new authorities.</p>
+<p>The <cite>IssuerPlugin</cite> exposes four functions functions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_certificate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">csr</span><span class="p">,</span> <span class="n">issuer_options</span><span class="p">):</span>
+    <span class="c1"># requests.get(&#39;a third party&#39;)</span>
+<span class="k">def</span> <span class="nf">revoke_certificate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">certificate</span><span class="p">,</span> <span class="n">reason</span><span class="p">):</span>
+    <span class="c1"># requests.put(&#39;a third party&#39;)</span>
+<span class="k">def</span> <span class="nf">get_ordered_certificate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order_id</span><span class="p">):</span>
+    <span class="c1"># requests.get(&#39;already existing certificate&#39;)</span>
+<span class="k">def</span> <span class="nf">canceled_ordered_certificate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pending_cert</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="c1"># requests.put(&#39;cancel an order that has yet to be issued&#39;)</span>
+</pre></div>
+</div>
+<p>Lemur will pass a dictionary of all possible options for certificate creation. Including a valid CSR, and the raw options associated with the request.</p>
+<p>If you wish to be able to create new authorities implement the following function and ensure that the ROOT_CERTIFICATE and the INTERMEDIATE_CERTIFICATE (if any) for the new authority is returned:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_authority</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">):</span>
+    <span class="n">root_cert</span><span class="p">,</span> <span class="n">intermediate_cert</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;a third party&#39;</span><span class="p">)</span>
+
+    <span class="c1"># if your provider creates specific credentials for each authority you can associated them with the role associated with the authority</span>
+    <span class="c1"># these credentials will be provided along with any other options when a certificate is created</span>
+    <span class="n">role</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;generatedAuthority&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">root_cert</span><span class="p">,</span> <span class="n">intermediate_cert</span><span class="p">,</span> <span class="p">[</span><span class="n">role</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Lemur uses PEM formatted certificates as it’s internal standard, if you receive certificates in other formats convert them to PEM before returning.</p>
+</div>
+<p>If instead you do not need need to generate authorities but instead use a static authority (Verisign, DigiCert), you can use publicly available constants:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_authority</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">):</span>
+    <span class="c1"># optionally associate a role with authority to control who can use it</span>
+    <span class="n">role</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;exampleAuthority&#39;</span><span class="p">)</span>
+    <span class="c1"># username and password don&#39;t really matter here because we do no need to authenticate our authority against a third party</span>
+    <span class="k">return</span> <span class="n">EXAMPLE_ROOT_CERTIFICATE</span><span class="p">,</span> <span class="n">EXAMPLE_INTERMEDIATE_CERTIFICATE</span><span class="p">,</span> <span class="p">[</span><span class="n">role</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You do not need to associate roles to the authority at creation time as they can always be associated after the fact.</p>
+</div>
+<p>The <cite>IssuerPlugin</cite> doesn’t have any options like Destination, Source, and Notification plugins. Essentially Lemur <strong>should</strong> already have
+any fields you might need to submit a request to a third party. If there are additional options you need
+in your plugin feel free to open an issue, or look into adding additional options to issuers yourself.</p>
+<p><strong>Asynchronous Certificates</strong>
+An issuer may take some time to actually issue a certificate for an order.  In this case, a <cite>PendingCertificate</cite> is returned, which holds information to recreate a <cite>Certificate</cite> object at a later time.  Then, <cite>get_ordered_certificate()</cite> should be run periodically via <cite>python manage.py pending_certs fetch -i all</cite> to attempt to retrieve an ordered certificate:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_ordered_ceriticate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order_id</span><span class="p">):</span>
+    <span class="c1"># order_id is the external id of the order, not the external_id of the certificate</span>
+    <span class="c1"># retrieve an order, and check if there is an issued certificate attached to it</span>
+</pre></div>
+</div>
+<p><cite>cancel_ordered_certificate()</cite> should be implemented to allow an ordered certificate to be canceled before it is issued:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cancel_ordered_certificate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pending_cert</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="c1"># pending_cert should contain the necessary information to match an order</span>
+    <span class="c1"># kwargs can be given to provide information to the issuer for canceling</span>
+</pre></div>
+</div>
+</section>
+<section id="destination">
+<h1>Destination<a class="headerlink" href="#destination" title="Link to this heading"></a></h1>
+<p>Destination plugins allow you to propagate certificates managed by Lemur to additional third parties. This provides flexibility when
+different orchestration systems have their own way of manage certificates or there is an existing system you wish to integrate with Lemur.</p>
+<p>By default destination plugins have a private key requirement. If your plugin does not require a certificates private key mark <cite>requires_key = False</cite>
+in the plugins base class like so:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyDestinationPlugin</span><span class="p">(</span><span class="n">DestinationPlugin</span><span class="p">):</span>
+    <span class="n">requires_key</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+<p>The DestinationPlugin requires only one function to be implemented:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">upload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">private_key</span><span class="p">,</span> <span class="n">cert_chain</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="c1"># request.post(&#39;a third party&#39;)</span>
+</pre></div>
+</div>
+<p>Additionally the DestinationPlugin allows the plugin author to add additional options
+that can be used to help define sub-destinations.</p>
+<p>For example, if we look at the aws-destination plugin we can see that it defines an <cite>accountNumber</cite> option:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lemur.common.utils</span> <span class="kn">import</span> <span class="n">check_validation</span>
+
+<span class="n">options</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;accountNumber&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s1">&#39;validation&#39;</span><span class="p">:</span> <span class="n">check_validation</span><span class="p">(</span><span class="s1">&#39;/^[0-9]{12,12}$/&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;helpMessage&#39;</span><span class="p">:</span> <span class="s1">&#39;Must be a valid AWS account number!&#39;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>By defining an <cite>accountNumber</cite> we can make this plugin handle many N number of AWS accounts instead of just one.</p>
+<p>The schema for defining plugin options are pretty straightforward:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Name</strong>: name of the variable you wish to present the user, snake case (snakeCase) is preferred as Lemur
+will parse these and create pretty variable titles</p></li>
+<li><dl class="simple">
+<dt><strong>Type</strong> there are currently four supported variable types</dt><dd><ul>
+<li><p><strong>Int</strong> creates an html integer box for the user to enter integers into</p></li>
+<li><p><strong>Str</strong> creates a html text input box</p></li>
+<li><p><strong>Boolean</strong> creates a checkbox for the user to signify truthiness</p></li>
+<li><dl class="simple">
+<dt><strong>Select</strong> creates a select box that gives the user a list of options</dt><dd><ul>
+<li><p>When used a <cite>available</cite> key must be provided with a list of selectable options</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p><strong>Required</strong> determines if this option is required, this <strong>must be a boolean value</strong></p></li>
+<li><p><strong>Validation</strong> simple Python (re) and JavaScript regular expression used to give the user an indication if the input value is valid. Use <cite>check_validation()</cite> from <cite>lemur.common.utils</cite> to ensure your expression will compile successfully prior to use.</p></li>
+<li><p><strong>HelpMessage</strong> simple string that provides more detail about the option</p></li>
+</ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>DestinationPlugin, NotificationPlugin and SourcePlugin all support the option
+schema outlined above.</p>
+</div>
+</section>
+<section id="notification">
+<h1>Notification<a class="headerlink" href="#notification" title="Link to this heading"></a></h1>
+<p>Lemur includes the ability to create Email notifications by <strong>default</strong>. These notifications
+currently come in the form of expiration and rotation notices for all certificates, expiration notices for CA certificates,
+and ACME certificate creation failure notices. Lemur periodically checks certificate expiration dates and
+determines if a given certificate is eligible for notification. There are currently only two parameters used to
+determine if a certificate is eligible; validity expiration (date the certificate is no longer valid) and the number
+of days the current date (UTC) is from that expiration date.</p>
+<p>Certificate expiration notifications can also be configured for Slack or AWS SNS. Other notifications are not configurable.
+Notifications sent to a certificate owner and security team (<cite>LEMUR_SECURITY_TEAM_EMAIL</cite>) can currently only be sent via email.</p>
+<p>There are currently two objects that are available for notification plugins. The first is <cite>NotificationPlugin</cite>, which is the base object for
+any notification within Lemur. Currently the only supported notification type is a certificate expiration notification. If you
+are trying to create a new notification type (audit, failed logins, etc.) this would be the object to base your plugin on.
+You would also then need to build additional code to trigger the new notification type.</p>
+<p>The second is <cite>ExpirationNotificationPlugin</cite>, which inherits from the <cite>NotificationPlugin</cite> object.
+You will most likely want to base your plugin on this object if you want to add new channels for expiration notices (HipChat, Jira, etc.). It adds default options that are required by
+all expiration notifications (interval, unit). This interface expects for the child to define the following function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">notification_type</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="c1">#  request.post(&quot;some alerting infrastructure&quot;)</span>
+</pre></div>
+</div>
+</section>
+<section id="source">
+<h1>Source<a class="headerlink" href="#source" title="Link to this heading"></a></h1>
+<p>When building Lemur we realized that although it would be nice if every certificate went through Lemur to get issued, but this is not
+always be the case. Oftentimes there are third parties that will issue certificates on your behalf and these can get deployed
+to infrastructure without any interaction with Lemur. In an attempt to combat this and try to track every certificate, Lemur has a notion of
+certificate <strong>Sources</strong>. Lemur will contact the source at periodic intervals and attempt to <strong>sync</strong> against the source. This means downloading or discovering any
+certificate Lemur does not know about and adding the certificate to its inventory to be tracked and alerted on.</p>
+<p>The <cite>SourcePlugin</cite> object has one default option of <cite>pollRate</cite>. This controls the number of seconds which to get new certificates.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Lemur currently has a very basic polling system of running a cron job every 15min to see which source plugins need to be run. A lock file is generated to guarantee that
+only one sync is running at a time. It also means that the minimum resolution of a source plugin poll rate is effectively 15min. You can always specify a faster cron
+job if you need a higher resolution sync job.</p>
+</div>
+<p>The <cite>SourcePlugin</cite> object requires implementation of one function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_certificates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="c1">#  request.get(&quot;some source of certificates&quot;)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Oftentimes to facilitate code re-use it makes sense put source and destination plugins into one package.</p>
+</div>
+</section>
+<section id="export">
+<h1>Export<a class="headerlink" href="#export" title="Link to this heading"></a></h1>
+<p>Formats, formats and more formats. That’s the current PKI landscape. See the always relevant <a class="reference external" href="https://xkcd.com/927/">xkcd</a>.
+Thankfully Lemur supports the ability to output your certificates into whatever format you want. This integration comes by the way
+of Export plugins. Support is still new and evolving, the goal of these plugins is to return raw data in a new format that
+can then be used by any number of applications. Included in Lemur is the <cite>JavaExportPlugin</cite> which currently supports generating
+a Java Key Store (JKS) file for use in Java based applications.</p>
+<p>The <cite>ExportPlugin</cite> object requires the implementation of one function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">export</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">chain</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="c1"># sys.call(&#39;openssl hokuspocus&#39;)</span>
+    <span class="c1"># return &quot;extension&quot;, passphrase, raw</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Support of various formats sometimes relies on external tools system calls. Always be mindful of sanitizing any input to these calls.</p>
+</div>
+</section>
+<section id="membership">
+<h1>Membership<a class="headerlink" href="#membership" title="Link to this heading"></a></h1>
+<p>Membership plugin allows Lemur to learn and validate membership details from an external service. Currently the plugin is configured to
+support 3 APIs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">does_principal_exist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">principal_email</span><span class="p">):</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+<span class="k">def</span> <span class="nf">does_group_exist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group_email</span><span class="p">):</span>
+    <span class="c1"># check if a group (Team DL) exists</span>
+
+<span class="k">def</span> <span class="nf">retrieve_user_memberships</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+    <span class="c1"># get a list of groups a user belongs to</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-tls-provider">
+<h1>Custom TLS Provider<a class="headerlink" href="#custom-tls-provider" title="Link to this heading"></a></h1>
+<p>Managing TLS at the enterprise scale could be hard and often organizations offer custom wrapper implementations. It could
+be ideal to use those while making calls to internal services. The <cite>TLSPlugin</cite> would help to achieve this. It requires the
+implementation of one function which creates a TLS session:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">session</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">server_application</span><span class="p">):</span>
+   <span class="c1"># return active session</span>
+</pre></div>
+</div>
+<section id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Link to this heading"></a></h2>
+<p>Lemur provides a basic py.test-based testing framework for extensions.</p>
+<p>In a simple project, you’ll need to do a few things to get it working:</p>
+</section>
+</section>
+<section id="setup-py">
+<h1>setup.py<a class="headerlink" href="#setup-py" title="Link to this heading"></a></h1>
+<p>Augment your setup.py to ensure at least the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="p">(</span>
+    <span class="c1"># ...</span>
+    <span class="n">install_requires</span><span class="o">=</span><span class="p">[</span>
+       <span class="s1">&#39;lemur&#39;</span><span class="p">,</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="conftest-py">
+<h1>conftest.py<a class="headerlink" href="#conftest-py" title="Link to this heading"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">conftest.py</span></code> file is our main entry-point for py.test. We need to configure it to load the Lemur pytest configuration:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lemur.tests.conftest</span> <span class="kn">import</span> <span class="o">*</span>  <span class="c1"># noqa</span>
+</pre></div>
+</div>
+</section>
+<section id="test-cases">
+<h1>Test Cases<a class="headerlink" href="#test-cases" title="Link to this heading"></a></h1>
+<p>You can now inherit from Lemur’s core test classes. These are Django-based and ensure the database and other basic utilities are in a clean state:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">from</span> <span class="nn">lemur.tests.vectors</span> <span class="kn">import</span> <span class="n">INTERNAL_CERTIFICATE_A_STR</span><span class="p">,</span> <span class="n">INTERNAL_PRIVATE_KEY_A_STR</span>
+
+<span class="k">def</span> <span class="nf">test_export_keystore</span><span class="p">(</span><span class="n">app</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">lemur.plugins.base</span> <span class="kn">import</span> <span class="n">plugins</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">plugins</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;java-keystore-jks&#39;</span><span class="p">)</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;passphrase&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;test1234&#39;</span><span class="p">}]</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">INTERNAL_CERTIFICATE_A_STR</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+
+    <span class="n">raw</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">INTERNAL_CERTIFICATE_A_STR</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">INTERNAL_PRIVATE_KEY_A_STR</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">raw</span> <span class="o">!=</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="running-tests">
+<h1>Running Tests<a class="headerlink" href="#running-tests" title="Link to this heading"></a></h1>
+<p>Running tests follows the py.test standard. As long as your test files and methods are named appropriately (<code class="docutils literal notranslate"><span class="pre">test_filename.py</span></code> and <code class="docutils literal notranslate"><span class="pre">test_function()</span></code>) you can simply call out to py.test:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ py.test -v
+============================== test session starts ==============================
+platform darwin -- Python 2.7.10, pytest-2.8.5, py-1.4.30, pluggy-0.3.1
+cachedir: .cache
+plugins: flask-0.10.0
+collected 346 items
+
+lemur/plugins/lemur_acme/tests/test_acme.py::test_get_certificates PASSED
+
+=========================== 1 passed in 0.35 seconds ============================
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Lemur bundles several plugins that use the same interfaces mentioned above.</p>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="Contributing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../internals/lemur.html" class="btn btn-neutral float-right" title="lemur Package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018, Netflix Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

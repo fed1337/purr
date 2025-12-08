@@ -1,0 +1,948 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lemur Package &mdash; lemur 1.3.dev0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=57ae1f5f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="auth Package" href="lemur.auth.html" />
+    <link rel="prev" title="Structure" href="../plugins/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            lemur
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart/index.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../production/index.html">Production</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">User Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#command-line-interface">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#upgrading-lemur">Upgrading Lemur</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#plugins">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#rd-party-plugins">3rd Party Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../administration.html#iam-target">Identity and Access Management</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#writing-a-plugin">Writing a Plugin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#rest-api">REST API</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html#internals">Internals</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">lemur Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lemur</span></code> Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#constants-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">constants</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#database-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">database</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exceptions-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">exceptions</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#extensions-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">extensions</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#factory-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">factory</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#manage-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">manage</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#models-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="lemur.auth.html">auth Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.authorities.html">authorities Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.certificates.html">certificates Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.common.html">common Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.destinations.html">destinations Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.domains.html">domains Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.notifications.html">notifications Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.html">plugins Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.roles.html">roles Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.users.html">users Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.sources.html">sources Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.logs.html">logs Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.reporting.html">reporting Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.tests.html">tests Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.deployment.html">deployment Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.endpoints.html">endpoints Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.defaults.html">defaults Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_acme.html">lemur_acme package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_atlas.html">lemur_atlas package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_cryptography.html">lemur_cryptography package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_digicert.html">lemur_digicert package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_jks.html">lemur_jks package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_kubernetes.html">lemur_kubernetes package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_openssl.html">lemur_openssl package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_slack.html">lemur_slack package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../security.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../doing-a-release.html">Doing a release</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license/index.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">lemur</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Contributing</a></li>
+      <li class="breadcrumb-item active">lemur Package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/developer/internals/lemur.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="lemur-package">
+<h1>lemur Package<a class="headerlink" href="#lemur-package" title="Link to this heading"></a></h1>
+<section id="id1">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">lemur</span></code> Package<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+</section>
+<section id="constants-module">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">constants</span></code> Module<a class="headerlink" href="#constants-module" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.constants.</span></span><span class="sig-name descname"><span class="pre">CRLReason</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
+<p>An enumeration.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">aACompromise</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">affiliationChanged</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">cACompromise</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">certificateHold</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">cessationOfOperation</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">keyCompromise</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">privilegeWithdrawn</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">9</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">removeFromCRL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">superseded</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">unspecified</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="database-module">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">database</span></code> Module<a class="headerlink" href="#database-module" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.database.</span></span><span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Helper to add a <cite>model</cite> to the current session.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>model</strong></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.database.</span></span><span class="sig-name descname"><span class="pre">clone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Clones the given model and removes it’s primary key
+:param model:
+:return:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.database.</span></span><span class="sig-name descname"><span class="pre">commit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Helper to commit the current session.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.database.</span></span><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Helper that attempts to create a new instance of an object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>model</strong></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="field-list simple">
+<dt class="field-odd">raise IntegrityError<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.database.</span></span><span class="sig-name descname"><span class="pre">create_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Returns a SQLAlchemy query object for specified <cite>model</cite>. Model
+filtered by the kwargs passed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong></p></li>
+<li><p><strong>kwargs</strong></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.database.</span></span><span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Helper that attempts to delete a model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>model</strong></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.database.</span></span><span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">terms</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Helper that searched for ‘like’ strings in column values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query</strong></p></li>
+<li><p><strong>model</strong></p></li>
+<li><p><strong>terms</strong></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.database.</span></span><span class="sig-name descname"><span class="pre">filter_none</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Remove all <cite>None</cite> values from a  given dict. SQLAlchemy does not
+like to have values that are None passed to it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kwargs</strong> – Dict to filter</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict without any ‘None’ values</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.database.</span></span><span class="sig-name descname"><span class="pre">find_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Returns a query object that ensures that all kwargs
+are present.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query</strong></p></li>
+<li><p><strong>model</strong></p></li>
+<li><p><strong>kwargs</strong></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.database.</span></span><span class="sig-name descname"><span class="pre">find_any</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Returns a query object that allows any kwarg
+to be present.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query</strong></p></li>
+<li><p><strong>model</strong></p></li>
+<li><p><strong>kwargs</strong></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.database.</span></span><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'id'</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Returns one object filtered by the field and value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong></p></li>
+<li><p><strong>value</strong></p></li>
+<li><p><strong>field</strong></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.database.</span></span><span class="sig-name descname"><span class="pre">get_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'id'</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Returns query object with the fields and value filtered.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong></p></li>
+<li><p><strong>value</strong></p></li>
+<li><p><strong>field</strong></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.database.</span></span><span class="sig-name descname"><span class="pre">get_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Count the number of rows in a table. More efficient than count(*)
+:param q:
+:return:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.database.</span></span><span class="sig-name descname"><span class="pre">get_model_column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.database.</span></span><span class="sig-name descname"><span class="pre">rollback</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Helper to rollback the current session.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.database.</span></span><span class="sig-name descname"><span class="pre">session_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Returns a SQLAlchemy query object for the specified <cite>model</cite>.</p>
+<p>If <cite>model</cite> has a <code class="docutils literal notranslate"><span class="pre">query</span></code> attribute already, that object will be returned.
+Otherwise a query will be created and returned based on <cite>session</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>model</strong> – sqlalchemy model</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>query object for model</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.database.</span></span><span class="sig-name descname"><span class="pre">sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Returns objects of the specified <cite>model</cite> in the field and direction
+given</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query</strong></p></li>
+<li><p><strong>model</strong></p></li>
+<li><p><strong>field</strong></p></li>
+<li><p><strong>direction</strong></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.database.</span></span><span class="sig-name descname"><span class="pre">sort_and_page</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Helper that allows us to combine sorting and paging. Note that paging is not safe unless combined with sorting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query</strong> – search query</p></li>
+<li><p><strong>model</strong> – model to use for resulting items</p></li>
+<li><p><strong>args</strong> – arguments to query with, including sorting and paging parameters</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the items given the count and page specified</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.database.</span></span><span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Helper that attempts to update a model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>model</strong></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.database.</span></span><span class="sig-name descname"><span class="pre">update_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_attr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Helper that correctly updates a models items
+depending on what has changed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_attr</strong></p></li>
+<li><p><strong>item_model</strong></p></li>
+<li><p><strong>items</strong></p></li>
+<li><p><strong>model</strong></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="exceptions-module">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">exceptions</span></code> Module<a class="headerlink" href="#exceptions-module" title="Link to this heading"></a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.exceptions.</span></span><span class="sig-name descname"><span class="pre">AttrNotFound</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LemurException</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.exceptions.</span></span><span class="sig-name descname"><span class="pre">DuplicateError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LemurException</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.exceptions.</span></span><span class="sig-name descname"><span class="pre">InvalidAuthority</span></span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.exceptions.</span></span><span class="sig-name descname"><span class="pre">InvalidConfiguration</span></span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.exceptions.</span></span><span class="sig-name descname"><span class="pre">InvalidDistribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LemurException</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.exceptions.</span></span><span class="sig-name descname"><span class="pre">InvalidListener</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LemurException</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.exceptions.</span></span><span class="sig-name descname"><span class="pre">LemurException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.exceptions.</span></span><span class="sig-name descname"><span class="pre">TokenExchangeFailed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">error</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LemurException</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.exceptions.</span></span><span class="sig-name descname"><span class="pre">UnknownProvider</span></span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+</section>
+<section id="extensions-module">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">extensions</span></code> Module<a class="headerlink" href="#extensions-module" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lemur.extensions.</span></span><span class="sig-name descname"><span class="pre">SQLAlchemy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_native_unicode=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session_options=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_class=&lt;class</span> <span class="pre">'flask_sqlalchemy.BaseQuery'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_class=&lt;class</span> <span class="pre">'flask_sqlalchemy.model.Model'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine_options=None</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SQLAlchemy</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">apply_pool_defaults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Set default engine options. We enable <cite>pool_pre_ping</cite> to be the default value.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="factory-module">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">factory</span></code> Module<a class="headerlink" href="#factory-module" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.factory.</span></span><span class="sig-name descname"><span class="pre">configure_app</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Different ways of configuration</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>app</strong></p></li>
+<li><p><strong>config</strong></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.factory.</span></span><span class="sig-name descname"><span class="pre">configure_blueprints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blueprints</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>We prefix our APIs with their given version so that we can support
+multiple concurrent API versions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>app</strong></p></li>
+<li><p><strong>blueprints</strong></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.factory.</span></span><span class="sig-name descname"><span class="pre">configure_database</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.factory.</span></span><span class="sig-name descname"><span class="pre">configure_extensions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Attaches and configures any needed flask extensions
+to our app.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>app</strong></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.factory.</span></span><span class="sig-name descname"><span class="pre">configure_logging</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Sets up application wide logging.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>app</strong></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.factory.</span></span><span class="sig-name descname"><span class="pre">create_app</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blueprints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Lemur application factory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong></p></li>
+<li><p><strong>app_name</strong></p></li>
+<li><p><strong>blueprints</strong></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.factory.</span></span><span class="sig-name descname"><span class="pre">from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">silent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Updates the values in the config from a Python file.  This function
+behaves as if the file was imported as module with the</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_path</strong></p></li>
+<li><p><strong>silent</strong></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.factory.</span></span><span class="sig-name descname"><span class="pre">install_plugins</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Installs new issuers that are not currently bundled with Lemur.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>app</strong></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="manage-module">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">manage</span></code> Module<a class="headerlink" href="#manage-module" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.manage.</span></span><span class="sig-name descname"><span class="pre">create_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.manage.</span></span><span class="sig-name descname"><span class="pre">generate_settings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>This command is run when <code class="docutils literal notranslate"><span class="pre">default_path</span></code> doesn’t exist, or <code class="docutils literal notranslate"><span class="pre">init</span></code> is
+run and returns a string representing the default data to put into their
+settings file.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">lemur.manage.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+</section>
+<section id="models-module">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">models</span></code> Module<a class="headerlink" href="#models-module" title="Link to this heading"></a></h2>
+</section>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="lemur.auth.html">auth Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.auth.html#permissions-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">permissions</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.auth.html#service-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">service</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.auth.html#views-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">views</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.authorities.html">authorities Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.authorities.html#models-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.authorities.html#service-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">service</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.authorities.html#views-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">views</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.certificates.html">certificates Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.certificates.html#models-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.certificates.html#service-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">service</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.certificates.html#verify-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">verify</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.certificates.html#views-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">views</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.common.html">common Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.common.html#health-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">health</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.common.html#managers-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">managers</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.common.html#utils-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">utils</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.destinations.html">destinations Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.destinations.html#models-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.destinations.html#service-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">service</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.destinations.html#views-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">views</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.domains.html">domains Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.domains.html#models-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.domains.html#service-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">service</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.domains.html#views-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">views</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.notifications.html">notifications Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.notifications.html#models-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.notifications.html#service-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">service</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.notifications.html#views-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">views</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.plugins.html">plugins Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.html#id1"><code class="xref py py-mod docutils literal notranslate"><span class="pre">plugins</span></code> Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.html#views-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">views</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="lemur.plugins.base.html">base Package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.base.html#id1"><code class="xref py py-mod docutils literal notranslate"><span class="pre">base</span></code> Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.base.html#manager-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">manager</span></code> Module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.base.html#v1-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">v1</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.plugins.bases.html">bases Package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.bases.html#id1"><code class="xref py py-mod docutils literal notranslate"><span class="pre">bases</span></code> Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.bases.html#destination-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">destination</span></code> Module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.bases.html#issuer-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">issuer</span></code> Module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.bases.html#notification-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">notification</span></code> Module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.bases.html#source-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">source</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.plugins.lemur_aws.html">lemur_aws Package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_aws.html#id1"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lemur_aws</span></code> Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_aws.html#elb-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">elb</span></code> Module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_aws.html#iam-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iam</span></code> Module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_aws.html#plugin-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">plugin</span></code> Module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_aws.html#sts-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sts</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.plugins.lemur_cfssl.html">lemur_cfssl Package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_cfssl.html#id1"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lemur_cfssl</span></code> Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_cfssl.html#plugin-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">plugin</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.plugins.lemur_email.html">lemur_email Package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_email.html#id1"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lemur_email</span></code> Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_email.html#plugin-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">plugin</span></code> Module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_email.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="lemur.plugins.lemur_email.templates.html">templates Package</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="lemur.plugins.lemur_email.templates.html#config-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">config</span></code> Module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="lemur.plugins.lemur_verisign.html">lemur_verisign Package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_verisign.html#id1"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lemur_verisign</span></code> Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lemur.plugins.lemur_verisign.html#plugin-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">plugin</span></code> Module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.roles.html">roles Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.roles.html#models-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.roles.html#service-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">service</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.roles.html#views-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">views</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.users.html">users Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.users.html#models-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.users.html#service-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">service</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.users.html#views-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">views</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.sources.html">sources Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.sources.html#sources-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sources</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.sources.html#cli-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cli</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.sources.html#models-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.sources.html#schemas-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">schemas</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.sources.html#service-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">service</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.sources.html#views-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">views</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.logs.html">logs Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.logs.html#logs-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">logs</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.logs.html#models-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.logs.html#schemas-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">schemas</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.logs.html#service-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">service</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.logs.html#views-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">views</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.reporting.html">reporting Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.reporting.html#reporting-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">reporting</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.reporting.html#cli-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cli</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.reporting.html#service-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">service</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.reporting.html#views-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">views</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.tests.html">tests Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.tests.html#tests-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tests</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.deployment.html">deployment Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.deployment.html#deployment-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">deployment</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.deployment.html#service-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">service</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.endpoints.html">endpoints Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.endpoints.html#endpoints-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">endpoints</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.endpoints.html#models-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.endpoints.html#schemas-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">schemas</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.endpoints.html#service-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">service</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.endpoints.html#views-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">views</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.defaults.html">defaults Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.defaults.html#defaults-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">defaults</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.defaults.html#schemas-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">schemas</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.defaults.html#views-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">views</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.plugins.lemur_acme.html">lemur_acme package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_acme.html#lemur-acme-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lemur_acme</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_acme.html#acme-handlers-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">acme_handlers</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_acme.html#challenge-types-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">challenge_types</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_acme.html#cloudflare-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cloudflare</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_acme.html#dyn-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dyn</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_acme.html#nsone-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">nsone</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_acme.html#plugin-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">plugin</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_acme.html#powerdns-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">powerdns</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_acme.html#route53-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">route53</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_acme.html#ultradns-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ultradns</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.plugins.lemur_atlas.html">lemur_atlas package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_atlas.html#lemur-atlas-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lemur_atlas</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_atlas.html#plugin-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">plugin</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.plugins.lemur_cryptography.html">lemur_cryptography package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_cryptography.html#lemur-cryptography-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lemur_cryptography</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_cryptography.html#plugin-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">plugin</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.plugins.lemur_digicert.html">lemur_digicert package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_digicert.html#lemur-digicert-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lemur_digicert</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_digicert.html#plugin-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">plugin</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.plugins.lemur_jks.html">lemur_jks package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_jks.html#lemur-jks-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lemur_jks</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_jks.html#plugin-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">plugin</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.plugins.lemur_kubernetes.html">lemur_kubernetes package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_kubernetes.html#lemur-kubernetes-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lemur_kubernetes</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_kubernetes.html#plugin-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">plugin</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.plugins.lemur_openssl.html">lemur_openssl package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_openssl.html#lemur-openssl-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lemur_openssl</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_openssl.html#plugin-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">plugin</span></code> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lemur.plugins.lemur_slack.html">lemur_slack package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_slack.html#lemur-slack-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lemur_slack</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lemur.plugins.lemur_slack.html#plugin-module"><code class="xref py py-mod docutils literal notranslate"><span class="pre">plugin</span></code> Module</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../plugins/index.html" class="btn btn-neutral float-left" title="Structure" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="lemur.auth.html" class="btn btn-neutral float-right" title="auth Package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018, Netflix Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

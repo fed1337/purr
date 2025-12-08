@@ -1,0 +1,226 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Doing a release &mdash; lemur 1.3.dev0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=57ae1f5f"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Frequently Asked Questions" href="faq.html" />
+    <link rel="prev" title="Security" href="security.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            lemur
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart/index.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="production/index.html">Production</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guide/index.html">User Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="administration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="administration.html#command-line-interface">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="administration.html#upgrading-lemur">Upgrading Lemur</a></li>
+<li class="toctree-l1"><a class="reference internal" href="administration.html#plugins">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="administration.html#rd-party-plugins">3rd Party Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="administration.html#iam-target">Identity and Access Management</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developer/index.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer/index.html#writing-a-plugin">Writing a Plugin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer/index.html#rest-api">REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer/index.html#internals">Internals</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Security</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Doing a release</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#manually-bumping-the-version-number">Manually Bumping the version number</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#manually-performing-the-release">Manually Performing the release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#verifying-the-release">Verifying the release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#post-release-tasks">Post-release tasks</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license/index.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">lemur</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Doing a release</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/doing-a-release.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="doing-a-release">
+<h1>Doing a release<a class="headerlink" href="#doing-a-release" title="Link to this heading"></a></h1>
+<p>Doing a release of <code class="docutils literal notranslate"><span class="pre">lemur</span></code> is now mostly automated and consists of the following steps:</p>
+<ul class="simple">
+<li><p>Raise a PR to add the release date and summary in the <a class="reference internal" href="changelog.html"><span class="doc">Changelog</span></a>.</p></li>
+<li><p>Merge above PR and create a new <a class="reference external" href="https://github.com/Netflix/lemur/releases">Github release</a>: set the tag starting with v, e.g., v0.9.0</p></li>
+</ul>
+<p>The <a class="reference external" href="https://github.com/Netflix/lemur/actions/workflows/lemur-publish-release-pypi.yml">publish workflow</a> uses the git
+tag to set the release version.</p>
+<p>The following describes the manual release steps, which is now obsolete:</p>
+<section id="manually-bumping-the-version-number">
+<h2>Manually Bumping the version number<a class="headerlink" href="#manually-bumping-the-version-number" title="Link to this heading"></a></h2>
+<p>The next step in doing a release is bumping the version number in the
+software.</p>
+<ul class="simple">
+<li><p>Update the version number in <code class="docutils literal notranslate"><span class="pre">lemur/__about__.py</span></code>.</p></li>
+<li><p>Set the release date in the <a class="reference internal" href="changelog.html"><span class="doc">Changelog</span></a>.</p></li>
+<li><p>Do a commit indicating this, and raise a pull request with this.</p></li>
+<li><p>Wait for it to be merged.</p></li>
+</ul>
+</section>
+<section id="manually-performing-the-release">
+<h2>Manually Performing the release<a class="headerlink" href="#manually-performing-the-release" title="Link to this heading"></a></h2>
+<p>The commit that merged the version number bump is now the official release
+commit for this release. You need an <a class="reference external" href="https://pypi.org/manage/account/#api-tokens">API key</a>,
+which requires permissions to maintain the Lemur <a class="reference external" href="https://pypi.org/project/lemur/">project</a>.</p>
+<p>For creating the release, follow these steps (more details <a class="reference external" href="https://packaging.python.org/tutorials/packaging-projects/#generating-distribution-archives">here</a>)</p>
+<ul>
+<li><p>Make sure you have the latest versions of setuptools and wheel installed:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">--user</span> <span class="pre">--upgrade</span> <span class="pre">setuptools</span> <span class="pre">wheel</span></code></p>
+</div></blockquote>
+</li>
+<li><p>Now run this command from the same directory where setup.py is located:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">setup.py</span> <span class="pre">sdist</span> <span class="pre">bdist_wheel</span></code></p>
+</div></blockquote>
+</li>
+<li><p>Once completed it should generate two files in the dist directory:</p></li>
+</ul>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">$ ls dist/</span>
+<span class="go">lemur-0.8.0-py2.py3-none-any.whl    lemur-0.8.0.tar.gz</span>
+</pre></div>
+</div>
+<ul>
+<li><p>In this step, the distribution will be uploaded. You’ll need to install Twine:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">--user</span> <span class="pre">--upgrade</span> <span class="pre">twine</span></code></p>
+</div></blockquote>
+</li>
+<li><p>Once installed, run Twine to upload all of the archives under dist. Once installed, run Twine to upload all of the archives under dist:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">twine</span> <span class="pre">upload</span> <span class="pre">--repository</span> <span class="pre">pypi</span> <span class="pre">dist/*</span></code></p>
+</div></blockquote>
+</li>
+</ul>
+<p>The release should now be available on <a class="reference external" href="https://pypi.org/project/lemur/">PyPI Lemur</a> and a tag should be available in
+the repository.</p>
+<p>Make sure to also make a github <a class="reference external" href="https://github.com/Netflix/lemur/releases">release</a> which will pick up the latest version.</p>
+</section>
+<section id="verifying-the-release">
+<h2>Verifying the release<a class="headerlink" href="#verifying-the-release" title="Link to this heading"></a></h2>
+<p>You should verify that <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">lemur</span></code> works correctly:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">lemur</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lemur</span><span class="o">.</span><span class="n">__version__</span>
+<span class="go">&#39;...&#39;</span>
+</pre></div>
+</div>
+<p>Verify that this is the version you just released.</p>
+</section>
+<section id="post-release-tasks">
+<h2>Post-release tasks<a class="headerlink" href="#post-release-tasks" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Update the version number to the next major (e.g. <code class="docutils literal notranslate"><span class="pre">0.5.dev1</span></code>) in
+<code class="docutils literal notranslate"><span class="pre">lemur/__about__.py</span></code> and</p></li>
+<li><p>Add new <a class="reference internal" href="changelog.html"><span class="doc">Changelog</span></a> entry with next version and note that it is under
+active development</p></li>
+<li><p>Send a pull request with these items</p></li>
+<li><p>Check for any outstanding code undergoing a deprecation cycle by looking in
+<code class="docutils literal notranslate"><span class="pre">lemur.utils</span></code> for <code class="docutils literal notranslate"><span class="pre">DeprecatedIn**</span></code> definitions. If any exist open
+a ticket to increment them for the next release.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="security.html" class="btn btn-neutral float-left" title="Security" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="faq.html" class="btn btn-neutral float-right" title="Frequently Asked Questions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018, Netflix Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

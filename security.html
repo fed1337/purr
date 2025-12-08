@@ -1,0 +1,225 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Security &mdash; lemur 1.3.dev0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=57ae1f5f"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Doing a release" href="doing-a-release.html" />
+    <link rel="prev" title="lemur_slack package" href="developer/internals/lemur.plugins.lemur_slack.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            lemur
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart/index.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="production/index.html">Production</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guide/index.html">User Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="administration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="administration.html#command-line-interface">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="administration.html#upgrading-lemur">Upgrading Lemur</a></li>
+<li class="toctree-l1"><a class="reference internal" href="administration.html#plugins">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="administration.html#rd-party-plugins">3rd Party Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="administration.html#iam-target">Identity and Access Management</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developer/index.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer/index.html#writing-a-plugin">Writing a Plugin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer/index.html#rest-api">REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer/index.html#internals">Internals</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Security</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#reporting-a-security-issue">Reporting a security issue</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#supported-versions">Supported Versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#disclosure-process">Disclosure Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#credential-rotation">Credential Rotation</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="doing-a-release.html">Doing a release</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license/index.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">lemur</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Security</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/security.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="security">
+<h1>Security<a class="headerlink" href="#security" title="Link to this heading"></a></h1>
+<p>We take the security of <code class="docutils literal notranslate"><span class="pre">lemur</span></code> seriously. The following are a set of
+policies we have adopted to ensure that security issues are addressed in a
+timely fashion.</p>
+<section id="reporting-a-security-issue">
+<h2>Reporting a security issue<a class="headerlink" href="#reporting-a-security-issue" title="Link to this heading"></a></h2>
+<p>We ask that you do not report security issues to our normal GitHub issue
+tracker.</p>
+<p>If you believe you’ve identified a security issue with <code class="docutils literal notranslate"><span class="pre">lemur</span></code>, please
+report it using GitHub’s <a class="reference external" href="https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability">private vulnerability reporting process</a>
+in the [Lemur repository](<a class="reference external" href="https://github.com/Netflix/lemur/security/advisories/new">https://github.com/Netflix/lemur/security/advisories/new</a>).</p>
+<p>Once you’ve submitted a report, you should receive an acknowledgment
+within 48 hours, and depending on the action to be taken, you may receive
+further follow-up.</p>
+</section>
+<section id="supported-versions">
+<h2>Supported Versions<a class="headerlink" href="#supported-versions" title="Link to this heading"></a></h2>
+<p>At any given time, we will provide security support for the <a class="reference external" href="https://github.com/Netflix/lemur">main</a> branch
+as well as the most recent release.</p>
+</section>
+<section id="disclosure-process">
+<h2>Disclosure Process<a class="headerlink" href="#disclosure-process" title="Link to this heading"></a></h2>
+<p>Our process for taking a security issue from private discussion to public
+disclosure involves multiple steps. Our standard process utilizes a GitHub Security Advisory.</p>
+<p>The general process is as follows:</p>
+<ol class="arabic simple">
+<li><p>Receive a private report of a security issue via the <a class="reference external" href="https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability">private vulnerability reporting process</a></p></li>
+<li><p>Acknowledge receipt of the report</p></li>
+<li><p>Post advance notice to the GitHub repo indicating that a security issue exists</p></li>
+<li><p>Prepare a <a class="reference external" href="https://docs.github.com/en/code-security/security-advisories/repository-security-advisories/about-repository-security-advisories">GitHub Security Advisory</a></p></li>
+<li><p>Merge code fix</p></li>
+<li><p>Make Security Advisory public</p></li>
+</ol>
+<p><strong>Private report</strong></p>
+<p>After receiving a private report of a security issue, the reporter will receive notification
+of the date on which we plan to make the issue public.</p>
+<p><strong>Advance Notice</strong></p>
+<p>Approximately one week before full public disclosure, we will provide advance notification that a security issue exists.
+This will take the form of an issue posted to the Lemur repository.
+The notification should contain the following, as appropriate
+(details will only be shared to the extent that they do not highlight an unpatched vulnerability):</p>
+<ul class="simple">
+<li><p>A description of the potential impact</p></li>
+<li><p>The affected versions of <code class="docutils literal notranslate"><span class="pre">lemur</span></code></p></li>
+<li><p>The steps we will be taking to remedy the issue</p></li>
+<li><p>The date on which the <code class="docutils literal notranslate"><span class="pre">lemur</span></code> team will apply these patches, issue
+new releases, and publicly disclose the issue</p></li>
+</ul>
+<p>If a reported issue is believed to be particularly time-sensitive – due to a
+known exploit in the wild, for example – the time between advance notification
+and public disclosure may be shortened considerably.</p>
+<p><strong>GitHub Security Advisory</strong></p>
+<p>During the (approximate) week between advance notice and public disclosure, we will prepare
+a description of the security issue using a <a class="reference external" href="https://docs.github.com/en/code-security/security-advisories/repository-security-advisories/about-repository-security-advisories">GitHub Security Advisory</a>.
+The fix for the issue should also be prepared using the private fork provided by the security advisory.</p>
+<p><strong>Day of Disclosure</strong></p>
+<p>On the day of disclosure, we will take the following steps:</p>
+<ol class="arabic simple">
+<li><p>Merge relevant patches to the <code class="docutils literal notranslate"><span class="pre">lemur</span></code> repository (from the security advisory fork)</p></li>
+<li><p>Issue an updated release</p></li>
+<li><p>Make the security advisory public</p></li>
+</ol>
+</section>
+<section id="credential-rotation">
+<h2>Credential Rotation<a class="headerlink" href="#credential-rotation" title="Link to this heading"></a></h2>
+<p>When the jwt signing key (<cite>LEMUR_TOKEN_SECRET</cite>) is rotated (due to compromise or as a regular operational task), there are a few options for migration to ensure the
+security of the system:</p>
+<p>1. <strong>Immediate Key Replacement</strong>: You can immediately replace the <cite>LEMUR_TOKEN_SECRET</cite> with a new securely generated
+version. This will instantly invalidate all existing user sessions and API keys. While this might be necessary in case
+of an active compromise, it is not the recommended approach due to the disruption it can cause to users and services.</p>
+<ol class="arabic simple" start="2">
+<li><p><strong>Gradual Key Rotation</strong> (Recommended): This involves a more gradual and controlled process of secret rotation.
+- First, securely generate a new version of the secret.
+- Next, set <cite>LEMUR_TOKEN_SECRETS</cite> to a list containing both the new and the old secret, respectively.
+- Once this configuration is deployed, new user sessions will gradually start using the new secret as their sessions expire. The expiration of sessions is controlled by the <cite>LEMUR_TOKEN_EXPIRATION</cite> configuration option.
+- You can monitor this transition using <cite>jwt_decode</cite> metrics, which include tags for <cite>kid</cite> and <cite>fingerprint</cite>. These metrics can help in monitoring the versioned migration of sessions to the new secret.
+- For long lived (or infinite TTL API keys), you will need to create equivalent API keys and distribute them to your clients once the new token secret is added to the beginning of LEMUR_TOKEN_SECRETS. Again, you can monitor migration with the provided kid and fingerprint metrics. Additionally, all claims of the jwt are added as metric tags so you can monitor migration of individual API keys.
+- Once the metrics indicate that the old secret is no longer in use, or the TTL (Time to Live) for all sessions and API keys derived from the old secret has been exceeded, you can safely remove the old secret from the <cite>LEMUR_TOKEN_SECRETS</cite> configuration.</p></li>
+</ol>
+<p>This approach ensures a smooth transition to the new secret without disrupting active user sessions or API keys. It also provides a way to monitor the migration and ensure that the old secret is completely phased out before it is removed.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="developer/internals/lemur.plugins.lemur_slack.html" class="btn btn-neutral float-left" title="lemur_slack package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="doing-a-release.html" class="btn btn-neutral float-right" title="Doing a release" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018, Netflix Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

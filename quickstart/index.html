@@ -1,0 +1,457 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quickstart &mdash; lemur 1.3.dev0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=57ae1f5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Production" href="../production/index.html" />
+    <link rel="prev" title="Lemur" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            lemur
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-build-dependencies">Installing Build Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#setting-up-an-environment">Setting up an Environment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#installing-from-source">Installing from Source</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-a-configuration">Creating a configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#update-your-configuration">Update your configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#set-up-postgres">Set Up Postgres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#initializing-lemur">Initializing Lemur</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#set-up-a-reverse-proxy">Set Up a Reverse Proxy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#proxying-with-nginx">Proxying with Nginx</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#starting-the-web-service">Starting the Web Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-lemur-as-a-service">Running Lemur as a Service</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#configure-supervisord">Configure <code class="docutils literal notranslate"><span class="pre">supervisord</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#syncing">Syncing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#additional-utilities">Additional Utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#lock">lock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unlock">unlock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#automated-celery-tasks">Automated celery tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#what-s-next">What’s Next?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../production/index.html">Production</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/index.html">User Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../administration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../administration.html#command-line-interface">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../administration.html#upgrading-lemur">Upgrading Lemur</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../administration.html#plugins">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../administration.html#rd-party-plugins">3rd Party Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../administration.html#iam-target">Identity and Access Management</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developer/index.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/index.html#writing-a-plugin">Writing a Plugin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/index.html#rest-api">REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/index.html#internals">Internals</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../doing-a-release.html">Doing a release</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license/index.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">lemur</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Quickstart</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/quickstart/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quickstart">
+<h1>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h1>
+<p>This guide will step you through setting up a Python-based virtualenv, installing the required packages, and configuring the basic web service.
+This guide assumes a clean Ubuntu 18.04/20.04 instance, commands may differ based on the OS and configuration being used.</p>
+<p>For a quicker alternative, see the Lemur docker file on <a class="reference external" href="https://github.com/Netflix/lemur-docker">Github</a>.</p>
+<section id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Link to this heading"></a></h2>
+<p>Some basic prerequisites which you’ll need in order to run Lemur:</p>
+<ul class="simple">
+<li><p>A UNIX-based operating system (we test on Ubuntu, develop on macOS)</p></li>
+<li><p>Python 3.7 or greater</p></li>
+<li><p>PostgreSQL 9.4 or greater</p></li>
+<li><p>Nginx</p></li>
+<li><p>Node v10.x (LTS)</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Ubuntu 18.04 supports by default Python 3.6.x and Node v8.x</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Lemur was built with AWS in mind. This means that things such as databases (RDS), mail (SES), and TLS (ELB), are largely handled for us.  Lemur does <strong>not</strong> require AWS to function. Our guides and documentation try to be as generic as possible and are not intended to document every step of launching Lemur into a given environment.</p>
+</div>
+</section>
+<section id="installing-build-dependencies">
+<h2>Installing Build Dependencies<a class="headerlink" href="#installing-build-dependencies" title="Link to this heading"></a></h2>
+<p>If installing Lemur on a bare Ubuntu OS you will need to grab the following packages so that Lemur can correctly build its dependencies:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>nodejs<span class="w"> </span>npm<span class="w"> </span>python-pip<span class="w"> </span>python-dev<span class="w"> </span>python3-dev<span class="w"> </span>libpq-dev<span class="w"> </span>build-essential<span class="w"> </span>libssl-dev<span class="w"> </span>libffi-dev<span class="w"> </span>libsasl2-dev<span class="w"> </span>libldap2-dev<span class="w"> </span>nginx<span class="w"> </span>git<span class="w"> </span>supervisor<span class="w"> </span>postgresql
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>PostgreSQL is only required if your database is going to be on the same host as the webserver.  npm is needed if you’re installing Lemur from the source (e.g., from git).</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Installing node from a package manager may create the nodejs bin at /usr/bin/nodejs instead of /usr/bin/node.  If that is the case run the following
+sudo ln -s /usr/bin/nodejs /usr/bin/node</p>
+</div>
+<p>Now, install Python <code class="docutils literal notranslate"><span class="pre">virtualenv</span></code> package:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>virtualenv
+</pre></div>
+</div>
+</section>
+<section id="setting-up-an-environment">
+<h2>Setting up an Environment<a class="headerlink" href="#setting-up-an-environment" title="Link to this heading"></a></h2>
+<p>In this guide, Lemur will be installed in <code class="docutils literal notranslate"><span class="pre">/www</span></code>, so you need to create that structure first:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>mkdir<span class="w"> </span>/www
+<span class="nb">cd</span><span class="w"> </span>/www
+</pre></div>
+</div>
+<p>Clone Lemur inside the just created directory and give yourself write permission (we assume <code class="docutils literal notranslate"><span class="pre">lemur</span></code> is the user):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>useradd<span class="w"> </span>lemur
+sudo<span class="w"> </span>passwd<span class="w"> </span>lemur
+sudo<span class="w"> </span>mkdir<span class="w"> </span>/home/lemur
+sudo<span class="w"> </span>chown<span class="w"> </span>lemur:lemur<span class="w"> </span>/home/lemur
+sudo<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/Netflix/lemur
+sudo<span class="w"> </span>chown<span class="w"> </span>-R<span class="w"> </span>lemur<span class="w"> </span>lemur/
+</pre></div>
+</div>
+<p>Create the virtual environment, activate it and enter the Lemur’s directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>su<span class="w"> </span>lemur
+virtualenv<span class="w"> </span>-p<span class="w"> </span>python3<span class="w"> </span>lemur
+<span class="nb">source</span><span class="w"> </span>/www/lemur/bin/activate
+<span class="nb">cd</span><span class="w"> </span>lemur
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Activating the environment adjusts your PATH, so that things like pip now install into the virtualenv by default.</p>
+</div>
+<section id="installing-from-source">
+<h3>Installing from Source<a class="headerlink" href="#installing-from-source" title="Link to this heading"></a></h3>
+<p>Once your system is prepared, ensure that you are in the virtualenv:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>which<span class="w"> </span>python
+</pre></div>
+</div>
+<p>And then run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>up-reqs
+make<span class="w"> </span>release
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This command will install npm dependencies as well as compile static assets.</p>
+</div>
+<p>You may also run with the urlContextPath variable set. If this is set it will add the desired context path for subsequent calls back to lemur. This will only edit the front end code for calls back to the server, you will have to make sure the server knows about these routes.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Example</span><span class="p">:</span>
+  <span class="n">urlContextPath</span><span class="o">=</span><span class="n">lemur</span>
+  <span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="n">auth</span><span class="o">/</span><span class="n">providers</span> <span class="o">-&gt;</span> <span class="o">/</span><span class="n">lemur</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="n">auth</span><span class="o">/</span><span class="n">providers</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>release<span class="w"> </span><span class="nv">urlContextPath</span><span class="o">={</span>desired<span class="w"> </span>context<span class="w"> </span>path<span class="o">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="creating-a-configuration">
+<h2>Creating a configuration<a class="headerlink" href="#creating-a-configuration" title="Link to this heading"></a></h2>
+<p>Before we run Lemur, we must create a valid configuration file for it.  The Lemur command line interface comes with a simple command to get you up and running quickly.</p>
+<p>Simply run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>lemur<span class="w"> </span>create_config
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This command will create a default configuration under <code class="docutils literal notranslate"><span class="pre">~/.lemur/lemur.conf.py</span></code> you can specify this location by passing the <code class="docutils literal notranslate"><span class="pre">config_path</span></code> parameter to the <code class="docutils literal notranslate"><span class="pre">create_config</span></code> command.</p>
+</div>
+<p>You can specify <code class="docutils literal notranslate"><span class="pre">-c</span></code> or <code class="docutils literal notranslate"><span class="pre">--config</span></code> to any Lemur command to specify the current environment you are working in. Lemur will also look under the environmental variable <code class="docutils literal notranslate"><span class="pre">LEMUR_CONF</span></code> should that be easier to set up in your environment.</p>
+</section>
+<section id="update-your-configuration">
+<h2>Update your configuration<a class="headerlink" href="#update-your-configuration" title="Link to this heading"></a></h2>
+<p>Once created, you will need to update the configuration file with information about your environment, such as which database to talk to, where keys are stored etc.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>vi<span class="w"> </span>~/.lemur/lemur.conf.py
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are unfamiliar with the SQLALCHEMY_DATABASE_URI string it can be broken up like so:
+<code class="docutils literal notranslate"><span class="pre">postgresql://username:password&#64;&lt;database-fqdn&gt;:&lt;database-port&gt;/&lt;database-name&gt;</span></code></p>
+</div>
+<p>Before Lemur will run you need to fill in a few required variables in the configuration file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>LEMUR_SECURITY_TEAM_EMAIL
+<span class="c1">#/the e-mail address needs to be enclosed in quotes</span>
+LEMUR_DEFAULT_COUNTRY
+LEMUR_DEFAULT_STATE
+LEMUR_DEFAULT_LOCATION
+LEMUR_DEFAULT_ORGANIZATION
+LEMUR_DEFAULT_ORGANIZATIONAL_UNIT
+</pre></div>
+</div>
+</section>
+<section id="set-up-postgres">
+<h2>Set Up Postgres<a class="headerlink" href="#set-up-postgres" title="Link to this heading"></a></h2>
+<p>For production, a dedicated database is recommended, for this guide we will assume postgres has been installed and is on the same machine that Lemur is installed on.</p>
+<p>First, set a password for the postgres user.  For this guide, we will use <code class="docutils literal notranslate"><span class="pre">lemur</span></code> as an example but you should use the database password generated by Lemur:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>-u<span class="w"> </span>postgres<span class="w"> </span>-i
+psql
+<span class="nv">postgres</span><span class="o">=</span><span class="c1"># CREATE USER lemur WITH PASSWORD &#39;lemur&#39;;</span>
+</pre></div>
+</div>
+<p>Once successful, type CTRL-D to exit the Postgres shell.</p>
+<p>Next, we will create our new database:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>-u<span class="w"> </span>postgres<span class="w"> </span>createdb<span class="w"> </span>lemur
+</pre></div>
+</div>
+<div class="admonition note" id="initializinglemur">
+<p class="admonition-title">Note</p>
+<p>For this guide we assume you will use the <cite>postgres</cite> user to connect to your database, when deploying to a VM or container this is often all you will need. If you have a shared database it is recommend you give Lemur its own user.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Postgres 9.4 or greater is required as Lemur relies advanced data columns (e.g. JSON Column type)</p>
+</div>
+</section>
+<section id="initializing-lemur">
+<h2>Initializing Lemur<a class="headerlink" href="#initializing-lemur" title="Link to this heading"></a></h2>
+<p>Lemur provides a helpful command that will initialize your database for you. It creates a default user (<code class="docutils literal notranslate"><span class="pre">lemur</span></code>) that is used by Lemur to help associate certificates that do not currently have an owner. This is most commonly the case when Lemur has discovered certificates from a third party source.  This is also a default user that can be used to administer Lemur.</p>
+<p>In addition to creating a new user, Lemur also creates a few default email notifications.  These notifications are based on a few configuration options such as <code class="docutils literal notranslate"><span class="pre">LEMUR_SECURITY_TEAM_EMAIL</span></code>.  They basically guarantee that every certificate within Lemur will send one expiration notification to the security team.</p>
+<p>Your database installation requires the pg_trgm extension. If you do not have this installed already, you can allow the script to install this for you by adding the SUPERUSER permission to the lemur database user.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>-u<span class="w"> </span>postgres<span class="w"> </span>-i
+psql
+<span class="nv">postgres</span><span class="o">=</span><span class="c1"># ALTER USER lemur WITH SUPERUSER</span>
+</pre></div>
+</div>
+<p>Additional notifications can be created through the UI or API.  See <a class="reference internal" href="../administration.html#notificationoptions"><span class="std std-ref">Notification Options</span></a> and <a class="reference internal" href="../administration.html#commandlineinterface"><span class="std std-ref">Command Line Interface</span></a> for details.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/www/lemur/lemur
+lemur<span class="w"> </span>db<span class="w"> </span>init
+</pre></div>
+</div>
+<p>Then</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>lemur<span class="w"> </span>init
+</pre></div>
+</div>
+<p><strong>Make note of the password used as this will be used during first login to the Lemur UI.</strong></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you added the SUPERUSER permission to the lemur database user above, it is recommended you revoke that permission now.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>-u<span class="w"> </span>postgres<span class="w"> </span>-i
+psql
+<span class="nv">postgres</span><span class="o">=</span><span class="c1"># ALTER USER lemur WITH NOSUPERUSER</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is recommended that once the <code class="docutils literal notranslate"><span class="pre">lemur</span></code> user is created that you create individual users for every day access.  There is currently no way for a user to self enroll for Lemur access, they must have an administrator create an account for them or be enrolled automatically through SSO.  This can be done through the CLI or UI.  See <a class="reference internal" href="../guide/index.html#createanewuser"><span class="std std-ref">Creating a New User</span></a> and <a class="reference internal" href="../administration.html#commandlineinterface"><span class="std std-ref">Command Line Interface</span></a> for details.</p>
+</div>
+</section>
+<section id="set-up-a-reverse-proxy">
+<h2>Set Up a Reverse Proxy<a class="headerlink" href="#set-up-a-reverse-proxy" title="Link to this heading"></a></h2>
+<p>By default, Lemur runs on port 8000.  Even if you change this, under normal conditions you won’t be able to bind to port 80. To get around this (and to avoid running Lemur as a privileged user, which you shouldn’t), we need to set up a simple web proxy. There are many different web servers you can use for this, we like and recommend Nginx.</p>
+<section id="proxying-with-nginx">
+<h3>Proxying with Nginx<a class="headerlink" href="#proxying-with-nginx" title="Link to this heading"></a></h3>
+<p>You’ll use the builtin <code class="docutils literal notranslate"><span class="pre">HttpProxyModule</span></code> within Nginx to handle proxying.  Edit the <code class="docutils literal notranslate"><span class="pre">/etc/nginx/sites-available/default</span></code> file according to the lines below</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>location /api {
+     proxy_pass  http://127.0.0.1:8000;
+     proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;
+     proxy_redirect off;
+     proxy_buffering off;
+     proxy_set_header        Host            $host;
+     proxy_set_header        X-Real-IP       $remote_addr;
+     proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+ }
+
+ location / {
+     root /www/lemur/lemur/static/dist;
+     include mime.types;
+     index index.html;
+ }
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>See <a class="reference internal" href="../production/index.html"><span class="doc">Production</span></a> for more details on using Nginx.</p>
+</div>
+<p>After making these changes, restart Nginx service to apply them:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>service<span class="w"> </span>nginx<span class="w"> </span>restart
+</pre></div>
+</div>
+</section>
+</section>
+<section id="starting-the-web-service">
+<h2>Starting the Web Service<a class="headerlink" href="#starting-the-web-service" title="Link to this heading"></a></h2>
+<p>Lemur provides a built-in web server (powered by gunicorn and eventlet) to get you off the ground quickly.</p>
+<p>To start the web server, you simply use <code class="docutils literal notranslate"><span class="pre">lemur</span> <span class="pre">start</span></code>. If you opted to use an alternative configuration path
+you can pass that via the <code class="docutils literal notranslate"><span class="pre">--config</span></code> option.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can login with the default user created during <a class="reference internal" href="#initializinglemur"><span class="std std-ref">Initializing Lemur</span></a> or any other
+user you may have created.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Lemur&#39;s server runs on port 8000 by default. Make sure your client reflects</span>
+<span class="c1"># the correct host and port!</span>
+<span class="n">lemur</span> <span class="o">--</span><span class="n">config</span><span class="o">=/</span><span class="n">etc</span><span class="o">/</span><span class="n">lemur</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">py</span> <span class="n">start</span> <span class="o">-</span><span class="n">b</span> <span class="mf">127.0.0.1</span><span class="p">:</span><span class="mi">8000</span>
+</pre></div>
+</div>
+<p>You should now be able to test the web service by visiting <code class="docutils literal notranslate"><span class="pre">http://localhost:8000/</span></code>.</p>
+</section>
+<section id="running-lemur-as-a-service">
+<h2>Running Lemur as a Service<a class="headerlink" href="#running-lemur-as-a-service" title="Link to this heading"></a></h2>
+<p>We recommend using whatever software you are most familiar with for managing Lemur processes.  One option is <a class="reference external" href="http://supervisord.org/">Supervisor</a>.</p>
+<section id="configure-supervisord">
+<h3>Configure <code class="docutils literal notranslate"><span class="pre">supervisord</span></code><a class="headerlink" href="#configure-supervisord" title="Link to this heading"></a></h3>
+<p>Configuring Supervisor couldn’t be more simple. Just point it to the <code class="docutils literal notranslate"><span class="pre">lemur</span></code> executable in your virtualenv’s <code class="docutils literal notranslate"><span class="pre">bin/</span></code> folder and you’re good to go.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">program</span><span class="p">:</span><span class="n">lemur</span><span class="o">-</span><span class="n">web</span><span class="p">]</span>
+<span class="n">directory</span><span class="o">=/</span><span class="n">www</span><span class="o">/</span><span class="n">lemur</span><span class="o">/</span>
+<span class="n">command</span><span class="o">=/</span><span class="n">www</span><span class="o">/</span><span class="n">lemur</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">lemur</span> <span class="n">start</span>
+<span class="n">autostart</span><span class="o">=</span><span class="n">true</span>
+<span class="n">autorestart</span><span class="o">=</span><span class="n">true</span>
+<span class="n">redirect_stderr</span><span class="o">=</span><span class="n">true</span>
+<span class="n">stdout_logfile</span><span class="o">=</span><span class="n">syslog</span>
+<span class="n">stderr_logfile</span><span class="o">=</span><span class="n">syslog</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="../production/index.html#usingsupervisor"><span class="std std-ref">Using Supervisor</span></a> for more details on using Supervisor.</p>
+</section>
+</section>
+<section id="syncing">
+<h2>Syncing<a class="headerlink" href="#syncing" title="Link to this heading"></a></h2>
+<p>Lemur uses periodic sync tasks to make sure it is up-to-date with its environment. Things change outside of Lemur we do our best to reconcile those changes. The recommended method is to use CRON:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>crontab<span class="w"> </span>-e
+*/15<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>lemur<span class="w"> </span>sync<span class="w"> </span>-s<span class="w"> </span>all
+<span class="m">0</span><span class="w"> </span><span class="m">22</span><span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>lemur<span class="w"> </span>check_revoked
+<span class="m">0</span><span class="w"> </span><span class="m">22</span><span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>lemur<span class="w"> </span>notify
+</pre></div>
+</div>
+</section>
+<section id="additional-utilities">
+<h2>Additional Utilities<a class="headerlink" href="#additional-utilities" title="Link to this heading"></a></h2>
+<p>If you’re familiar with Python you’ll quickly find yourself at home, and even more so if you’ve used Flask.  The <code class="docutils literal notranslate"><span class="pre">lemur</span></code> command is just a simple wrapper around Flask’s <code class="docutils literal notranslate"><span class="pre">manage.py</span></code>, which means you get all of the power and flexibility that goes with it.</p>
+<p>Some of the features which you’ll likely find useful are listed below.</p>
+<section id="lock">
+<h3>lock<a class="headerlink" href="#lock" title="Link to this heading"></a></h3>
+<p>Encrypts sensitive key material - this is most useful for storing encrypted secrets in source code.</p>
+</section>
+<section id="unlock">
+<h3>unlock<a class="headerlink" href="#unlock" title="Link to this heading"></a></h3>
+<p>Decrypts sensitive key material - used to decrypt the secrets stored in source during deployment.</p>
+</section>
+<section id="automated-celery-tasks">
+<h3>Automated celery tasks<a class="headerlink" href="#automated-celery-tasks" title="Link to this heading"></a></h3>
+<p>Please refer to <a class="reference internal" href="../production/index.html#periodictasks"><span class="std std-ref">Periodic Tasks</span></a> to learn more about task scheduling in Lemur.</p>
+</section>
+</section>
+<section id="what-s-next">
+<h2>What’s Next?<a class="headerlink" href="#what-s-next" title="Link to this heading"></a></h2>
+<p>Get familiar with how Lemur works by reviewing the <a class="reference internal" href="../guide/index.html"><span class="doc">User Guide</span></a>. When you’re ready see <a class="reference internal" href="../production/index.html"><span class="doc">Production</span></a> for more details on how to configure Lemur for production.</p>
+<p>The above just gets you going, but for production there are several different security considerations to take into account.  Remember, Lemur is handling sensitive data and security is imperative.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="Lemur" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../production/index.html" class="btn btn-neutral float-right" title="Production" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018, Netflix Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

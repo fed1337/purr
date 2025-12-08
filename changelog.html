@@ -1,0 +1,903 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Changelog &mdash; lemur 1.3.dev0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=57ae1f5f"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="License" href="license/index.html" />
+    <link rel="prev" title="Frequently Asked Questions" href="faq.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            lemur
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart/index.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="production/index.html">Production</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guide/index.html">User Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="administration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="administration.html#command-line-interface">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="administration.html#upgrading-lemur">Upgrading Lemur</a></li>
+<li class="toctree-l1"><a class="reference internal" href="administration.html#plugins">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="administration.html#rd-party-plugins">3rd Party Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="administration.html#iam-target">Identity and Access Management</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developer/index.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer/index.html#writing-a-plugin">Writing a Plugin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer/index.html#rest-api">REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer/index.html#internals">Internals</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="doing-a-release.html">Doing a release</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#unreleased">Unreleased</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">1.8.2 - <cite>2024-06-11</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">1.8.1 - <cite>2024-05-20</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">1.8.0 - <cite>2024-05-20</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">1.7.0 - <cite>2024-01-17</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">1.6.0 - <cite>2023-10-23</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">1.5.0 - <cite>2023-07-05</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">1.4.0 - <cite>2023-04-04</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">1.3.2 - <cite>2023-02-24</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">1.3.1 - <cite>2023-02-15</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">1.3.0 - <cite>2023-02-13</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id11">1.2.0 - <cite>2022-01-31</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">1.1.0 - <cite>2022-01-10</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id16">1.0.0 - <cite>2022-01-06</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id17">0.11.0 - <cite>2022-01-05</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id19">0.10.0 - <cite>2021-06-28</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id21">0.9.0 - <cite>2021-03-17</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id23">0.8.1 - <cite>2021-03-12</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id25">0.8.0 - <cite>2020-11-13</cite></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#upgrading">Upgrading</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id29">0.7 - <cite>2018-05-07</cite></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id30">Upgrading</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id32">0.6 - <cite>2018-01-02</cite></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id39">Upgrading</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id41">0.5 - <cite>2016-04-08</cite></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id49">Upgrading</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id51">0.4 - <cite>2016-11-17</cite></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id55">Upgrading</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id57">0.3.0 - <cite>2016-06-06</cite></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id58">Upgrading</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#source-plugin-owners">Source Plugin Owners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#issuer-plugin-owners">Issuer Plugin Owners</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id71">0.2.2 - 2016-02-05</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id79">0.2.1 - 2015-12-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id80">0.2.0 - 2015-12-02</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id81">0.1.5 - 2015-10-26</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license/index.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">lemur</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Changelog</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/changelog.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="changelog">
+<h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading"></a></h1>
+<section id="unreleased">
+<h2>Unreleased<a class="headerlink" href="#unreleased" title="Link to this heading"></a></h2>
+<p>Added REISSUE_FILTER: a configurable, plugin-independent callback that can be used to reject reissuance requests
+based on your specific business logic. For example, you could disallow reissuing certs on abandoned ELBs
+Added AWS_ELB_IGNORE_TAGS to allow mutiple ELB tags to be ignored.
+Added support for ignoring cloufront distirbutions and IAM certificates via the AWS_CLOUDFRONT_IGNORE_TAGS and AWS_IAM_IGNORE_TAGS config options.
+Added ENABLE_AUTO_ROTATE_ALL_AUTHORITIES configuration to allow all authorities to be considered for destination autorotate task.
+Added CERTIFICATE_UPDATE_REQUEST_VALIDATION: a configurable, plugin-independent callback that can be used to reject requests
+based on your specific business logic. For example, you could disallow certs with rotate set and no destinations to reduce
+volume of unused certs.
+Added CERTIFICATE_CREATE_REQUEST_VALIDATION: a configurable, plugin-independent callback that can be used to reject requests
+based on your specific business logic. For example, you could disallow certs with rotate set and no destinations to reduce
+volume of unused certs.
+Added the disable_autorotate_without_endpoint celery task, along with a customizable DISABLE_AUTOROTATION_FILTER
+function you can use to determine when to disable autorotate. By default, nothing will be changed by this task when scheduled.
+Added a new API endpoint <cite>/certificates/{certificate_id}/description</cite> for updating just the description field of a certificate, avoiding the need to provide the full certificate object for simple description updates.
+Removed support for Postgres 12, Postgres 15, Python 3.9, and Ubuntu 20.04. Added support for postgres 16.</p>
+</section>
+<section id="id1">
+<h2>1.8.2 - <cite>2024-06-11</cite><a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p>DigicertCISIssuer create_authority endpoint now defaults root to the name field if authority field isn’t specified.
+Added ENTRUST_CLIENT_IDS for using multiple predefined clients.</p>
+</section>
+<section id="id2">
+<h2>1.8.1 - <cite>2024-05-20</cite><a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>Updated deployment workflow to use <cite>pypa/gh-action-pypi-publish</cite>.</p>
+</section>
+<section id="id3">
+<h2>1.8.0 - <cite>2024-05-20</cite><a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Added <cite>PING_EXCLUDE_USER_PARAMS</cite> config option.</p></li>
+<li><p>Added Google CA issuer plugin. This plugin creates certificates via Google CA Manager API.</p></li>
+<li><p>Allow CN to be optional in reissue and clone.</p></li>
+</ul>
+<p>Special thanks to all who contributed to this release, notably:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/odopertchouk">odopertchouk</a></p></li>
+</ul>
+</section>
+<section id="id4">
+<h2>1.7.0 - <cite>2024-01-17</cite><a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>To avoid confusion, the debug app configuration property has been replaced with the standard DEBUG flask app config.</p></li>
+<li><p>Added ability for new versions of LEMUR_TOKEN_SECRET via the LEMUR_TOKEN_SECRETS config option. This allows for migration and rotation of the secret.</p></li>
+<li><p>Added ENTRUST_INFER_EKU config property which attempts to computes the appropriate EKU value from the csr (default False).</p></li>
+<li><p>Added DIGICERT_CIS_USE_CSR_FIELDS to control the <cite>use_csr_fields</cite> create certificate API field (default False).</p></li>
+<li><p>Added Digicert source plugin. Enable it with DIGICERT_SOURCE_ENABLED</p></li>
+<li><p>Added AWS ACM source plugin. This plugin retreives all certificates for an account and a region.</p></li>
+<li><p>Added AWS ACM destination plugin. This plugin uploads a certificate to AWS ACM.</p></li>
+<li><p>Allow updating options field via authority update API.</p></li>
+<li><p>Fixed a DoS security issue affecting Windows env via the name parameter of the certificate post endpoint.</p></li>
+</ul>
+</section>
+<section id="id5">
+<h2>1.6.0 - <cite>2023-10-23</cite><a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<ul>
+<li><p>Add NTLM auth support for ADCS issuer.</p></li>
+<li><p>Added password complexity requirements:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>At least 12 characters (required for your Muhlenberg password)—the more characters, the better</p></li>
+<li><p>A mixture of both uppercase and lowercase letters</p></li>
+<li><p>A mixture of letters and numbers</p></li>
+<li><p>Inclusion of at least one special character, e.g., ! &#64; # ? ]</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>If you don’t want password complexity requirements, you can set CHECK_PASSWORD_STRENGTH to False.</p></li>
+<li><p>Added ability to limit authority creation to admins only using config option <cite>ADMIN_ONLY_AUTHORITY_CREATION</cite>.</p></li>
+<li><p>User passwords can now be updated by admins with the update user endpoint.</p></li>
+<li><p>Route53 find_zone_dns now selects the maximum suffix match for zone id (previously we selected the first match).</p></li>
+</ul>
+</section>
+<section id="id6">
+<h2>1.5.0 - <cite>2023-07-05</cite><a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Fixed a bug where S3 deletes wouldn’t work due to not respecting the configured exportPlugin.</p></li>
+<li><p>Flask 2.3.2 Upgrade.</p></li>
+<li><p>Implemented Click CLI.</p></li>
+<li><p>Removed flask-script.</p></li>
+<li><p>Updated werkzeug to 2.3.6 and jinja2 to 3.1.2.</p></li>
+<li><p>Updated CORS settings to use Flask-CORS Configuration Options.</p></li>
+<li><p>Added new Custom Response Headers option to Lemur Configuration.</p></li>
+<li><p>Added legacy p12 export type to openssl plugin. New versions of openssl produce keystores incompatible with older</p></li>
+<li><p>versions of JDK8, so in some cases it may be useful to export in this format. Note that legacy p12 files do <em>NOT</em> feature strong encryption, and you should not rely on confidentiality of the exported resource.</p></li>
+</ul>
+<p>CLI Command Updates:
+- <cite>runserver</cite> cmd has been replaced by the default <cite>run</cite> cmd.
+- <cite>show_urls</cite> cmd has been replaced by the default <cite>routes</cite> cmd.
+- <cite>clean</cite> cmd has been removed. currently there is no default replacement for the <cite>clean</cite> cmd.</p>
+</section>
+<section id="id7">
+<h2>1.4.0 - <cite>2023-04-04</cite><a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<p>Added support for Python 3.10, Postgres 15, and Ubuntu 22.04.
+Removed support for Postgres 10 and Ubuntu 18.04.</p>
+<p>Python 3.11 is known not to work with the current version of Flask.</p>
+<p>All combinations tested via GitHub Actions are listed below:</p>
+<table class="docutils align-default" id="id82">
+<caption><span class="caption-text">Version Support Matrix</span><a class="headerlink" href="#id82" title="Link to this table"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Python</p></th>
+<th class="head"><p>Postgres</p></th>
+<th class="head"><p>Ubuntu</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>3.8</p></td>
+<td><p>12</p></td>
+<td><p>20.04</p></td>
+</tr>
+<tr class="row-odd"><td><p>3.8</p></td>
+<td><p>15</p></td>
+<td><p>20.04</p></td>
+</tr>
+<tr class="row-even"><td><p>3.9</p></td>
+<td><p>12</p></td>
+<td><p>20.04</p></td>
+</tr>
+<tr class="row-odd"><td><p>3.9</p></td>
+<td><p>15</p></td>
+<td><p>20.04</p></td>
+</tr>
+<tr class="row-even"><td><p>3.9</p></td>
+<td><p>15</p></td>
+<td><p>20.04</p></td>
+</tr>
+<tr class="row-odd"><td><p>3.10</p></td>
+<td><p>12</p></td>
+<td><p>22.04</p></td>
+</tr>
+<tr class="row-even"><td><p>3.10</p></td>
+<td><p>15</p></td>
+<td><p>22.04</p></td>
+</tr>
+</tbody>
+</table>
+<p>Added additional validation and logging for destinations.
+Destination labels are now limited to 32 characters, and s3
+prefixes can no longer begin with /.
+S3 destination path prefixes now default to “” instead of “None/”</p>
+<p>Enforce case consistency in authority signing algorithms. Specifically, this renames SHA384withECDSA -&gt; sha384WithECDSA
+and SHA512withECDSA -&gt; sha512WithECDSA. Notably, the backend schema will still accept the uppercase equivalents to
+maintain backwards compatibility.</p>
+</section>
+<section id="id8">
+<h2>1.3.2 - <cite>2023-02-24</cite><a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<p>This release contains a fix for a security vulnerability.</p>
+</section>
+<section id="id9">
+<h2>1.3.1 - <cite>2023-02-15</cite><a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<p>This release contains no changes.</p>
+</section>
+<section id="id10">
+<h2>1.3.0 - <cite>2023-02-13</cite><a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<p>This release contains many dependency updates, and numerous added or improved features over the last year.</p>
+<p>Some of the notable changes in this release are:</p>
+<ul class="simple">
+<li><p>Removal of AWS S3 destinations and the respetive resources via the UI</p></li>
+<li><p>No fine-grained authz for role global_cert_issuer</p></li>
+<li><p>De-activate endpoint (Entrust Plugin)</p></li>
+<li><p>Remove unsafe paginate method and replace with sort_and_page</p></li>
+<li><p>Move to github workflows for tests</p></li>
+<li><p>Detect duplicate certs</p></li>
+<li><p>Metrics for certificate expiry</p></li>
+<li><p>Sync source: handling idle/invalidated connection</p></li>
+<li><p>Sync endpoint: capture error and continue</p></li>
+<li><p>Domain-level fine-grained authz</p></li>
+<li><p>Handle and report authz warmup exception</p></li>
+<li><p>Ensure secondary certificates are not removed when rotating AWS endpoints</p></li>
+<li><p>Improved metric around expired endpoints</p></li>
+<li><p>Change pkg_resources call in plugin loading to use resolve rather than load</p></li>
+<li><p>Log when an expiring deployed certificate is detected</p></li>
+<li><p>NS1 DNS ACME Plugin</p></li>
+<li><p>Add a new endpoint that allows updating a certificate owner</p></li>
+<li><p>Support rotating endpoints with non-unique names via CLI</p></li>
+<li><p>Restrict multiple accounts on a certificate, by plugin</p></li>
+<li><p>Moving to dependabot’s auto versioning strategy</p></li>
+</ul>
+<p>Special thanks to all who contributed to this release, notably:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/neilschelly">Neil Schelly</a></p></li>
+<li><p><a class="reference external" href="https://github.com/mitchcail">Mitch Cail</a></p></li>
+<li><p><a class="reference external" href="https://github.com/bobmshannon">Bob Shannon</a></p></li>
+<li><p><a class="reference external" href="https://github.com/alwaysjolley">alwaysjolley</a></p></li>
+</ul>
+</section>
+<section id="id11">
+<h2>1.2.0 - <cite>2022-01-31</cite><a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<p>This release fixes a vulnerability where creating an authority automatically granted the selected owner role to the
+authority creator, which allowed users to grant themselves to arbitrary roles. The owner role is no longer auto-assigned
+when creating an authority.</p>
+<p>Additionally, all authorities now receive a unique role upon creation. Previously, authorities using the same issuer
+plugin would always share a role (for example, Entrust authorities always used the role “entrust”). Now, authorities
+are associated with a unique role named in the format <cite>issuerPlugin_authority_name_admin</cite>. The creator will not be
+automatically added to this role.</p>
+<p>Other notable changes:
+- The Endpoints UI page now displays endpoint source and allows filtering by source</p>
+</section>
+<section id="id12">
+<h2>1.1.0 - <cite>2022-01-10</cite><a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
+<p>Introducing new Plugins AuthorizationPlugin(Plugin) and DomainAuthorizationPlugin(AuthorizationPlugin).
+One can implement a DomainAuthorizationPlugin to check if caller is authorized to issue a certificate
+for a given Common Name and Subject Alternative Name (SAN) of type DNSName (PR <a class="reference external" href="https://github.com/Netflix/lemur/pull/3889">#3889</a>)</p>
+<p>Related to the above change (PR <a class="reference external" href="https://github.com/Netflix/lemur/pull/3889">#3889</a>), a new column <cite>application_name</cite>
+is added to the <cite>api_keys</cite> table. Null values are allowed making sure this change is backward compatible.</p>
+<p>Other notable changes:
+- A task name is fixed from <cite>identity_expiring_deployed_certificates</cite> -&gt; <cite>identify_expiring_deployed_certificates</cite>. The
+old task name with typo is marked as deprecated and will be removed in future release flagging it as a breaking change.
+(Thanks to <a class="reference external" href="https://github.com/bobmshannon">Bob Shannon</a>)
+- ID filter on certificates UI requires a numeric value.</p>
+</section>
+<section id="id16">
+<h2>1.0.0 - <cite>2022-01-06</cite><a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
+<p>This is our first major release due to a dependency on Python 3.8.
+Lemur is now using flake8&gt;=4.0 and pyflakes&gt;=2.4, requiring Python 3.8 or higher.
+Our GitHub Actions Builds are currently on Python 3.8 and Python 3.9.</p>
+</section>
+<section id="id17">
+<h2>0.11.0 - <cite>2022-01-05</cite><a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<p>This release includes multiple improvements on many fronts.
+The next release will be a major release, requiring Python 3.8 or higher.</p>
+<p>Some of the notable changes in this release are:</p>
+<ul class="simple">
+<li><p>CloudFront Plugin: a new endpoint with rotation support</p></li>
+<li><p>Improved Endpoint expiration flow; the Sync job now expires old endpoints</p></li>
+<li><p>AWS ELB tag supports to opt-out of auto-rotate for load balancers</p></li>
+<li><p>Membership plugin</p></li>
+<li><p>Moving Travis Build to Node 16</p></li>
+<li><p>OAuth2 &amp; Ping Config improvement</p></li>
+<li><p>Improved Certificate status check</p></li>
+<li><dl class="simple">
+<dt>Improved ACME plugin:</dt><dd><ul>
+<li><p>reuse existing domain validation resulting in faster issuance</p></li>
+<li><p>IP certificate issuance support, accompanied by UI support</p></li>
+<li><p>emit remaining domain validation</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Azure destination: Switch to PCKS12 upload</p></li>
+<li><dl class="simple">
+<dt>Improved logs, such as:</dt><dd><ul>
+<li><p>Warning logs for admin role assignment and authority creation</p></li>
+<li><p>Audit logs in JSON format for better search</p></li>
+<li><p>Improved SES logging</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Special thanks to all who contributed to this release, notably:
+- <a class="reference external" href="https://github.com/bobmshannon">Bob Shannon</a>
+- <a class="reference external" href="https://github.com/sirferl">sirferl</a>
+- <a class="reference external" href="https://github.com/havron">Sam Havron</a>
+- <a class="reference external" href="https://github.com/dumontg">Guillaume Dumont</a>
+- <a class="reference external" href="https://github.com/JoeMcRobot">Joe McRobot</a></p>
+</section>
+<section id="id19">
+<h2>0.10.0 - <cite>2021-06-28</cite><a class="headerlink" href="#id19" title="Link to this heading"></a></h2>
+<p>This release introduces a breaking change (PR <a class="reference external" href="https://github.com/Netflix/lemur/pull/3646">#3646</a>) to the following API endpoint:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://lemur.readthedocs.io/en/latest/developer/index.html#lemur.certificates.views.Certificates.post">POST /certificates/1/update/notify</a></p></li>
+</ul>
+<p>The endpoint is now:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://lemur.readthedocs.io/en/latest/developer/index.html#lemur.certificates.views.Certificates.post">POST /certificates/1/update/switches</a></p></li>
+</ul>
+<p>The new endpoint honors the existing <cite>notify</cite> request parameter, and additionally accepts a new <cite>rotation</cite> parameter.
+As a result of this change, the certificate table view now includes rotation switches and filtering by rotation status.</p>
+<p>Other notable changes in this release:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>ACME:</dt><dd><ul>
+<li><p>New celery task to prevent duplicate certificates from being autorotated</p></li>
+<li><p>ACME DNS-01 Challenges are supported in synchronous mode</p></li>
+<li><p>DNS provider check fails gracefully if not found</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Authentication:</dt><dd><ul>
+<li><p>SSO auth now returns a newly created user during initial login</p></li>
+<li><p>CSRF protection is added to OAuth2.0</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Notifications:</dt><dd><ul>
+<li><p>New reissue failed notification</p></li>
+<li><p>New reissue with no endpoints notification</p></li>
+<li><p>New revocation notification</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Plugins:</dt><dd><ul>
+<li><p>Plugin option values are validated server-side</p></li>
+<li><p>Some plugin option validations updated to compile successfully server-side</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Database:
+- Source and Destination deletions remove certificate associations with new confirmation dialog</p></li>
+<li><p>Dependency updates and conflict resolutions</p></li>
+<li><p>Expanded audit logs</p></li>
+</ul>
+<p>And several smaller bugfixes and improvements.</p>
+<p>Special thanks to all who contributed to this release, notably:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/havron">havron</a></p></li>
+<li><p><a class="reference external" href="https://github.com/tho">tho</a></p></li>
+<li><p><a class="reference external" href="https://github.com/mizzy">mizzy</a></p></li>
+</ul>
+</section>
+<section id="id21">
+<h2>0.9.0 - <cite>2021-03-17</cite><a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
+<p>This release fixes three critical vulnerabilities where an authenticated user could retrieve/access
+unauthorized information. (Issue <a class="reference external" href="https://github.com/Netflix/lemur/issues/3463">#3463</a>)</p>
+</section>
+<section id="id23">
+<h2>0.8.1 - <cite>2021-03-12</cite><a class="headerlink" href="#id23" title="Link to this heading"></a></h2>
+<p>This release includes improvements on many fronts, such as:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Notifications:</dt><dd><ul>
+<li><p>Enhanced SNS flow</p></li>
+<li><p>Expiration Summary</p></li>
+<li><p>CA expiration email</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>EC algorithm as the default</p></li>
+<li><p>Improved revocation flow</p></li>
+<li><p>Localized AWS STS option</p></li>
+<li><p>Improved Lemur doc building</p></li>
+<li><dl class="simple">
+<dt>ACME:</dt><dd><ul>
+<li><p>reduced failed attempts to 3x trials</p></li>
+<li><p>support for selecting the chain (Let’s Encrypt X1 transition)</p></li>
+<li><p>revocation</p></li>
+<li><p>http01 documentation</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Entrust:</dt><dd><ul>
+<li><p>Support for cross-signed intermediate CA</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Revised disclosure process</p></li>
+<li><p>Dependency updates and conflict resolutions</p></li>
+</ul>
+<p>Special thanks to all who contributed to this release, notably:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/peschmae">peschmae</a></p></li>
+<li><p><a class="reference external" href="https://github.com/atugushev">atugushev</a></p></li>
+<li><p><a class="reference external" href="https://github.com/sirferl">sirferl</a></p></li>
+</ul>
+</section>
+<section id="id25">
+<h2>0.8.0 - <cite>2020-11-13</cite><a class="headerlink" href="#id25" title="Link to this heading"></a></h2>
+<p>This release comes after more than two years and contains many interesting new features and improvements.
+In addition to multiple new plugins, such as ACME-http01, ADCS, PowerDNS, UltraDNS, Entrust, SNS, many of Lemur’s existing
+flows have improved.</p>
+<p>In the future, we plan to do frequent releases.</p>
+<p>Summary of notable changes:</p>
+<ul class="simple">
+<li><p>AWS S3 plugin: added delete, get methods, and support for uploading/deleting acme tokens</p></li>
+<li><dl class="simple">
+<dt>ACME plugin:</dt><dd><ul>
+<li><p>revamp of the plugin</p></li>
+<li><p>support for http01 domain validation, via S3 and SFTP as destination for the acme token</p></li>
+<li><p>support for CNAME delegated domain validation</p></li>
+<li><p>store-acme-account-details</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>PowerDNS plugin</p></li>
+<li><p>UltraDNS plugin</p></li>
+<li><p>ADCS plugin</p></li>
+<li><p>SNS plugin</p></li>
+<li><p>Entrust plugin</p></li>
+<li><dl class="simple">
+<dt>Rotation:</dt><dd><ul>
+<li><p>respecting keyType and extensions</p></li>
+<li><p>region-by-region rotation option</p></li>
+<li><p>default to auto-rotate when cert attached to endpoint</p></li>
+<li><p>default to 1y validity during rotation for multi-year browser-trusted certs</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Certificate: search_by_name, and important performance improvements</p></li>
+<li><dl class="simple">
+<dt>UI</dt><dd><ul>
+<li><p>reducing the EC curve options to the relevant ones</p></li>
+<li><p>edit option for notifications, destinations and sources</p></li>
+<li><p>showing 13 month validity as default</p></li>
+<li><p>option to hide certs expired since 3month</p></li>
+<li><p>faster Permalink (no search involved)</p></li>
+<li><p>commonName Auto Added as DNS in the UI</p></li>
+<li><p>improved search and cert lookup</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>celery tasks instead of crone, for better logging and monitoring</p></li>
+<li><dl class="simple">
+<dt>countless bugfixes</dt><dd><ul>
+<li><p>group-lookup-fix-referral</p></li>
+<li><p>url_context_path</p></li>
+<li><p>duplicate notification</p></li>
+<li><p>digicert-time-bug-fix</p></li>
+<li><p>improved-csr-support</p></li>
+<li><p>fix-cryptography-intermediate-ca</p></li>
+<li><p>enhanced logging</p></li>
+<li><p>vault-k8s-auth</p></li>
+<li><p>cfssl-key-fix</p></li>
+<li><p>cert-sync-endpoint-find-by-hash</p></li>
+<li><p>nlb-naming-bug</p></li>
+<li><p>fix_vault_api_v2_append</p></li>
+<li><p>aid_openid_roles_provider_integration</p></li>
+<li><p>rewrite-java-keystore-use-pyjks</p></li>
+<li><p>vault_kv2</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>To see the full list of changes, you can run</p>
+<blockquote>
+<div><p>$ git log –merges –first-parent master         –pretty=format:”%h %&lt;(10,trunc)%aN %C(white)%&lt;(15)%ar%Creset %C(red bold)%&lt;(15)%D%Creset %s” | grep -v “depend”</p>
+</div></blockquote>
+<p>Special thanks to all who contributed to this release, notably:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/peschmae">peschmae</a></p></li>
+<li><p><a class="reference external" href="https://github.com/sirferl">sirferl</a></p></li>
+<li><p><a class="reference external" href="https://github.com/lukasmrtvy">lukasmrtvy</a></p></li>
+<li><p><a class="reference external" href="https://github.com/intgr">intgr</a></p></li>
+<li><p><a class="reference external" href="https://github.com/kush-bavishi">kush-bavishi</a></p></li>
+<li><p><a class="reference external" href="https://github.com/alwaysjolley">alwaysjolley</a></p></li>
+<li><p><a class="reference external" href="https://github.com/jplana">jplana</a></p></li>
+<li><p><a class="reference external" href="https://github.com/explody">explody</a></p></li>
+<li><p><a class="reference external" href="https://github.com/titouanc">titouanc</a></p></li>
+<li><p><a class="reference external" href="https://github.com/jramosf">jramosf</a></p></li>
+</ul>
+<section id="upgrading">
+<h3>Upgrading<a class="headerlink" href="#upgrading" title="Link to this heading"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This release will need a migration change. Please follow the <a class="reference external" href="https://lemur.readthedocs.io/en/latest/administration.html#upgrading-lemur">documentation</a> to upgrade Lemur.</p>
+</div>
+</section>
+</section>
+<section id="id29">
+<h2>0.7 - <cite>2018-05-07</cite><a class="headerlink" href="#id29" title="Link to this heading"></a></h2>
+<p>This release adds LetsEncrypt support with DNS providers Dyn, Route53, and Cloudflare, and expands on the pending certificate functionality.
+The linux_dst plugin will also be deprecated and removed.</p>
+<p>The pending_dns_authorizations and dns_providers tables were created. New columns
+were added to the certificates and pending_certificates tables, (For the DNS provider ID), and authorities (For options).
+Please run a database migration when upgrading.</p>
+<p>The Let’s Encrypt flow will run asynchronously. When a certificate is requested through the acme-issuer, a pending certificate
+will be created. A cron needs to be defined to run <cite>lemur pending_certs fetch_all_acme</cite>. This command will iterate through all of the pending
+certificates, request a DNS challenge token from Let’s Encrypt, and set the appropriate _acme-challenge TXT entry. It will
+then iterate through and resolve the challenges before requesting a certificate for each pending certificate. If a certificate
+is successfully obtained, the pending_certificate will be moved to the certificates table with the appropriate properties.</p>
+<p>Special thanks to all who helped with this release, notably:</p>
+<ul class="simple">
+<li><p>The folks at Cloudflare</p></li>
+<li><p>dmitryzykov</p></li>
+<li><p>jchuong</p></li>
+<li><p>seils</p></li>
+<li><p>titouanc</p></li>
+</ul>
+<section id="id30">
+<h3>Upgrading<a class="headerlink" href="#id30" title="Link to this heading"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This release will need a migration change. Please follow the <a class="reference external" href="https://lemur.readthedocs.io/en/latest/administration.html#upgrading-lemur">documentation</a> to upgrade Lemur.</p>
+</div>
+</section>
+</section>
+<section id="id32">
+<h2>0.6 - <cite>2018-01-02</cite><a class="headerlink" href="#id32" title="Link to this heading"></a></h2>
+<p>Happy Holidays! This is a big release with lots of bug fixes and features. Below are the highlights and are not exhaustive.</p>
+<p>Features:</p>
+<ul class="simple">
+<li><p>Per-certificate rotation policies, requires a database migration. The default rotation policy for all certificates is 30 days. Every certificate will gain a policy regardless of if auto-rotation is used.</p></li>
+<li><p>Adds per-user API Keys, allows users to issue multiple long-lived API tokens with the same permission as the user creating them.</p></li>
+<li><p>Adds the ability to revoke certificates from the Lemur UI/API, this is currently only supported for the digicert CIS and cfssl plugins.</p></li>
+<li><p>Allow destinations to support an export function. Useful for file system destinations e.g. S3 to specify the export plugin you wish to run before being sent to the destination.</p></li>
+<li><p>Adds support for uploading certificates to Cloudfront.</p></li>
+<li><p>Re-worked certificate metadata pane for improved readability.</p></li>
+<li><p>Adds support for LDAP user authentication</p></li>
+</ul>
+<p>Bugs:</p>
+<ul class="simple">
+<li><p>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/767">#767</a> - Fixed issue with login redirect loop.</p></li>
+<li><p>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/792">#792</a> - Fixed an issue with a unique constraint was violated when replacing certificates.</p></li>
+<li><p>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/752">#752</a> - Fixed an internal server error when validating notification units.</p></li>
+<li><p>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/684">#684</a> - Fixed migration failure when null values encountered.</p></li>
+<li><p>Closes <a class="reference external" href="https://github.com/Netflix/lemur/issues/661">#661</a> - Fixed an issue where default values were missing during clone operations.</p></li>
+</ul>
+<p>Special thanks to all who helped with this release, notably:</p>
+<ul class="simple">
+<li><p>intgr</p></li>
+<li><p>SecurityInsanity</p></li>
+<li><p>johanneslange</p></li>
+<li><p>RickB17</p></li>
+<li><p>pr8kerl</p></li>
+<li><p>bunjiboys</p></li>
+</ul>
+<p>See the full list of issues closed in <a class="reference external" href="https://github.com/Netflix/lemur/milestone/5">0.6</a>.</p>
+<section id="id39">
+<h3>Upgrading<a class="headerlink" href="#id39" title="Link to this heading"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This release will need a migration change. Please follow the <a class="reference external" href="https://lemur.readthedocs.io/en/latest/administration.html#upgrading-lemur">documentation</a> to upgrade Lemur.</p>
+</div>
+</section>
+</section>
+<section id="id41">
+<h2>0.5 - <cite>2016-04-08</cite><a class="headerlink" href="#id41" title="Link to this heading"></a></h2>
+<p>This release is most notable for dropping support for python2.7. All Lemur versions &gt;0.4 will now support python3.5 only.</p>
+<p>Big thanks to neilschelly for quite a lot of improvements to the <cite>lemur-cryptography</cite> plugin.</p>
+<p>Other Highlights:</p>
+<ul class="simple">
+<li><p>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/501">#501</a> - Endpoint resource as now kept in sync via an expiration mechanism. Such that non-existant endpoints gracefully fall out of Lemur. Certificates are never removed from Lemur.</p></li>
+<li><p>Closed <a class="reference external" href="https://github.com/Netflix/lemur/pull/551">#551</a> - Added the ability to create a 4096 bit key during certificate creation. Closed <a class="reference external" href="https://github.com/Netflix/lemur/pull/528">#528</a> to ensure that issuer plugins supported the new 4096 bit keys.</p></li>
+<li><p>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/566">#566</a> - Fixed an issue changing the notification status for  certificates without private keys.</p></li>
+<li><p>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/594">#594</a> - Added <cite>replaced</cite> field indicating if a certificate has been superseded.</p></li>
+<li><p>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/602">#602</a> - AWS plugin added support for ALBs for endpoint tracking.</p></li>
+</ul>
+<p>Special thanks to all who helped with this release, notably:</p>
+<ul class="simple">
+<li><p>RcRonco</p></li>
+<li><p>harmw</p></li>
+<li><p>jeremyguarini</p></li>
+</ul>
+<p>See the full list of issues closed in <a class="reference external" href="https://github.com/Netflix/lemur/milestone/4">0.5</a>.</p>
+<section id="id49">
+<h3>Upgrading<a class="headerlink" href="#id49" title="Link to this heading"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This release will need a slight migration change. Please follow the <a class="reference external" href="https://lemur.readthedocs.io/en/latest/administration.html#upgrading-lemur">documentation</a> to upgrade Lemur.</p>
+</div>
+</section>
+</section>
+<section id="id51">
+<h2>0.4 - <cite>2016-11-17</cite><a class="headerlink" href="#id51" title="Link to this heading"></a></h2>
+<p>There have been quite a few issues closed in this release. Some notables:</p>
+<ul class="simple">
+<li><p>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/284">#284</a> - Created new models for <cite>Endpoints</cite> created associated AWS ELB endpoint tracking code. This was the major stated goal of this milestone and should serve as the basis for future enhancements of Lemur’s certificate ‘deployment’ capabilities.</p></li>
+<li><p>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/334">#334</a> - Lemur not has the ability to restrict certificate expiration dates to weekdays.</p></li>
+</ul>
+<p>Several fixes/tweaks to Lemurs python3 support (thanks chadhendrie!)</p>
+<p>This will most likely be the last release to support python2.7 moving Lemur to target python3 exclusively. Please comment
+on issue #340 if this negatively affects your usage of Lemur.</p>
+<p>See the full list of issues closed in <a class="reference external" href="https://github.com/Netflix/lemur/milestone/3">0.4</a>.</p>
+<section id="id55">
+<h3>Upgrading<a class="headerlink" href="#id55" title="Link to this heading"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This release will need a slight migration change. Please follow the <a class="reference external" href="https://lemur.readthedocs.io/en/latest/administration.html#upgrading-lemur">documentation</a> to upgrade Lemur.</p>
+</div>
+</section>
+</section>
+<section id="id57">
+<h2>0.3.0 - <cite>2016-06-06</cite><a class="headerlink" href="#id57" title="Link to this heading"></a></h2>
+<p>This is quite a large upgrade, it is highly advised you backup your database before attempting to upgrade as this release
+requires the migration of database structure as well as data.</p>
+<section id="id58">
+<h3>Upgrading<a class="headerlink" href="#id58" title="Link to this heading"></a></h3>
+<p>Please follow the <a class="reference external" href="https://lemur.readthedocs.io/en/latest/administration.html#upgrading-lemur">documentation</a> to upgrade Lemur.</p>
+</section>
+<section id="source-plugin-owners">
+<h3>Source Plugin Owners<a class="headerlink" href="#source-plugin-owners" title="Link to this heading"></a></h3>
+<p>The dictionary returned from a source plugin has changed keys from <cite>public_certificate</cite> to <cite>body</cite> and <cite>intermediate_certificate</cite> to chain.</p>
+</section>
+<section id="issuer-plugin-owners">
+<h3>Issuer Plugin Owners<a class="headerlink" href="#issuer-plugin-owners" title="Link to this heading"></a></h3>
+<p>This release may break your plugins, the keys in <cite>issuer_options</cite> have been changed from <cite>camelCase</cite> to <cite>under_score</cite>.
+This change was made to break an undue reliance on downstream options maintains a more pythonic naming convention. Renaming
+these keys should be fairly trivial, additionally pull requests have been submitted to affected plugins to help ease the transition.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This change only affects issuer plugins and does not affect any other types of plugins.</p>
+</div>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/63">#63</a> - Validates all endpoints with Marshmallow schemas, this allows for</dt><dd><p>stricter input validation and better error messages when validation fails.</p>
+</dd>
+</dl>
+</li>
+<li><p>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/146">#146</a> - Moved authority type to first pane of authority creation wizard.</p></li>
+<li><dl class="simple">
+<dt>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/147">#147</a> - Added and refactored the relationship between authorities and their</dt><dd><p>root certificates. Displays the certificates (and chains) next to the authority in question.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/199">#199</a> - Ensures that the dates submitted to Lemur during authority and</dt><dd><p>certificate creation are actually dates.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/230">#230</a> - Migrated authority dropdown to an ui-select based dropdown, this</dt><dd><p>should be easier to determine what authorities are available and when an authority has actually been selected.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/254">#254</a> - Forces certificate names to be generally unique. If a certificate name</dt><dd><p>(generated or otherwise) is found to be a duplicate we increment by appending a counter.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/275">#275</a> - Switched to using Fernet generated passphrases for exported items.</dt><dd><p>These are more sounds that pseudo random passphrases generated before and have the nice property of being in base64.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/278">#278</a> - Added ability to specify a custom name to certificate creation, previously</dt><dd><p>this was only available in the certificate import wizard.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/281">#281</a> - Fixed an issue where notifications could not be removed from a certificate</dt><dd><p>via the UI.</p>
+</dd>
+</dl>
+</li>
+<li><p>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/289">#289</a> - Fixed and issue where intermediates were not being properly exported.</p></li>
+<li><dl class="simple">
+<dt>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/315">#315</a> - Made how roles are associated with certificates and authorities much more</dt><dd><p>explicit, including adding the ability to add roles directly to certificates and authorities on creation.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+</section>
+<section id="id71">
+<h2>0.2.2 - 2016-02-05<a class="headerlink" href="#id71" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/234">#234</a> - Allows export plugins to define whether they need</dt><dd><p>private key material (default is True)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/231">#231</a> - Authorities were not respecting ‘owning’ roles and their</dt><dd><p>users</p>
+</dd>
+</dl>
+</li>
+<li><p>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/228">#228</a> - Fixed documentation with correct filter values</p></li>
+<li><dl class="simple">
+<dt>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/226">#226</a> - Fixes issue were <cite>import_certificate</cite> was requiring</dt><dd><p>replacement certificates to be specified</p>
+</dd>
+</dl>
+</li>
+<li><p>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/224">#224</a> - Fixed an issue where NPM might not be globally available (thanks AlexClineBB!)</p></li>
+<li><dl class="simple">
+<dt>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/234">#221</a> - Fixes several reported issues where older migration scripts were</dt><dd><p>missing tables, this change removes pre 0.2 migration scripts</p>
+</dd>
+</dl>
+</li>
+<li><p>Closed <a class="reference external" href="https://github.com/Netflix/lemur/issues/234">#218</a> - Fixed an issue where export passphrases would not validate</p></li>
+</ul>
+</section>
+<section id="id79">
+<h2>0.2.1 - 2015-12-14<a class="headerlink" href="#id79" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Fixed bug with search not refreshing values</p></li>
+<li><p>Cleaned up documentation, including working supervisor example (thanks rpicard!)</p></li>
+<li><p>Closed #165 - Fixed an issue with email templates</p></li>
+<li><p>Closed #188 - Added ability to submit third party CSR</p></li>
+<li><p>Closed #176 - Java-export should allow user to specify truststore/keystore</p></li>
+<li><p>Closed #176 - Extended support for exporting certificate in P12 format</p></li>
+</ul>
+</section>
+<section id="id80">
+<h2>0.2.0 - 2015-12-02<a class="headerlink" href="#id80" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Closed #120 - Error messages not displaying long enough</p></li>
+<li><p>Closed #121 - Certificate create form should not be valid until a Certificate Authority object is available</p></li>
+<li><dl class="simple">
+<dt>Closed #122 - Certificate API should allow for the specification of preceding certificates</dt><dd><p>You can now target a certificate(s) for replacement. When specified the replaced certificate will be marked as
+‘inactive’. This means that there will be no notifications for that certificate.</p>
+</dd>
+</dl>
+</li>
+<li><p>Closed #139 - SubCA autogenerated descriptions for their certs are incorrect</p></li>
+<li><p>Closed #140 - Permalink does not change with filtering</p></li>
+<li><p>Closed #144 - Should be able to search certificates by domains covered, included wildcards</p></li>
+<li><p>Closed #165 - Cleaned up expiration notification template</p></li>
+<li><p>Closed #160 - Cleaned up quickstart documentation (thanks forkd!)</p></li>
+<li><p>Closed #144 - Now able to search by all domains in a given certificate, not just by common name</p></li>
+</ul>
+</section>
+<section id="id81">
+<h2>0.1.5 - 2015-10-26<a class="headerlink" href="#id81" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>SECURITY ISSUE</strong>: Switched from use an AES static key to Fernet encryption.
+Affects all versions prior to 0.1.5. If upgrading this will require a data migration.
+see: <a class="reference external" href="https://lemur.readthedocs.io/administration#UpgradingLemur">Upgrading Lemur</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="faq.html" class="btn btn-neutral float-left" title="Frequently Asked Questions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="license/index.html" class="btn btn-neutral float-right" title="License" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018, Netflix Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

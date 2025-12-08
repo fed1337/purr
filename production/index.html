@@ -1,0 +1,752 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Production &mdash; lemur 1.3.dev0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=57ae1f5f"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="User Guide" href="../guide/index.html" />
+    <link rel="prev" title="Quickstart" href="../quickstart/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            lemur
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart/index.html">Quickstart</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Production</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#basics">Basics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#credential-management">Credential Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#entropy">Entropy</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#tls-ssl">TLS/SSL</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#nginx">Nginx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#apache">Apache</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#supervisor">Supervisor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#periodic-tasks">Periodic Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#add-support-for-letsencrypt-acme">Add support for LetsEncrypt/ACME</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#acme-dns-challenge">ACME DNS Challenge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#acme-http-challenge">ACME HTTP Challenge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#letsencrypt-pinning-to-cross-signed-ica">LetsEncrypt: pinning to cross-signed ICA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#letsencrypt-using-a-pre-existing-acme-account">LetsEncrypt: Using a pre-existing ACME account</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#letsencrypt-setting-up-a-new-acme-account">LetsEncrypt: Setting up a new ACME account</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#external-account-binding-eab">External Account Binding (EAB):</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/index.html">User Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../administration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../administration.html#command-line-interface">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../administration.html#upgrading-lemur">Upgrading Lemur</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../administration.html#plugins">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../administration.html#rd-party-plugins">3rd Party Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../administration.html#iam-target">Identity and Access Management</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developer/index.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/index.html#writing-a-plugin">Writing a Plugin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/index.html#rest-api">REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/index.html#internals">Internals</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../doing-a-release.html">Doing a release</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license/index.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">lemur</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Production</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/production/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="production">
+<h1>Production<a class="headerlink" href="#production" title="Link to this heading"></a></h1>
+<p>There are several steps needed to make Lemur production ready. Here we focus on making Lemur more reliable and secure.</p>
+<section id="basics">
+<h2>Basics<a class="headerlink" href="#basics" title="Link to this heading"></a></h2>
+<p>Because of the sensitivity of the information stored and maintained by Lemur it is important that you follow standard host hardening practices:</p>
+<ul class="simple">
+<li><p>Run Lemur with a limited user</p></li>
+<li><p>Disabled any unneeded services</p></li>
+<li><p>Enable remote logging</p></li>
+<li><p>Restrict access to host</p></li>
+</ul>
+<section id="credential-management">
+<span id="credentialmanagement"></span><h3>Credential Management<a class="headerlink" href="#credential-management" title="Link to this heading"></a></h3>
+<p>Lemur often contains credentials such as mutual TLS keys or API tokens that are used to communicate with third party resources and for encrypting stored secrets. Lemur comes with the ability
+to automatically encrypt these keys such that your keys not be in clear text.</p>
+<p>The keys are located within lemur/keys and broken down by environment.</p>
+<p>To utilize this ability use the following commands:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">lemur</span> <span class="pre">lock</span></code></p>
+</div></blockquote>
+<p>and</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">lemur</span> <span class="pre">unlock</span></code></p>
+</div></blockquote>
+<p>If you choose to use this feature ensure that the keys are decrypted before Lemur starts as it will have trouble communicating with the database otherwise.</p>
+</section>
+<section id="entropy">
+<h3>Entropy<a class="headerlink" href="#entropy" title="Link to this heading"></a></h3>
+<p>Lemur generates private keys for the certificates it creates. This means that it is vitally important that Lemur has enough entropy to draw from. To generate private keys Lemur uses the python library <a class="reference external" href="https://cryptography.io">Cryptography</a>. In turn Cryptography uses OpenSSL bindings to generate
+keys just like you might from the OpenSSL command line. OpenSSL draws its initial entropy from system during startup and uses PRNGs to generate a stream of random bytes (as output by /dev/urandom) whenever it needs to do a cryptographic operation.</p>
+<p>What does all this mean? Well in order for the keys
+that Lemur generates to be strong, the system needs to interact with the outside world. This is typically accomplished through the systems hardware (thermal, sound, video user-input, etc.) since the physical world is much more “random” than the computer world.</p>
+<p>If you are running Lemur on its own server with its own hardware “bare metal” then the entropy of the system is typically “good enough” for generating keys. If however you are using a VM on shared hardware there is a potential that your initial seed data (data that was initially
+fed to the PRNG) is not very good. What’s more, VMs have been known to be unable to inject more entropy into the system once it has been started. This is because there is typically very little interaction with the server once it has been started.</p>
+<p>The amount of effort you wish to expend ensuring that Lemur has good entropy to draw from is up to your specific risk tolerance and how Lemur is configured.</p>
+<p>If you wish to generate more entropy for your system we would suggest you take a look at the following resources:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/Virginian/WES-entropy-client">WES-entropy-client</a></p></li>
+<li><p><a class="reference external" href="http://www.issihosts.com/haveged/">haveged</a></p></li>
+</ul>
+<p>The original <em>WES-entropy-client</em> repository by WhitewoodCrypto was removed, the link now points to a fork of it.</p>
+<p>For additional information about OpenSSL entropy issues:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.blackhat.com/docs/us-15/materials/us-15-Potter-Understanding-And-Managing-Entropy-Usage.pdf">Managing and Understanding Entropy Usage</a></p></li>
+</ul>
+</section>
+</section>
+<section id="tls-ssl">
+<h2>TLS/SSL<a class="headerlink" href="#tls-ssl" title="Link to this heading"></a></h2>
+<section id="nginx">
+<h3>Nginx<a class="headerlink" href="#nginx" title="Link to this heading"></a></h3>
+<p>Nginx is a very popular choice to serve a Python project:</p>
+<ul class="simple">
+<li><p>It’s fast.</p></li>
+<li><p>It’s lightweight.</p></li>
+<li><p>Configuration files are simple.</p></li>
+</ul>
+<p>Nginx doesn’t run any Python process, it only serves requests from outside to
+the Python server.</p>
+<p>Therefore, there are two steps:</p>
+<ul class="simple">
+<li><p>Run the Python process.</p></li>
+<li><p>Run Nginx.</p></li>
+</ul>
+<p>You will benefit from having:</p>
+<ul class="simple">
+<li><p>the possibility to have several projects listening to the port 80;</p></li>
+<li><p>your web site processes won’t run with admin rights, even if –user doesn’t
+work on your OS;</p></li>
+<li><p>the ability to manage a Python process without touching Nginx or the other
+processes. It’s very handy for updates.</p></li>
+</ul>
+<p>You must create a Nginx configuration file for Lemur. On GNU/Linux, they usually
+go into /etc/nginx/conf.d/. Name it lemur.conf.</p>
+<p><cite>proxy_pass</cite> just passes the external request to the Python process.
+The port must match the one used by the Lemur process of course.</p>
+<p>You can make some adjustments to get a better user experience:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>server_tokens off;
+add_header X-Frame-Options DENY;
+add_header X-Content-Type-Options nosniff;
+add_header X-XSS-Protection &quot;1; mode=block&quot;;
+
+server {
+  listen       80;
+  return       301 https://$host$request_uri;
+}
+
+server {
+   listen      443;
+   access_log  /var/log/nginx/log/lemur.access.log;
+   error_log   /var/log/nginx/log/lemur.error.log;
+
+   location /api {
+        proxy_pass  http://127.0.0.1:8000;
+        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;
+        proxy_redirect off;
+        proxy_buffering off;
+        proxy_set_header        Host            $host;
+        proxy_set_header        X-Real-IP       $remote_addr;
+        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location / {
+        root /path/to/lemur/static/dist;
+        include mime.types;
+        index index.html;
+    }
+
+
+}
+</pre></div>
+</div>
+<p>This makes Nginx serve the favicon and static files which it is much better at than python.</p>
+<p>It is highly recommended that you deploy TLS when deploying Lemur. This may be obvious given Lemur’s purpose but the
+sensitive nature of Lemur and what it controls makes this essential. This is a sample config for Lemur that also terminates TLS:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>server_tokens off;
+add_header X-Frame-Options DENY;
+add_header X-Content-Type-Options nosniff;
+add_header X-XSS-Protection &quot;1; mode=block&quot;;
+
+server {
+  listen       80;
+  return       301 https://$host$request_uri;
+}
+
+server {
+   listen      443;
+   access_log  /var/log/nginx/log/lemur.access.log;
+   error_log   /var/log/nginx/log/lemur.error.log;
+
+   # certs sent to the client in SERVER HELLO are concatenated in ssl_certificate
+   ssl_certificate /path/to/signed_cert_plus_intermediates;
+   ssl_certificate_key /path/to/private_key;
+   ssl_session_timeout 1d;
+   ssl_session_cache shared:SSL:50m;
+
+   # Diffie-Hellman parameter for DHE ciphersuites, recommended 2048 bits
+   ssl_dhparam /path/to/dhparam.pem;
+
+   # modern configuration. tweak to your needs.
+   ssl_protocols TLSv1.1 TLSv1.2;
+   ssl_ciphers &#39;ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!3DES:!MD5:!PSK&#39;;
+   ssl_prefer_server_ciphers on;
+
+   # HSTS (ngx_http_headers_module is required) (15768000 seconds = 6 months)
+   add_header Strict-Transport-Security max-age=15768000;
+
+   # OCSP Stapling ---
+   # fetch OCSP records from URL in ssl_certificate and cache them
+   ssl_stapling on;
+   ssl_stapling_verify on;
+
+   ## verify chain of trust of OCSP response using Root CA and Intermediate certs
+   ssl_trusted_certificate /path/to/root_CA_cert_plus_intermediates;
+
+   resolver &lt;IP DNS resolver&gt;;
+
+   location /api {
+        proxy_pass  http://127.0.0.1:8000;
+        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;
+        proxy_redirect off;
+        proxy_buffering off;
+        proxy_set_header        Host            $host;
+        proxy_set_header        X-Real-IP       $remote_addr;
+        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location / {
+        root /path/to/lemur/static/dist;
+        include mime.types;
+        index index.html;
+    }
+
+
+}
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Some paths will have to be adjusted based on where you have choose to install Lemur.</p>
+</div>
+</section>
+<section id="apache">
+<h3>Apache<a class="headerlink" href="#apache" title="Link to this heading"></a></h3>
+<p>An example apache config:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;VirtualHost *:443&gt;
+    ...
+    SSLEngine on
+    SSLCertificateFile      /path/to/signed_certificate
+    SSLCertificateChainFile /path/to/intermediate_certificate
+    SSLCertificateKeyFile   /path/to/private/key
+    SSLCACertificateFile    /path/to/all_ca_certs
+
+    # intermediate configuration, tweak to your needs
+    SSLProtocol             all -SSLv2 -SSLv3
+    SSLCipherSuite          ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA
+    SSLHonorCipherOrder     on
+
+    # HSTS (mod_headers is required) (15768000 seconds = 6 months)
+    Header always set Strict-Transport-Security &quot;max-age=15768000&quot;
+    ...
+
+ # Set the lemur DocumentRoot to static/dist
+ DocumentRoot /www/lemur/lemur/static/dist
+
+ # Uncomment to force http 1.0 connections to proxy
+ # SetEnv force-proxy-request-1.0 1
+
+ #Don&#39;t keep proxy connections alive
+ SetEnv proxy-nokeepalive 1
+
+ # Only need to do reverse proxy
+ ProxyRequests Off
+
+ # Proxy requests to the api to the lemur service (and sanitize redirects from it)
+ ProxyPass &quot;/api&quot; &quot;http://127.0.0.1:8000/api&quot;
+ ProxyPassReverse &quot;/api&quot; &quot;http://127.0.0.1:8000/api&quot;
+
+&lt;/VirtualHost&gt;
+</pre></div>
+</div>
+<p>Also included in the configurations above are several best practices when it comes to deploying TLS. Things like enabling
+HSTS, disabling vulnerable ciphers are all good ideas when it comes to deploying Lemur into a production environment.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is a rather incomplete apache config for running Lemur (needs mod_wsgi etc.), if you have a working apache config please let us know!</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="https://mozilla.github.io/server-side-tls/ssl-config-generator/">Mozilla SSL Configuration Generator</a></p>
+</div>
+</section>
+</section>
+<section id="supervisor">
+<span id="usingsupervisor"></span><h2>Supervisor<a class="headerlink" href="#supervisor" title="Link to this heading"></a></h2>
+<p>Supervisor is a very nice way to manage you Python processes. We won’t cover
+the setup (which is just apt-get install supervisor or pip install supervisor
+most of the time), but here is a quick overview on how to use it.</p>
+<p>Create a configuration file named supervisor.ini:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">unix_http_server</span><span class="p">]</span>
+<span class="n">file</span><span class="o">=/</span><span class="n">tmp</span><span class="o">/</span><span class="n">supervisor</span><span class="o">.</span><span class="n">sock</span>
+
+<span class="p">[</span><span class="n">supervisorctl</span><span class="p">]</span>
+<span class="n">serverurl</span><span class="o">=</span><span class="n">unix</span><span class="p">:</span><span class="o">///</span><span class="n">tmp</span><span class="o">/</span><span class="n">supervisor</span><span class="o">.</span><span class="n">sock</span>
+
+<span class="p">[</span><span class="n">rpcinterface</span><span class="p">:</span><span class="n">supervisor</span><span class="p">]</span>
+<span class="n">supervisor</span><span class="o">.</span><span class="n">rpcinterface_factory</span><span class="o">=</span><span class="n">supervisor</span><span class="o">.</span><span class="n">rpcinterface</span><span class="p">:</span><span class="n">make_main_rpcinterface</span>
+
+<span class="p">[</span><span class="n">supervisord</span><span class="p">]</span>
+<span class="n">logfile</span><span class="o">=/</span><span class="n">tmp</span><span class="o">/</span><span class="n">lemur</span><span class="o">.</span><span class="n">log</span>
+<span class="n">logfile_maxbytes</span><span class="o">=</span><span class="mi">50</span><span class="n">MB</span>
+<span class="n">logfile_backups</span><span class="o">=</span><span class="mi">2</span>
+<span class="n">loglevel</span><span class="o">=</span><span class="n">trace</span>
+<span class="n">pidfile</span><span class="o">=/</span><span class="n">tmp</span><span class="o">/</span><span class="n">supervisord</span><span class="o">.</span><span class="n">pid</span>
+<span class="n">nodaemon</span><span class="o">=</span><span class="n">false</span>
+<span class="n">minfds</span><span class="o">=</span><span class="mi">1024</span>
+<span class="n">minprocs</span><span class="o">=</span><span class="mi">200</span>
+
+<span class="p">[</span><span class="n">program</span><span class="p">:</span><span class="n">lemur</span><span class="p">]</span>
+<span class="n">command</span><span class="o">=</span><span class="n">python</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">lemur</span><span class="o">/</span><span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">start</span>
+
+<span class="n">directory</span><span class="o">=/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">lemur</span><span class="o">/</span>
+<span class="n">environment</span><span class="o">=</span><span class="n">PYTHONPATH</span><span class="o">=</span><span class="s1">&#39;/path/to/lemur/&#39;</span><span class="p">,</span><span class="n">LEMUR_CONF</span><span class="o">=</span><span class="s1">&#39;/home/lemur/.lemur/lemur.conf.py&#39;</span>
+<span class="n">user</span><span class="o">=</span><span class="n">lemur</span>
+<span class="n">autostart</span><span class="o">=</span><span class="n">true</span>
+<span class="n">autorestart</span><span class="o">=</span><span class="n">true</span>
+</pre></div>
+</div>
+<p>The 4 first entries are just boiler plate to get you started, you can copy
+them verbatim.</p>
+<p>The last one defines one (you can have many) process supervisor should manage.</p>
+<p>It means it will run the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">start</span>
+</pre></div>
+</div>
+<p>In the directory, with the environment and the user you defined.</p>
+<p>This command will be ran as a daemon, in the background.</p>
+<p><cite>autostart</cite> and <cite>autorestart</cite> just make it fire and forget: the site will always be
+running, even it crashes temporarily or if you restart the machine.</p>
+<p>The first time you run supervisor, pass it the configuration file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">supervisord</span> <span class="o">-</span><span class="n">c</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">supervisor</span><span class="o">.</span><span class="n">ini</span>
+</pre></div>
+</div>
+<p>Then you can manage the process by running:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">supervisorctl</span> <span class="o">-</span><span class="n">c</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">supervisor</span><span class="o">.</span><span class="n">ini</span>
+</pre></div>
+</div>
+<p>It will start a shell from which you can start/stop/restart the service.</p>
+<p>You can read all errors that might occur from /tmp/lemur.log.</p>
+</section>
+<section id="periodic-tasks">
+<span id="periodictasks"></span><h2>Periodic Tasks<a class="headerlink" href="#periodic-tasks" title="Link to this heading"></a></h2>
+<p>Lemur contains a few tasks that are run and scheduled basis, currently the recommend way to run these tasks is to create
+celery tasks or cron jobs that run these commands.</p>
+<p>The following commands that could/should be run on a periodic basis:</p>
+<ul class="simple">
+<li><p><cite>notify expirations</cite>, <cite>notify authority_expirations</cite>, <cite>notify security_expiration_summary</cite>, and <cite>notify expiring_deployed_certificates</cite> (see <a class="reference internal" href="../administration.html#notificationoptions"><span class="std std-ref">Notification Options</span></a> for configuration info)</p></li>
+<li><p><cite>certificate identify_expiring_deployed_certificates</cite></p></li>
+<li><p><cite>check_revoked</cite></p></li>
+<li><p><cite>sync</cite></p></li>
+</ul>
+<p>How often you run these commands is largely up to the user. <cite>notify</cite> should be run once a day (more often will result in
+duplicate notifications). <cite>check_revoked</cite> is typically run at least once a day.
+<cite>sync</cite> is typically run every 15 minutes. <cite>fetch_all_pending_acme_certs</cite> should be ran frequently (Every minute is fine).
+<cite>remove_old_acme_certs</cite> can be ran more rarely, such as once every week.</p>
+<p>Example cron entries:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span> <span class="mi">22</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="n">lemuruser</span> <span class="n">export</span> <span class="n">LEMUR_CONF</span><span class="o">=/</span><span class="n">Users</span><span class="o">/</span><span class="n">me</span><span class="o">/.</span><span class="n">lemur</span><span class="o">/</span><span class="n">lemur</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">py</span><span class="p">;</span> <span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">lemur</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">lemur</span> <span class="n">notify</span> <span class="n">expirations</span>
+<span class="mi">0</span> <span class="mi">22</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="n">lemuruser</span> <span class="n">export</span> <span class="n">LEMUR_CONF</span><span class="o">=/</span><span class="n">Users</span><span class="o">/</span><span class="n">me</span><span class="o">/.</span><span class="n">lemur</span><span class="o">/</span><span class="n">lemur</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">py</span><span class="p">;</span> <span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">lemur</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">lemur</span> <span class="n">notify</span> <span class="n">authority_expirations</span>
+<span class="mi">0</span> <span class="mi">22</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="n">lemuruser</span> <span class="n">export</span> <span class="n">LEMUR_CONF</span><span class="o">=/</span><span class="n">Users</span><span class="o">/</span><span class="n">me</span><span class="o">/.</span><span class="n">lemur</span><span class="o">/</span><span class="n">lemur</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">py</span><span class="p">;</span> <span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">lemur</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">lemur</span> <span class="n">notify</span> <span class="n">security_expiration_summary</span>
+<span class="o">*/</span><span class="mi">15</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="n">lemuruser</span> <span class="n">export</span> <span class="n">LEMUR_CONF</span><span class="o">=/</span><span class="n">Users</span><span class="o">/</span><span class="n">me</span><span class="o">/.</span><span class="n">lemur</span><span class="o">/</span><span class="n">lemur</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">py</span><span class="p">;</span> <span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">lemur</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">lemur</span> <span class="n">source</span> <span class="n">sync</span> <span class="o">-</span><span class="n">s</span> <span class="nb">all</span>
+<span class="mi">0</span> <span class="mi">22</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="n">lemuruser</span> <span class="n">export</span> <span class="n">LEMUR_CONF</span><span class="o">=/</span><span class="n">Users</span><span class="o">/</span><span class="n">me</span><span class="o">/.</span><span class="n">lemur</span><span class="o">/</span><span class="n">lemur</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">py</span><span class="p">;</span> <span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">lemur</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">lemur</span> <span class="n">certificate</span> <span class="n">check_revoked</span>
+</pre></div>
+</div>
+<p>If you are using LetsEncrypt, you must also run the following:</p>
+<ul class="simple">
+<li><p><cite>fetch_all_pending_acme_certs</cite></p></li>
+<li><p><cite>remove_old_acme_certs</cite></p></li>
+</ul>
+<p>Rarely, lemur may see duplicate certificates issue with LetsEncrypt. This is because of the retry logic during
+resolution of pending certificates. To deduplicate these certificates, please consider running the celery task
+<cite>disable_rotation_of_duplicate_certificates</cite>. This task will identify duplicate certificates and disable auto
+rotate if it’s confident that the certificate is not being used. If  certificate is in use, no change is done
+(operation status = skipped). If unused, auto-rotation will be disabled (operation status = success). If it’s
+not able to confidently determine that certificates are duplicates, operation status will result in <cite>failed</cite> for
+that specific set of certificates. You may want to manually check these certs to determine if you want to keep them all.
+The task will always keep auto-rotate on for at least one certificate.</p>
+<p>For better metrics around job completion, we recommend using celery to schedule recurring jobs in Lemur.</p>
+<p>Example Celery configuration (To be placed in your configuration file):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CELERYBEAT_SCHEDULE</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;fetch_all_pending_acme_certs&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;task&#39;</span><span class="p">:</span> <span class="s1">&#39;lemur.common.celery.fetch_all_pending_acme_certs&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;options&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;expires&#39;</span><span class="p">:</span> <span class="mi">180</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;schedule&#39;</span><span class="p">:</span> <span class="n">crontab</span><span class="p">(</span><span class="n">minute</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">),</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;remove_old_acme_certs&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;task&#39;</span><span class="p">:</span> <span class="s1">&#39;lemur.common.celery.remove_old_acme_certs&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;options&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;expires&#39;</span><span class="p">:</span> <span class="mi">180</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;schedule&#39;</span><span class="p">:</span> <span class="n">crontab</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">day_of_week</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;clean_all_sources&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;task&#39;</span><span class="p">:</span> <span class="s1">&#39;lemur.common.celery.clean_all_sources&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;options&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;expires&#39;</span><span class="p">:</span> <span class="mi">180</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;schedule&#39;</span><span class="p">:</span> <span class="n">crontab</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">day_of_week</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;sync_all_sources&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;task&#39;</span><span class="p">:</span> <span class="s1">&#39;lemur.common.celery.sync_all_sources&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;options&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;expires&#39;</span><span class="p">:</span> <span class="mi">180</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;schedule&#39;</span><span class="p">:</span> <span class="n">crontab</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="s2">&quot;*/3&quot;</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;notify_expirations&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;task&#39;</span><span class="p">:</span> <span class="s1">&#39;lemur.common.celery.notify_expirations&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;options&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;expires&#39;</span><span class="p">:</span> <span class="mi">180</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;schedule&#39;</span><span class="p">:</span> <span class="n">crontab</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;notify_authority_expirations&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;task&#39;</span><span class="p">:</span> <span class="s1">&#39;lemur.common.celery.notify_authority_expirations&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;options&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;expires&#39;</span><span class="p">:</span> <span class="mi">180</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;schedule&#39;</span><span class="p">:</span> <span class="n">crontab</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;send_security_expiration_summary&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;task&#39;</span><span class="p">:</span> <span class="s1">&#39;lemur.common.celery.send_security_expiration_summary&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;options&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;expires&#39;</span><span class="p">:</span> <span class="mi">180</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;schedule&#39;</span><span class="p">:</span> <span class="n">crontab</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;disable_rotation_of_duplicate_certificates&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;task&#39;</span><span class="p">:</span> <span class="s1">&#39;lemur.common.celery.disable_rotation_of_duplicate_certificates&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;options&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;expires&#39;</span><span class="p">:</span> <span class="mi">180</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;schedule&#39;</span><span class="p">:</span> <span class="n">crontab</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">day_of_week</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;notify_expiring_deployed_certificates&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;task&#39;</span><span class="p">:</span> <span class="s1">&#39;lemur.common.celery.notify_expiring_deployed_certificates&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;options&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;expires&#39;</span><span class="p">:</span> <span class="mi">180</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;schedule&#39;</span><span class="p">:</span> <span class="n">crontab</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;identify_expiring_deployed_certificates&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;task&#39;</span><span class="p">:</span> <span class="s1">&#39;lemur.common.celery.identify_expiring_deployed_certificates&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;options&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;expires&#39;</span><span class="p">:</span> <span class="mi">180</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;schedule&#39;</span><span class="p">:</span> <span class="n">crontab</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>To enable celery support, you must also have configuration values that tell Celery which broker and backend to use.
+Here are the Celery configuration variables that should be set:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CELERY_RESULT_BACKEND</span> <span class="o">=</span> <span class="s1">&#39;redis://your_redis_url:6379&#39;</span>
+<span class="n">CELERY_BROKER_URL</span> <span class="o">=</span> <span class="s1">&#39;redis://your_redis_url:6379/0&#39;</span>
+<span class="n">CELERY_IMPORTS</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;lemur.common.celery&#39;</span><span class="p">)</span>
+<span class="n">CELERY_TIMEZONE</span> <span class="o">=</span> <span class="s1">&#39;UTC&#39;</span>
+
+<span class="n">REDIS_HOST</span><span class="o">=</span><span class="s2">&quot;your_redis_url&quot;</span>
+<span class="n">REDIS_PORT</span><span class="o">=</span><span class="mi">6379</span>
+<span class="n">REDIS_DB</span><span class="o">=</span><span class="mi">0</span>
+</pre></div>
+</div>
+<p>Out of the box, every Redis instance supports 16 databases. The default database (<cite>REDIS_DB</cite>) is  set to 0, however, you can use any of the databases from 0-15. Via <cite>redis.conf</cite> more databases can be supported.
+In the <cite>redis://</cite> url, the database number can be added with a slash after the port. (defaults to 0, if omitted)</p>
+<p>Do not forget to import crontab module in your configuration file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">celery.task.schedules</span> <span class="kn">import</span> <span class="n">crontab</span>
+</pre></div>
+</div>
+<p>You must start a single Celery scheduler instance and one or more worker instances in order to handle incoming tasks.
+The scheduler can be started with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEMUR_CONF</span><span class="o">=</span><span class="s1">&#39;/location/to/conf.py&#39;</span> <span class="o">/</span><span class="n">location</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">lemur</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">celery</span> <span class="o">-</span><span class="n">A</span> <span class="n">lemur</span><span class="o">.</span><span class="n">common</span><span class="o">.</span><span class="n">celery</span> <span class="n">beat</span>
+</pre></div>
+</div>
+<p>And the worker can be started with desired options such as the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEMUR_CONF</span><span class="o">=</span><span class="s1">&#39;/location/to/conf.py&#39;</span> <span class="o">/</span><span class="n">location</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">lemur</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">celery</span> <span class="o">-</span><span class="n">A</span> <span class="n">lemur</span><span class="o">.</span><span class="n">common</span><span class="o">.</span><span class="n">celery</span> <span class="n">worker</span> <span class="o">--</span><span class="n">concurrency</span> <span class="mi">10</span> <span class="o">-</span><span class="n">E</span> <span class="o">-</span><span class="n">n</span> <span class="n">lemurworker1</span><span class="o">@%%</span><span class="n">h</span>
+</pre></div>
+</div>
+<p>supervisor or systemd configurations should be created for these in production environments as appropriate.</p>
+</section>
+<section id="add-support-for-letsencrypt-acme">
+<h2>Add support for LetsEncrypt/ACME<a class="headerlink" href="#add-support-for-letsencrypt-acme" title="Link to this heading"></a></h2>
+<p>LetsEncrypt is a free, limited-feature certificate authority that offers publicly trusted certificates that are valid
+for 90 days. LetsEncrypt does not use organizational validation (OV), and instead relies on domain validation (DV).
+LetsEncrypt requires that we prove ownership of a domain before we’re able to issue a certificate for that domain, each
+time we want a certificate.</p>
+<p>The most common methods to prove ownership are HTTP validation and DNS validation. Lemur supports DNS validation
+through the creation of DNS TXT records as well as HTTP validation, reusing the destination concept.</p>
+<section id="acme-dns-challenge">
+<h3>ACME DNS Challenge<a class="headerlink" href="#acme-dns-challenge" title="Link to this heading"></a></h3>
+<p>In a nutshell, when we send a certificate request to LetsEncrypt, they generate a random token and ask us to put that
+token in a DNS text record to prove ownership of a domain. If a certificate request has multiple domains, we must
+prove ownership of all of these domains through this method. The token is typically written to a TXT record at
+-acme_challenge.domain.com. Once we create the appropriate TXT record(s), Lemur will try to validate propagation
+before requesting that LetsEncrypt finalize the certificate request and send us the certificate.</p>
+<figure class="align-default">
+<img alt="../_images/letsencrypt_flow.png" src="../_images/letsencrypt_flow.png" />
+</figure>
+<p>To start issuing certificates through LetsEncrypt, you must enable Celery support within Lemur <a class="reference internal" href="#periodictasks"><span class="std std-ref">first</span></a>. After doing so,
+you need to create a LetsEncrypt authority. To do this, visit
+Authorities -&gt; Create. Set the applicable attributes and click “More Options”.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is possible to use synchronous certificate creation without Celery by supplying the <code class="docutils literal notranslate"><span class="pre">create_immediately</span></code> parameter in your certificate creation requests, but this is only recommended for testing and development purposes, given the inherent <a class="reference external" href="https://letsencrypt.org/docs/challenge-types/#dns-01-challenge">limitations of DNS record propagation</a>.</p>
+</div>
+<figure class="align-default">
+<img alt="../_images/letsencrypt_authority_1.png" src="../_images/letsencrypt_authority_1.png" />
+</figure>
+<p>You will need to set “Certificate” to LetsEncrypt’s active chain of trust for the authority you want to use. To find
+the active chain of trust at the time of writing, please visit <a class="reference external" href="https://letsencrypt.org/certificates/">LetsEncrypt</a>.</p>
+<p>Under Acme_url, enter in the appropriate endpoint URL. Lemur supports LetsEncrypt’s V2 API, and we recommend you to use
+this. At the time of writing, the staging and production URLs for LetsEncrypt V2 are
+<a class="reference external" href="https://acme-staging-v02.api.letsencrypt.org/directory">https://acme-staging-v02.api.letsencrypt.org/directory</a> and <a class="reference external" href="https://acme-v02.api.letsencrypt.org/directory">https://acme-v02.api.letsencrypt.org/directory</a>.</p>
+<figure class="align-default">
+<img alt="../_images/letsencrypt_authority_2.png" src="../_images/letsencrypt_authority_2.png" />
+</figure>
+<p>After creating the authorities, we will need to create a DNS provider. Visit <cite>Admin</cite> -&gt; <cite>DNS Providers</cite> and click
+<cite>Create</cite>. Lemur comes with a few provider plugins built in, with different options. Create a DNS provider with the
+appropriate choices.</p>
+<figure class="align-default">
+<img alt="../_images/create_dns_provider.png" src="../_images/create_dns_provider.png" />
+</figure>
+<p>By default, users will need to select the DNS provider that is authoritative over their domain in order for the
+LetsEncrypt flow to function. However, Lemur will attempt to automatically determine the appropriate provider if
+possible. To enable this functionality, periodically (or through Cron/Celery) run <cite>lemur dns_providers get_all_zones</cite>.
+This command will traverse all DNS providers, determine which zones they control, and upload this list of zones to
+Lemur’s database (in the dns_providers table). Alternatively, you can manually input this data.</p>
+</section>
+<section id="acme-http-challenge">
+<h3>ACME HTTP Challenge<a class="headerlink" href="#acme-http-challenge" title="Link to this heading"></a></h3>
+<p>The flow for requesting a certificate using the HTTP challenge is not that different from the one described for the DNS
+challenge. The only difference is, that instead of creating a DNS TXT record, a file is uploaded to a Webserver which
+serves the file at <cite>http://&lt;domain&gt;/.well-known/acme-challenge/&lt;token&gt;</cite></p>
+<p>Currently the HTTP challenge also works without Celery, since it’s done while creating the certificate, and doesn’t
+rely on celery to create the DNS record. This will change when we implement mix &amp; match of acme challenge types.</p>
+<p>To create a HTTP compatible Authority, you first need to create a new destination that will be used to deploy the
+challenge token. Visit <cite>Admin</cite> -&gt; <cite>Destination</cite> and click <cite>Create</cite>. The path you provide for the destination needs to
+be the exact path that is called when the ACME providers calls <cite>http://&lt;domain&gt;/.well-known/acme-challenge/</cite>. The
+token part will be added dynamically by the acme_upload.
+Currently only the SFTP and S3 Bucket destination support the ACME HTTP challenge.</p>
+<p>Afterwards you can create a new certificate authority as described in the DNS challenge, but need to choose
+<cite>Acme HTTP-01</cite> as the plugin type, and then the destination you created beforehand.</p>
+</section>
+<section id="letsencrypt-pinning-to-cross-signed-ica">
+<h3>LetsEncrypt: pinning to cross-signed ICA<a class="headerlink" href="#letsencrypt-pinning-to-cross-signed-ica" title="Link to this heading"></a></h3>
+<p>Let’s Encrypt has been using a <a class="reference external" href="https://letsencrypt.org/certificates/">cross-signed</a> intermediate CA by DST Root CA X3,
+which is included in many older devices’ TrustStore.</p>
+<p>Let’s Encrypt is <a class="reference external" href="https://letsencrypt.org/2019/04/15/transitioning-to-isrg-root.html">transitioning</a> to use
+the intermediate CA issued by their own root (ISRG X1) starting from September 29th 2020.
+This is in preparation of concluding the initial bootstrapping of their CA, by having it cross-signed by an older CA.</p>
+<p>Lemur can temporarily pin to the cross-signed intermediate CA (same public/private key pair as the ICA signed by ISRG X1).
+This will prolong support for incompatible devices.</p>
+<p>The following must be added to the config file to activate the pinning (the pinning will be removed by September 2021):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># remove or update after Mar 17 16:40:46 2021 GMT</span>
+<span class="n">IDENTRUST_CROSS_SIGNED_LE_ICA_EXPIRATION_DATE</span> <span class="o">=</span> <span class="s2">&quot;17/03/21&quot;</span>
+<span class="n">IDENTRUST_CROSS_SIGNED_LE_ICA</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">-----BEGIN CERTIFICATE-----</span>
+<span class="s2">MIIEkjCCA3qgAwIBAgIQCgFBQgAAAVOFc2oLheynCDANBgkqhkiG9w0BAQsFADA/</span>
+<span class="s2">MSQwIgYDVQQKExtEaWdpdGFsIFNpZ25hdHVyZSBUcnVzdCBDby4xFzAVBgNVBAMT</span>
+<span class="s2">DkRTVCBSb290IENBIFgzMB4XDTE2MDMxNzE2NDA0NloXDTIxMDMxNzE2NDA0Nlow</span>
+<span class="s2">SjELMAkGA1UEBhMCVVMxFjAUBgNVBAoTDUxldCdzIEVuY3J5cHQxIzAhBgNVBAMT</span>
+<span class="s2">GkxldCdzIEVuY3J5cHQgQXV0aG9yaXR5IFgzMIIBIjANBgkqhkiG9w0BAQEFAAOC</span>
+<span class="s2">AQ8AMIIBCgKCAQEAnNMM8FrlLke3cl03g7NoYzDq1zUmGSXhvb418XCSL7e4S0EF</span>
+<span class="s2">q6meNQhY7LEqxGiHC6PjdeTm86dicbp5gWAf15Gan/PQeGdxyGkOlZHP/uaZ6WA8</span>
+<span class="s2">SMx+yk13EiSdRxta67nsHjcAHJyse6cF6s5K671B5TaYucv9bTyWaN8jKkKQDIZ0</span>
+<span class="s2">Z8h/pZq4UmEUEz9l6YKHy9v6Dlb2honzhT+Xhq+w3Brvaw2VFn3EK6BlspkENnWA</span>
+<span class="s2">a6xK8xuQSXgvopZPKiAlKQTGdMDQMc2PMTiVFrqoM7hD8bEfwzB/onkxEz0tNvjj</span>
+<span class="s2">/PIzark5McWvxI0NHWQWM6r6hCm21AvA2H3DkwIDAQABo4IBfTCCAXkwEgYDVR0T</span>
+<span class="s2">AQH/BAgwBgEB/wIBADAOBgNVHQ8BAf8EBAMCAYYwfwYIKwYBBQUHAQEEczBxMDIG</span>
+<span class="s2">CCsGAQUFBzABhiZodHRwOi8vaXNyZy50cnVzdGlkLm9jc3AuaWRlbnRydXN0LmNv</span>
+<span class="s2">bTA7BggrBgEFBQcwAoYvaHR0cDovL2FwcHMuaWRlbnRydXN0LmNvbS9yb290cy9k</span>
+<span class="s2">c3Ryb290Y2F4My5wN2MwHwYDVR0jBBgwFoAUxKexpHsscfrb4UuQdf/EFWCFiRAw</span>
+<span class="s2">VAYDVR0gBE0wSzAIBgZngQwBAgEwPwYLKwYBBAGC3xMBAQEwMDAuBggrBgEFBQcC</span>
+<span class="s2">ARYiaHR0cDovL2Nwcy5yb290LXgxLmxldHNlbmNyeXB0Lm9yZzA8BgNVHR8ENTAz</span>
+<span class="s2">MDGgL6AthitodHRwOi8vY3JsLmlkZW50cnVzdC5jb20vRFNUUk9PVENBWDNDUkwu</span>
+<span class="s2">Y3JsMB0GA1UdDgQWBBSoSmpjBH3duubRObemRWXv86jsoTANBgkqhkiG9w0BAQsF</span>
+<span class="s2">AAOCAQEA3TPXEfNjWDjdGBX7CVW+dla5cEilaUcne8IkCJLxWh9KEik3JHRRHGJo</span>
+<span class="s2">uM2VcGfl96S8TihRzZvoroed6ti6WqEBmtzw3Wodatg+VyOeph4EYpr/1wXKtx8/</span>
+<span class="s2">wApIvJSwtmVi4MFU5aMqrSDE6ea73Mj2tcMyo5jMd6jmeWUHK8so/joWUoHOUgwu</span>
+<span class="s2">X4Po1QYz+3dszkDqMp4fklxBwXRsW10KXzPMTZ+sOPAveyxindmjkW8lGy+QsRlG</span>
+<span class="s2">PfZ+G6Z6h7mjem0Y+iWlkYcV4PIWL1iwBi8saCbGS5jN2p8M+X+Q7UNKEkROb3N6</span>
+<span class="s2">KOqkqm57TH2H3eDJAkSnh6/DNFu0Qg==</span>
+<span class="s2">-----END CERTIFICATE-----</span>
+<span class="s2">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="letsencrypt-using-a-pre-existing-acme-account">
+<span id="acmeaccountreuse"></span><h3>LetsEncrypt: Using a pre-existing ACME account<a class="headerlink" href="#letsencrypt-using-a-pre-existing-acme-account" title="Link to this heading"></a></h3>
+<p>Let’s Encrypt allows reusing an existing ACME account, to create and especially revoke certificates. The current
+implementation in the acme plugin, allows for a primary account for all ACME authorities.
+To use an existing account as the primary ACME account, you need to configure the <cite>ACME_PRIVATE_KEY</cite> and <cite>ACME_REGR</cite> variables in the lemur
+configuration.</p>
+<p>Alternatively, you can set <cite>acme_regr</cite> and <cite>acme_private_key</cite> as options during setup of a new issuer in Lemur.
+Lemur will use the <cite>LEMUR_ENCRYPTION_KEYS</cite> to encrypt the <cite>acme_private_key</cite> before storing it in the database.</p>
+<p><cite>ACME_PRIVATE_KEY</cite> needs to be in the JWK format:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;kty&quot;</span><span class="p">:</span> <span class="s2">&quot;RSA&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="s2">&quot;yr1qBwHizA7ME_iV32bY10ILp.....&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;e&quot;</span><span class="p">:</span> <span class="s2">&quot;AQAB&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;d&quot;</span><span class="p">:</span> <span class="s2">&quot;llBlYhil3I.....&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;p&quot;</span><span class="p">:</span> <span class="s2">&quot;-5LW2Lewogo.........&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;q&quot;</span><span class="p">:</span> <span class="s2">&quot;zk6dHqHfHksd.........&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dp&quot;</span><span class="p">:</span> <span class="s2">&quot;qfe9fFIu3mu.......&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dq&quot;</span><span class="p">:</span> <span class="s2">&quot;cXFO-loeOyU.......&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;qi&quot;</span><span class="p">:</span> <span class="s2">&quot;AfK1sh0_8sLTb...........&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Using <cite>python-jwt</cite> converting an existing private key in PEM format is quite easy:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">python_jwt</span> <span class="k">as</span> <span class="nn">jwt</span><span class="o">,</span> <span class="nn">jwcrypto.jwk</span> <span class="k">as</span> <span class="nn">jwk</span>
+
+<span class="n">priv_key</span> <span class="o">=</span> <span class="n">jwk</span><span class="o">.</span><span class="n">JWK</span><span class="o">.</span><span class="n">from_pem</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;&quot;&quot;-----BEGIN RSA PRIVATE KEY-----</span>
+<span class="s2">...</span>
+<span class="s2">-----END RSA PRIVATE KEY-----&quot;&quot;&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">priv_key</span><span class="o">.</span><span class="n">export</span><span class="p">())</span>
+</pre></div>
+</div>
+<p><cite>ACME_REGR</cite> needs to be a valid JSON with a <cite>body</cite> and a <cite>uri</cite> attribute, similar to this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="p">{},</span> <span class="s2">&quot;uri&quot;</span><span class="p">:</span> <span class="s2">&quot;https://acme-staging-v02.api.letsencrypt.org/acme/acct/&lt;ACCOUNT_NUMBER&gt;&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>The URI can be retrieved from the ACME create account endpoint when creating a new account, using the existing key.</p>
+</section>
+<section id="letsencrypt-setting-up-a-new-acme-account">
+<h3>LetsEncrypt: Setting up a new ACME account<a class="headerlink" href="#letsencrypt-setting-up-a-new-acme-account" title="Link to this heading"></a></h3>
+<p>In case, you are not using the <cite>ACME_PRIVATE_KEY</cite> and <cite>ACME_REGR</cite> variables in the Lemur
+configuration to set up a pre-existing primary, Lemur will create a new account on the fly for you.
+Additionally, you can select the <cite>store_account</cite> while setting a new ACME-based issuer in Lemur,
+to avoid hitting rate limits for creating new accounts for each request.</p>
+</section>
+<section id="external-account-binding-eab">
+<h3>External Account Binding (EAB):<a class="headerlink" href="#external-account-binding-eab" title="Link to this heading"></a></h3>
+<p>The ACME protocol enables setting up a new ACME account linked to an existing external account.
+For this, your CA needs to issue you an hmac_key and kid, which you need while setting up a new ACME issuer in Lemur.
+hmac_key and kid are usually short-lived and are used to create a new account.
+When <cite>store_account</cite> is set in the options of a new issuer, Lemur will use the EAB credentials to set up a new account.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../quickstart/index.html" class="btn btn-neutral float-left" title="Quickstart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../guide/index.html" class="btn btn-neutral float-right" title="User Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018, Netflix Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
