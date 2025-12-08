@@ -1,5 +1,7 @@
 FROM python:3.10-slim-bookworm AS builder
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 # Install build dependencies
 RUN apt update && apt upgrade -y && apt install -y --no-install-recommends \
     curl \
@@ -52,15 +54,12 @@ RUN apt update && apt upgrade -y && apt install -y --no-install-recommends \
 RUN useradd --create-home --shell /bin/bash lemur
 
 # Copy built project
-COPY --from=builder /opt/lemur /opt/lemur
+COPY --from=builder --chown=lemur:lemur /opt/lemur /opt/lemur
 
 # Ensure entrypoint is executable
 RUN chmod +x /opt/lemur/entrypoint
 
-# Permissions
-RUN chown -R lemur:lemur /opt/lemur
-
-# Switch to user
+# Switch to the user
 USER lemur
 
 # Expose port

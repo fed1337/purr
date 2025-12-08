@@ -6,7 +6,6 @@
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
 
-from __future__ import annotations  # Import annotations to make type hints backwards compatible with Python 3.7/3.8
 
 import base64
 import time

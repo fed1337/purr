@@ -4,7 +4,7 @@
 
 - Docker 20.10+
 - Docker Compose v2.0+
-- Node.js 18+ and npm (for building frontend)
+- Node.js 18+ and npm
 
 ## Build locally
 
@@ -218,7 +218,7 @@ uv sync --reinstall
                       │
                       ↓
 ┌─────────────────────────────────────────────────────┐
-│     Caddy/your favorite web server (HTTPS only)     │
+│     Caddy/your favorite web server (port 80/433)    │
 │  • Serves static files (CSS, JS, images)            │
 │  • Proxies /api/* to Flask backend                  │
 │  • SPA routing (all routes → index.html)            │

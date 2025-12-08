@@ -8,14 +8,14 @@ on:
 jobs:
   deploy-docs:
     name: Deploy Docs
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      # 2. Deploy to GitHub Pages
       - name: Deploy pre-built docs
         uses: peaceiris/actions-gh-pages@v4
         with:

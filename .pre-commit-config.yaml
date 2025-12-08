@@ -1,24 +1,24 @@
--   repo: git://github.com/pre-commit/pre-commit-hooks
-    sha: v0.9.1
-    hooks:
-    -   id: trailing-whitespace
-    -   id: flake8
-    -   id: check-merge-conflict
--   repo: git://github.com/pre-commit/mirrors-jshint
-    sha: v2.9.5
-    hooks:
-    -   id: jshint
--   repo: https://github.com/ambv/black
-    rev: stable
-    hooks:
-    - id: black
-      language_version: python3.7
+---
+default_language_version:
+  python: python3.10
 
--   repo: local
+repos:
+#  - repo: https://github.com/pre-commit/pre-commit-hooks
+#    rev: v6.0.0
+#    hooks:
+#      - id: trailing-whitespace
+#      - id: check-merge-conflict
+#      - id: mixed-line-ending
+#      - id: end-of-file-fixer
+#      - id: check-yaml
+#      - id: check-toml
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.0
     hooks:
-    -   id: python-bandit-vulnerability-check
-        name: bandit
-        entry: bandit
-        args: ['--ini', 'tox.ini', '-r', 'consoleme']
-        language: system
-        pass_filenames: false
+      - id: gitleaks
+
+  - repo: https://github.com/hadolint/hadolint
+    rev: v2.14.0
+    hooks:
+      - id: hadolint

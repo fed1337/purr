@@ -69,7 +69,6 @@ dependencies = [
     "flask-replicated==2.1",
     "flask-restful==0.3.10",
     "flask-sqlalchemy==2.5.1",
-    "future==1.0.0",
     "google-api-core==2.18.0",
     "google-auth==2.29.0",
     "google-cloud-private-ca==1.15.0",
