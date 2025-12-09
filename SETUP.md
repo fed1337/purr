@@ -33,8 +33,9 @@ make html
 The frontend is an AngularJS 1.x application that needs to be compiled:
 
 ```bash
-npm install              # Install dependencies
-npm run build_static     # Runs gulp build
+npm install                       # Install dependencies
+npm run build_static              # Runs gulp build
+gulp package --urlContextPath=""  # set correct path for proper URL generating to backend
 ```
 
 ## Build with Docker

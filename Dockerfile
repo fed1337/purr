@@ -35,6 +35,7 @@ RUN uv sync --frozen
 
 RUN npm install \
     && npm run build_static \
+    && node_modules/.bin/gulp package --urlContextPath="" \
     && rm -rf node_modules bower_components .tmp
 
 
@@ -45,9 +46,14 @@ ENV PATH="/opt/lemur/.venv/bin:${PATH}" \
     PYTHONDONTWRITEBYTECODE=1
 
 RUN apt update && apt upgrade -y && apt install -y --no-install-recommends \
-    curl \
-    libldap-2.5-0 \
-    make && \
+    debian-keyring debian-archive-keyring apt-transport-https curl libldap-2.5-0 make gnupg && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN curl -1sLf https://dl.cloudsmith.io/public/caddy/stable/gpg.key | gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg && \
+    curl -1sLf https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt | tee /etc/apt/sources.list.d/caddy-stable.list && \
+    chmod o+r /usr/share/keyrings/caddy-stable-archive-keyring.gpg && \
+    chmod o+r /etc/apt/sources.list.d/caddy-stable.list && \
+    apt update && apt install caddy && \
     rm -rf /var/lib/apt/lists/*
 
 # Create lemur user
@@ -63,8 +69,7 @@ RUN chmod +x /opt/lemur/entrypoint
 USER lemur
 
 # Expose port
-EXPOSE 8000
+EXPOSE 80
 
 # Default command
 ENTRYPOINT ["/opt/lemur/entrypoint"]
-CMD ["start"]

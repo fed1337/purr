@@ -1,37 +1,29 @@
 #!/usr/bin/env bash
 set -e
 
-echo "[entrypoint] Starting Lemur container..."
-
+echo "[supervisor] Starting Lemur container..."
 install -Dm644 /opt/lemur/lemur.conf.py /home/lemur/.lemur/lemur.conf.py
 
-# Detect whether DB was already initialized
-#if [ ! -f "/opt/lemur/.db_initialized" ]; then
-#    echo "[entrypoint] Initializing database..."
-#
-#    lemur db create || true
-#    lemur db init || true
-#    lemur db migrate
-#    lemur init -p password
-#
-#    touch /opt/lemur/.db_initialized
-#    echo "[entrypoint] DB initialization complete."
-#else
-#    echo "[entrypoint] DB already initialized; skipping."
-#fi
+cd /opt/lemur
 
-# Interpret CMD
-case "$1" in
-  start)
-    echo "[entrypoint] Starting Lemur server..."
-    exec lemur start -w 4 -b 0.0.0.0:8000
-    ;;
-  migrate)
-    echo "[entrypoint] Running migrations..."
-    exec lemur db migrate
-    ;;
-  *)
-    echo "[entrypoint] Running custom command: $@"
-    exec "$@"
-    ;;
-esac
+if [[ "$LEMUR_INIT" == "1" ]]; then
+    echo "[supervisor] Running Lemur Bootstrap"
+    .venv/bin/lemur db init
+    .venv/bin/lemur db migrate
+    .venv/bin/lemur init -p "$LEMUR_PASSWORD"
+fi
+
+echo "[supervisor] Running database migrations..."
+.venv/bin/lemur db upgrade || {
+    echo "[db] Migration failed; refusing to start app."
+    exit 1
+}
+
+echo "[supervisor] Starting Lemur server..."
+.venv/bin/lemur start -w 4 -b 0.0.0.0:8000 &
+LEMUR_PID=$!
+
+trap 'echo "[supervisor] Caught stop signal"; kill "$LEMUR_PID" "$CADDY_PID" 2>/dev/null || true' SIGTERM SIGINT
+
+echo "[supervisor] Starting Caddy (foreground)..."
+exec caddy run --config /opt/lemur/Caddyfile

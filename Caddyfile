@@ -1,5 +1,4 @@
 :80 {
-    encode gzip zstd
     handle /api/* {
         reverse_proxy localhost:8000
     }

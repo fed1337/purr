@@ -9,3 +9,4 @@ lemur/static/dist
 node_modules
 bower_components
 .tmp
+migrations
