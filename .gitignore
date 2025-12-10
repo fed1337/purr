@@ -5,7 +5,7 @@
 /.tmp/
 *.egg-info
 *.pyc
-*.log
+*.log*
 *.egg
 *.db
 *.pid
