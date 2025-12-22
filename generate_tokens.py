@@ -3,7 +3,6 @@ Helper script to generate random values for Lemur configuration
 """
 
 import secrets
-import string
 from base64 import b64encode, urlsafe_b64encode
 from os import urandom
 from secrets import choice, token_hex

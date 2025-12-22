@@ -3,7 +3,7 @@ Default configuration file
 Reads environment variables and defaults to a value suitable for dev/test environment if not set
 """
 
-from os.path import abspath, dirname, realpath
+from os.path import abspath, dirname
 from os import environ
 # from typing import Dict, Any
 
@@ -21,7 +21,10 @@ LOG_FILE = environ.get("LOG_FILE", "lemur.log")
 LOG_UPGRADE_FILE = environ.get("LOG_UPGRADE_FILE", "db_upgrade.log")
 LOG_REQUEST_HEADERS = environ.get("LOG_REQUEST_HEADERS", "False")
 LOG_SANITIZE_REQUEST_HEADERS = environ.get("LOG_SANITIZE_REQUEST_HEADERS", "True")
-LOG_REQUEST_HEADERS_SKIP_ENDPOINT = ["/metrics", "/healthcheck"]  # These endpoints are noisy so skip them by default
+LOG_REQUEST_HEADERS_SKIP_ENDPOINT = [
+    "/metrics",
+    "/healthcheck",
+]  # These endpoints are noisy so skip them by default
 
 # This is the secret key used by flask session management
 SECRET_KEY = "e89dc56e5fa4214f52bfe4d8c84256209c559022da562fd5b1d1a70798923518"
@@ -46,27 +49,29 @@ LEMUR_DEFAULT_ORGANIZATION = ""
 LEMUR_DEFAULT_ORGANIZATIONAL_UNIT = ""
 LEMUR_SECURITY_TEAM_EMAIL = ["admin@localhost"]
 
-DIGICERT_CIS_API_KEY=""
-DIGICERT_API_KEY=""
-ENTRUST_API_USER=""
-GOOGLE_APPLICATION_CREDENTIALS=""
-DIGICERT_CIS_URL=""
-DIGICERT_URL=""
-ENTRUST_API_PASS=""
-DIGICERT_CIS_ROOTS=""
-DIGICERT_ORG_ID=""
-ENTRUST_URL=""
-DIGICERT_CIS_PROFILE_NAMES=""
-DIGICERT_ORDER_TYPE=""
-ENTRUST_ROOT=""
-ENTRUST_NAME=""
-DIGICERT_ROOT=""
-ENTRUST_EMAIL=""
-ENTRUST_PHONE=""
+DIGICERT_CIS_API_KEY = ""
+DIGICERT_API_KEY = ""
+ENTRUST_API_USER = ""
+GOOGLE_APPLICATION_CREDENTIALS = ""
+DIGICERT_CIS_URL = ""
+DIGICERT_URL = ""
+ENTRUST_API_PASS = ""
+DIGICERT_CIS_ROOTS = ""
+DIGICERT_ORG_ID = ""
+ENTRUST_URL = ""
+DIGICERT_CIS_PROFILE_NAMES = ""
+DIGICERT_ORDER_TYPE = ""
+ENTRUST_ROOT = ""
+ENTRUST_NAME = ""
+DIGICERT_ROOT = ""
+ENTRUST_EMAIL = ""
+ENTRUST_PHONE = ""
 
 
 # Database settings
-SQLALCHEMY_DATABASE_URI = environ.get("SQLALCHEMY_DATABASE_URI", "postgresql://lemur:lemur@localhost:5432/lemur")
+SQLALCHEMY_DATABASE_URI = environ.get(
+    "SQLALCHEMY_DATABASE_URI", "postgresql://lemur:lemur@localhost:5432/lemur"
+)
 # SQLALCHEMY_ENABLE_FLASK_REPLICATED = False
 # SQLALCHEMY_TRACK_MODIFICATIONS = False
 # SQLALCHEMY_ECHO = True
