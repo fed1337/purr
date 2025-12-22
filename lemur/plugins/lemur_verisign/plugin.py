@@ -7,6 +7,7 @@
 
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 import arrow
 import requests
 import xmltodict
@@ -131,9 +132,7 @@ def process_options(options):
         if options["validity_years"] in [1, 2]:
             data["validityPeriod"] = str(options["validity_years"]) + "Y"
         else:
-            raise Exception(
-                "Verisign issued certificates cannot exceed two years in validity"
-            )
+            raise Exception("Verisign issued certificates cannot exceed two years in validity")
 
     return data
 
@@ -152,9 +151,7 @@ def get_default_issuance(options):
     elif options["validity_end"] < now.shift(years=+2):
         validity_period = "2Y"
     else:
-        raise Exception(
-            "Verisign issued certificates cannot exceed two years in validity"
-        )
+        raise Exception("Verisign issued certificates cannot exceed two years in validity")
 
     return validity_period
 
@@ -204,9 +201,7 @@ class VerisignIssuerPlugin(IssuerPlugin):
         data = process_options(issuer_options)
         data["csr"] = csr
 
-        current_app.logger.info(
-            f"Requesting a new verisign certificate: {data}"
-        )
+        current_app.logger.info(f"Requesting a new verisign certificate: {data}")
 
         response = self.session.post(url, data=data)
         try:
@@ -218,16 +213,16 @@ class VerisignIssuerPlugin(IssuerPlugin):
                 1,
                 metric_tags={"common_name": issuer_options.get("common_name", "")},
             )
-            capture_exception(
-                extra={"common_name": issuer_options.get("common_name", "")}
-            )
+            capture_exception(extra={"common_name": issuer_options.get("common_name", "")})
             raise Exception(f"Error with Verisign: {response.content}")
         authority = issuer_options.get("authority").name.upper()
-        cert = response_dict['Response']['Certificate']
+        cert = response_dict["Response"]["Certificate"]
         external_id = None
-        if 'Transaction_ID' in response_dict['Response'].keys():
-            external_id = response_dict['Response']['Transaction_ID']
-        chain = current_app.config.get(f"VERISIGN_INTERMEDIATE_{authority}", current_app.config.get("VERISIGN_INTERMEDIATE"))
+        if "Transaction_ID" in response_dict["Response"].keys():
+            external_id = response_dict["Response"]["Transaction_ID"]
+        chain = current_app.config.get(
+            f"VERISIGN_INTERMEDIATE_{authority}", current_app.config.get("VERISIGN_INTERMEDIATE")
+        )
         return cert, chain, external_id
 
     @staticmethod
@@ -239,7 +234,7 @@ class VerisignIssuerPlugin(IssuerPlugin):
         :param options:
         :return:
         """
-        name = "verisign_" + "_".join(options['name'].split(" ")) + "_admin"
+        name = "verisign_" + "_".join(options["name"].split(" ")) + "_admin"
         role = {"username": "", "password": "", "name": name}
         return current_app.config.get("VERISIGN_ROOT"), "", [role]
 
@@ -287,9 +282,7 @@ class VerisignIssuerPlugin(IssuerPlugin):
 class VerisignSourcePlugin(SourcePlugin):
     title = "Verisign"
     slug = "verisign-source"
-    description = (
-        "Allows for the polling of issued certificates from the VICE2.0 verisign API."
-    )
+    description = "Allows for the polling of issued certificates from the VICE2.0 verisign API."
     version = verisign.VERSION
 
     author = "Kevin Glisson"

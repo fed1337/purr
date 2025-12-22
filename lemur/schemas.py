@@ -7,6 +7,7 @@
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 
 """
+
 from marshmallow import fields, post_load, pre_load, post_dump
 from marshmallow.exceptions import ValidationError
 from sqlalchemy.orm.exc import NoResultFound
@@ -50,9 +51,7 @@ def validate_options(options):
         interval *= 7
 
     if interval > 90:
-        raise ValidationError(
-            "Notification cannot be more than 90 days into the future."
-        )
+        raise ValidationError("Notification cannot be more than 90 days into the future.")
 
 
 def get_object_attribute(data, many=False):
@@ -221,7 +220,9 @@ class PluginInputSchema(LemurInputSchema):
                     data["plugin_object"].validate_option_value(option_name, option_value)
 
                     # Only accept the "value" field from the user - keep server default options for all other fields
-                    server_options_with_user_value = data["plugin_object"].get_server_options(option_name)
+                    server_options_with_user_value = data["plugin_object"].get_server_options(
+                        option_name
+                    )
                     if server_options_with_user_value is None:  # no server options discovered
                         plugin_options_validated.append(option)
                         continue

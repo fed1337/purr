@@ -5,6 +5,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Eric Coan <kungfury@instructure.com>
 """
+
 from datetime import datetime
 
 import click
@@ -21,13 +22,9 @@ def cli():
 
 
 @cli.command("create")
-@click.option(
-    "-u", "--user-id", "uid", help="The User ID this access key belongs too."
-)
+@click.option("-u", "--user-id", "uid", help="The User ID this access key belongs too.")
 @click.option("-n", "--name", "name", help="The name of this API Key.")
-@click.option(
-    "-t", "--ttl", "ttl", help="The TTL of this API Key. -1 for forever."
-)
+@click.option("-t", "--ttl", "ttl", help="The TTL of this API Key. -1 for forever.")
 def create_command(uid, name, ttl):
     create(uid, name, ttl)
 

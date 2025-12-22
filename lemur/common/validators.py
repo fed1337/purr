@@ -58,9 +58,7 @@ def encoding(oid_encoding):
     valid_types = ["b64asn1", "string", "ia5string"]
     if oid_encoding.lower() not in [o_type.lower() for o_type in valid_types]:
         raise ValidationError(
-            "Invalid Oid Encoding: {} choose from {}".format(
-                oid_encoding, ",".join(valid_types)
-            )
+            "Invalid Oid Encoding: {} choose from {}".format(oid_encoding, ",".join(valid_types))
         )
 
 
@@ -83,9 +81,7 @@ def sub_alt_type(alt_type):
     ]
     if alt_type.lower() not in [a_type.lower() for a_type in valid_types]:
         raise ValidationError(
-            "Invalid SubAltName Type: {} choose from {}".format(
-                type, ",".join(valid_types)
-            )
+            "Invalid SubAltName Type: {} choose from {}".format(type, ",".join(valid_types))
         )
 
 
@@ -109,9 +105,7 @@ def csr(data):
         raise ValidationError("Invalid Subject value in supplied CSR")
 
     try:
-        alt_names = request.extensions.get_extension_for_class(
-            x509.SubjectAlternativeName
-        )
+        alt_names = request.extensions.get_extension_for_class(x509.SubjectAlternativeName)
 
         for name in alt_names.value.get_values_for_type(x509.DNSName):
             sensitive_domain(name)

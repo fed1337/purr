@@ -14,7 +14,4 @@ def test_convert_validity_years(session):
 
     with freeze_time("2015-01-10"):
         data = convert_validity_years(dict(validity_years=1))
-        assert (
-            data["validity_end"]
-            == arrow.utcnow().shift(years=+1, days=-2).isoformat()
-        )
+        assert data["validity_end"] == arrow.utcnow().shift(years=+1, days=-2).isoformat()

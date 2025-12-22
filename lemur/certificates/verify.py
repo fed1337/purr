@@ -5,6 +5,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 import requests
 import subprocess
 from flask import current_app
@@ -37,9 +38,7 @@ def ocsp_verify(cert, cert_path, issuer_chain_path):
     url, err = p1.communicate()
 
     if not url:
-        current_app.logger.debug(
-            f"No OCSP URL in certificate {cert.serial_number}"
-        )
+        current_app.logger.debug(f"No OCSP URL in certificate {cert.serial_number}")
         return None
 
     p2 = subprocess.Popen(
@@ -66,21 +65,37 @@ def ocsp_verify(cert, cert_path, issuer_chain_path):
         except OSError:
             # Ignore 'no such process' error
             pass
-        raise Exception(f"OCSP lookup timed out: {url}, certificate serial number {cert.serial_number:02X}")
+        raise Exception(
+            f"OCSP lookup timed out: {url}, certificate serial number {cert.serial_number:02X}"
+        )
 
     p_message = message.decode("utf-8")
 
     if "unauthorized" in p_message:
         # indicates the OCSP server does not know this certificate. this is a retriable error.
-        metrics.send("check_revocation_ocsp_verify", "counter", 1, metric_tags={"status": "unauthorized", "url": url})
-        current_app.logger.warning(f"OCSP unauthorized error: {url}, "
-                                   f"certificate serial number {cert.serial_number:02X}. Response: {p_message}")
+        metrics.send(
+            "check_revocation_ocsp_verify",
+            "counter",
+            1,
+            metric_tags={"status": "unauthorized", "url": url},
+        )
+        current_app.logger.warning(
+            f"OCSP unauthorized error: {url}, "
+            f"certificate serial number {cert.serial_number:02X}. Response: {p_message}"
+        )
         return None
 
     elif "error" in p_message or "Error" in p_message:
-        metrics.send("check_revocation_ocsp_verify", "counter", 1, metric_tags={"status": "error", "url": url})
-        raise Exception(f"Got error when parsing response from OCSP url: {url}, certificate serial number "
-                        f"{cert.serial_number:02X}. Response: {p_message}")
+        metrics.send(
+            "check_revocation_ocsp_verify",
+            "counter",
+            1,
+            metric_tags={"status": "error", "url": url},
+        )
+        raise Exception(
+            f"Got error when parsing response from OCSP url: {url}, certificate serial number "
+            f"{cert.serial_number:02X}. Response: {p_message}"
+        )
 
     elif "revoked" in p_message:
         current_app.logger.debug(
@@ -89,8 +104,10 @@ def ocsp_verify(cert, cert_path, issuer_chain_path):
         return False
 
     elif "good" not in p_message:
-        raise Exception(f"Did not receive a valid OCSP response from url: {url}, "
-                        f"certificate serial number {cert.serial_number:02X}")
+        raise Exception(
+            f"Did not receive a valid OCSP response from url: {url}, "
+            f"certificate serial number {cert.serial_number:02X}"
+        )
 
     return True
 
@@ -109,9 +126,7 @@ def crl_verify(cert, cert_path):
             x509.OID_CRL_DISTRIBUTION_POINTS
         ).value
     except x509.ExtensionNotFound:
-        current_app.logger.debug(
-            f"No CRLDP extension in certificate {cert.serial_number}"
-        )
+        current_app.logger.debug(f"No CRLDP extension in certificate {cert.serial_number}")
         return None
 
     for p in distribution_points:
@@ -123,16 +138,16 @@ def crl_verify(cert, cert_path):
                 response = requests.get(point, timeout=(3.05, 6))
 
                 if response.status_code != 200:
-                    raise Exception(f"Unable to retrieve CRL: {point}, serial {cert.serial_number:02X}")
+                    raise Exception(
+                        f"Unable to retrieve CRL: {point}, serial {cert.serial_number:02X}"
+                    )
             except InvalidSchema:
                 # Unhandled URI scheme (like ldap://); skip this distribution point.
                 continue
             except (ConnectionError, Timeout):
                 raise Exception(f"Unable to retrieve CRL: {point}, serial {cert.serial_number:02X}")
 
-            crl_cache[point] = x509.load_der_x509_crl(
-                response.content, backend=default_backend()
-            )
+            crl_cache[point] = x509.load_der_x509_crl(response.content, backend=default_backend())
         else:
             current_app.logger.debug(f"CRL point is cached {point}")
 
@@ -150,7 +165,7 @@ def crl_verify(cert, cert_path):
                     pass
 
                 current_app.logger.debug(
-                    "CRL reports certificate " "revoked: {}".format(cert.serial_number)
+                    "CRL reports certificate revoked: {}".format(cert.serial_number)
                 )
                 return False
 

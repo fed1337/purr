@@ -45,9 +45,7 @@ class CfsslIssuerPlugin(IssuerPlugin):
         :param issuer_options:
         :return:
         """
-        current_app.logger.info(
-            f"Requesting a new cfssl certificate with csr: {csr}"
-        )
+        current_app.logger.info(f"Requesting a new cfssl certificate with csr: {csr}")
 
         url = "{}{}".format(current_app.config.get("CFSSL_URL"), "/api/v1/cfssl/sign")
 
@@ -63,21 +61,13 @@ class CfsslIssuerPlugin(IssuerPlugin):
         else:
             data = data.encode()
 
-            token = base64.b64encode(
-                hmac.new(key, data, digestmod=hashlib.sha256).digest()
-            )
+            token = base64.b64encode(hmac.new(key, data, digestmod=hashlib.sha256).digest())
             data = base64.b64encode(data)
 
-            data = json.dumps(
-                {"token": token.decode("utf-8"), "request": data.decode("utf-8")}
-            )
+            data = json.dumps({"token": token.decode("utf-8"), "request": data.decode("utf-8")})
 
-            url = "{}{}".format(
-                current_app.config.get("CFSSL_URL"), "/api/v1/cfssl/authsign"
-            )
-        response = self.session.post(
-            url, data=data.encode(encoding="utf_8", errors="strict")
-        )
+            url = "{}{}".format(current_app.config.get("CFSSL_URL"), "/api/v1/cfssl/authsign")
+        response = self.session.post(url, data=data.encode(encoding="utf_8", errors="strict"))
         if response.status_code > 399:
             metrics.send("cfssl_create_certificate_failure", "counter", 1)
             raise Exception("Error creating cert. Please check your CFSSL API server")
@@ -100,7 +90,7 @@ class CfsslIssuerPlugin(IssuerPlugin):
         :param options:
         :return:
         """
-        name = "cfssl_" + "_".join(options['name'].split(" ")) + "_admin"
+        name = "cfssl_" + "_".join(options["name"].split(" ")) + "_admin"
         role = {"username": "", "password": "", "name": name}
         return current_app.config.get("CFSSL_ROOT"), "", [role]
 

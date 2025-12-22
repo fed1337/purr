@@ -33,9 +33,7 @@ from lemur.plugins.lemur_acme.challenge_types import AcmeHttpChallenge, AcmeDnsC
 class ACMEIssuerPlugin(IssuerPlugin):
     title = "Acme"
     slug = "acme-issuer"
-    description = (
-        "Enables the creation of certificates via ACME CAs (including Let's Encrypt), using the DNS-01 challenge"
-    )
+    description = "Enables the creation of certificates via ACME CAs (including Let's Encrypt), using the DNS-01 challenge"
     version = acme.VERSION
 
     author = "Netflix"
@@ -46,7 +44,9 @@ class ACMEIssuerPlugin(IssuerPlugin):
             "name": "acme_url",
             "type": "str",
             "required": True,
-            "validation": check_validation(r"http[s]?://(?:[a-zA-Z]|[0-9]|[$_@.&+-]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"),
+            "validation": check_validation(
+                r"http[s]?://(?:[a-zA-Z]|[0-9]|[$_@.&+-]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
+            ),
             "helpMessage": "ACME resource URI. Must be a valid web url starting with http[s]://",
         },
         {
@@ -108,7 +108,7 @@ class ACMEIssuerPlugin(IssuerPlugin):
             "required": False,
             "helpMessage": "Drops the last certificate, i.e., the Cross Signed root, from the Chain",
             "default": False,
-        }
+        },
     ]
 
     def __init__(self, *args, **kwargs):
@@ -138,9 +138,7 @@ class ACMEIssuerPlugin(IssuerPlugin):
                 " not support issuing wildcard certificates."
             )
         try:
-            authorizations = self.acme.get_authorizations(
-                acme_client, order, order_info
-            )
+            authorizations = self.acme.get_authorizations(acme_client, order, order_info)
         except ClientError:
             capture_exception()
             metrics.send("get_ordered_certificate_error", "counter", 1)
@@ -159,8 +157,11 @@ class ACMEIssuerPlugin(IssuerPlugin):
             "external_id": str(pending_cert.external_id),
         }
 
-        if self.options and "drop_last_cert_from_chain" in self.options \
-                and self.options.get("drop_last_cert_from_chain") is True:
+        if (
+            self.options
+            and "drop_last_cert_from_chain" in self.options
+            and self.options.get("drop_last_cert_from_chain") is True
+        ):
             # skipping the last element
             cert["chain"] = drop_last_cert_from_chain(cert["chain"])
 
@@ -173,14 +174,10 @@ class ACMEIssuerPlugin(IssuerPlugin):
         certs = []
         for pending_cert in pending_certs:
             try:
-                acme_client, registration = self.acme.setup_acme_client(
-                    pending_cert.authority
-                )
+                acme_client, registration = self.acme.setup_acme_client(pending_cert.authority)
                 order_info = authorization_service.get(pending_cert.external_id)
                 if pending_cert.dns_provider_id:
-                    dns_provider = dns_provider_service.get(
-                        pending_cert.dns_provider_id
-                    )
+                    dns_provider = dns_provider_service.get(pending_cert.dns_provider_id)
 
                     for domain in order_info.domains:
                         # Currently, we only support specifying one DNS provider per certificate, even if that
@@ -204,9 +201,7 @@ class ACMEIssuerPlugin(IssuerPlugin):
                         " not support issuing wildcard certificates."
                     )
 
-                authorizations = self.acme.get_authorizations(
-                    acme_client, order, order_info
-                )
+                authorizations = self.acme.get_authorizations(acme_client, order, order_info)
 
                 pending.append(
                     {
@@ -218,9 +213,7 @@ class ACMEIssuerPlugin(IssuerPlugin):
                 )
             except (ClientError, ValueError, Exception) as e:
                 capture_exception()
-                metrics.send(
-                    "get_ordered_certificates_pending_creation_error", "counter", 1
-                )
+                metrics.send("get_ordered_certificates_pending_creation_error", "counter", 1)
                 current_app.logger.error(
                     f"Unable to resolve pending cert: {pending_cert}", exc_info=True
                 )
@@ -228,9 +221,7 @@ class ACMEIssuerPlugin(IssuerPlugin):
                 error = e
                 if globals().get("order") and order:
                     error += f" Order uri: {order.uri}"
-                certs.append(
-                    {"cert": False, "pending_cert": pending_cert, "last_error": e}
-                )
+                certs.append({"cert": False, "pending_cert": pending_cert, "last_error": e})
 
         for entry in pending:
             try:
@@ -248,8 +239,11 @@ class ACMEIssuerPlugin(IssuerPlugin):
                 }
                 certs.append({"cert": cert, "pending_cert": entry["pending_cert"]})
 
-                if self.options and "drop_last_cert_from_chain" in self.options \
-                        and self.options.get("drop_last_cert_from_chain") is True:
+                if (
+                    self.options
+                    and "drop_last_cert_from_chain" in self.options
+                    and self.options.get("drop_last_cert_from_chain") is True
+                ):
                     cert["chain"] = drop_last_cert_from_chain(cert["chain"])
 
             except (PollError, AcmeError, Exception) as e:
@@ -270,9 +264,7 @@ class ACMEIssuerPlugin(IssuerPlugin):
                     }
                 )
                 # Ensure DNS records get deleted
-                self.acme_dns_challenge.cleanup(
-                    entry["authorizations"], entry["acme_client"]
-                )
+                self.acme_dns_challenge.cleanup(entry["authorizations"], entry["acme_client"])
         return certs
 
     def create_certificate(self, csr, issuer_options):
@@ -296,7 +288,7 @@ class ACMEIssuerPlugin(IssuerPlugin):
         :param options:
         :return:
         """
-        name = "acme_" + "_".join(options['name'].split(" ")) + "_admin"
+        name = "acme_" + "_".join(options["name"].split(" ")) + "_admin"
         role = {"username": "", "password": "", "name": name}
 
         plugin_options = options.get("plugin", {}).get("plugin_options")
@@ -328,9 +320,7 @@ class ACMEIssuerPlugin(IssuerPlugin):
 class ACMEHttpIssuerPlugin(IssuerPlugin):
     title = "Acme HTTP-01"
     slug = "acme-http-issuer"
-    description = (
-        "Enables the creation of certificates via ACME CAs (including Let's Encrypt), using the HTTP-01 challenge"
-    )
+    description = "Enables the creation of certificates via ACME CAs (including Let's Encrypt), using the HTTP-01 challenge"
     version = acme.VERSION
 
     author = "Netflix"
@@ -341,7 +331,9 @@ class ACMEHttpIssuerPlugin(IssuerPlugin):
             "name": "acme_url",
             "type": "str",
             "required": True,
-            "validation": check_validation(r"http[s]?://(?:[a-zA-Z]|[0-9]|[$_@.&+-]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"),
+            "validation": check_validation(
+                r"http[s]?://(?:[a-zA-Z]|[0-9]|[$_@.&+-]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
+            ),
             "helpMessage": "Must be a valid web url starting with http[s]://",
         },
         {
@@ -411,7 +403,7 @@ class ACMEHttpIssuerPlugin(IssuerPlugin):
             "required": False,
             "helpMessage": "Drops the last certificate, i.e., the Cross Signed root, from the Chain",
             "default": False,
-        }
+        },
     ]
 
     def __init__(self, *args, **kwargs):
@@ -438,7 +430,7 @@ class ACMEHttpIssuerPlugin(IssuerPlugin):
         :param options:
         :return:
         """
-        name = "acme_" + "_".join(options['name'].split(" ")) + "_admin"
+        name = "acme_" + "_".join(options["name"].split(" ")) + "_admin"
         role = {"username": "", "password": "", "name": name}
 
         plugin_options = options.get("plugin", {}).get("plugin_options")

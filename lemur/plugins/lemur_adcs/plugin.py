@@ -9,7 +9,9 @@ from flask import current_app
 class ADCSIssuerPlugin(IssuerPlugin):
     title = "ADCS"
     slug = "adcs-issuer"
-    description = "Enables the creation of certificates by ADCS (Active Directory Certificate Services)"
+    description = (
+        "Enables the creation of certificates by ADCS (Active Directory Certificate Services)"
+    )
     version = ADCS.VERSION
 
     author = "sirferl"
@@ -32,7 +34,7 @@ class ADCSIssuerPlugin(IssuerPlugin):
         """
         adcs_root = current_app.config.get("ADCS_ROOT")
         adcs_issuing = current_app.config.get("ADCS_ISSUING")
-        name = "adcs_" + "_".join(options['name'].split(" ")) + "_admin"
+        name = "adcs_" + "_".join(options["name"].split(" ")) + "_admin"
         role = {"username": "", "password": "", "name": name}
         return adcs_root, adcs_issuing, [role]
 
@@ -44,10 +46,10 @@ class ADCSIssuerPlugin(IssuerPlugin):
         # if there is a config variable ADCS_TEMPLATE_<upper(authority.name)> take the value as Cert template
         # else default to ADCS_TEMPLATE to be compatible with former versions
         authority = issuer_options.get("authority").name.upper()
-        adcs_template = current_app.config.get(f"ADCS_TEMPLATE_{authority}", current_app.config.get("ADCS_TEMPLATE"))
-        ca_server = Certsrv(
-            adcs_server, adcs_user, adcs_pwd, auth_method=adcs_auth_method
+        adcs_template = current_app.config.get(
+            f"ADCS_TEMPLATE_{authority}", current_app.config.get("ADCS_TEMPLATE")
         )
+        ca_server = Certsrv(adcs_server, adcs_user, adcs_pwd, auth_method=adcs_auth_method)
         current_app.logger.info(f"Requesting CSR: {csr}")
         current_app.logger.info(f"Issuer options: {issuer_options}")
         cert = (
@@ -55,9 +57,7 @@ class ADCSIssuerPlugin(IssuerPlugin):
             .decode("utf-8")
             .replace("\r\n", "\n")
         )
-        chain = (
-            ca_server.get_ca_cert(encoding="b64").decode("utf-8").replace("\r\n", "\n")
-        )
+        chain = ca_server.get_ca_cert(encoding="b64").decode("utf-8").replace("\r\n", "\n")
         return cert, chain, None
 
     def revoke_certificate(self, certificate, reason):
@@ -86,9 +86,7 @@ class ADCSSourcePlugin(SourcePlugin):
         adcs_auth_method = current_app.config.get("ADCS_AUTH_METHOD")
         adcs_start = current_app.config.get("ADCS_START")
         adcs_stop = current_app.config.get("ADCS_STOP")
-        ca_server = Certsrv(
-            adcs_server, adcs_user, adcs_pwd, auth_method=adcs_auth_method
-        )
+        ca_server = Certsrv(adcs_server, adcs_user, adcs_pwd, auth_method=adcs_auth_method)
         out_certlist = []
         for id in range(adcs_start, adcs_stop):
             try:
@@ -114,9 +112,7 @@ class ADCSSourcePlugin(SourcePlugin):
                     except Exception:
                         extensionn = ""
                     if extension.find("TLS Web Server Authentication") != -1:
-                        out_certlist.append(
-                            {"name": format(pubkey.get_subject().CN), "body": cert}
-                        )
+                        out_certlist.append({"name": format(pubkey.get_subject().CN), "body": cert})
                         break
         return out_certlist
 

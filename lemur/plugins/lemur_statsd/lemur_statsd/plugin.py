@@ -18,9 +18,7 @@ class StatsdMetricPlugin(MetricPlugin):
 
         self.statsd = DogStatsd(host=host, port=port, namespace=prefix)
 
-    def submit(
-        self, metric_name, metric_type, metric_value, metric_tags=None, options=None
-    ):
+    def submit(self, metric_name, metric_type, metric_value, metric_tags=None, options=None):
         valid_types = ["COUNTER", "GAUGE", "TIMER"]
         tags = []
 
@@ -33,9 +31,7 @@ class StatsdMetricPlugin(MetricPlugin):
 
         if metric_tags:
             if not isinstance(metric_tags, dict):
-                raise Exception(
-                    "Invalid Metric Tags for Statsd: Tags must be in dict format"
-                )
+                raise Exception("Invalid Metric Tags for Statsd: Tags must be in dict format")
             else:
                 tags = list(map(lambda e: "{}:{}".format(*e), metric_tags.items()))
 

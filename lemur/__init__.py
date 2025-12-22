@@ -9,6 +9,7 @@
 .. moduleauthor:: Hossein Shafagh <hshafagh@netflix.com>
 
 """
+
 import socket
 import time
 import urllib.parse
@@ -78,9 +79,7 @@ LEMUR_BLUEPRINTS = (
 
 
 def create_app(config_path=None):
-    app = factory.create_app(
-        app_name=__name__, blueprints=LEMUR_BLUEPRINTS, config=config_path
-    )
+    app = factory.create_app(app_name=__name__, blueprints=LEMUR_BLUEPRINTS, config=config_path)
     configure_hook(app)
     return app
 
@@ -140,29 +139,32 @@ def configure_hook(app):
                         parsed_path.path,
                         parsed_path.params,
                         "<sanitized_query_parameters>",
-                        parsed_path.fragment
+                        parsed_path.fragment,
                     )
                 )
             return path
 
         # Log request headers
         skip_endpoints = any(
-            endpoint in request.full_path for endpoint in app.config.get("LOG_REQUEST_HEADERS_SKIP_ENDPOINT", [])
+            endpoint in request.full_path
+            for endpoint in app.config.get("LOG_REQUEST_HEADERS_SKIP_ENDPOINT", [])
         )
         if app.config.get("LOG_REQUEST_HEADERS", False) and not skip_endpoints:
-            app.logger.info({
-                "lemur": socket.gethostname(),
-                "ingress-ip": request.remote_addr,
-                "request-id": request.headers.get("X-Request-Id"),
-                "ip": request.headers.get("X-Real-Ip", request.remote_addr),
-                "method": request.method,
-                "scheme": request.headers.get("X-Scheme", request.scheme),
-                "path": sanitize_path(path=request.full_path),
-                "status": response.status_code,
-                "user-agent": request.headers.get("User-Agent"),
-                "referer": sanitize_path(path=request.headers.get("Referer")),
-                "host": request.headers.get("Host")
-            })
+            app.logger.info(
+                {
+                    "lemur": socket.gethostname(),
+                    "ingress-ip": request.remote_addr,
+                    "request-id": request.headers.get("X-Request-Id"),
+                    "ip": request.headers.get("X-Real-Ip", request.remote_addr),
+                    "method": request.method,
+                    "scheme": request.headers.get("X-Scheme", request.scheme),
+                    "path": sanitize_path(path=request.full_path),
+                    "status": response.status_code,
+                    "user-agent": request.headers.get("User-Agent"),
+                    "referer": sanitize_path(path=request.headers.get("Referer")),
+                    "host": request.headers.get("Host"),
+                }
+            )
 
         # Update custom response headers
         response.headers.update(custom_response_headers)

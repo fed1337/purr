@@ -5,6 +5,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 from flask import current_app
 from flask_restful import inputs
 from flask_restful.reqparse import RequestParser
@@ -49,16 +50,12 @@ class CertificateCreationSchema(CertificateSchema):
     @post_load
     def default_notification(self, data):
         if not data["notifications"]:
-            data[
-                "notifications"
-            ] += notification_service.create_default_expiration_notifications(
+            data["notifications"] += notification_service.create_default_expiration_notifications(
                 "DEFAULT_{}".format(data["owner"].split("@")[0].upper()),
                 [data["owner"]],
             )
 
-            data[
-                "notifications"
-            ] += notification_service.create_default_expiration_notifications(
+            data["notifications"] += notification_service.create_default_expiration_notifications(
                 "DEFAULT_SECURITY",
                 current_app.config.get("LEMUR_SECURITY_TEAM_EMAIL"),
                 current_app.config.get("LEMUR_SECURITY_TEAM_EMAIL_INTERVALS", None),
@@ -80,9 +77,7 @@ class CertificateInputSchema(CertificateCreationSchema):
     destinations = fields.Nested(AssociatedDestinationSchema, missing=[], many=True)
     notifications = fields.Nested(AssociatedNotificationSchema, missing=[], many=True)
     replaces = fields.Nested(AssociatedCertificateSchema, missing=[], many=True)
-    replacements = fields.Nested(
-        AssociatedCertificateSchema, missing=[], many=True
-    )  # deprecated
+    replacements = fields.Nested(AssociatedCertificateSchema, missing=[], many=True)  # deprecated
     roles = fields.Nested(AssociatedRoleSchema, missing=[], many=True)
     dns_provider = fields.Nested(
         AssociatedDnsProviderSchema, missing=None, allow_none=True, required=False
@@ -110,19 +105,15 @@ class CertificateInputSchema(CertificateCreationSchema):
     organization = fields.String(
         missing=lambda: current_app.config.get("LEMUR_DEFAULT_ORGANIZATION")
     )
-    location = fields.String(
-        missing=lambda: current_app.config.get("LEMUR_DEFAULT_LOCATION")
-    )
-    country = fields.String(
-        missing=lambda: current_app.config.get("LEMUR_DEFAULT_COUNTRY")
-    )
+    location = fields.String(missing=lambda: current_app.config.get("LEMUR_DEFAULT_LOCATION"))
+    country = fields.String(missing=lambda: current_app.config.get("LEMUR_DEFAULT_COUNTRY"))
     state = fields.String(missing=lambda: current_app.config.get("LEMUR_DEFAULT_STATE"))
 
     extensions = fields.Nested(ExtensionSchema, missing={})
 
     @validates_schema
     def validate_authority(self, data):
-        if 'authority' not in data:
+        if "authority" not in data:
             raise ValidationError("Missing Authority.")
 
         if isinstance(data["authority"], str):
@@ -137,7 +128,11 @@ class CertificateInputSchema(CertificateCreationSchema):
 
     @post_load
     def validate_common_name(self, data):
-        if data["authority"] and (not data["authority"].is_cn_optional) and data["common_name"] == "":
+        if (
+            data["authority"]
+            and (not data["authority"].is_cn_optional)
+            and data["common_name"] == ""
+        ):
             raise ValidationError("Missing common_name")
 
         if len(data["extensions"]["sub_alt_names"]["names"]) == 0 and data["common_name"] == "":
@@ -146,9 +141,7 @@ class CertificateInputSchema(CertificateCreationSchema):
     @pre_load
     def load_data(self, data):
         if data.get("replacements"):
-            data["replaces"] = data[
-                "replacements"
-            ]  # TODO remove when field is deprecated
+            data["replaces"] = data["replacements"]  # TODO remove when field is deprecated
         if data.get("csr"):
             csr_sans = cert_utils.get_sans_from_csr(data["csr"])
             if not data.get("extensions"):
@@ -186,17 +179,13 @@ class CertificateEditInputSchema(CertificateSchema):
     destinations = fields.Nested(AssociatedDestinationSchema, missing=[], many=True)
     notifications = fields.Nested(AssociatedNotificationSchema, missing=[], many=True)
     replaces = fields.Nested(AssociatedCertificateSchema, missing=[], many=True)
-    replacements = fields.Nested(
-        AssociatedCertificateSchema, missing=[], many=True
-    )  # deprecated
+    replacements = fields.Nested(AssociatedCertificateSchema, missing=[], many=True)  # deprecated
     roles = fields.Nested(AssociatedRoleSchema, missing=[], many=True)
 
     @pre_load
     def load_data(self, data):
         if data.get("replacements"):
-            data["replaces"] = data[
-                "replacements"
-            ]  # TODO remove when field is deprecated
+            data["replaces"] = data["replacements"]  # TODO remove when field is deprecated
 
         if data.get("owner"):
             # Check if role already exists. This avoids adding duplicate role.
@@ -205,8 +194,7 @@ class CertificateEditInputSchema(CertificateSchema):
 
             # Add required role
             owner_role = roles_service.get_or_create(
-                data["owner"],
-                description=f"Auto generated role based on owner: {data['owner']}"
+                data["owner"], description=f"Auto generated role based on owner: {data['owner']}"
             )
 
             # Put  role info in correct format using RoleNestedOutputSchema
@@ -228,18 +216,14 @@ class CertificateEditInputSchema(CertificateSchema):
         :return:
         """
         if data.get("owner"):
-            notification_name = "DEFAULT_{}".format(
-                data["owner"].split("@")[0].upper()
-            )
+            notification_name = "DEFAULT_{}".format(data["owner"].split("@")[0].upper())
 
             # Even if one default role exists, return
             # This allows a User to remove unwanted default notification for current owner
             if any(n.label.startswith(notification_name) for n in data["notifications"]):
                 return data
 
-            data[
-                "notifications"
-            ] += notification_service.create_default_expiration_notifications(
+            data["notifications"] += notification_service.create_default_expiration_notifications(
                 notification_name, [data["owner"]]
             )
 
@@ -339,9 +323,7 @@ class CertificateOutputSchema(LemurOutputSchema):
     dns_provider = fields.Nested(DnsProvidersNestedOutputSchema)
     roles = fields.Nested(RoleNestedOutputSchema, many=True)
     endpoints = fields.Nested(EndpointNestedOutputSchema, many=True, missing=[])
-    replaced_by = fields.Nested(
-        CertificateNestedOutputSchema, many=True, attribute="replaced"
-    )
+    replaced_by = fields.Nested(CertificateNestedOutputSchema, many=True, attribute="replaced")
     rotation_policy = fields.Nested(RotationPolicyNestedOutputSchema)
 
     country = fields.String()
@@ -466,22 +448,22 @@ class CertificateNotificationOutputSchema(LemurOutputSchema):
     owner = fields.Email()
     user = fields.Nested(UserNestedOutputSchema)
     validity_end = ArrowDateTime(attribute="not_after")
-    replaced_by = fields.Nested(
-        CertificateNestedOutputSchema, many=True, attribute="replaced"
-    )
-    replaces = fields.Nested(
-        CertificateNestedOutputSchema, many=True, attribute="replaces"
-    )
+    replaced_by = fields.Nested(CertificateNestedOutputSchema, many=True, attribute="replaced")
+    replaces = fields.Nested(CertificateNestedOutputSchema, many=True, attribute="replaces")
     endpoints = fields.Nested(EndpointNestedOutputSchema, many=True, missing=[])
 
 
 class CertificateRevokeSchema(LemurInputSchema):
     comments = fields.String()
-    crl_reason = fields.String(validate=validate.OneOf(CRLReason.__members__), missing="unspecified")
+    crl_reason = fields.String(
+        validate=validate.OneOf(CRLReason.__members__), missing="unspecified"
+    )
 
 
 certificates_list_request_parser = RequestParser()
-certificates_list_request_parser.add_argument("short", type=inputs.boolean, default=False, location="args")
+certificates_list_request_parser.add_argument(
+    "short", type=inputs.boolean, default=False, location="args"
+)
 
 
 def certificates_list_output_schema_factory():

@@ -62,16 +62,10 @@ def test_user_authority(session, client, authority, role, user, issuer_plugin):
     u.roles.append(role)
     authority.roles.append(role)
     session.commit()
-    assert (
-        client.get(api.url_for(AuthoritiesList), headers=user["token"]).json["total"]
-        == 1
-    )
+    assert client.get(api.url_for(AuthoritiesList), headers=user["token"]).json["total"] == 1
     u.roles.remove(role)
     session.commit()
-    assert (
-        client.get(api.url_for(AuthoritiesList), headers=user["token"]).json["total"]
-        == 0
-    )
+    assert client.get(api.url_for(AuthoritiesList), headers=user["token"]).json["total"] == 0
 
 
 def test_create_authority(issuer_plugin, user):
@@ -84,13 +78,17 @@ def test_create_authority(issuer_plugin, user):
         type="root",
         name="example authority",
         creator=user["user"],
-        roles=[RoleFactory(name="new-role-test_create_authority")]
+        roles=[RoleFactory(name="new-role-test_create_authority")],
     )
     assert authority.authority_certificate
     assert authority.owner == user["user"].email
     assert len(authority.roles) == 3
     for role in authority.roles:
-        assert role.name in [user["user"].email, "test_example_authority_admin", "new-role-test_create_authority"]
+        assert role.name in [
+            user["user"].email,
+            "test_example_authority_admin",
+            "new-role-test_create_authority",
+        ]
     assert "test_example_authority_admin" not in user["user"].roles
     assert "new-role-test_create_authority" not in user["user"].roles
 
@@ -104,9 +102,7 @@ def test_create_authority(issuer_plugin, user):
     ],
 )
 def test_admin_authority(client, authority, issuer_plugin, token, count):
-    assert (
-        client.get(api.url_for(AuthoritiesList), headers=token).json["total"] == count
-    )
+    assert client.get(api.url_for(AuthoritiesList), headers=token).json["total"] == count
 
 
 @pytest.mark.parametrize(
@@ -119,10 +115,7 @@ def test_admin_authority(client, authority, issuer_plugin, token, count):
     ],
 )
 def test_authority_get(client, token, status):
-    assert (
-        client.get(api.url_for(Authorities, authority_id=1), headers=token).status_code
-        == status
-    )
+    assert client.get(api.url_for(Authorities, authority_id=1), headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -136,9 +129,7 @@ def test_authority_get(client, token, status):
 )
 def test_authority_post(client, token, status):
     assert (
-        client.post(
-            api.url_for(Authorities, authority_id=1), data={}, headers=token
-        ).status_code
+        client.post(api.url_for(Authorities, authority_id=1), data={}, headers=token).status_code
         == status
     )
 
@@ -154,9 +145,7 @@ def test_authority_post(client, token, status):
 )
 def test_authority_put(client, token, status):
     assert (
-        client.put(
-            api.url_for(Authorities, authority_id=1), data={}, headers=token
-        ).status_code
+        client.put(api.url_for(Authorities, authority_id=1), data={}, headers=token).status_code
         == status
     )
 
@@ -172,10 +161,7 @@ def test_authority_put(client, token, status):
 )
 def test_authority_delete(client, token, status):
     assert (
-        client.delete(
-            api.url_for(Authorities, authority_id=1), headers=token
-        ).status_code
-        == status
+        client.delete(api.url_for(Authorities, authority_id=1), headers=token).status_code == status
     )
 
 
@@ -190,9 +176,7 @@ def test_authority_delete(client, token, status):
 )
 def test_authority_patch(client, token, status):
     assert (
-        client.patch(
-            api.url_for(Authorities, authority_id=1), data={}, headers=token
-        ).status_code
+        client.patch(api.url_for(Authorities, authority_id=1), data={}, headers=token).status_code
         == status
     )
 
@@ -220,10 +204,7 @@ def test_authorities_get(client, token, status):
     ],
 )
 def test_authorities_post(client, token, status):
-    assert (
-        client.post(api.url_for(AuthoritiesList), data={}, headers=token).status_code
-        == status
-    )
+    assert client.post(api.url_for(AuthoritiesList), data={}, headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -241,14 +222,22 @@ def test_authorities_post_with_data(client, authority_number, token, status):
     """
     response = client.post(
         api.url_for(AuthoritiesList),
-        data=json.dumps({'name': f'testauthority{authority_number}', 'owner': 'test@example.com',
-                         'common_name': 'testauthority1.example.com', "serial_number": 1,
-                         "validityStart": "2023-07-12T07:00:00.000Z",
-                         "validityEnd": "2050-07-13T07:00:00.000Z",
-                         'plugin': {'slug': 'cryptography-issuer'}}),
-        headers=token
+        data=json.dumps(
+            {
+                "name": f"testauthority{authority_number}",
+                "owner": "test@example.com",
+                "common_name": "testauthority1.example.com",
+                "serial_number": 1,
+                "validityStart": "2023-07-12T07:00:00.000Z",
+                "validityEnd": "2050-07-13T07:00:00.000Z",
+                "plugin": {"slug": "cryptography-issuer"},
+            }
+        ),
+        headers=token,
     )
-    assert response.status_code == status, f"expected code {status}, but actual code was {response.status_code}; error: {response.json}"
+    assert response.status_code == status, (
+        f"expected code {status}, but actual code was {response.status_code}; error: {response.json}"
+    )
 
 
 @pytest.mark.parametrize(
@@ -261,10 +250,7 @@ def test_authorities_post_with_data(client, authority_number, token, status):
     ],
 )
 def test_authorities_put(client, token, status):
-    assert (
-        client.put(api.url_for(AuthoritiesList), data={}, headers=token).status_code
-        == status
-    )
+    assert client.put(api.url_for(AuthoritiesList), data={}, headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -277,9 +263,7 @@ def test_authorities_put(client, token, status):
     ],
 )
 def test_authorities_delete(client, token, status):
-    assert (
-        client.delete(api.url_for(AuthoritiesList), headers=token).status_code == status
-    )
+    assert client.delete(api.url_for(AuthoritiesList), headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -292,10 +276,7 @@ def test_authorities_delete(client, token, status):
     ],
 )
 def test_authorities_patch(client, token, status):
-    assert (
-        client.patch(api.url_for(AuthoritiesList), data={}, headers=token).status_code
-        == status
-    )
+    assert client.patch(api.url_for(AuthoritiesList), data={}, headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -321,10 +302,7 @@ def test_certificate_authorities_get(client, token, status):
     ],
 )
 def test_certificate_authorities_post(client, token, status):
-    assert (
-        client.post(api.url_for(AuthoritiesList), data={}, headers=token).status_code
-        == status
-    )
+    assert client.post(api.url_for(AuthoritiesList), data={}, headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -337,10 +315,7 @@ def test_certificate_authorities_post(client, token, status):
     ],
 )
 def test_certificate_authorities_put(client, token, status):
-    assert (
-        client.put(api.url_for(AuthoritiesList), data={}, headers=token).status_code
-        == status
-    )
+    assert client.put(api.url_for(AuthoritiesList), data={}, headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -353,9 +328,7 @@ def test_certificate_authorities_put(client, token, status):
     ],
 )
 def test_certificate_authorities_delete(client, token, status):
-    assert (
-        client.delete(api.url_for(AuthoritiesList), headers=token).status_code == status
-    )
+    assert client.delete(api.url_for(AuthoritiesList), headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -368,10 +341,7 @@ def test_certificate_authorities_delete(client, token, status):
     ],
 )
 def test_certificate_authorities_patch(client, token, status):
-    assert (
-        client.patch(api.url_for(AuthoritiesList), data={}, headers=token).status_code
-        == status
-    )
+    assert client.patch(api.url_for(AuthoritiesList), data={}, headers=token).status_code == status
 
 
 def test_authority_roles(client, session, issuer_plugin):
@@ -418,25 +388,32 @@ def test_authorities_put_update_options(client, authority_number, token, status)
     """
     This test relies on the configuration option ADMIN_ONLY_AUTHORITY_CREATION = True, set in conf.py
     """
-    data = {'name': f'testauthority{authority_number}', 'owner': 'test@example.com',
-            'common_name': 'testauthority1.example.com', "serial_number": 1,
-            "validityStart": "2023-07-12T07:00:00.000Z",
-            "validityEnd": "2050-07-13T07:00:00.000Z",
-            'plugin': {'slug': 'cryptography-issuer'}}
-    response = client.post(
-        api.url_for(AuthoritiesList),
-        data=json.dumps(data),
-        headers=token
+    data = {
+        "name": f"testauthority{authority_number}",
+        "owner": "test@example.com",
+        "common_name": "testauthority1.example.com",
+        "serial_number": 1,
+        "validityStart": "2023-07-12T07:00:00.000Z",
+        "validityEnd": "2050-07-13T07:00:00.000Z",
+        "plugin": {"slug": "cryptography-issuer"},
+    }
+    response = client.post(api.url_for(AuthoritiesList), data=json.dumps(data), headers=token)
+    assert response.status_code == status, (
+        f"expected code {status}, but actual code was {response.status_code}; error: {response.json}"
     )
-    assert response.status_code == status, f"expected code {status}, but actual code was {response.status_code}; error: {response.json}"
     response = json.loads(
         client.put(
-            api.url_for(Authorities, authority_id=1), data=json.dumps(
-                {'owner': 'updated@example.com',
-                 'description': 'updated',
-                 'roles': [],
-                 'options': json.dumps([{'updated': 'bar'}])}), headers=token
+            api.url_for(Authorities, authority_id=1),
+            data=json.dumps(
+                {
+                    "owner": "updated@example.com",
+                    "description": "updated",
+                    "roles": [],
+                    "options": json.dumps([{"updated": "bar"}]),
+                }
+            ),
+            headers=token,
         ).text
     )
-    for field in ['owner', 'description', 'options']:
-        assert 'updated' in json.dumps(response[field])
+    for field in ["owner", "description", "options"]:
+        assert "updated" in json.dumps(response[field])

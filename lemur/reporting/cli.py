@@ -5,6 +5,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 import click
 from flask.cli import with_appcontext
 from tabulate import tabulate
@@ -71,12 +72,7 @@ def fqdn(deployment, validity):
 
 
 @cli.command("expiring")
-@click.option("-ttl",
-              "--ttl",
-              "ttl",
-              default=30,
-              help="Days til expiration."
-)
+@click.option("-ttl", "--ttl", "ttl", default=30, help="Days til expiration.")
 @click.option(
     "-d",
     "--deployment",
@@ -98,8 +94,6 @@ def expiring(ttl, deployment):
 
     for cert in expiring_certificates(ttl=ttl, deployment=deployment).all():
         for endpoint in cert.endpoints:
-            rows.append(
-                [cert.cn, cert.owner, cert.issuer, cert.not_after, endpoint.dnsname]
-            )
+            rows.append([cert.cn, cert.owner, cert.issuer, cert.not_after, endpoint.dnsname])
 
     click.echo(tabulate(rows, headers=headers))

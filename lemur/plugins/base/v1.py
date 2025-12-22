@@ -6,6 +6,7 @@
 
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 import re
 from threading import local
 from typing import Optional, Dict, List, Any

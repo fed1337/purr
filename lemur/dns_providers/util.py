@@ -12,6 +12,7 @@ from lemur.extensions import metrics
 
 class DNSError(Exception):
     """Base class for DNS Exceptions."""
+
     pass
 
 

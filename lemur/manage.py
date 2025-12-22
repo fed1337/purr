@@ -42,12 +42,13 @@ from lemur.roles.models import Role  # noqa
 from lemur.sources.cli import cli as source_cli
 from lemur.sources.models import Source  # noqa
 from lemur.users import service as user_service
+
 # Needed to be imported so that SQLAlchemy create_all can find our models
 from lemur.users.models import User  # noqa
 
 
 @click.group(cls=FlaskGroup, create_app=create_app)
-@click.option('-c', '--config', help="Path to default configuration file for Lemur.")
+@click.option("-c", "--config", help="Path to default configuration file for Lemur.")
 @pass_script_info
 def cli(script_info, config):
     script_info.config = config
@@ -264,21 +265,13 @@ def initialize_app(password):
                 click.echo("[!] Passwords do not match!")
                 sys.exit(1)
 
-        user_service.create(
-            "lemur", password, "lemur@nobody.com", True, None, [admin_role]
-        )
-        click.echo(
-            "[+] Created the user 'lemur' and granted it the 'admin' role!\n"
-        )
+        user_service.create("lemur", password, "lemur@nobody.com", True, None, [admin_role])
+        click.echo("[+] Created the user 'lemur' and granted it the 'admin' role!\n")
 
     else:
-        click.echo(
-            "[-] Default user has already been created, skipping...!\n"
-        )
+        click.echo("[-] Default user has already been created, skipping...!\n")
 
-    intervals = current_app.config.get(
-        "LEMUR_DEFAULT_EXPIRATION_NOTIFICATION_INTERVALS", []
-    )
+    intervals = current_app.config.get("LEMUR_DEFAULT_EXPIRATION_NOTIFICATION_INTERVALS", [])
     click.echo(
         "[!] Creating {num} notifications for {intervals} days as specified by LEMUR_DEFAULT_EXPIRATION_NOTIFICATION_INTERVALS".format(
             num=len(intervals), intervals=",".join([str(x) for x in intervals])
@@ -297,14 +290,10 @@ def initialize_app(password):
     )
 
     _DEFAULT_ROTATION_INTERVAL = "default"
-    default_rotation_interval = policy_service.get_by_name(
-        _DEFAULT_ROTATION_INTERVAL
-    )
+    default_rotation_interval = policy_service.get_by_name(_DEFAULT_ROTATION_INTERVAL)
 
     if default_rotation_interval:
-        click.echo(
-            "[-] Default rotation interval policy already created, skipping...!\n"
-        )
+        click.echo("[-] Default rotation interval policy already created, skipping...!\n")
     else:
         days = current_app.config.get("LEMUR_DEFAULT_ROTATION_INTERVAL", 30)
         click.echo(
@@ -411,6 +400,7 @@ def start():
     Will start gunicorn with 4 workers bound to 127.0.0.0:8002
     """
     from gunicorn.app.wsgiapp import WSGIApplication
+
     app = WSGIApplication()
 
     # run startup tasks on an app like object
@@ -478,9 +468,7 @@ def lock(path=None):
                 f = Fernet(key)
                 data = f.encrypt(in_file.read())
                 out_file.write(data)
-                click.echo(
-                    f"[+] Writing file: {dest} Source: {source}"
-                )
+                click.echo(f"[+] Writing file: {dest} Source: {source}")
 
     click.echo(f"[+] Keys have been encrypted with key {key}")
 
@@ -517,9 +505,7 @@ def unlock(path=None):
                 f = Fernet(key)
                 data = f.decrypt(in_file.read())
                 out_file.write(data)
-                click.echo(
-                    f"[+] Writing file: {dest} Source: {source}"
-                )
+                click.echo(f"[+] Writing file: {dest} Source: {source}")
 
     click.echo("[+] Keys have been unencrypted!")
 
@@ -558,7 +544,6 @@ def publish_verisign_units():
 
 
 def main():
-
     cli.add_command(acme_cli, "acme")
     cli.add_command(api_keys_cli, "api_keys")
     cli.add_command(certificate_cli, "certificate")

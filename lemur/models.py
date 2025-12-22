@@ -8,50 +8,41 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 from sqlalchemy import Column, Integer, ForeignKey, Index, UniqueConstraint
 
 from lemur.database import db
 
 certificate_destination_associations = db.Table(
     "certificate_destination_associations",
-    Column(
-        "destination_id", Integer, ForeignKey("destinations.id", ondelete="cascade")
-    ),
-    Column(
-        "certificate_id", Integer, ForeignKey("certificates.id", ondelete="cascade")
-    ),
+    Column("destination_id", Integer, ForeignKey("destinations.id", ondelete="cascade")),
+    Column("certificate_id", Integer, ForeignKey("certificates.id", ondelete="cascade")),
 )
 
 Index(
     "certificate_destination_associations_ix",
     certificate_destination_associations.c.destination_id,
     certificate_destination_associations.c.certificate_id,
-    unique=True
+    unique=True,
 )
 
 certificate_source_associations = db.Table(
     "certificate_source_associations",
     Column("source_id", Integer, ForeignKey("sources.id", ondelete="cascade")),
-    Column(
-        "certificate_id", Integer, ForeignKey("certificates.id", ondelete="cascade")
-    ),
+    Column("certificate_id", Integer, ForeignKey("certificates.id", ondelete="cascade")),
 )
 
 Index(
     "certificate_source_associations_ix",
     certificate_source_associations.c.source_id,
     certificate_source_associations.c.certificate_id,
-    unique=True
+    unique=True,
 )
 
 certificate_notification_associations = db.Table(
     "certificate_notification_associations",
-    Column(
-        "notification_id", Integer, ForeignKey("notifications.id", ondelete="cascade")
-    ),
-    Column(
-        "certificate_id", Integer, ForeignKey("certificates.id", ondelete="cascade")
-    ),
+    Column("notification_id", Integer, ForeignKey("notifications.id", ondelete="cascade")),
+    Column("certificate_id", Integer, ForeignKey("certificates.id", ondelete="cascade")),
     Column("id", Integer, primary_key=True, autoincrement=True),
     UniqueConstraint("notification_id", "certificate_id", name="uq_dest_not_ids"),
 )
@@ -69,9 +60,7 @@ certificate_replacement_associations = db.Table(
         Integer,
         ForeignKey("certificates.id", ondelete="cascade"),
     ),
-    Column(
-        "certificate_id", Integer, ForeignKey("certificates.id", ondelete="cascade")
-    ),
+    Column("certificate_id", Integer, ForeignKey("certificates.id", ondelete="cascade")),
 )
 
 Index(
@@ -91,7 +80,7 @@ Index(
     "roles_authorities_ix",
     roles_authorities.c.authority_id,
     roles_authorities.c.role_id,
-    unique=True
+    unique=True,
 )
 
 roles_certificates = db.Table(
@@ -104,7 +93,7 @@ Index(
     "roles_certificates_ix",
     roles_certificates.c.certificate_id,
     roles_certificates.c.role_id,
-    unique=True
+    unique=True,
 )
 
 
@@ -128,12 +117,8 @@ Index("policies_ciphers_ix", policies_ciphers.c.cipher_id, policies_ciphers.c.po
 
 pending_cert_destination_associations = db.Table(
     "pending_cert_destination_associations",
-    Column(
-        "destination_id", Integer, ForeignKey("destinations.id", ondelete="cascade")
-    ),
-    Column(
-        "pending_cert_id", Integer, ForeignKey("pending_certs.id", ondelete="cascade")
-    ),
+    Column("destination_id", Integer, ForeignKey("destinations.id", ondelete="cascade")),
+    Column("pending_cert_id", Integer, ForeignKey("pending_certs.id", ondelete="cascade")),
 )
 
 Index(
@@ -145,12 +130,8 @@ Index(
 
 pending_cert_notification_associations = db.Table(
     "pending_cert_notification_associations",
-    Column(
-        "notification_id", Integer, ForeignKey("notifications.id", ondelete="cascade")
-    ),
-    Column(
-        "pending_cert_id", Integer, ForeignKey("pending_certs.id", ondelete="cascade")
-    ),
+    Column("notification_id", Integer, ForeignKey("notifications.id", ondelete="cascade")),
+    Column("pending_cert_id", Integer, ForeignKey("pending_certs.id", ondelete="cascade")),
 )
 
 Index(
@@ -162,9 +143,7 @@ Index(
 pending_cert_source_associations = db.Table(
     "pending_cert_source_associations",
     Column("source_id", Integer, ForeignKey("sources.id", ondelete="cascade")),
-    Column(
-        "pending_cert_id", Integer, ForeignKey("pending_certs.id", ondelete="cascade")
-    ),
+    Column("pending_cert_id", Integer, ForeignKey("pending_certs.id", ondelete="cascade")),
 )
 
 Index(
@@ -180,9 +159,7 @@ pending_cert_replacement_associations = db.Table(
         Integer,
         ForeignKey("certificates.id", ondelete="cascade"),
     ),
-    Column(
-        "pending_cert_id", Integer, ForeignKey("pending_certs.id", ondelete="cascade")
-    ),
+    Column("pending_cert_id", Integer, ForeignKey("pending_certs.id", ondelete="cascade")),
 )
 
 Index(

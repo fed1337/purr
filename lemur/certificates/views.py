@@ -5,6 +5,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 import base64
 
 from flask import Blueprint, make_response, jsonify, g, current_app
@@ -43,7 +44,7 @@ api = Api(mod)
 
 
 class CertificatesListValid(AuthenticatedResource):
-    """ Defines the 'certificates/valid' endpoint """
+    """Defines the 'certificates/valid' endpoint"""
 
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
@@ -148,7 +149,7 @@ class CertificatesListValid(AuthenticatedResource):
 
 
 class CertificatesNameQuery(AuthenticatedResource):
-    """ Defines the 'certificates/name' endpoint """
+    """Defines the 'certificates/name' endpoint"""
 
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
@@ -246,9 +247,7 @@ class CertificatesNameQuery(AuthenticatedResource):
         parser.add_argument("owner", type=inputs.boolean, location="args")
         parser.add_argument("id", type=str, location="args")
         parser.add_argument("active", type=inputs.boolean, location="args")
-        parser.add_argument(
-            "destinationId", type=int, dest="destination_id", location="args"
-        )
+        parser.add_argument("destinationId", type=int, dest="destination_id", location="args")
         parser.add_argument("creator", type=str, location="args")
         parser.add_argument("show", type=str, location="args")
 
@@ -258,7 +257,7 @@ class CertificatesNameQuery(AuthenticatedResource):
 
 
 class CertificatesList(AuthenticatedResource):
-    """ Defines the 'certificates' endpoint """
+    """Defines the 'certificates' endpoint"""
 
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
@@ -375,9 +374,7 @@ class CertificatesList(AuthenticatedResource):
         parser.add_argument("id", type=str, location="args")
         parser.add_argument("active", type=inputs.boolean, location="args")
         parser.add_argument("rotation", type=inputs.boolean, location="args")
-        parser.add_argument(
-            "destinationId", type=int, dest="destination_id", location="args"
-        )
+        parser.add_argument("destinationId", type=int, dest="destination_id", location="args")
         parser.add_argument("creator", type=str, location="args")
         parser.add_argument("show", type=str, location="args")
         parser.add_argument("showExpired", type=int, location="args")
@@ -507,7 +504,9 @@ class CertificatesList(AuthenticatedResource):
             return dict(message="You are not authorized to create a new certificate."), 403
 
         if not validators.is_valid_owner(data["owner"]):
-            return dict(message=f"Invalid owner: check if {data['owner']} is a valid group email. Individuals cannot be certificate owners."), 412
+            return dict(
+                message=f"Invalid owner: check if {data['owner']} is a valid group email. Individuals cannot be certificate owners."
+            ), 412
 
         if current_app.config.get("CERTIFICATE_CREATE_REQUEST_VALIDATION"):
             message, code = current_app.config.get("CERTIFICATE_CREATE_REQUEST_VALIDATION")(data)
@@ -524,13 +523,18 @@ class CertificatesList(AuthenticatedResource):
         authority_permission = AuthorityPermission(data["authority"].id, roles)
 
         if not authority_permission.can():
-            return dict(message=f"You are not authorized to use the authority: {data['authority'].name}"), 403
+            return dict(
+                message=f"You are not authorized to use the authority: {data['authority'].name}"
+            ), 403
 
         data["creator"] = g.user
         # allowed_issuance_for_domain throws UnauthorizedError if caller is not authorized
         try:
             # unless admin or global_cert_issuer, perform fine grained authorization
-            if not g.user.is_admin_or_global_cert_issuer and not data["authority"].is_private_authority:
+            if (
+                not g.user.is_admin_or_global_cert_issuer
+                and not data["authority"].is_private_authority
+            ):
                 service.allowed_issuance_for_domain(data["common_name"], data["extensions"])
         except UnauthorizedError as e:
             return dict(message=str(e)), 403
@@ -543,7 +547,7 @@ class CertificatesList(AuthenticatedResource):
 
 
 class CertificatesUpload(AuthenticatedResource):
-    """ Defines the 'certificates' upload endpoint """
+    """Defines the 'certificates' upload endpoint"""
 
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
@@ -662,7 +666,7 @@ class CertificatesUpload(AuthenticatedResource):
 
 
 class CertificatesStats(AuthenticatedResource):
-    """ Defines the 'certificates' stats endpoint """
+    """Defines the 'certificates' stats endpoint"""
 
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
@@ -671,9 +675,7 @@ class CertificatesStats(AuthenticatedResource):
     def get(self):
         self.reqparse.add_argument("metric", type=str, location="args")
         self.reqparse.add_argument("range", default=32, type=int, location="args")
-        self.reqparse.add_argument(
-            "destinationId", dest="destination_id", location="args"
-        )
+        self.reqparse.add_argument("destinationId", dest="destination_id", location="args")
         self.reqparse.add_argument("active", type=str, default="true", location="args")
 
         args = self.reqparse.parse_args()
@@ -738,8 +740,9 @@ class CertificatePrivateKey(AuthenticatedResource):
         response.headers["cache-control"] = "private, max-age=0, no-cache, no-store"
         response.headers["pragma"] = "no-cache"
 
-        log_service.audit_log("export_private_key", cert.name,
-                              "Exported Private key for the certificate")
+        log_service.audit_log(
+            "export_private_key", cert.name, "Exported Private key for the certificate"
+        )
         return response
 
 
@@ -936,7 +939,9 @@ class Certificates(AuthenticatedResource):
                 )
 
         if current_app.config.get("CERTIFICATE_UPDATE_REQUEST_VALIDATION"):
-            message, code = current_app.config.get("CERTIFICATE_UPDATE_REQUEST_VALIDATION")(data, cert)
+            message, code = current_app.config.get("CERTIFICATE_UPDATE_REQUEST_VALIDATION")(
+                data, cert
+            )
             if message and code:
                 return dict(message=message), code
 
@@ -963,8 +968,10 @@ class Certificates(AuthenticatedResource):
         # if owner is changed, validate owner and remove all notifications and roles associated with old owner
         if cert.owner != data["owner"]:
             if not validators.is_valid_owner(data["owner"]):
-                return dict(message=f"Invalid owner: check if {data['owner']} is a valid group email. Individuals cannot "
-                                    f"be authority owners."), 412
+                return dict(
+                    message=f"Invalid owner: check if {data['owner']} is a valid group email. Individuals cannot "
+                    f"be authority owners."
+                ), 412
             service.cleanup_owner_roles_notification(cert.owner, data)
 
         error_message = ""
@@ -977,7 +984,10 @@ class Certificates(AuthenticatedResource):
                     capture_exception()
                     # Add the removed destination back
                     data["destinations"].append(destination)
-                    error_message = error_message + f"Failed to remove destination: {destination.label}. {str(e)}. "
+                    error_message = (
+                        error_message
+                        + f"Failed to remove destination: {destination.label}. {str(e)}. "
+                    )
 
         # go ahead with DB update
         cert = service.update(certificate_id, **data)
@@ -1091,11 +1101,15 @@ class Certificates(AuthenticatedResource):
                 )
 
         if current_app.config.get("CERTIFICATE_UPDATE_REQUEST_VALIDATION"):
-            message, code = current_app.config.get("CERTIFICATE_UPDATE_REQUEST_VALIDATION")(data, cert)
+            message, code = current_app.config.get("CERTIFICATE_UPDATE_REQUEST_VALIDATION")(
+                data, cert
+            )
             if message and code:
                 return dict(message=message), code
 
-        cert = service.update_switches(cert, notify_flag=data.get("notify"), rotation_flag=data.get("rotation"))
+        cert = service.update_switches(
+            cert, notify_flag=data.get("notify"), rotation_flag=data.get("rotation")
+        )
         log_service.create(g.current_user, "update_cert", certificate=cert)
         return cert
 
@@ -1249,8 +1263,10 @@ class CertificateUpdateOwner(AuthenticatedResource):
             return dict(message="Cannot find specified certificate"), 404
 
         if not validators.is_valid_owner(data["owner"]):
-            return dict(message=f"Invalid owner: check if {data['owner']} is a valid group email. Individuals cannot "
-                                f"be authority owners."), 412
+            return dict(
+                message=f"Invalid owner: check if {data['owner']} is a valid group email. Individuals cannot "
+                f"be authority owners."
+            ), 412
 
         # allow creators
         if g.current_user != cert.user:
@@ -1264,7 +1280,9 @@ class CertificateUpdateOwner(AuthenticatedResource):
                 )
 
         if current_app.config.get("CERTIFICATE_UPDATE_REQUEST_VALIDATION"):
-            message, code = current_app.config.get("CERTIFICATE_UPDATE_REQUEST_VALIDATION")(data, cert)
+            message, code = current_app.config.get("CERTIFICATE_UPDATE_REQUEST_VALIDATION")(
+                data, cert
+            )
             if message and code:
                 return dict(message=message), code
 
@@ -1275,7 +1293,7 @@ class CertificateUpdateOwner(AuthenticatedResource):
 
 
 class NotificationCertificatesList(AuthenticatedResource):
-    """ Defines the 'certificates' endpoint """
+    """Defines the 'certificates' endpoint"""
 
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
@@ -1375,9 +1393,7 @@ class NotificationCertificatesList(AuthenticatedResource):
         parser.add_argument("owner", type=inputs.boolean, location="args")
         parser.add_argument("id", type=str, location="args")
         parser.add_argument("active", type=inputs.boolean, location="args")
-        parser.add_argument(
-            "destinationId", type=int, dest="destination_id", location="args"
-        )
+        parser.add_argument("destinationId", type=int, dest="destination_id", location="args")
         parser.add_argument("creator", type=str, location="args")
         parser.add_argument("show", type=str, location="args")
         parser.add_argument("showExpired", type=int, location="args")
@@ -1575,15 +1591,11 @@ class CertificateExport(AuthenticatedResource):
                 # allow creators
                 if g.current_user != cert.user:
                     owner_role = role_service.get_by_name(cert.owner)
-                    permission = CertificatePermission(
-                        owner_role, [x.name for x in cert.roles]
-                    )
+                    permission = CertificatePermission(owner_role, [x.name for x in cert.roles])
 
                     if not permission.can():
                         return (
-                            dict(
-                                message="You are not authorized to export this certificate."
-                            ),
+                            dict(message="You are not authorized to export this certificate."),
                             403,
                         )
 
@@ -1596,8 +1608,8 @@ class CertificateExport(AuthenticatedResource):
 
         # Clear memory for last passphrase if it's in plugin.options
         for option in plugin.options:
-            if 'value' in option and option['value'] == passphrase:
-                del option['value']
+            if "value" in option and option["value"] == passphrase:
+                del option["value"]
 
         # we take a hit in message size when b64 encoding
         return dict(
@@ -1752,7 +1764,9 @@ class CertificateDeactivate(AuthenticatedResource):
             log_service.create(g.current_user, "deactivate_cert", certificate=cert)
 
             if error_message:
-                return dict(message=f"Certificate (id:{cert.id}) is deactivated - {error_message}"), 400
+                return dict(
+                    message=f"Certificate (id:{cert.id}) is deactivated - {error_message}"
+                ), 400
             return dict(id=cert.id)
         except NotImplementedError as ne:
             return dict(message="Deactivate is not implemented for issuer of this certificate"), 400
@@ -1762,7 +1776,8 @@ class CertificateDeactivate(AuthenticatedResource):
 
 
 class CertificateDescriptionUpdate(AuthenticatedResource):
-    """ Defines the 'certificates/<int:certificate_id>/description' endpoint """
+    """Defines the 'certificates/<int:certificate_id>/description' endpoint"""
+
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
         super().__init__()
@@ -1822,12 +1837,14 @@ class CertificateDescriptionUpdate(AuthenticatedResource):
                     403,
                 )
 
-        self.reqparse.add_argument('description', type=str, location='json', required=True)
+        self.reqparse.add_argument("description", type=str, location="json", required=True)
         args = self.reqparse.parse_args()
-        description = args.get('description')
+        description = args.get("description")
 
         if current_app.config.get("CERTIFICATE_UPDATE_REQUEST_VALIDATION"):
-            message, code = current_app.config.get("CERTIFICATE_UPDATE_REQUEST_VALIDATION")({"description": description}, cert)
+            message, code = current_app.config.get("CERTIFICATE_UPDATE_REQUEST_VALIDATION")(
+                {"description": description}, cert
+            )
             if message and code:
                 return dict(message=message), code
 
@@ -1852,22 +1869,20 @@ api.add_resource(
     endpoint="certificatesNameQuery",
 )
 api.add_resource(CertificatesList, "/certificates", endpoint="certificates")
+api.add_resource(CertificatesListValid, "/certificates/valid", endpoint="certificatesListValid")
+api.add_resource(Certificates, "/certificates/<int:certificate_id>", endpoint="certificate")
 api.add_resource(
-    CertificatesListValid, "/certificates/valid", endpoint="certificatesListValid"
+    Certificates,
+    "/certificates/<int:certificate_id>/update/switches",
+    endpoint="certificateUpdateSwitches",
 )
 api.add_resource(
-    Certificates, "/certificates/<int:certificate_id>", endpoint="certificate"
-)
-api.add_resource(
-    Certificates, "/certificates/<int:certificate_id>/update/switches", endpoint="certificateUpdateSwitches"
-)
-api.add_resource(
-    CertificateUpdateOwner, "/certificates/<int:certificate_id>/update/owner", endpoint="certificateUpdateOwner"
+    CertificateUpdateOwner,
+    "/certificates/<int:certificate_id>/update/owner",
+    endpoint="certificateUpdateOwner",
 )
 api.add_resource(CertificatesStats, "/certificates/stats", endpoint="certificateStats")
-api.add_resource(
-    CertificatesUpload, "/certificates/upload", endpoint="certificateUpload"
-)
+api.add_resource(CertificatesUpload, "/certificates/upload", endpoint="certificateUpload")
 api.add_resource(
     CertificatePrivateKey,
     "/certificates/<int:certificate_id>/key",

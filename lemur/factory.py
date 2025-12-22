@@ -9,6 +9,7 @@
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 
 """
+
 import errno
 import importlib
 import os
@@ -62,7 +63,7 @@ def create_app(app_name=None, blueprints=None, config=None):
     if ctx and config is None:
         script_info = ctx.obj
         if script_info:
-            config = getattr(script_info, 'config')
+            config = getattr(script_info, "config")
 
     configure_app(app, config)
     configure_blueprints(app, blueprints)
@@ -78,7 +79,7 @@ def create_app(app_name=None, blueprints=None, config=None):
 
     @app.shell_context_processor
     def shell_context():
-        return {'app': app, 'db': db}
+        return {"app": app, "db": db}
 
     return app
 
@@ -96,9 +97,7 @@ def from_file(file_path, silent=False):
         module_spec = importlib.util.spec_from_file_location("config", file_path)
         d = importlib.util.module_from_spec(module_spec)
     else:
-        raise FileNotFoundError(
-            f"Unable to load config file: `{file_path}`"
-        )
+        raise FileNotFoundError(f"Unable to load config file: `{file_path}`")
 
     try:
         with open(file_path) as config_file:
@@ -131,9 +130,7 @@ def configure_app(app, config=None):
         except RuntimeError:
             # look in default paths
             if os.path.isfile(os.path.expanduser("~/.lemur/lemur.conf.py")):
-                app.config.from_object(
-                    from_file(os.path.expanduser("~/.lemur/lemur.conf.py"))
-                )
+                app.config.from_object(from_file(os.path.expanduser("~/.lemur/lemur.conf.py")))
             else:
                 app.config.from_object(
                     from_file(
@@ -164,17 +161,19 @@ def configure_extensions(app):
     # the legacy Raven[flask] relied on SENTRY_CONFIG
     if app.config.get("SENTRY_DSN", None) or app.config.get("SENTRY_CONFIG", None):
         # priority given to SENTRY_DSN
-        sentry_dsn = app.config.get("SENTRY_DSN", None) or app.config["SENTRY_CONFIG"]['dsn']
+        sentry_dsn = app.config.get("SENTRY_DSN", None) or app.config["SENTRY_CONFIG"]["dsn"]
         sentry_sdk.init(
             dsn=sentry_dsn,
-            integrations=[SqlalchemyIntegration(),
-                          CeleryIntegration(),
-                          RedisIntegration(),
-                          FlaskIntegration()],
+            integrations=[
+                SqlalchemyIntegration(),
+                CeleryIntegration(),
+                RedisIntegration(),
+                FlaskIntegration(),
+            ],
             # associating users to errors
             send_default_pii=True,
             shutdown_timeout=60,
-            environment=app.config.get("LEMUR_ENV", ''),
+            environment=app.config.get("LEMUR_ENV", ""),
         )
 
     if app.config["CORS"]:
@@ -220,21 +219,21 @@ def configure_logging(app):
     # file rotation will not work and must be disabled.
     disable_file_rotation = os.path.exists(logfile) and stat.S_ISCHR(os.stat(logfile).st_mode)
     if disable_file_rotation:
-        handler = StreamHandler(open(logfile, 'a'))
+        handler = StreamHandler(open(logfile, "a"))
     else:
         handler = RotatingFileHandler(logfile, maxBytes=10000000, backupCount=100)
 
     handler.setFormatter(
-        Formatter(
-            "%(asctime)s %(levelname)s: %(message)s " "[in %(pathname)s:%(lineno)d]"
-        )
+        Formatter("%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]")
     )
 
     if app.config.get("LOG_JSON", False):
         handler.setFormatter(
-            JsonFormatter(fmt="%(asctime) %(name) %(processName) %(filename) %(funcName) %(levelname) %(lineno) %(module) %(threadName) %(message)",
-                 datefmt="%Y-%m-%dT%H:%M:%SZ%z",
-                 defaults={"hostname": socket.gethostname()})
+            JsonFormatter(
+                fmt="%(asctime) %(name) %(processName) %(filename) %(funcName) %(levelname) %(lineno) %(module) %(threadName) %(message)",
+                datefmt="%Y-%m-%dT%H:%M:%SZ%z",
+                defaults={"hostname": socket.gethostname()},
+            )
         )
 
     handler.setLevel(app.config.get("LOG_LEVEL", "DEBUG"))
@@ -286,11 +285,14 @@ def install_plugins(app):
 
         if current_app.config.get("USER_DOMAIN_AUTHORIZATION_PROVIDER"):
             try:
-                user_domain_authz_provider = plugins.get(current_app.config.get("USER_DOMAIN_AUTHORIZATION_PROVIDER"))
+                user_domain_authz_provider = plugins.get(
+                    current_app.config.get("USER_DOMAIN_AUTHORIZATION_PROVIDER")
+                )
                 user_domain_authz_provider.warmup()
             except Exception:
                 import traceback
 
                 app.logger.error(
-                    "Domain authorization warmup failed, this is a best effort call:\n%s\n" % (traceback.format_exc())
+                    "Domain authorization warmup failed, this is a best effort call:\n%s\n"
+                    % (traceback.format_exc())
                 )

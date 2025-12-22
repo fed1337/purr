@@ -990,7 +990,7 @@ paths:
                     type: integer
         '403':
           description: Forbidden - unauthenticated
-    
+
     post:
       summary: Create a new authority
       description: Creates a new certificate authority
@@ -1120,7 +1120,7 @@ paths:
           description: Forbidden - Unauthenticated
         '404':
           description: Not Found - Authority not found
-    
+
     put:
       summary: Update an authority
       description: Updates the properties of an existing authority
@@ -1528,7 +1528,7 @@ paths:
                     type: integer
         '403':
           description: Forbidden - Unauthenticated
-    
+
     post:
       summary: Create a new role
       description: Create a new role in the system
@@ -1577,7 +1577,7 @@ paths:
         description: The ID of the role
         schema:
           type: integer
-    
+
     get:
       summary: Get role details
       description: Get details of a specific role by ID
@@ -1599,7 +1599,7 @@ paths:
                 properties:
                   message:
                     type: string
-    
+
     put:
       summary: Update a role
       description: Update an existing role
@@ -1650,7 +1650,7 @@ paths:
         description: The ID of the role
         schema:
           type: integer
-    
+
     get:
       summary: List users with role
       description: Get a list of users with the specified role
@@ -1730,7 +1730,7 @@ paths:
                     type: integer
         '403':
           description: Forbidden - Unauthenticated
-    
+
     post:
       summary: Create a new user
       description: Create a new user in the system
@@ -1790,7 +1790,7 @@ paths:
         description: The ID of the user
         schema:
           type: integer
-    
+
     get:
       summary: Get user details
       description: Get details of a specific user by ID
@@ -1812,7 +1812,7 @@ paths:
                 properties:
                   message:
                     type: string
-    
+
     put:
       summary: Update a user
       description: Update an existing user
@@ -1867,7 +1867,7 @@ paths:
         description: The ID of the user
         schema:
           type: integer
-    
+
     get:
       summary: List user's roles
       description: Get a list of roles for the specified user
@@ -1953,7 +1953,7 @@ paths:
                     type: integer
         '403':
           description: Forbidden - Unauthenticated
-    
+
     post:
       summary: Create a new domain
       description: Create a new domain in the system
@@ -1999,7 +1999,7 @@ paths:
         description: The ID of the domain
         schema:
           type: integer
-    
+
     get:
       summary: Get domain details
       description: Get details of a specific domain by ID
@@ -2021,7 +2021,7 @@ paths:
                 properties:
                   message:
                     type: string
-    
+
     put:
       summary: Update a domain
       description: Update an existing domain
@@ -2092,7 +2092,7 @@ paths:
         description: Plugin name
         schema:
           type: string
-    
+
     get:
       summary: Get plugin details
       description: Get details of a specific plugin by name
@@ -2165,7 +2165,7 @@ paths:
                     type: integer
         '403':
           description: Forbidden - Unauthenticated
-    
+
     post:
       summary: Create a new source
       description: Create a new certificate source
@@ -2221,7 +2221,7 @@ paths:
         description: Source ID
         schema:
           type: integer
-    
+
     get:
       summary: Get source details
       description: Get details of a specific source by ID
@@ -2243,7 +2243,7 @@ paths:
                 properties:
                   message:
                     type: string
-    
+
     put:
       summary: Update a source
       description: Update an existing source
@@ -2351,7 +2351,7 @@ paths:
                     type: integer
         '403':
           description: Forbidden - Unauthenticated
-    
+
     post:
       summary: Create a new API key
       description: Create a new API key
@@ -2413,7 +2413,7 @@ paths:
         description: API key ID
         schema:
           type: integer
-    
+
     get:
       summary: Get API key details
       description: Get details of a specific API key by ID
@@ -2435,7 +2435,7 @@ paths:
                 properties:
                   message:
                     type: string
-    
+
     put:
       summary: Update an API key
       description: Update an existing API key
@@ -2489,7 +2489,7 @@ paths:
                 properties:
                   message:
                     type: string
-    
+
     delete:
       summary: Delete an API key
       description: Delete an existing API key
@@ -2523,7 +2523,7 @@ paths:
         description: User ID
         schema:
           type: integer
-    
+
     get:
       summary: List user's API keys
       description: Get a list of API keys for a specific user
@@ -2619,7 +2619,7 @@ paths:
                     type: integer
         '403':
           description: Forbidden - Unauthenticated
-    
+
     post:
       summary: Create a new endpoint
       description: Create a new endpoint
@@ -2684,7 +2684,7 @@ paths:
         description: Endpoint ID
         schema:
           type: integer
-    
+
     get:
       summary: Get endpoint details
       description: Get details of a specific endpoint by ID
@@ -2706,7 +2706,7 @@ paths:
                 properties:
                   message:
                     type: string
-    
+
     put:
       summary: Update an endpoint
       description: Update an existing endpoint
@@ -2826,7 +2826,7 @@ paths:
                     type: integer
         '403':
           description: Forbidden - Unauthenticated
-    
+
     post:
       summary: Create a new destination
       description: Create a new certificate destination
@@ -2882,7 +2882,7 @@ paths:
         description: Destination ID
         schema:
           type: integer
-    
+
     get:
       summary: Get destination details
       description: Get details of a specific destination by ID
@@ -2904,7 +2904,7 @@ paths:
                 properties:
                   message:
                     type: string
-    
+
     put:
       summary: Update a destination
       description: Update an existing destination
@@ -3035,7 +3035,7 @@ paths:
                     type: integer
         '403':
           description: Forbidden - Unauthenticated
-    
+
     post:
       summary: Create a new DNS provider
       description: Create a new DNS provider
@@ -3087,7 +3087,7 @@ paths:
         description: DNS provider ID
         schema:
           type: integer
-    
+
     get:
       summary: Get DNS provider details
       description: Get details of a specific DNS provider by ID
@@ -3109,7 +3109,7 @@ paths:
                 properties:
                   message:
                     type: string
-    
+
     put:
       summary: Update a DNS provider
       description: Update an existing DNS provider
@@ -3228,7 +3228,7 @@ paths:
                     type: integer
         '403':
           description: Forbidden - Unauthenticated
-    
+
     post:
       summary: Create a new notification
       description: Create a new notification
@@ -3287,7 +3287,7 @@ paths:
         description: Notification ID
         schema:
           type: integer
-    
+
     get:
       summary: Get notification details
       description: Get details of a specific notification by ID
@@ -3309,7 +3309,7 @@ paths:
                 properties:
                   message:
                     type: string
-    
+
     put:
       summary: Update a notification
       description: Update an existing notification
@@ -3375,7 +3375,7 @@ paths:
         description: Certificate ID
         schema:
           type: integer
-    
+
     get:
       summary: Get certificate notifications
       description: Get notifications for a specific certificate
@@ -3455,7 +3455,7 @@ paths:
                     type: integer
         '403':
           description: Forbidden - Unauthenticated
-    
+
     post:
       summary: Create a new pending certificate
       description: Create a new pending certificate
@@ -3529,7 +3529,7 @@ paths:
         description: Pending certificate ID
         schema:
           type: integer
-    
+
     get:
       summary: Get pending certificate details
       description: Get details of a specific pending certificate by ID
@@ -3551,7 +3551,7 @@ paths:
                 properties:
                   message:
                     type: string
-    
+
     put:
       summary: Update a pending certificate
       description: Update an existing pending certificate
@@ -3611,7 +3611,7 @@ paths:
         description: Pending certificate ID
         schema:
           type: integer
-    
+
     post:
       summary: Upload a pending certificate
       description: Upload an existing certificate to a pending certificate
@@ -3657,7 +3657,7 @@ paths:
         description: Pending certificate ID
         schema:
           type: integer
-    
+
     get:
       summary: Get pending certificate private key
       description: Retrieves the private key for a specific pending certificate
@@ -3701,7 +3701,7 @@ paths:
         description: Certificate ID
         schema:
           type: integer
-    
+
     put:
       summary: Update certificate description
       description: Update the description field of a certificate
@@ -3983,7 +3983,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LemurRole'
-    
+
     LemurRole:
       type: object
       properties:
@@ -4008,7 +4008,7 @@ components:
               email:
                 type: string
                 format: email
-    
+
     LemurLog:
       type: object
       properties:
@@ -4038,7 +4038,7 @@ components:
           type: string
           format: date-time
           description: When the action occurred
-    
+
     LemurDomain:
       type: object
       properties:
@@ -4085,7 +4085,7 @@ components:
         author:
           type: string
           description: Plugin author
-    
+
     LemurSource:
       type: object
       properties:
@@ -4119,7 +4119,7 @@ components:
             title:
               type: string
               description: Plugin title
-    
+
     LemurApiKey:
       type: object
       properties:
@@ -4155,7 +4155,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LemurRole'
-    
+
     LemurDefaults:
       type: object
       properties:
@@ -4193,7 +4193,7 @@ components:
               name:
                 type: string
                 description: Notification name
-    
+
     LemurEndpoint:
       type: object
       properties:
@@ -4227,7 +4227,7 @@ components:
               description: Policy name
         certificate:
           $ref: '#/components/schemas/LemurCertificate'
-    
+
     LemurDestination:
       type: object
       properties:
@@ -4292,7 +4292,7 @@ components:
                 type: string
               value:
                 type: string
-    
+
     LemurNotification:
       type: object
       properties:
@@ -4326,7 +4326,7 @@ components:
             title:
               type: string
               description: Plugin title
-    
+
     LemurPendingCertificate:
       type: object
       properties:

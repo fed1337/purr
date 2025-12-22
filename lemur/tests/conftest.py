@@ -64,9 +64,7 @@ def app(request):
     Creates a new Flask application for a test duration.
     Uses application factory `create_app`.
     """
-    _app = create_app(
-        config_path=os.path.dirname(os.path.realpath(__file__)) + "/conf.py"
-    )
+    _app = create_app(config_path=os.path.dirname(os.path.realpath(__file__)) + "/conf.py")
     ctx = _app.app_context()
     ctx.push()
 
@@ -336,12 +334,8 @@ def issuer_private_key():
 def cert_builder(private_key):
     return (
         x509.CertificateBuilder()
-        .subject_name(
-            x509.Name([x509.NameAttribute(x509.NameOID.COMMON_NAME, "foo.com")])
-        )
-        .issuer_name(
-            x509.Name([x509.NameAttribute(x509.NameOID.COMMON_NAME, "foo.com")])
-        )
+        .subject_name(x509.Name([x509.NameAttribute(x509.NameOID.COMMON_NAME, "foo.com")]))
+        .issuer_name(x509.Name([x509.NameAttribute(x509.NameOID.COMMON_NAME, "foo.com")]))
         .serial_number(1)
         .public_key(private_key.public_key())
         .not_valid_before(datetime.datetime(2017, 12, 22))

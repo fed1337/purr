@@ -15,8 +15,8 @@ _base_config = {
     "DIGICERT_ORG_ID": 111111,
     "DIGICERT_PRIVATE": False,
     "DIGICERT_DEFAULT_SIGNING_ALGORITHM": "sha256",
-    "DIGICERT_CIS_PROFILE_NAMES": {"digicert": 'digicert'},
-    "DIGICERT_CIS_SIGNING_ALGORITHMS": {"digicert": 'digicert'},
+    "DIGICERT_CIS_PROFILE_NAMES": {"digicert": "digicert"},
+    "DIGICERT_CIS_SIGNING_ALGORITHMS": {"digicert": "digicert"},
     "DIGICERT_CIS_ROOTS": {"root": "ROOT"},
     "DIGICERT_CIS_USE_CSR_FIELDS": False,
 }
@@ -52,7 +52,7 @@ def test_determine_end_date(mock_current_app):
 def test_map_fields_with_validity_years_and_ip_addr(mock_current_app):
     mock_current_app.config.get = Mock(side_effect=config_mock)
 
-    with patch('lemur.plugins.lemur_digicert.plugin.signature_hash') as mock_signature_hash:
+    with patch("lemur.plugins.lemur_digicert.plugin.signature_hash") as mock_signature_hash:
         mock_signature_hash.return_value = "sha256"
 
         names = ["one.example.com", "two.example.com", "three.example.com"]
@@ -61,10 +61,13 @@ def test_map_fields_with_validity_years_and_ip_addr(mock_current_app):
             "common_name": "example.com",
             "owner": "bob@example.com",
             "description": "test certificate",
-            "extensions": {"sub_alt_names": {
-                "names": [x509.DNSName(x) for x in names] + [x509.IPAddress(ipaddress.ip_address(x)) for x in
-                                                             ip_addr_names]}},
-            "validity_years": 1
+            "extensions": {
+                "sub_alt_names": {
+                    "names": [x509.DNSName(x) for x in names]
+                    + [x509.IPAddress(ipaddress.ip_address(x)) for x in ip_addr_names]
+                }
+            },
+            "validity_years": 1,
         }
         expected = {
             "certificate": {
@@ -84,7 +87,7 @@ def test_map_fields_with_validity_end_and_start(mock_current_app):
     mock_current_app.config.get = Mock(side_effect=config_mock)
     plugin.determine_end_date = Mock(return_value=arrow.get(2017, 5, 7))
 
-    with patch('lemur.plugins.lemur_digicert.plugin.signature_hash') as mock_signature_hash:
+    with patch("lemur.plugins.lemur_digicert.plugin.signature_hash") as mock_signature_hash:
         mock_signature_hash.return_value = "sha256"
 
         names = ["one.example.com", "two.example.com", "three.example.com"]
@@ -116,7 +119,7 @@ def test_map_cis_fields_with_validity_years_and_use_csr(mock_current_app, author
     mock_current_app.config.get = Mock(side_effect=config_mock_use_csr)
     plugin.determine_end_date = Mock(return_value=arrow.get(2018, 11, 3))
 
-    with patch('lemur.plugins.lemur_digicert.plugin.signature_hash') as mock_signature_hash:
+    with patch("lemur.plugins.lemur_digicert.plugin.signature_hash") as mock_signature_hash:
         mock_signature_hash.return_value = "sha256"
 
         names = ["one.example.com", "two.example.com", "three.example.com"]
@@ -137,9 +140,7 @@ def test_map_cis_fields_with_validity_years_and_use_csr(mock_current_app, author
             "additional_dns_names": names,
             "signature_hash": "sha256",
             "organization": {"name": "Example, Inc."},
-            "validity": {
-                "valid_to": arrow.get(2018, 11, 3).format("YYYY-MM-DDTHH:mm:ss") + "Z"
-            },
+            "validity": {"valid_to": arrow.get(2018, 11, 3).format("YYYY-MM-DDTHH:mm:ss") + "Z"},
             "profile_name": None,
             "use_csr_fields": True,
         }
@@ -152,7 +153,7 @@ def test_map_cis_fields_with_validity_end_and_start(mock_current_app, app, autho
     mock_current_app.config.get = Mock(side_effect=config_mock)
     plugin.determine_end_date = Mock(return_value=arrow.get(2017, 5, 7))
 
-    with patch('lemur.plugins.lemur_digicert.plugin.signature_hash') as mock_signature_hash:
+    with patch("lemur.plugins.lemur_digicert.plugin.signature_hash") as mock_signature_hash:
         mock_signature_hash.return_value = "sha256"
 
         names = ["one.example.com", "two.example.com", "three.example.com"]
@@ -165,7 +166,7 @@ def test_map_cis_fields_with_validity_end_and_start(mock_current_app, app, autho
             "organizational_unit": "Example Org",
             "validity_end": arrow.get(2017, 5, 7),
             "validity_start": arrow.get(2016, 10, 30),
-            "authority": authority
+            "authority": authority,
         }
 
         expected = {
@@ -174,9 +175,7 @@ def test_map_cis_fields_with_validity_end_and_start(mock_current_app, app, autho
             "additional_dns_names": names,
             "signature_hash": "sha256",
             "organization": {"name": "Example, Inc."},
-            "validity": {
-                "valid_to": arrow.get(2017, 5, 7).format("YYYY-MM-DDTHH:mm:ss") + "Z"
-            },
+            "validity": {"valid_to": arrow.get(2017, 5, 7).format("YYYY-MM-DDTHH:mm:ss") + "Z"},
             "profile_name": None,
         }
 
@@ -206,7 +205,7 @@ def
 -----BEGIN CERTIFICATE-----
 ghi
 -----END CERTIFICATE-----
-"""
+""",
 ):
     import requests_mock
     from lemur.plugins.lemur_digicert.plugin import DigiCertIssuerPlugin
@@ -232,9 +231,7 @@ ghi
     )
     subject.session.mount("mock", adapter)
 
-    cert, intermediate, external_id = subject.create_certificate(
-        "", {"common_name": "test.com"}
-    )
+    cert, intermediate, external_id = subject.create_certificate("", {"common_name": "test.com"})
 
     assert cert == "-----BEGIN CERTIFICATE-----\nabc\n-----END CERTIFICATE-----"
     assert intermediate == "-----BEGIN CERTIFICATE-----\ndef\n-----END CERTIFICATE-----"
@@ -271,11 +268,11 @@ def test_cancel_ordered_certificate(mock_pending_cert):
 def test_create_authority(mock_current_app):
     from lemur.plugins.lemur_digicert.plugin import DigiCertIssuerPlugin
 
-    options = {
-        "name": "test Digicert authority"
-    }
+    options = {"name": "test Digicert authority"}
     digicert_root, intermediate, role = DigiCertIssuerPlugin.create_authority(options)
-    assert role == [{"username": "", "password": "", "name": "digicert_test_Digicert_authority_admin"}]
+    assert role == [
+        {"username": "", "password": "", "name": "digicert_test_Digicert_authority_admin"}
+    ]
 
 
 @patch("lemur.plugins.lemur_digicert.plugin.current_app")
@@ -284,26 +281,26 @@ def test_create_cis_authority(mock_current_app, authority):
 
     mock_current_app.config.get = Mock(side_effect=config_mock)
 
-    options = {
-        "name": "test Digicert CIS authority",
-        "authority": authority
-    }
+    options = {"name": "test Digicert CIS authority", "authority": authority}
     digicert_root, intermediate, role = DigiCertCISIssuerPlugin.create_authority(options)
-    assert role == [{"username": "", "password": "", "name": "digicert_test_Digicert_CIS_authority_admin"}]
+    assert role == [
+        {"username": "", "password": "", "name": "digicert_test_Digicert_CIS_authority_admin"}
+    ]
 
 
 @patch("lemur.plugins.lemur_digicert.plugin.current_app")
 def test_handle_cis_response_no_key_logging(mock_current_app):
     from lemur.plugins.lemur_digicert.plugin import handle_cis_response
+
     mock_response = mock.Mock()
     mock_response.status_code = 406
     session = requests.Session()
-    session.headers.update({'X-DC-DEVKEY': 'some_value'})
+    session.headers.update({"X-DC-DEVKEY": "some_value"})
 
     # Calling the function
     with pytest.raises(Exception) as context:
         handle_cis_response(session, mock_response)
 
     # Asserting the exception and headers
-    assert 'wrong header' in str(context)
-    assert 'X-DC-DEVKEY' not in str(context)
+    assert "wrong header" in str(context)
+    assert "X-DC-DEVKEY" not in str(context)

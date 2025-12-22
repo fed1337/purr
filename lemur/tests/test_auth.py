@@ -10,9 +10,9 @@ from lemur.auth.service import decode_with_multiple_secrets
 def test_decode_with_multiple_secrets(mock_metrics):
     # Given
     secret = "my_secret"
-    encoded_jwt = jwt.encode({"foo": "bar"}, secret, algorithm='HS256')
+    encoded_jwt = jwt.encode({"foo": "bar"}, secret, algorithm="HS256")
     secrets = [secret, secret + "2"]
-    algorithms = ['HS256']
+    algorithms = ["HS256"]
 
     # When
     payload = decode_with_multiple_secrets(encoded_jwt, secrets, algorithms)
@@ -22,9 +22,8 @@ def test_decode_with_multiple_secrets(mock_metrics):
     digest = hashes.Hash(hashes.SHA256(), backend=default_backend())
     digest.update(secret.encode())
     mock_metrics.send.assert_called_once_with(
-        "jwt_decode", "counter", 1,
-        metric_tags={
-            **dict(kid=0, fingerprint=digest.finalize().hex()),
-            **{"foo": "bar"}
-        }
+        "jwt_decode",
+        "counter",
+        1,
+        metric_tags={**dict(kid=0, fingerprint=digest.finalize().hex()), **{"foo": "bar"}},
     )

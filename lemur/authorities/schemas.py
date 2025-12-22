@@ -5,6 +5,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 from flask import current_app
 from marshmallow import fields, validates_schema, pre_load
 from marshmallow import validate
@@ -41,12 +42,8 @@ class AuthorityInputSchema(LemurInputSchema):
     organization = fields.String(
         missing=lambda: current_app.config.get("LEMUR_DEFAULT_ORGANIZATION")
     )
-    location = fields.String(
-        missing=lambda: current_app.config.get("LEMUR_DEFAULT_LOCATION")
-    )
-    country = fields.String(
-        missing=lambda: current_app.config.get("LEMUR_DEFAULT_COUNTRY")
-    )
+    location = fields.String(missing=lambda: current_app.config.get("LEMUR_DEFAULT_LOCATION"))
+    country = fields.String(missing=lambda: current_app.config.get("LEMUR_DEFAULT_COUNTRY"))
     state = fields.String(missing=lambda: current_app.config.get("LEMUR_DEFAULT_STATE"))
     # Creating a String field instead of Email to allow empty value
     email = fields.String()
@@ -57,18 +54,22 @@ class AuthorityInputSchema(LemurInputSchema):
     type = fields.String(validate=validate.OneOf(["root", "subca"]), missing="root")
     parent = fields.Nested(AssociatedAuthoritySchema)
     signing_algorithm = fields.String(
-        validate=validate.OneOf(["sha256WithRSA", "sha1WithRSA",
-                                 "sha256WithECDSA", "SHA384withECDSA", "SHA512withECDSA", "sha384WithECDSA",
-                                 "sha512WithECDSA"]),
+        validate=validate.OneOf(
+            [
+                "sha256WithRSA",
+                "sha1WithRSA",
+                "sha256WithECDSA",
+                "SHA384withECDSA",
+                "SHA512withECDSA",
+                "sha384WithECDSA",
+                "sha512WithECDSA",
+            ]
+        ),
         missing="sha256WithRSA",
     )
-    key_type = fields.String(
-        validate=validate.OneOf(CERTIFICATE_KEY_TYPES), missing="RSA2048"
-    )
+    key_type = fields.String(validate=validate.OneOf(CERTIFICATE_KEY_TYPES), missing="RSA2048")
     key_name = fields.String()
-    sensitivity = fields.String(
-        validate=validate.OneOf(["medium", "high"]), missing="medium"
-    )
+    sensitivity = fields.String(validate=validate.OneOf(["medium", "high"]), missing="medium")
     serial_number = fields.Integer()
     first_serial = fields.Integer(missing=1)
 
@@ -140,7 +141,9 @@ class AuthorityNestedOutputSchema(LemurOutputSchema):
     owner = fields.Email()
     plugin = fields.Nested(PluginOutputSchema)
     active = fields.Boolean()
-    authority_certificate = fields.Nested(RootAuthorityCertificateOutputSchema, only=["not_after", "not_before"])
+    authority_certificate = fields.Nested(
+        RootAuthorityCertificateOutputSchema, only=["not_after", "not_before"]
+    )
     is_cab_compliant = fields.Boolean()
     is_cn_optional = fields.Boolean()
     max_issuance_days = fields.Integer()

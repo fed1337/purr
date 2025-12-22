@@ -5,6 +5,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 import ipaddress
 import warnings
 from datetime import datetime as dt
@@ -286,9 +287,7 @@ class ExtendedKeyUsageExtension(Field):
 
             else:
                 current_app.logger.warning(
-                    "Unable to deserialize ExtendedKeyUsage with name: {key}".format(
-                        key=k
-                    )
+                    "Unable to deserialize ExtendedKeyUsage with name: {key}".format(key=k)
                 )
 
         return x509.ExtendedKeyUsage(usage_oids)
@@ -363,9 +362,7 @@ class SubjectAlternativeNameExtension(Field):
                     name_type = "registeredID"
                     value = value.dotted_string
                 else:
-                    current_app.logger.warning(
-                        f"Unknown SubAltName type: {name}"
-                    )
+                    current_app.logger.warning(f"Unknown SubAltName type: {name}")
                     continue
 
                 general_names.append({"nameType": name_type, "value": value})
@@ -380,14 +377,10 @@ class SubjectAlternativeNameExtension(Field):
                 general_names.append(x509.DNSName(name["value"]))
 
             elif name["nameType"] == "IPAddress":
-                general_names.append(
-                    x509.IPAddress(ipaddress.ip_address(name["value"]))
-                )
+                general_names.append(x509.IPAddress(ipaddress.ip_address(name["value"])))
 
             elif name["nameType"] == "IPNetwork":
-                general_names.append(
-                    x509.IPAddress(ipaddress.ip_network(name["value"]))
-                )
+                general_names.append(x509.IPAddress(ipaddress.ip_network(name["value"])))
 
             elif name["nameType"] == "uniformResourceIdentifier":
                 general_names.append(x509.UniformResourceIdentifier(name["value"]))
@@ -414,9 +407,7 @@ class SubjectAlternativeNameExtension(Field):
                 general_names.append(x509.RFC822Name(name["value"]))
 
             elif name["nameType"] == "registeredID":
-                general_names.append(
-                    x509.RegisteredID(x509.ObjectIdentifier(name["value"]))
-                )
+                general_names.append(x509.RegisteredID(x509.ObjectIdentifier(name["value"])))
 
             elif name["nameType"] == "otherName":
                 # This has two inputs (type and value), so it doesn't fit the mold of the rest of these GeneralName entities.

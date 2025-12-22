@@ -8,6 +8,7 @@
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 
 """
+
 import arrow
 
 from sqlalchemy import func
@@ -83,11 +84,7 @@ def get_by_dnsname_and_port(dnsname, port):
     :param port:
     :return:
     """
-    return (
-        Endpoint.query.filter(Endpoint.dnsname == dnsname)
-        .filter(Endpoint.port == port)
-        .scalar()
-    )
+    return Endpoint.query.filter(Endpoint.dnsname == dnsname).filter(Endpoint.port == port).scalar()
 
 
 def get_by_source(source_label):
@@ -121,8 +118,10 @@ def create(**kwargs):
     endpoint.aliases = aliases
     database.create(endpoint)
     metrics.send(
-        "endpoint_added", "counter", 1,
-        metric_tags={"source": endpoint.source.label, "type": endpoint.type}
+        "endpoint_added",
+        "counter",
+        1,
+        metric_tags={"source": endpoint.source.label, "type": endpoint.type},
     )
     return endpoint
 
@@ -167,8 +166,10 @@ def update(endpoint_id, **kwargs):
                 endpoint.aliases.append(EndpointDnsAlias(alias=name))
     endpoint.last_updated = arrow.utcnow()
     metrics.send(
-        "endpoint_updated", "counter", 1,
-        metric_tags={"source": endpoint.source.label, "type": endpoint.type}
+        "endpoint_updated",
+        "counter",
+        1,
+        metric_tags={"source": endpoint.source.label, "type": endpoint.type},
     )
     database.update(endpoint)
     return endpoint
@@ -180,9 +181,11 @@ def render(args):
     :param args:
     :return:
     """
-    query = database.session_query(Endpoint)\
-        .options(joinedload(Endpoint.certificate))\
+    query = (
+        database.session_query(Endpoint)
+        .options(joinedload(Endpoint.certificate))
         .options(joinedload(Endpoint.source))
+    )
     filt = args.pop("filter")
 
     if filt:
@@ -202,7 +205,8 @@ def render(args):
 
         if terms[0] == "name":
             alias_query = Endpoint.query.filter(
-                Endpoint.aliases.any(EndpointDnsAlias.alias.ilike(f"%{terms[1]}%")))
+                Endpoint.aliases.any(EndpointDnsAlias.alias.ilike(f"%{terms[1]}%"))
+            )
             query = query.union(alias_query)
 
     return database.sort_and_page(query, Endpoint, args)

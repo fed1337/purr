@@ -25,13 +25,17 @@ def test_render_expiration(certificate, endpoint):
     new_cert = CertificateFactory()
     new_cert.replaces.append(certificate)
 
-    assert render_html("expiration", get_options(), [certificate_notification_output_schema.dump(certificate).data])
+    assert render_html(
+        "expiration", get_options(), [certificate_notification_output_schema.dump(certificate).data]
+    )
 
 
 def test_render_revocation(certificate, endpoint):
     certificate.endpoints.append(endpoint)
 
-    assert render_html("revocation", get_options(), certificate_notification_output_schema.dump(certificate).data)
+    assert render_html(
+        "revocation", get_options(), certificate_notification_output_schema.dump(certificate).data
+    )
 
 
 def test_render_rotation(certificate, endpoint):
@@ -39,27 +43,41 @@ def test_render_rotation(certificate, endpoint):
     new_cert.replaces.append(certificate)
     new_cert.endpoints.append(endpoint)
 
-    assert render_html("rotation", get_options(), certificate_notification_output_schema.dump(new_cert).data)
+    assert render_html(
+        "rotation", get_options(), certificate_notification_output_schema.dump(new_cert).data
+    )
 
 
 def test_render_reissue_failed(certificate):
-    assert render_html("reissue_failed", get_options(), certificate_notification_output_schema.dump(certificate).data)
+    assert render_html(
+        "reissue_failed",
+        get_options(),
+        certificate_notification_output_schema.dump(certificate).data,
+    )
 
 
 def test_render_reissued_with_no_endpoints(certificate):
     new_cert = CertificateFactory()
     new_cert.replaces.append(certificate)
 
-    assert render_html("reissued_with_no_endpoints", get_options(),
-                       certificate_notification_output_schema.dump(new_cert).data)
+    assert render_html(
+        "reissued_with_no_endpoints",
+        get_options(),
+        certificate_notification_output_schema.dump(new_cert).data,
+    )
 
 
 def test_render_rotation_failure(pending_certificate):
-    assert render_html("failed", get_options(), certificate_notification_output_schema.dump(pending_certificate).data)
+    assert render_html(
+        "failed",
+        get_options(),
+        certificate_notification_output_schema.dump(pending_certificate).data,
+    )
 
 
 def test_render_expiration_summary(certificate, notification, notification_plugin):
     from lemur.notifications.messaging import get_eligible_security_summary_certs
+
     verify_sender_email()
 
     expected_certs = defaultdict(list)
@@ -83,21 +101,31 @@ def test_render_expiration_summary(certificate, notification, notification_plugi
     message_data = get_eligible_security_summary_certs(None)
     assert len(message_data) == len(expected_certs)  # verify the expected number of intervals
     for interval in expected_certs:
-        message_data_for_interval = [x for x in message_data if x['interval'] == int(interval)]
-        assert len(message_data_for_interval) > 0  # verify the interval is present in the message data
+        message_data_for_interval = [x for x in message_data if x["interval"] == int(interval)]
+        assert (
+            len(message_data_for_interval) > 0
+        )  # verify the interval is present in the message data
         message_data_for_interval = message_data_for_interval[0]
-        assert message_data_for_interval['certificates']  # verify the interval in the message data has a certs field
+        assert message_data_for_interval[
+            "certificates"
+        ]  # verify the interval in the message data has a certs field
         for cert in expected_certs[interval]:
-            message_data_for_cert = [x for x in message_data_for_interval['certificates'] if x['name'] == cert.name]
-            assert message_data_for_cert  # verify the expected cert is present for the expected interval
+            message_data_for_cert = [
+                x for x in message_data_for_interval["certificates"] if x["name"] == cert.name
+            ]
+            assert (
+                message_data_for_cert
+            )  # verify the expected cert is present for the expected interval
 
 
 def test_render_expiring_deployed_certificate(certificate):
     verify_sender_email()
 
     cert_data = certificate_notification_output_schema.dump(certificate).data
-    cert_data['domains_and_ports'] = [{'domain': 'subdomain.example.com', 'ports': [443]},
-                                      {'domain': 'example.com', 'ports': [443, 444]}]
+    cert_data["domains_and_ports"] = [
+        {"domain": "subdomain.example.com", "ports": [443]},
+        {"domain": "example.com", "ports": [443, 444]},
+    ]
 
     assert render_html("expiring_deployed_certificate", get_options(), [cert_data])
 
@@ -109,7 +137,9 @@ def test_send_expiration_notification_no_security_team():
     from lemur.tests.factories import NotificationFactory
 
     now = arrow.utcnow()
-    in_ten_days = now + timedelta(days=10, hours=1)  # a bit more than 10 days since we'll check in the future
+    in_ten_days = now + timedelta(
+        days=10, hours=1
+    )  # a bit more than 10 days since we'll check in the future
     certificate = CertificateFactory(name="TEST1")
     notification = NotificationFactory(plugin_name="email-notification")
 
@@ -128,7 +158,9 @@ def test_send_expiration_notification():
     from lemur.tests.factories import NotificationFactory
 
     now = arrow.utcnow()
-    in_ten_days = now + timedelta(days=10, hours=1)  # a bit more than 10 days since we'll check in the future
+    in_ten_days = now + timedelta(
+        days=10, hours=1
+    )  # a bit more than 10 days since we'll check in the future
     certificate = CertificateFactory()
     notification = NotificationFactory(plugin_name="email-notification")
 
@@ -138,7 +170,10 @@ def test_send_expiration_notification():
 
     verify_sender_email()
     # exclude "TEST1" certs so we don't pick up certs from the last test tests
-    assert send_expiration_notifications(["TEST1"], []) == (4, 0)  # owner (1), recipients (2), and security (1)
+    assert send_expiration_notifications(["TEST1"], []) == (
+        4,
+        0,
+    )  # owner (1), recipients (2), and security (1)
 
 
 @mock_ses
@@ -148,7 +183,9 @@ def test_send_expiration_notification_disabled():
     from lemur.tests.factories import NotificationFactory
 
     now = arrow.utcnow()
-    in_ten_days = now + timedelta(days=10, hours=1)  # a bit more than 10 days since we'll check in the future
+    in_ten_days = now + timedelta(
+        days=10, hours=1
+    )  # a bit more than 10 days since we'll check in the future
     certificate = CertificateFactory()
     notification = NotificationFactory(plugin_name="email-notification")
 
@@ -157,7 +194,7 @@ def test_send_expiration_notification_disabled():
     certificate.notifications[0].options = get_options()
 
     verify_sender_email()
-    assert send_expiration_notifications([], ['email-notification']) == (0, 0)
+    assert send_expiration_notifications([], ["email-notification"]) == (0, 0)
 
 
 @mock_ses
@@ -223,11 +260,22 @@ def test_get_recipients(certificate, endpoint):
     options = [{"name": "recipients", "value": "security@example.com,joe@example.com"}]
     two_emails = sorted(["security@example.com", "joe@example.com"])
     assert sorted(EmailNotificationPlugin.get_recipients(options, [])) == two_emails
-    assert sorted(EmailNotificationPlugin.get_recipients(options, ["security@example.com"])) == two_emails
+    assert (
+        sorted(EmailNotificationPlugin.get_recipients(options, ["security@example.com"]))
+        == two_emails
+    )
     three_emails = sorted(["security@example.com", "bob@example.com", "joe@example.com"])
-    assert sorted(EmailNotificationPlugin.get_recipients(options, ["bob@example.com"])) == three_emails
-    assert sorted(EmailNotificationPlugin.get_recipients(options, ["security@example.com", "bob@example.com",
-                                                                   "joe@example.com"])) == three_emails
+    assert (
+        sorted(EmailNotificationPlugin.get_recipients(options, ["bob@example.com"])) == three_emails
+    )
+    assert (
+        sorted(
+            EmailNotificationPlugin.get_recipients(
+                options, ["security@example.com", "bob@example.com", "joe@example.com"]
+            )
+        )
+        == three_emails
+    )
 
 
 def test_title_parser(certificate, endpoint):
@@ -240,7 +288,7 @@ def test_title_parser(certificate, endpoint):
     </html>"""
     with_title = TitleParser()
     with_title.feed(html_template_with_title)
-    assert (with_title.title)
+    assert with_title.title
 
     html_template_without_title = """
     <html>
@@ -248,4 +296,4 @@ def test_title_parser(certificate, endpoint):
     </html>"""
     without_title = TitleParser()
     without_title.feed(html_template_without_title)
-    assert (not without_title.title)
+    assert not without_title.title

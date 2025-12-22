@@ -13,7 +13,7 @@ def test_zone_selection(app):  # noqa
     zones = [
         {"Config": {"PrivateZone": False}, "Name": "acme.identity.uq.edu.au.", "Id": "Z1"},
         {"Config": {"PrivateZone": False}, "Name": "dev.acme.identity.uq.edu.au.", "Id": "Z2"},
-        {"Config": {"PrivateZone": True}, "Name": "test.dev.acme.identity.uq.edu.au.", "Id": "Z3"}
+        {"Config": {"PrivateZone": True}, "Name": "test.dev.acme.identity.uq.edu.au.", "Id": "Z3"},
     ]
 
     # Mocking the paginator

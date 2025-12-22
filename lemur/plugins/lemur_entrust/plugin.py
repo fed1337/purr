@@ -48,7 +48,7 @@ def determine_end_date(end_date):
         end_date = max_validity_end
     elif end_date > max_validity_end:
         end_date = max_validity_end
-    return end_date.format('YYYY-MM-DD')
+    return end_date.format("YYYY-MM-DD")
 
 
 def process_options(options, client_id, csr=None):
@@ -77,13 +77,13 @@ def process_options(options, client_id, csr=None):
     tracking_data = {
         "requesterName": current_app.config.get("ENTRUST_NAME"),
         "requesterEmail": current_app.config.get("ENTRUST_EMAIL"),
-        "requesterPhone": current_app.config.get("ENTRUST_PHONE")
+        "requesterPhone": current_app.config.get("ENTRUST_PHONE"),
     }
     eku = "SERVER_AND_CLIENT_AUTH"
     if current_app.config.get("ENTRUST_INFER_EKU", False) and csr:
         ekus = get_ekus(csr)
-        client_auth = any(usage._name == 'clientAuth' for usage in ekus.value)
-        server_auth = any(usage._name == 'serverAuth' for usage in ekus.value)
+        client_auth = any(usage._name == "clientAuth" for usage in ekus.value)
+        server_auth = any(usage._name == "serverAuth" for usage in ekus.value)
 
         if client_auth and not server_auth:
             eku = "CLIENT_AUTH"
@@ -126,18 +126,18 @@ def get_client_id(session, organization):
         d = json.loads(response.content)
     except ValueError:
         # catch an empty json object here
-        d = {'response': 'No detailed message'}
+        d = {"response": "No detailed message"}
 
-    if 'status' in d and d['status'] >= 300:
-        error_messages = d['errors']
+    if "status" in d and d["status"] >= 300:
+        error_messages = d["errors"]
         raise Exception(f"Error for Getting Organization {error_messages}")
 
-    if 'organizations' not in d:
+    if "organizations" not in d:
         raise Exception("Error for Getting Organization: no org returned")
 
     found = False
     for y in d["organizations"]:
-        if y["name"] == organization and y["verificationStatus"] == 'APPROVED':
+        if y["name"] == organization and y["verificationStatus"] == "APPROVED":
             found = True
             client_id = y["clientId"]
     if found:
@@ -158,14 +158,14 @@ def handle_response(my_response):
         202: "Request accepted and queued for approval",
         400: "Invalid request parameters",
         404: "Unknown jobId",
-        429: "Too many requests"
+        429: "Too many requests",
     }
 
     try:
         data = json.loads(my_response.content)
     except ValueError:
         # catch an empty jason object here
-        data = {'response': 'No detailed message'}
+        data = {"response": "No detailed message"}
     status_code = my_response.status_code
     if status_code > 399:
         raise Exception(f"ENTRUST error: {msg.get(status_code, status_code)}\n{data['errors']}")
@@ -174,10 +174,10 @@ def handle_response(my_response):
         "function": f"{__name__}.{sys._getframe().f_code.co_name}",
         "message": "Response",
         "status": status_code,
-        "response": data
+        "response": data,
     }
     current_app.logger.info(log_data)
-    if data == {'response': 'No detailed message'}:
+    if data == {"response": "No detailed message"}:
         # status if no data
         return status_code
     else:
@@ -269,7 +269,7 @@ class EntrustIssuerPlugin(IssuerPlugin):
         log_data = {
             "function": f"{__name__}.{sys._getframe().f_code.co_name}",
             "message": "Requesting options",
-            "options": issuer_options
+            "options": issuer_options,
         }
         current_app.logger.info(log_data)
 
@@ -282,7 +282,7 @@ class EntrustIssuerPlugin(IssuerPlugin):
             client_id = get_client_id(self.session, issuer_options.get("organization"))
         log_data = {
             "function": f"{__name__}.{sys._getframe().f_code.co_name}",
-            "message": f"Organization id: {client_id}"
+            "message": f"Organization id: {client_id}",
         }
         current_app.logger.info(log_data)
 
@@ -293,17 +293,23 @@ class EntrustIssuerPlugin(IssuerPlugin):
 
         response_dict = order_and_download_certificate(self.session, url, data)
 
-        external_id = response_dict['trackingId']
-        cert = response_dict['endEntityCert']
-        if len(response_dict['chainCerts']) < 2:
+        external_id = response_dict["trackingId"]
+        cert = response_dict["endEntityCert"]
+        if len(response_dict["chainCerts"]) < 2:
             # certificate signed by CA directly, no ICA included in the chain
             chain = None
         else:
-            chain = response_dict['chainCerts'][1]
+            chain = response_dict["chainCerts"][1]
 
-        if current_app.config.get("ENTRUST_CROSS_SIGNED_RSA_L1K") and get_key_type_from_certificate(cert) == "RSA2048":
+        if (
+            current_app.config.get("ENTRUST_CROSS_SIGNED_RSA_L1K")
+            and get_key_type_from_certificate(cert) == "RSA2048"
+        ):
             chain = current_app.config.get("ENTRUST_CROSS_SIGNED_RSA_L1K")
-        if current_app.config.get("ENTRUST_CROSS_SIGNED_ECC_L1F") and get_key_type_from_certificate(cert) == "ECCPRIME256V1":
+        if (
+            current_app.config.get("ENTRUST_CROSS_SIGNED_ECC_L1F")
+            and get_key_type_from_certificate(cert) == "ECCPRIME256V1"
+        ):
             chain = current_app.config.get("ENTRUST_CROSS_SIGNED_ECC_L1F")
 
         log_data["message"] = "Received Chain"
@@ -319,7 +325,7 @@ class EntrustIssuerPlugin(IssuerPlugin):
 
         # make certificate revoke request
         revoke_url = f"{base_url}/certificates/{certificate.external_id}/revocations"
-        if "comments" not in reason or reason["comments"] == '':
+        if "comments" not in reason or reason["comments"] == "":
             comments = "revoked via API"
         crl_reason = CRLReason.unspecified
         if "crl_reason" in reason:
@@ -327,7 +333,7 @@ class EntrustIssuerPlugin(IssuerPlugin):
 
         data = {
             "crlReason": crl_reason,  # per RFC 5280 section 5.3.1
-            "revocationComment": comments
+            "revocationComment": comments,
         }
         response = self.session.post(revoke_url, json=data)
         metrics.send("entrust_revoke_certificate", "counter", 1)
@@ -335,10 +341,10 @@ class EntrustIssuerPlugin(IssuerPlugin):
 
     @retry(stop_max_attempt_number=3, wait_fixed=1000)
     def deactivate_certificate(self, certificate):
-        """Deactivates an Entrust certificate, as long as it is still active, and not already deactivated. """
+        """Deactivates an Entrust certificate, as long as it is still active, and not already deactivated."""
         log_data = {
             "function": f"{__name__}.{sys._getframe().f_code.co_name}",
-            "external_id": f"{certificate.external_id}"
+            "external_id": f"{certificate.external_id}",
         }
 
         # backwards compatible change to protect this endpoint from being used in production
@@ -355,11 +361,11 @@ class EntrustIssuerPlugin(IssuerPlugin):
             data = handle_response(response)
         except (ValueError, Exception):
             # if the certificate cannot be found, there is no need to deactivate it
-            log_data['message'] = "No certificate found for the ID"
+            log_data["message"] = "No certificate found for the ID"
             current_app.logger.info(log_data)
             return 200
 
-        if data and data['status'].lower() == 'active':
+        if data and data["status"].lower() == "active":
             deactivate_url = f"{base_url}/certificates/{certificate.external_id}/deactivations"
             response = self.session.post(deactivate_url)
             metrics.send("entrust_deactivate_certificate", "counter", 1)
@@ -380,7 +386,7 @@ class EntrustIssuerPlugin(IssuerPlugin):
         """
         entrust_root = current_app.config.get("ENTRUST_ROOT")
         entrust_issuing = current_app.config.get("ENTRUST_ISSUING")
-        name = "entrust_" + "_".join(options['name'].split(" ")) + "_admin"
+        name = "entrust_" + "_".join(options["name"].split(" ")) + "_admin"
         role = {"username": "", "password": "", "name": name}
         current_app.logger.info(f"Creating Auth: {options} {entrust_issuing}")
         # body, chain, role
@@ -436,35 +442,34 @@ class EntrustSourcePlugin(SourcePlugin):
         super().__init__(*args, **kwargs)
 
     def get_certificates(self, options, **kwargs):
-        """ Fetch all Entrust certificates """
+        """Fetch all Entrust certificates"""
         base_url = current_app.config.get("ENTRUST_URL")
-        host = base_url.replace('/enterprise/v2', '')
+        host = base_url.replace("/enterprise/v2", "")
 
         get_url = f"{base_url}/certificates"
         certs = []
         processed_certs = 0
         offset = 0
         while True:
-            response = self.session.get(get_url,
-                 params={
-                     "status": "ACTIVE",
-                     "isThirdParty": "false",
-                     "fields": "uri,dn",
-                     "offset": offset
-                 }
+            response = self.session.get(
+                get_url,
+                params={
+                    "status": "ACTIVE",
+                    "isThirdParty": "false",
+                    "fields": "uri,dn",
+                    "offset": offset,
+                },
             )
             try:
                 data = json.loads(response.content)
             except ValueError:
                 # catch an empty jason object here
-                data = {'response': 'No detailed message'}
+                data = {"response": "No detailed message"}
             status_code = response.status_code
             if status_code > 399:
                 raise Exception(f"ENTRUST error: {status_code}\n{data['errors']}")
             for c in data["certificates"]:
-                download_url = "{}{}".format(
-                    host, c["uri"]
-                )
+                download_url = "{}{}".format(host, c["uri"])
                 cert_response = self.session.get(download_url)
                 certificate = json.loads(cert_response.content)
                 # normalize serial
@@ -475,7 +480,7 @@ class EntrustSourcePlugin(SourcePlugin):
                     "external_id": str(certificate["trackingId"]),
                     "csr": certificate["csr"],
                     "owner": certificate["tracking"]["requesterEmail"],
-                    "description": f"Imported by Lemur; Type: Entrust {certificate['certType']}\nExtended Key Usage: {certificate['eku']}"
+                    "description": f"Imported by Lemur; Type: Entrust {certificate['certType']}\nExtended Key Usage: {certificate['eku']}",
                 }
                 certs.append(cert)
                 processed_certs += 1

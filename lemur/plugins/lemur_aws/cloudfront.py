@@ -77,7 +77,9 @@ def _filter_ignored_distributions(distributions, **kwargs):
 
             # If the distribution has any ignore tags, skip it
             if any(tag["Key"] == ignore_tag for tag in tags for ignore_tag in ignore_tags):
-                current_app.logger.info(f"Ignoring CloudFront distribution due to ignore tag: {distribution.get('Id')}")
+                current_app.logger.info(
+                    f"Ignoring CloudFront distribution due to ignore tag: {distribution.get('Id')}"
+                )
                 continue
 
             filtered_distributions.append(distribution)
@@ -154,7 +156,9 @@ def attach_certificate(distribution_id, iam_cert_id, **kwargs):
         if iam_cert_id == viewer_cert["IAMCertificateId"]:
             current_app.logger.warning(
                 "distribution {} already assigned to IAM certificate {}, not updated".format(
-                    distribution_id, iam_cert_id))
+                    distribution_id, iam_cert_id
+                )
+            )
             return
         viewer_cert["IAMCertificateId"] = iam_cert_id
         if "Certificate" in viewer_cert:
@@ -163,9 +167,8 @@ def attach_certificate(distribution_id, iam_cert_id, **kwargs):
             del viewer_cert["CertificateSource"]
 
         client.update_distribution(
-            Id=distribution_id,
-            DistributionConfig=config,
-            IfMatch=response["ETag"])
+            Id=distribution_id, DistributionConfig=config, IfMatch=response["ETag"]
+        )
     except Exception as e:  # noqa
         metrics.send("get_distribution_error", "counter", 1)
         capture_exception()

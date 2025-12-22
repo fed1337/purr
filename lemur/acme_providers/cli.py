@@ -26,14 +26,10 @@ def cli():
     "--domain",
     "domain",
     required=True,
-    help="Name of the Domain to store to (ex. \"_acme-chall.test.com\"."
+    help='Name of the Domain to store to (ex. "_acme-chall.test.com".',
 )
 @click.option(
-    "-t",
-    "--token",
-    "token",
-    required=True,
-    help="Value of the Token to store in DNS as content."
+    "-t", "--token", "token", required=True, help="Value of the Token to store in DNS as content."
 )
 def dnstest_command(domain, token):
     dnstest(domain, token)
@@ -105,7 +101,7 @@ def dnstest(domain, token):
     "token",
     default="date: " + arrow.utcnow().format("YYYY-MM-DDTHH-mm-ss"),
     required=False,
-    help="Value of the Token to store in DNS as content."
+    help="Value of the Token to store in DNS as content.",
 )
 @click.option(
     "-n",
@@ -113,23 +109,10 @@ def dnstest(domain, token):
     "token_name",
     default="Token-" + arrow.utcnow().format("YYYY-MM-DDTHH-mm-ss"),
     required=False,
-    help="path"
+    help="path",
 )
-@click.option(
-    "-p",
-    "--prefix",
-    "prefix",
-    default="test/",
-    required=False,
-    help="S3 bucket prefix"
-)
-@click.option(
-    "-a",
-    "--account_number",
-    "account_number",
-    required=True,
-    help="AWS Account"
-)
+@click.option("-p", "--prefix", "prefix", default="test/", required=False, help="S3 bucket prefix")
+@click.option("-a", "--account_number", "account_number", required=True, help="AWS Account")
 @click.option(
     "-b",
     "--bucket_name",
@@ -201,5 +184,5 @@ def upload_acme_token_s3(token, token_name, prefix, account_number, bucket_name)
         prefix + "/"
 
     token_res = s3.get(bucket_name, prefix + token_name, account_number=account_number)
-    assert (token_res == token)
+    assert token_res == token
     s3.delete(bucket_name, prefix + token_name, account_number=account_number)

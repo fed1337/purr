@@ -16,8 +16,11 @@ from freezegun import freeze_time
 from marshmallow import ValidationError
 from sqlalchemy.testing import fail
 
-from lemur.certificates.service import create_csr, identify_and_persist_expiring_deployed_certificates, \
-    reissue_certificate
+from lemur.certificates.service import (
+    create_csr,
+    identify_and_persist_expiring_deployed_certificates,
+    reissue_certificate,
+)
 from lemur.certificates.views import *  # noqa
 from lemur.common import utils
 from lemur.domains.models import Domain
@@ -43,14 +46,13 @@ def test_get_or_increase_name(session, certificate):
 
     serial = "AFF2DB4F8D2D4D8E80FA382AE27C2333"
 
-    assert get_or_increase_name(
-        certificate.name, certificate.serial
-    ) == f"{certificate.name}-{serial}"
+    assert (
+        get_or_increase_name(certificate.name, certificate.serial) == f"{certificate.name}-{serial}"
+    )
 
     certificate.name = "test-cert-11111111"
     assert (
-        get_or_increase_name(certificate.name, certificate.serial)
-        == "test-cert-11111111-" + serial
+        get_or_increase_name(certificate.name, certificate.serial) == "test-cert-11111111-" + serial
     )
 
     certificate.name = "test-cert-11111111-1"
@@ -63,9 +65,7 @@ def test_get_or_increase_name(session, certificate):
     CertificateFactory(name="certificate1-" + serial)
     session.commit()
 
-    assert get_or_increase_name(
-        "certificate1", int(serial, 16)
-    ) == f"certificate1-{serial}-1"
+    assert get_or_increase_name("certificate1", int(serial, 16)) == f"certificate1-{serial}-1"
 
 
 def test_get_all_certs(session, certificate):
@@ -91,8 +91,10 @@ def test_get_by_serial(session, certificate):
 
 
 def test_get_all_certs_attached_to_endpoint_without_autorotate(session):
-    from lemur.certificates.service import get_all_certs_attached_to_endpoint_without_autorotate, \
-        cleanup_after_revoke
+    from lemur.certificates.service import (
+        get_all_certs_attached_to_endpoint_without_autorotate,
+        cleanup_after_revoke,
+    )
     from lemur.tests.factories import EndpointFactory
 
     # add a certificate with endpoint
@@ -155,21 +157,15 @@ def test_cleanup_after_revoke(session, issuer_plugin, crypto_authority):
 def test_get_by_attributes(session, authority, user, certificate):
     from lemur.certificates.service import create, get_by_attributes
 
-    create(
-        authority=authority, csr=CSR_STR, owner="joe@example.com", creator=user["user"]
-    )
+    create(authority=authority, csr=CSR_STR, owner="joe@example.com", creator=user["user"])
 
     # Should get one cert
     certificate1 = get_by_attributes(
-        {
-            "name": "SAN-san.example.org-LemurTrustUnittestsClass1CA2018-20171231-20471231"
-        }
+        {"name": "SAN-san.example.org-LemurTrustUnittestsClass1CA2018-20171231-20471231"}
     )
 
     # Should get one cert using multiple attrs
-    certificate2 = get_by_attributes(
-        {"name": "test-cert-11111111-1", "cn": "san.example.org"}
-    )
+    certificate2 = get_by_attributes({"name": "test-cert-11111111-1", "cn": "san.example.org"})
 
     # Should get multiple certs
     multiple = get_by_attributes(
@@ -234,7 +230,10 @@ def test_certificate_output_schema(session, certificate, issuer_plugin):
     ) as wrapper:
         data, errors = CertificateOutputSchema().dump(certificate)
         assert data["issuer"] == "LemurTrustUnittestsClass1CA2018"
-        assert data["distinguishedName"] == "L=Earth,ST=N/A,C=EE,OU=Karate Lessons,O=Daniel San & co,CN=san.example.org"
+        assert (
+            data["distinguishedName"]
+            == "L=Earth,ST=N/A,C=EE,OU=Karate Lessons,O=Daniel San & co,CN=san.example.org"
+        )
         # Authority does not have 'cab_compliant', thus subject details should not be returned
         assert "organization" not in data
 
@@ -251,7 +250,10 @@ def test_certificate_output_schema_subject_details(session, certificate, issuer_
     data, errors = CertificateOutputSchema().dump(certificate)
     assert not errors
     assert data["issuer"] == "LemurTrustUnittestsClass1CA2018"
-    assert data["distinguishedName"] == "L=Earth,ST=N/A,C=EE,OU=Karate Lessons,O=Daniel San & co,CN=san.example.org"
+    assert (
+        data["distinguishedName"]
+        == "L=Earth,ST=N/A,C=EE,OU=Karate Lessons,O=Daniel San & co,CN=san.example.org"
+    )
 
     # Original subject details should be returned because of cab_compliant option update above
     assert data["country"] == "EE"
@@ -289,9 +291,7 @@ def test_authority_key_identifier_schema():
 
     data, errors = AuthorityKeyIdentifierSchema().load(input_data)
 
-    assert sorted(data) == sorted(
-        {"use_key_identifier": True, "use_authority_cert": True}
-    )
+    assert sorted(data) == sorted({"use_key_identifier": True, "use_authority_cert": True})
     assert not errors
 
     data, errors = AuthorityKeyIdentifierSchema().dumps(data)
@@ -353,7 +353,7 @@ def test_certificate_input_schema(client, authority):
         "validityStart": arrow.get(2018, 11, 9).isoformat(),
         "validityEnd": arrow.get(2019, 11, 9).isoformat(),
         "dnsProvider": None,
-        "location": "A Place"
+        "location": "A Place",
     }
 
     data, errors = CertificateInputSchema().load(input_data)
@@ -381,7 +381,7 @@ def test_certificate_input_schema_empty_location(client, authority):
         "validityStart": arrow.get(2018, 11, 9).isoformat(),
         "validityEnd": arrow.get(2019, 11, 9).isoformat(),
         "dnsProvider": None,
-        "location": ""
+        "location": "",
     }
 
     data, errors = CertificateInputSchema().load(input_data)
@@ -411,12 +411,10 @@ def test_certificate_input_with_extensions(client, authority):
                 "useServerAuthentication": True,
             },
             "subjectKeyIdentifier": {"includeSKI": True},
-            "subAltNames": {
-                "names": [{"nameType": "DNSName", "value": "test.example.com"}]
-            },
+            "subAltNames": {"names": [{"nameType": "DNSName", "value": "test.example.com"}]},
         },
         "dnsProvider": None,
-        "keyType": "RSA2048"
+        "keyType": "RSA2048",
     }
 
     data, errors = CertificateInputSchema().load(input_data)
@@ -429,9 +427,7 @@ def test_certificate_input_schema_parse_csr(authority, logged_in_admin):
 
     test_san_dns = "foobar.com"
     extensions = {
-        "sub_alt_names": {
-            "names": x509.SubjectAlternativeName([x509.DNSName(test_san_dns)])
-        }
+        "sub_alt_names": {"names": x509.SubjectAlternativeName([x509.DNSName(test_san_dns)])}
     }
     csr, private_key = create_csr(
         owner="joe@example.com",
@@ -646,16 +642,16 @@ def test_certificate_missing_common_name(client, authority, session, logged_in_u
     input_data = {
         "owner": "jim@example.com",
         "authority": {"id": authority.id},
-        "description": "testtestest"
+        "description": "testtestest",
     }
 
     data, errors = CertificateInputSchema().load(input_data)
-    assert errors["_schema"][0].startswith(
-        "Missing common_name"
-    )
+    assert errors["_schema"][0].startswith("Missing common_name")
 
 
-def test_certificate_only_san_no_cn(session, issuer_plugin, optional_cn_authority, logged_in_user, user):
+def test_certificate_only_san_no_cn(
+    session, issuer_plugin, optional_cn_authority, logged_in_user, user
+):
     """Only SAN is okay with the authority having option cn_optional set to true. Checks new naming with SAN"""
     from lemur.certificates.schemas import CertificateInputSchema
     from lemur.certificates.service import create
@@ -670,16 +666,14 @@ def test_certificate_only_san_no_cn(session, issuer_plugin, optional_cn_authorit
                     {"nameType": "IPAddress", "value": "192.168.7.1"},
                 ]
             }
-        }
+        },
     }
 
     data, errors = CertificateInputSchema().load(input_data)
     assert not errors
 
     csr_text, pkey = create_csr(
-        owner=data["owner"],
-        key_type=data["key_type"],
-        extensions=data["extensions"]
+        owner=data["owner"], key_type=data["key_type"], extensions=data["extensions"]
     )
     assert csr_text
 
@@ -814,18 +808,13 @@ def test_certificate_upload_schema_wrong_chain_2nd(client):
 def test_certificate_revoke_schema():
     from lemur.certificates.schemas import CertificateRevokeSchema
 
-    input = {
-        "comments": "testing certificate revoke schema",
-        "crl_reason": "cessationOfOperation"
-    }
+    input = {"comments": "testing certificate revoke schema", "crl_reason": "cessationOfOperation"}
     data, errors = CertificateRevokeSchema().load(input)
     assert not errors
 
     input["crl_reason"] = "fakeCrlReason"
     data, errors = CertificateRevokeSchema().load(input)
-    assert errors == {
-        "crl_reason": ['Not a valid choice.']
-    }
+    assert errors == {"crl_reason": ["Not a valid choice."]}
 
 
 def test_create_basic_csr(client):
@@ -884,9 +873,7 @@ def test_csr_disallowed_cn(client, logged_in_user):
     )
     with pytest.raises(ValidationError) as err:
         validators.csr(request)
-    assert str(err.value).startswith(
-        "Domain evilhacker.org does not match allowed domain patterns"
-    )
+    assert str(err.value).startswith("Domain evilhacker.org does not match allowed domain patterns")
 
 
 def test_csr_disallowed_san(client, logged_in_user):
@@ -905,9 +892,7 @@ def test_csr_disallowed_san(client, logged_in_user):
     )
     with pytest.raises(ValidationError) as err:
         validators.csr(request)
-    assert str(err.value).startswith(
-        "Domain evilhacker.org does not match allowed domain patterns"
-    )
+    assert str(err.value).startswith("Domain evilhacker.org does not match allowed domain patterns")
 
 
 def test_get_name_from_arn(client):
@@ -927,18 +912,14 @@ def test_get_account_number(client):
 def test_mint_certificate(issuer_plugin, authority):
     from lemur.certificates.service import mint
 
-    cert_body, private_key, chain, external_id, csr = mint(
-        authority=authority, csr=CSR_STR
-    )
+    cert_body, private_key, chain, external_id, csr = mint(authority=authority, csr=CSR_STR)
     assert cert_body == SAN_CERT_STR
 
 
 def test_create_certificate(issuer_plugin, authority, user):
     from lemur.certificates.service import create
 
-    cert = create(
-        authority=authority, csr=CSR_STR, owner="joe@example.com", creator=user["user"]
-    )
+    cert = create(authority=authority, csr=CSR_STR, owner="joe@example.com", creator=user["user"])
     assert str(cert.not_after) == "2047-12-31T22:00:00+00:00"
     assert str(cert.not_before) == "2017-12-31T22:00:00+00:00"
     assert cert.issuer == "LemurTrustUnittestsClass1CA2018"
@@ -957,9 +938,7 @@ def test_create_certificate(issuer_plugin, authority, user):
     assert cert.name == "ACustomName1"
 
 
-def test_reissue_certificate(
-    issuer_plugin, crypto_authority, certificate, logged_in_user
-):
+def test_reissue_certificate(issuer_plugin, crypto_authority, certificate, logged_in_user):
     from lemur.certificates.service import reissue_certificate
     from lemur.authorities.service import update_options
     from lemur.tests.conf import LEMUR_DEFAULT_ORGANIZATION
@@ -1095,9 +1074,7 @@ def test_reissue_certificate_without_autorotation_ignores_default_validity(
     assert abs((new_span - original_span).total_seconds()) < 60  # Allow 1 minute tolerance
 
 
-def test_reissue_command_by_name(
-        issuer_plugin, crypto_authority, logged_in_user
-):
+def test_reissue_command_by_name(issuer_plugin, crypto_authority, logged_in_user):
     from lemur.certificates.cli import reissue
     from lemur.tests.conf import LEMUR_DEFAULT_ORGANIZATION
     from lemur.tests.factories import CertificateFactory
@@ -1115,9 +1092,7 @@ def test_reissue_command_by_name(
     assert new_cert.description.startswith(f"Reissued by Lemur for cert ID {certificate.id}")
 
 
-def test_reissue_command_by_serial_numbers(
-    issuer_plugin, crypto_authority, logged_in_user
-):
+def test_reissue_command_by_serial_numbers(issuer_plugin, crypto_authority, logged_in_user):
     from lemur.certificates.cli import reissue
     from lemur.tests.conf import LEMUR_DEFAULT_ORGANIZATION
     from lemur.tests.factories import CertificateFactory
@@ -1177,9 +1152,7 @@ def test_create_csr():
     assert private_key
 
     extensions = {
-        "sub_alt_names": {
-            "names": x509.SubjectAlternativeName([x509.DNSName("AnotherCommonName")])
-        }
+        "sub_alt_names": {"names": x509.SubjectAlternativeName([x509.DNSName("AnotherCommonName")])}
     }
     csr, private_key = create_csr(
         owner="joe@example.com",
@@ -1276,10 +1249,7 @@ def test_upload_private_key_str(user):
 )
 def test_certificate_get_private_key(client, token, status):
     assert (
-        client.get(
-            api.url_for(Certificates, certificate_id=1), headers=token
-        ).status_code
-        == status
+        client.get(api.url_for(Certificates, certificate_id=1), headers=token).status_code == status
     )
 
 
@@ -1294,10 +1264,7 @@ def test_certificate_get_private_key(client, token, status):
 )
 def test_certificate_get(client, token, status):
     assert (
-        client.get(
-            api.url_for(Certificates, certificate_id=1), headers=token
-        ).status_code
-        == status
+        client.get(api.url_for(Certificates, certificate_id=1), headers=token).status_code == status
     )
 
 
@@ -1342,7 +1309,7 @@ def test_certificate_post_update_switches(client, certificate, token, status):
     response = client.post(
         api.url_for(Certificates, certificate_id=certificate.id),
         data=json.dumps({"notify": toggled_notify, "rotation": toggled_rotation}),
-        headers=token
+        headers=token,
     )
 
     assert response.status_code == status
@@ -1360,7 +1327,9 @@ def test_certificate_post_update_switches(client, certificate, token, status):
         ("", 401),
     ],
 )
-def test_certificates_update_owner(client, token, status, issuer_plugin, certificate, notification_plugin):
+def test_certificates_update_owner(
+    client, token, status, issuer_plugin, certificate, notification_plugin
+):
     from lemur.certificates import service as certificate_service
     from lemur.roles import service as role_service
     from lemur.notifications import service as notification_service
@@ -1387,7 +1356,7 @@ def test_certificates_update_owner(client, token, status, issuer_plugin, certifi
     response = client.post(
         api.url_for(CertificateUpdateOwner, certificate_id=certificate.id),
         data=json.dumps({"owner": new_cert_owner}),
-        headers=token
+        headers=token,
     )
 
     assert response.status_code == status
@@ -1416,9 +1385,7 @@ def test_certificates_update_owner(client, token, status, issuer_plugin, certifi
 )
 def test_certificate_put(client, token, status):
     assert (
-        client.put(
-            api.url_for(Certificates, certificate_id=1), data={}, headers=token
-        ).status_code
+        client.put(api.url_for(Certificates, certificate_id=1), data={}, headers=token).status_code
         == status
     )
 
@@ -1426,9 +1393,7 @@ def test_certificate_put(client, token, status):
 def test_certificate_put_with_data(client, certificate, issuer_plugin):
     resp = client.put(
         api.url_for(Certificates, certificate_id=certificate.id),
-        data=json.dumps(
-            {"owner": "bob@example.com", "description": "test", "notify": True}
-        ),
+        data=json.dumps({"owner": "bob@example.com", "description": "test", "notify": True}),
         headers=VALID_ADMIN_HEADER_TOKEN,
     )
     assert resp.status_code == 200
@@ -1448,9 +1413,7 @@ def test_certificate_put_with_data(client, certificate, issuer_plugin):
 )
 def test_certificate_delete(client, token, status):
     assert (
-        client.delete(
-            api.url_for(Certificates, certificate_id=1), headers=token
-        ).status_code
+        client.delete(api.url_for(Certificates, certificate_id=1), headers=token).status_code
         == status
     )
 
@@ -1502,9 +1465,7 @@ def test_certificate_patch(client, token, status):
     ],
 )
 def test_certificates_get(client, token, status):
-    assert (
-        client.get(api.url_for(CertificatesList), headers=token).status_code == status
-    )
+    assert client.get(api.url_for(CertificatesList), headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -1517,10 +1478,7 @@ def test_certificates_get(client, token, status):
     ],
 )
 def test_certificates_post(client, token, status):
-    assert (
-        client.post(api.url_for(CertificatesList), data={}, headers=token).status_code
-        == status
-    )
+    assert client.post(api.url_for(CertificatesList), data={}, headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -1533,10 +1491,7 @@ def test_certificates_post(client, token, status):
     ],
 )
 def test_certificates_put(client, token, status):
-    assert (
-        client.put(api.url_for(CertificatesList), data={}, headers=token).status_code
-        == status
-    )
+    assert client.put(api.url_for(CertificatesList), data={}, headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -1549,10 +1504,7 @@ def test_certificates_put(client, token, status):
     ],
 )
 def test_certificates_delete(client, token, status):
-    assert (
-        client.delete(api.url_for(CertificatesList), headers=token).status_code
-        == status
-    )
+    assert client.delete(api.url_for(CertificatesList), headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -1565,10 +1517,7 @@ def test_certificates_delete(client, token, status):
     ],
 )
 def test_certificates_patch(client, token, status):
-    assert (
-        client.patch(api.url_for(CertificatesList), data={}, headers=token).status_code
-        == status
-    )
+    assert client.patch(api.url_for(CertificatesList), data={}, headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -1653,9 +1602,7 @@ def test_certificate_credentials_patch(client, token, status):
     ],
 )
 def test_certificates_upload_get(client, token, status):
-    assert (
-        client.get(api.url_for(CertificatesUpload), headers=token).status_code == status
-    )
+    assert client.get(api.url_for(CertificatesUpload), headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -1669,8 +1616,7 @@ def test_certificates_upload_get(client, token, status):
 )
 def test_certificates_upload_post(client, token, status):
     assert (
-        client.post(api.url_for(CertificatesUpload), data={}, headers=token).status_code
-        == status
+        client.post(api.url_for(CertificatesUpload), data={}, headers=token).status_code == status
     )
 
 
@@ -1684,10 +1630,7 @@ def test_certificates_upload_post(client, token, status):
     ],
 )
 def test_certificates_upload_put(client, token, status):
-    assert (
-        client.put(api.url_for(CertificatesUpload), data={}, headers=token).status_code
-        == status
-    )
+    assert client.put(api.url_for(CertificatesUpload), data={}, headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -1700,10 +1643,7 @@ def test_certificates_upload_put(client, token, status):
     ],
 )
 def test_certificates_upload_delete(client, token, status):
-    assert (
-        client.delete(api.url_for(CertificatesUpload), headers=token).status_code
-        == status
-    )
+    assert client.delete(api.url_for(CertificatesUpload), headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -1717,10 +1657,7 @@ def test_certificates_upload_delete(client, token, status):
 )
 def test_certificates_upload_patch(client, token, status):
     assert (
-        client.patch(
-            api.url_for(CertificatesUpload), data={}, headers=token
-        ).status_code
-        == status
+        client.patch(api.url_for(CertificatesUpload), data={}, headers=token).status_code == status
     )
 
 
@@ -1774,29 +1711,43 @@ def test_identify_and_persist_expiring_deployed_certificates():
 
     # one non-expiring cert, two expiring certs, one cert that doesn't match a running server,
     # one cert using an excluded domain, and one cert belonging to an excluded owner.
-    cert_1 = create_cert_that_expires_in_days(180, domains=[Domain(name='localhost')], owner='testowner1@example.com')
-    cert_2 = create_cert_that_expires_in_days(10, domains=[Domain(name='localhost')], owner='testowner2@example.com')
-    cert_3 = create_cert_that_expires_in_days(10, domains=[Domain(name='localhost')], owner='testowner3@example.com')
-    cert_4 = create_cert_that_expires_in_days(10, domains=[Domain(name='not-localhost')], owner='testowner4@example.com')
-    cert_5 = create_cert_that_expires_in_days(10, domains=[Domain(name='abc.excluded.com')], owner='testowner5@example.com')
-    cert_6 = create_cert_that_expires_in_days(10, domains=[Domain(name='localhost')], owner='excludedowner@example.com')
+    cert_1 = create_cert_that_expires_in_days(
+        180, domains=[Domain(name="localhost")], owner="testowner1@example.com"
+    )
+    cert_2 = create_cert_that_expires_in_days(
+        10, domains=[Domain(name="localhost")], owner="testowner2@example.com"
+    )
+    cert_3 = create_cert_that_expires_in_days(
+        10, domains=[Domain(name="localhost")], owner="testowner3@example.com"
+    )
+    cert_4 = create_cert_that_expires_in_days(
+        10, domains=[Domain(name="not-localhost")], owner="testowner4@example.com"
+    )
+    cert_5 = create_cert_that_expires_in_days(
+        10, domains=[Domain(name="abc.excluded.com")], owner="testowner5@example.com"
+    )
+    cert_6 = create_cert_that_expires_in_days(
+        10, domains=[Domain(name="localhost")], owner="excludedowner@example.com"
+    )
 
     # test certs are all hardcoded with the same body/chain so we don't need to use the created cert here
     cert_file_data = SAN_CERT_STR + INTERMEDIATE_CERT_STR + ROOTCA_CERT_STR + SAN_CERT_KEY
-    f = NamedTemporaryFile(suffix='.pem', delete=True)
+    f = NamedTemporaryFile(suffix=".pem", delete=True)
     try:
-        f.write(cert_file_data.encode('utf-8'))
+        f.write(cert_file_data.encode("utf-8"))
         server_1 = run_server(65521, f.name)
         server_2 = run_server(65522, f.name)
         server_3 = run_server(65523, f.name)
         if not (server_1.is_alive() and server_2.is_alive() and server_3.is_alive()):
-            fail('Servers not alive, test cannot proceed')
+            fail("Servers not alive, test cannot proceed")
 
         for c in [cert_1, cert_2, cert_3, cert_4]:
             assert len(c.certificate_associations) == 1
             for ca in c.certificate_associations:
                 assert ca.ports is None
-        identify_and_persist_expiring_deployed_certificates(['excluded.com'], ['excludedowner@example.com'], True)
+        identify_and_persist_expiring_deployed_certificates(
+            ["excluded.com"], ["excludedowner@example.com"], True
+        )
         for c in [cert_1, cert_5, cert_6]:
             assert len(c.certificate_associations) == 1
             for ca in c.certificate_associations:
@@ -1805,7 +1756,9 @@ def test_identify_and_persist_expiring_deployed_certificates():
         for c in [cert_4]:
             assert len(c.certificate_associations) == 1
             for ca in c.certificate_associations:
-                assert ca.ports == []  # cert_4 is valid but doesn't match so the request runs but the cert isn't found
+                assert (
+                    ca.ports == []
+                )  # cert_4 is valid but doesn't match so the request runs but the cert isn't found
         for c in [cert_2, cert_3]:
             assert len(c.certificate_associations) == 1
             for ca in c.certificate_associations:
@@ -1818,15 +1771,17 @@ def run_server(port, cert_file_name):
     """Utility method to create a mock server that serves a specific certificate"""
 
     def start_server():
-        server = HTTPServer(('localhost', port), SimpleHTTPRequestHandler)
-        server.socket = ssl.wrap_socket(server.socket,
-                                        server_side=True,
-                                        certfile=cert_file_name,
-                                        ssl_version=ssl.PROTOCOL_TLSv1_2)
+        server = HTTPServer(("localhost", port), SimpleHTTPRequestHandler)
+        server.socket = ssl.wrap_socket(
+            server.socket,
+            server_side=True,
+            certfile=cert_file_name,
+            ssl_version=ssl.PROTOCOL_TLSv1_2,
+        )
         server.serve_forever()
         print(f"Started https server on port {port} using cert file {cert_file_name}")
 
-    daemon = threading.Thread(name=f'server_{cert_file_name}', target=start_server)
+    daemon = threading.Thread(name=f"server_{cert_file_name}", target=start_server)
     daemon.daemon = True  # Set as a daemon so it will be killed once the main thread is dead.
     daemon.start()
     return daemon
@@ -1835,82 +1790,116 @@ def run_server(port, cert_file_name):
 def mocked_is_authorized_for_domain(name):
     domain_in_error = "fail.lemur.com"
     if name == domain_in_error:
-        raise UnauthorizedError(user="dummy_user", resource=domain_in_error, action="issue_certificate",
-                                details="unit test, mocked failure")
+        raise UnauthorizedError(
+            user="dummy_user",
+            resource=domain_in_error,
+            action="issue_certificate",
+            details="unit test, mocked failure",
+        )
 
 
 @pytest.mark.parametrize(
     "common_name, extensions, expected_error, authz_check_count",
     [
         ("fail.lemur.com", None, True, 1),
-        ("fail.lemur.com", dict(
-            sub_alt_names=dict(
-                names=x509.SubjectAlternativeName(
-                    [
-                        x509.DNSName("test.example.com"),
-                        x509.DNSName("test2.example.com"),
-                    ]
+        (
+            "fail.lemur.com",
+            dict(
+                sub_alt_names=dict(
+                    names=x509.SubjectAlternativeName(
+                        [
+                            x509.DNSName("test.example.com"),
+                            x509.DNSName("test2.example.com"),
+                        ]
+                    )
                 )
-            )
-        ), True, 3),  # CN is checked after SAN
-        ("test.example.com", dict(
-            sub_alt_names=dict(
-                names=x509.SubjectAlternativeName(
-                    [
-                        x509.DNSName("fail.lemur.com"),
-                        x509.DNSName("test2.example.com"),
-                    ]
+            ),
+            True,
+            3,
+        ),  # CN is checked after SAN
+        (
+            "test.example.com",
+            dict(
+                sub_alt_names=dict(
+                    names=x509.SubjectAlternativeName(
+                        [
+                            x509.DNSName("fail.lemur.com"),
+                            x509.DNSName("test2.example.com"),
+                        ]
+                    )
                 )
-            )
-        ), True, 1),
-        (None, dict(
-            sub_alt_names=dict(
-                names=x509.SubjectAlternativeName(
-                    [
-                        x509.DNSName("fail.lemur.com"),
-                        x509.DNSName("test2.example.com"),
-                    ]
+            ),
+            True,
+            1,
+        ),
+        (
+            None,
+            dict(
+                sub_alt_names=dict(
+                    names=x509.SubjectAlternativeName(
+                        [
+                            x509.DNSName("fail.lemur.com"),
+                            x509.DNSName("test2.example.com"),
+                        ]
+                    )
                 )
-            )
-        ), True, 1),
+            ),
+            True,
+            1,
+        ),
         ("pass.lemur.com", None, False, 1),
-        ("pass.lemur.com", dict(
-            sub_alt_names=dict(
-                names=x509.SubjectAlternativeName(
-                    [
-                        x509.DNSName("test.example.com"),
-                        x509.DNSName("test2.example.com"),
-                    ]
+        (
+            "pass.lemur.com",
+            dict(
+                sub_alt_names=dict(
+                    names=x509.SubjectAlternativeName(
+                        [
+                            x509.DNSName("test.example.com"),
+                            x509.DNSName("test2.example.com"),
+                        ]
+                    )
                 )
-            )
-        ), False, 3),
-        ("pass.lemur.com", dict(
-            sub_alt_names=dict(
-                names=x509.SubjectAlternativeName(
-                    [
-                        x509.DNSName("test.example.com"),
-                        x509.DNSName("pass.lemur.com"),
-                    ]
+            ),
+            False,
+            3,
+        ),
+        (
+            "pass.lemur.com",
+            dict(
+                sub_alt_names=dict(
+                    names=x509.SubjectAlternativeName(
+                        [
+                            x509.DNSName("test.example.com"),
+                            x509.DNSName("pass.lemur.com"),
+                        ]
+                    )
                 )
-            )
-        ), False, 2),  # CN repeated in SAN
+            ),
+            False,
+            2,
+        ),  # CN repeated in SAN
     ],
 )
 def test_allowed_issuance_for_domain(common_name, extensions, expected_error, authz_check_count):
     from lemur.certificates.service import allowed_issuance_for_domain
 
     with patch(
-        'lemur.certificates.service.is_authorized_for_domain', side_effect=mocked_is_authorized_for_domain
+        "lemur.certificates.service.is_authorized_for_domain",
+        side_effect=mocked_is_authorized_for_domain,
     ) as wrapper:
         try:
             allowed_issuance_for_domain(common_name, extensions)
             if expected_error:
-                assert False, f"UnauthorizedError did not occur, input: CN({common_name}), SAN({extensions})"
+                assert False, (
+                    f"UnauthorizedError did not occur, input: CN({common_name}), SAN({extensions})"
+                )
         except UnauthorizedError as e:
             if expected_error:
                 pass
             else:
-                assert False, f"UnauthorizedError occurred, input: CN({common_name}), SAN({extensions})"
+                assert False, (
+                    f"UnauthorizedError occurred, input: CN({common_name}), SAN({extensions})"
+                )
 
         assert wrapper.call_count == authz_check_count
 
@@ -1925,14 +1914,17 @@ def test_send_certificate_expiration_metrics(certificate):
 
 
 @pytest.mark.parametrize(
-    "cert_expiry, expiry_window, expected_result", [
+    "cert_expiry, expiry_window, expected_result",
+    [
         (10, None, True),
         (10, 60, True),
         # cert expiry is outside the window
-        (70, 60, False)
-    ]
+        (70, 60, False),
+    ],
 )
-def test_get_certificates_for_expiration_metrics(certificate, cert_expiry, expiry_window, expected_result):
+def test_get_certificates_for_expiration_metrics(
+    certificate, cert_expiry, expiry_window, expected_result
+):
     from lemur.certificates.service import get_certificates_for_expiration_metrics
 
     new_cert = create_cert_that_expires_in_days(cert_expiry)
@@ -1944,6 +1936,7 @@ def test_get_certificates_for_expiration_metrics(certificate, cert_expiry, expir
 
 def test_get_cert_expiry_in_days(certificate):
     from lemur.certificates.service import _get_cert_expiry_in_days
+
     new_cert = create_cert_that_expires_in_days(10)
 
     assert _get_cert_expiry_in_days(new_cert.not_after) == 10
@@ -1982,28 +1975,40 @@ def test_query_common_name(session):
     assert len(cn1_valid_certs) == 2
 
     # since CN is also stored as SAN, count should be the same if filtered using cn1 as SAN
-    cn1_san_valid_certs = query_common_name('%', {"owner": "", "san": cn1, "page": "", "count": ""})
+    cn1_san_valid_certs = query_common_name("%", {"owner": "", "san": cn1, "page": "", "count": ""})
     assert len(cn1_san_valid_certs) == 2
 
-    cn1_valid_certs_paged = query_common_name(cn1, {"owner": "", "san": "", "page": 1, "count": 100})
+    cn1_valid_certs_paged = query_common_name(
+        cn1, {"owner": "", "san": "", "page": 1, "count": 100}
+    )
     assert cn1_valid_certs_paged["total"] == 2
     assert len(cn1_valid_certs_paged["items"]) == 2
 
-    cn1_valid_certs_paged_single = query_common_name(cn1, {"owner": "", "san": "", "page": 1, "count": 1})
+    cn1_valid_certs_paged_single = query_common_name(
+        cn1, {"owner": "", "san": "", "page": 1, "count": 1}
+    )
     assert cn1_valid_certs_paged_single["total"] == 2
     assert len(cn1_valid_certs_paged_single["items"]) == 1
 
-    cn1_owner1_valid_certs = query_common_name(cn1, {"owner": "owner1@example.org", "san": "", "page": "", "count": ""})
+    cn1_owner1_valid_certs = query_common_name(
+        cn1, {"owner": "owner1@example.org", "san": "", "page": "", "count": ""}
+    )
     assert len(cn1_owner1_valid_certs) == 1
 
-    cn1_owner1_valid_certs_paged = query_common_name(cn1, {"owner": "owner1@example.org", "san": "", "page": 1, "count": 100})
+    cn1_owner1_valid_certs_paged = query_common_name(
+        cn1, {"owner": "owner1@example.org", "san": "", "page": 1, "count": 100}
+    )
     assert cn1_owner1_valid_certs_paged["total"] == 1
     assert len(cn1_owner1_valid_certs_paged["items"]) == 1
 
-    cn1_owner2_valid_certs = query_common_name(cn1, {"owner": "owner2@example.org", "san": "", "page": "", "count": ""})
+    cn1_owner2_valid_certs = query_common_name(
+        cn1, {"owner": "owner2@example.org", "san": "", "page": "", "count": ""}
+    )
     assert len(cn1_owner2_valid_certs) == 1
 
-    cn1_owner3_valid_certs = query_common_name(cn1, {"owner": "owner3@example.org", "san": "", "page": "", "count": ""})
+    cn1_owner3_valid_certs = query_common_name(
+        cn1, {"owner": "owner3@example.org", "san": "", "page": "", "count": ""}
+    )
     assert len(cn1_owner3_valid_certs) == 0
 
     cn2_valid_certs = query_common_name(cn2, {"owner": "", "san": "", "page": "", "count": ""})
@@ -2025,22 +2030,21 @@ def test_query_san(session):
     cert_two_san_valid.domains = [Domain(name=san1), Domain(name=san2)]
     cert_two_san_valid.owner = "owner2@example.org"
 
-    san1_valid_certs = query_common_name('%', {"owner": "", "san": san1, "page": "", "count": ""})
+    san1_valid_certs = query_common_name("%", {"owner": "", "san": san1, "page": "", "count": ""})
     assert len(san1_valid_certs) == 2
 
-    san1_owner1_valid_certs = query_common_name('%', {"owner": "owner1@example.org", "san": san1, "page": "", "count": ""})
+    san1_owner1_valid_certs = query_common_name(
+        "%", {"owner": "owner1@example.org", "san": san1, "page": "", "count": ""}
+    )
     assert len(san1_owner1_valid_certs) == 1
 
-    san1_valid_certs = query_common_name('%', {"owner": "", "san": san2, "page": "", "count": ""})
+    san1_valid_certs = query_common_name("%", {"owner": "", "san": san2, "page": "", "count": ""})
     assert len(san1_valid_certs) == 1
 
 
-def test_reissue_certificate_with_duplicate_destinations_not_allowed(session,
-                                                                     logged_in_user,
-                                                                     crypto_authority,
-                                                                     issuer_plugin,
-                                                                     destination_plugin,
-                                                                     certificate):
+def test_reissue_certificate_with_duplicate_destinations_not_allowed(
+    session, logged_in_user, crypto_authority, issuer_plugin, destination_plugin, certificate
+):
     # test-authority would return a mismatching private key, so use 'cryptography-issuer' plugin instead.
     certificate.authority = crypto_authority
 
@@ -2048,17 +2052,22 @@ def test_reissue_certificate_with_duplicate_destinations_not_allowed(session,
     destination2 = DestinationFactory()
     certificate.destinations.append(destination1)
     certificate.destinations.append(destination2)
-    with pytest.raises(Exception, match='Duplicate destinations for plugin test-destination and account 1234567890 '
-                                        'are not allowed'):
+    with pytest.raises(
+        Exception,
+        match="Duplicate destinations for plugin test-destination and account 1234567890 "
+        "are not allowed",
+    ):
         reissue_certificate(certificate)
 
 
-def test_reissue_certificate_with_duplicate_destinations_allowed(session,
-                                                                 logged_in_user,
-                                                                 crypto_authority,
-                                                                 issuer_plugin,
-                                                                 duplicate_allowed_destination_plugin,
-                                                                 certificate):
+def test_reissue_certificate_with_duplicate_destinations_allowed(
+    session,
+    logged_in_user,
+    crypto_authority,
+    issuer_plugin,
+    duplicate_allowed_destination_plugin,
+    certificate,
+):
     # test-authority would return a mismatching private key, so use 'cryptography-issuer' plugin instead.
     certificate.authority = crypto_authority
 
@@ -2073,8 +2082,9 @@ def test_reissue_certificate_with_duplicate_destinations_allowed(session,
     assert destination2 in new_cert.destinations
 
 
-def test_certificate_update_duplicate_destinations_not_allowed(client, crypto_authority, certificate, issuer_plugin,
-                                                               destination_plugin):
+def test_certificate_update_duplicate_destinations_not_allowed(
+    client, crypto_authority, certificate, issuer_plugin, destination_plugin
+):
     # test-authority would return a mismatching private key, so use 'cryptography-issuer' plugin instead.
     certificate.authority = crypto_authority
 
@@ -2085,18 +2095,19 @@ def test_certificate_update_duplicate_destinations_not_allowed(client, crypto_au
 
     resp = client.put(
         api.url_for(Certificates, certificate_id=certificate.id),
-        data=json.dumps(
-            certificate_output_schema.dump(certificate).data
-        ),
+        data=json.dumps(certificate_output_schema.dump(certificate).data),
         headers=VALID_ADMIN_HEADER_TOKEN,
     )
     assert resp.status_code == 400
-    assert 'Duplicate destinations for plugin test-destination and account 1234567890 are not allowed' \
-           in resp.json['message']
+    assert (
+        "Duplicate destinations for plugin test-destination and account 1234567890 are not allowed"
+        in resp.json["message"]
+    )
 
 
-def test_certificate_update_duplicate_destinations_allowed(client, crypto_authority, certificate, issuer_plugin,
-                                                           duplicate_allowed_destination_plugin):
+def test_certificate_update_duplicate_destinations_allowed(
+    client, crypto_authority, certificate, issuer_plugin, duplicate_allowed_destination_plugin
+):
     from lemur.destinations.schemas import destination_output_schema
 
     # test-authority would return a mismatching private key, so use 'cryptography-issuer' plugin instead.
@@ -2109,13 +2120,11 @@ def test_certificate_update_duplicate_destinations_allowed(client, crypto_author
 
     resp = client.put(
         api.url_for(Certificates, certificate_id=certificate.id),
-        data=json.dumps(
-            certificate_output_schema.dump(certificate).data
-        ),
+        data=json.dumps(certificate_output_schema.dump(certificate).data),
         headers=VALID_ADMIN_HEADER_TOKEN,
     )
     assert resp.status_code == 200
     resp_cert = resp.json
-    assert len(resp_cert['destinations']) == 2
-    assert destination_output_schema.dump(destination1).data in resp_cert['destinations']
-    assert destination_output_schema.dump(destination2).data in resp_cert['destinations']
+    assert len(resp_cert["destinations"]) == 2
+    assert destination_output_schema.dump(destination1).data in resp_cert["destinations"]
+    assert destination_output_schema.dump(destination2).data in resp_cert["destinations"]

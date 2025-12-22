@@ -6,6 +6,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Pinmarva <pinmarva@gmail.com>
 """
+
 import botocore
 
 from retrying import retry
@@ -133,12 +134,7 @@ def get_certificates(**kwargs):
 @retry(retry_on_exception=retry_throttled, wait_fixed=2000, stop_max_attempt_number=25)
 def _get_certificates(**kwargs):
     metrics.send("get_acm_certificates", "counter", 1)
-    return kwargs.pop("client").list_certificates(
-        **kwargs,
-        CertificateStatuses=[
-            'ISSUED'
-        ]
-    )
+    return kwargs.pop("client").list_certificates(**kwargs, CertificateStatuses=["ISSUED"])
 
 
 @sts_client("acm")
@@ -161,18 +157,12 @@ def get_all_certificates(**kwargs):
         metadata = response["CertificateSummaryList"]
 
         for m in metadata:
-            certificate = _get_certificate(
-                m["CertificateArn"],
-                client=kwargs["client"]
-            )
+            certificate = _get_certificate(m["CertificateArn"], client=kwargs["client"])
 
             if certificate is None:
                 continue
 
-            certificate.update(
-                name=m["DomainName"],
-                external_id=m["CertificateArn"]
-            )
+            certificate.update(name=m["DomainName"], external_id=m["CertificateArn"])
             certificates.append(certificate)
 
         if not response.get("Marker"):

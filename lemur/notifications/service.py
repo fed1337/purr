@@ -8,6 +8,7 @@
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 
 """
+
 from flask import current_app
 
 from lemur import database
@@ -77,9 +78,7 @@ def create_default_expiration_notifications(name, recipients, intervals=None):
                     "LEMUR_DEFAULT_NOTIFICATION_PLUGIN", "email-notification"
                 ),
                 options=list(inter),
-                description="Default {interval} day expiration notification".format(
-                    interval=i
-                ),
+                description="Default {interval} day expiration notification".format(interval=i),
                 certificates=[],
             )
         notifications.append(n)
@@ -106,7 +105,16 @@ def create(label, plugin_name, options, description, certificates):
     return database.create(notification)
 
 
-def update(notification_id, label, plugin_name, options, description, active, added_certificates, removed_certificates):
+def update(
+    notification_id,
+    label,
+    plugin_name,
+    options,
+    description,
+    active,
+    added_certificates,
+    removed_certificates,
+):
     """
     Updates an existing notification.
 
@@ -129,7 +137,9 @@ def update(notification_id, label, plugin_name, options, description, active, ad
     notification.description = description
     notification.active = active
     notification.certificates = notification.certificates + added_certificates
-    notification.certificates = [c for c in notification.certificates if c not in removed_certificates]
+    notification.certificates = [
+        c for c in notification.certificates if c not in removed_certificates
+    ]
 
     return database.update(notification)
 
@@ -182,9 +192,7 @@ def render(args):
     certificate_id = args.pop("certificate_id", None)
 
     if certificate_id:
-        query = database.session_query(Notification).join(
-            Certificate, Notification.certificate
-        )
+        query = database.session_query(Notification).join(Certificate, Notification.certificate)
         query = query.filter(Certificate.id == certificate_id)
     else:
         query = database.session_query(Notification)

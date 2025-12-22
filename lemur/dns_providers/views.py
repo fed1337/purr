@@ -5,6 +5,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Curtis Castrapel <ccastrapel@netflix.com>
 """
+
 from flask import Blueprint, g
 from flask_restful import reqparse, Api
 
@@ -23,7 +24,7 @@ api = Api(mod)
 
 
 class DnsProvidersList(AuthenticatedResource):
-    """ Defines the 'dns_providers' endpoint """
+    """Defines the 'dns_providers' endpoint"""
 
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
@@ -176,7 +177,7 @@ class DnsProviders(AuthenticatedResource):
 
 
 class DnsProviderOptions(AuthenticatedResource):
-    """ Defines the 'dns_provider_types' endpoint """
+    """Defines the 'dns_provider_types' endpoint"""
 
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
@@ -187,9 +188,5 @@ class DnsProviderOptions(AuthenticatedResource):
 
 
 api.add_resource(DnsProvidersList, "/dns_providers", endpoint="dns_providers")
-api.add_resource(
-    DnsProviders, "/dns_providers/<int:dns_provider_id>", endpoint="dns_provider"
-)
-api.add_resource(
-    DnsProviderOptions, "/dns_provider_options", endpoint="dns_provider_options"
-)
+api.add_resource(DnsProviders, "/dns_providers/<int:dns_provider_id>", endpoint="dns_provider")
+api.add_resource(DnsProviderOptions, "/dns_provider_options", endpoint="dns_provider_options")

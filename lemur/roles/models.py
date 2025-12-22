@@ -9,6 +9,7 @@
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 
 """
+
 from sqlalchemy.orm import relationship
 from sqlalchemy import Boolean, Column, Integer, String, Text, ForeignKey
 
@@ -39,12 +40,8 @@ class Role(BaseModel):
     )
     user_id = Column(Integer, ForeignKey("users.id"))
     third_party = Column(Boolean)
-    users = relationship(
-        "User", secondary=roles_users, passive_deletes=True, backref="role"
-    )
-    certificates = relationship(
-        "Certificate", secondary=roles_certificates, backref="role"
-    )
+    users = relationship("User", secondary=roles_users, passive_deletes=True, backref="role")
+    certificates = relationship("Certificate", secondary=roles_certificates, backref="role")
     pending_certificates = relationship(
         "PendingCertificate", secondary=pending_cert_role_associations, backref="role"
     )

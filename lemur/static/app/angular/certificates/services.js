@@ -336,4 +336,3 @@ angular.module('lemur')
 
     return CertificateService;
   });
-

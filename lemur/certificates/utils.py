@@ -30,13 +30,9 @@ def get_sans_from_csr(data):
         raise ValidationError("CSR presented is not valid.")
 
     try:
-        alt_names = request.extensions.get_extension_for_class(
-            x509.SubjectAlternativeName
-        )
+        alt_names = request.extensions.get_extension_for_class(x509.SubjectAlternativeName)
         for alt_name in alt_names.value:
-            sub_alt_names.append(
-                {"nameType": type(alt_name).__name__, "value": alt_name.value}
-            )
+            sub_alt_names.append({"nameType": type(alt_name).__name__, "value": alt_name.value})
     except x509.ExtensionNotFound:
         pass
 
@@ -75,9 +71,7 @@ def get_key_type_from_csr(data):
 
     try:
         if isinstance(request.public_key(), rsa.RSAPublicKey):
-            return "RSA{key_size}".format(
-                key_size=request.public_key().key_size
-            )
+            return "RSA{key_size}".format(key_size=request.public_key().key_size)
         elif isinstance(request.public_key(), ec.EllipticCurvePublicKey):
             return get_key_type_from_ec_curve(request.public_key().curve.name)
         else:

@@ -3,6 +3,7 @@
     Copyright (c) 2018 and onwards Netflix, Inc.  All rights reserved.
 .. moduleauthor:: James Chuong <jchuong@instartlogic.com>
 """
+
 from datetime import datetime as dt
 
 from sqlalchemy import (
@@ -34,9 +35,7 @@ from lemur.utils import Vault
 
 
 def get_or_increase_name(name, serial):
-    certificates = PendingCertificate.query.filter(
-        PendingCertificate.name.ilike(f"{name}%")
-    ).all()
+    certificates = PendingCertificate.query.filter(PendingCertificate.name.ilike(f"{name}%")).all()
 
     if not certificates:
         return name
@@ -78,21 +77,15 @@ class PendingCertificate(BaseModel):
     private_key = Column(Vault, nullable=True)
 
     date_created = Column(ArrowType, DefaultClause(func.now()), nullable=False)
-    dns_provider_id = Column(
-        Integer, ForeignKey("dns_providers.id", ondelete="CASCADE")
-    )
+    dns_provider_id = Column(Integer, ForeignKey("dns_providers.id", ondelete="CASCADE"))
 
     status = Column(Text(), nullable=True)
-    last_updated = Column(
-        ArrowType, DefaultClause(func.now()), onupdate=func.now(), nullable=False
-    )
+    last_updated = Column(ArrowType, DefaultClause(func.now()), onupdate=func.now(), nullable=False)
 
     rotation = Column(Boolean, default=False)
     user_id = Column(Integer, ForeignKey("users.id"))
     authority_id = Column(Integer, ForeignKey("authorities.id", ondelete="CASCADE"))
-    root_authority_id = Column(
-        Integer, ForeignKey("authorities.id", ondelete="CASCADE")
-    )
+    root_authority_id = Column(Integer, ForeignKey("authorities.id", ondelete="CASCADE"))
     rotation_policy_id = Column(Integer, ForeignKey("rotation_policies.id"))
 
     notifications = relationship(
@@ -156,7 +149,7 @@ class PendingCertificate(BaseModel):
                     dt.now(),
                     dt.now(),
                     len(domains) > 1,
-                    domains
+                    domains,
                 ),
                 self.external_id,
             )

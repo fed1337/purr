@@ -6,6 +6,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 import botocore
 from flask import current_app
 
@@ -66,11 +67,11 @@ def get_path_from_arn(arn):
     """
     # cloudfront/example.com-cloudfront
     file_path = arn.split("/", 1)[1]
-    if '/' in file_path:
+    if "/" in file_path:
         # remove the filename, and return the path
-        return '/'.join(file_path.split("/")[:-1])
+        return "/".join(file_path.split("/")[:-1])
     else:
-        return ''
+        return ""
 
 
 def get_registry_type_from_arn(arn):
@@ -85,15 +86,23 @@ def get_registry_type_from_arn(arn):
     :param arn: IAM TLS certificate arn
     :return: iam or acm or unkown
     """
-    if arn.startswith("arn:aws:iam") or arn.startswith("arn:aws-us-gov:iam") or arn.startswith("arn:aws-cn:iam"):
-        return 'iam'
-    elif arn.startswith("arn:aws:acm") or arn.startswith("arn:aws-us-gov:acm") or arn.startswith("arn:aws-cn:acm"):
-        return 'acm'
+    if (
+        arn.startswith("arn:aws:iam")
+        or arn.startswith("arn:aws-us-gov:iam")
+        or arn.startswith("arn:aws-cn:iam")
+    ):
+        return "iam"
+    elif (
+        arn.startswith("arn:aws:acm")
+        or arn.startswith("arn:aws-us-gov:acm")
+        or arn.startswith("arn:aws-cn:acm")
+    ):
+        return "acm"
     else:
-        return 'unknown'
+        return "unknown"
 
 
-def create_arn_from_cert(account_number, partition, certificate_name, path=''):
+def create_arn_from_cert(account_number, partition, certificate_name, path=""):
     """
     Create an ARN from a certificate.
     :param path:
@@ -102,7 +111,7 @@ def create_arn_from_cert(account_number, partition, certificate_name, path=''):
     :param certificate_name:
     :return:
     """
-    if path is None or path == '':
+    if path is None or path == "":
         return f"arn:{partition}:iam::{account_number}:server-certificate/{certificate_name}"
     else:
         return f"arn:{partition}:iam::{account_number}:server-certificate/{path}/{certificate_name}"
@@ -229,10 +238,7 @@ def get_all_certificates(restrict_path=None, **kwargs):
             if restrict_path and m["Path"] != restrict_path:
                 continue
             certificates.append(
-                _get_certificate(
-                    m["ServerCertificateName"],
-                    client=kwargs["client"]
-                )
+                _get_certificate(m["ServerCertificateName"], client=kwargs["client"])
             )
 
         if not response.get("Marker"):
@@ -301,8 +307,12 @@ def _filter_ignored_certificates(certificates, **kwargs):
 
                 # If the certificate has any ignore tags, skip it
                 if any(tag["Key"] == ignore_tag for tag in tags for ignore_tag in ignore_tags):
-                    cert_name = cert.get("ServerCertificateMetadata", {}).get("ServerCertificateName")
-                    current_app.logger.info(f"Ignoring IAM certificate due to ignore tag: {cert_name}")
+                    cert_name = cert.get("ServerCertificateMetadata", {}).get(
+                        "ServerCertificateName"
+                    )
+                    current_app.logger.info(
+                        f"Ignoring IAM certificate due to ignore tag: {cert_name}"
+                    )
                     continue
 
             except Exception as e:

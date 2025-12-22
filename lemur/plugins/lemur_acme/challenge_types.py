@@ -7,6 +7,7 @@
 
 .. moduleauthor:: Mathias Petermann <mathias.petermann@projektfokus.ch>
 """
+
 import json
 from datetime import datetime, timedelta
 
@@ -101,11 +102,14 @@ class AcmeHttpChallenge(AcmeChallenge):
                         chall.append(i)
             else:
                 metrics.send("get_acme_challenges_already_valid", "counter", 1)
-                log_data = {"message": "already validated, skipping", "hostname": authz.body.identifier.value}
+                log_data = {
+                    "message": "already validated, skipping",
+                    "hostname": authz.body.identifier.value,
+                }
                 current_app.logger.info(log_data)
 
         if len(chall) == 0 and not all_pre_validated:
-            raise Exception(f'HTTP-01 challenge was not offered by the CA server at {orderr.uri}')
+            raise Exception(f"HTTP-01 challenge was not offered by the CA server at {orderr.uri}")
         elif not all_pre_validated:
             validation_target = None
             for option in json.loads(issuer_options["authority"].options):
@@ -113,7 +117,9 @@ class AcmeHttpChallenge(AcmeChallenge):
                     validation_target = option["value"]
 
             if validation_target is None:
-                raise Exception('No token_destination configured for this authority. Cant complete HTTP-01 challenge')
+                raise Exception(
+                    "No token_destination configured for this authority. Cant complete HTTP-01 challenge"
+                )
 
             for challenge in chall:
                 try:
@@ -122,29 +128,38 @@ class AcmeHttpChallenge(AcmeChallenge):
                     acme_client.answer_challenge(challenge, response)
                 except Exception as e:
                     current_app.logger.error(e)
-                    raise Exception('Failure while trying to deploy token to configure destination. See logs for more information')
+                    raise Exception(
+                        "Failure while trying to deploy token to configure destination. See logs for more information"
+                    )
 
-            current_app.logger.info("Uploaded HTTP-01 challenge tokens, trying to poll and finalize the order")
+            current_app.logger.info(
+                "Uploaded HTTP-01 challenge tokens, trying to poll and finalize the order"
+            )
 
         try:
             deadline = datetime.now() + timedelta(seconds=90)
             orderr = acme_client.poll_authorizations(orderr, deadline)
-            finalized_orderr = acme_client.finalize_order(orderr, deadline, fetch_alternative_chains=True)
+            finalized_orderr = acme_client.finalize_order(
+                orderr, deadline, fetch_alternative_chains=True
+            )
 
         except errors.ValidationError as validationError:
-            error_message = "Validation error occurred, can\'t complete challenges. See logs for more information."
+            error_message = "Validation error occurred, can't complete challenges. See logs for more information."
             for authz in validationError.failed_authzrs:
                 for chall in authz.body.challenges:
                     if chall.error:
-                        error_message = f"ValidationError occurred of type: {chall.error.typ}, " \
-                                        f"with message: {ERROR_CODES[chall.error.code]}, " \
-                                        f"detail: {chall.error.detail}"
+                        error_message = (
+                            f"ValidationError occurred of type: {chall.error.typ}, "
+                            f"with message: {ERROR_CODES[chall.error.code]}, "
+                            f"detail: {chall.error.detail}"
+                        )
                         current_app.logger.error(error_message)
 
             raise Exception(error_message)
 
-        pem_certificate, pem_certificate_chain = self.acme.extract_cert_and_chain(finalized_orderr.fullchain_pem,
-                                                                                  finalized_orderr.alternative_fullchains_pem)
+        pem_certificate, pem_certificate_chain = self.acme.extract_cert_and_chain(
+            finalized_orderr.fullchain_pem, finalized_orderr.alternative_fullchains_pem
+        )
 
         if "drop_last_cert_from_chain" in authority.options:
             for option in json.loads(authority.options):
@@ -152,8 +167,9 @@ class AcmeHttpChallenge(AcmeChallenge):
                     # skipping the last element
                     pem_certificate_chain = drop_last_cert_from_chain(pem_certificate_chain)
 
-        self.acme.log_remaining_validation(finalized_orderr.authorizations,
-                                           acme_client.net.account.uri.replace('https://', ''))
+        self.acme.log_remaining_validation(
+            finalized_orderr.authorizations, acme_client.net.account.uri.replace("https://", "")
+        )
 
         if len(deployed_challenges) != 0:
             for token_path in deployed_challenges:
@@ -163,17 +179,19 @@ class AcmeHttpChallenge(AcmeChallenge):
         return pem_certificate, pem_certificate_chain, None
 
     def deploy(self, challenge, acme_client, validation_target):
-
         if not isinstance(challenge.chall, challenges.HTTP01):
             raise AcmeChallengeMissmatchError(
-                'The provided challenge is not of type HTTP01, but instead of type {}'.format(
-                    challenge.__class__.__name__))
+                "The provided challenge is not of type HTTP01, but instead of type {}".format(
+                    challenge.__class__.__name__
+                )
+            )
 
         destination = destination_service.get(validation_target)
 
         if destination is None:
             raise Exception(
-                f'Couldn\'t find the destination with name {validation_target}. Cant complete HTTP01 challenge')
+                f"Couldn't find the destination with name {validation_target}. Cant complete HTTP01 challenge"
+            )
 
         destination_plugin = plugins.get(destination.plugin_name)
 
@@ -189,7 +207,8 @@ class AcmeHttpChallenge(AcmeChallenge):
 
         if destination is None:
             current_app.logger.info(
-                f'Couldn\'t find the destination with name {validation_target}, won\'t cleanup the challenge')
+                f"Couldn't find the destination with name {validation_target}, won't cleanup the challenge"
+            )
 
         destination_plugin = plugins.get(destination.plugin_name)
 
@@ -222,14 +241,14 @@ class AcmeDnsChallenge(AcmeChallenge):
                 self.acme.dns_providers_for_domain[domain] = [dns_provider]
 
             credentials = json.loads(dns_provider.credentials)
-            current_app.logger.debug(
-                f"Using DNS provider: {dns_provider.provider_type}"
-            )
+            current_app.logger.debug(f"Using DNS provider: {dns_provider.provider_type}")
             account_number = credentials.get("account_id")
             provider_type = dns_provider.provider_type
             if provider_type == "route53" and not account_number:
-                error = "Route53 DNS Provider {} does not have an account number configured.".format(
-                    dns_provider.name
+                error = (
+                    "Route53 DNS Provider {} does not have an account number configured.".format(
+                        dns_provider.name
+                    )
                 )
                 current_app.logger.error(error)
                 raise InvalidConfiguration(error)
@@ -242,9 +261,7 @@ class AcmeDnsChallenge(AcmeChallenge):
                 self.acme.autodetect_dns_providers(domain)
 
         # Create pending authorizations that we'll need to do the creation
-        dns_authorization = authorization_service.create(
-            account_number, domains, provider_type
-        )
+        dns_authorization = authorization_service.create(account_number, domains, provider_type)
 
         if not create_immediately:
             # Return id of the DNS Authorization
@@ -254,8 +271,10 @@ class AcmeDnsChallenge(AcmeChallenge):
             acme_client, dns_authorization, csr
         )
 
-        if "drop_last_cert_from_chain" in authority.options \
-                and authority.options.get("drop_last_cert_from_chain") is True:
+        if (
+            "drop_last_cert_from_chain" in authority.options
+            and authority.options.get("drop_last_cert_from_chain") is True
+        ):
             # skipping the last element
             pem_certificate_chain = drop_last_cert_from_chain(pem_certificate_chain)
 
@@ -274,23 +293,20 @@ class AcmeDnsChallenge(AcmeChallenge):
             )
 
         try:
-            authorizations = self.acme.get_authorizations(
-                acme_client, order, order_info
-            )
+            authorizations = self.acme.get_authorizations(acme_client, order, order_info)
         except ClientError:
             capture_exception()
             metrics.send("create_certificate_immediately_error", "counter", 1)
 
             current_app.logger.error(
-                f"Unable to resolve cert for domains: {', '.join(order_info.domains)}", exc_info=True
+                f"Unable to resolve cert for domains: {', '.join(order_info.domains)}",
+                exc_info=True,
             )
             return False
 
         authorizations = self.acme.finalize_authorizations(acme_client, authorizations)
 
-        return self.acme.request_certificate(
-            acme_client, authorizations, order
-        )
+        return self.acme.request_certificate(acme_client, authorizations, order)
 
     def deploy(self, challenge, acme_client, validation_target):
         pass

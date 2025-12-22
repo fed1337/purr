@@ -6,6 +6,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 import arrow
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.associationproxy import association_proxy
@@ -46,7 +47,7 @@ class Policy(BaseModel):
 class EndpointDnsAlias(BaseModel):
     __tablename__ = "endpoint_dnsalias"
     id = Column(Integer, primary_key=True)
-    endpoint_id = Column(Integer, ForeignKey('endpoints.id'))
+    endpoint_id = Column(Integer, ForeignKey("endpoints.id"))
     alias = Column(String(256))
 
 
@@ -69,9 +70,7 @@ class Endpoint(BaseModel):
     sensitive = Column(Boolean, default=False)
     source = relationship("Source", back_populates="endpoints")
     last_updated = Column(ArrowType, default=arrow.utcnow, nullable=False)
-    date_created = Column(
-        ArrowType, default=arrow.utcnow, onupdate=arrow.utcnow, nullable=False
-    )
+    date_created = Column(ArrowType, default=arrow.utcnow, onupdate=arrow.utcnow, nullable=False)
 
     replaced = association_proxy("certificate", "replaced")
 
@@ -95,9 +94,7 @@ class Endpoint(BaseModel):
                 issues.append(
                     {
                         "name": "deprecated cipher",
-                        "value": "{} has been deprecated consider removing it.".format(
-                            cipher.name
-                        ),
+                        "value": "{} has been deprecated consider removing it.".format(cipher.name),
                     }
                 )
 

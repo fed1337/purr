@@ -10,7 +10,10 @@ from lemur.extensions import metrics
 from lemur.plugins.lemur_acme.acme_handlers import AcmeDnsHandler
 
 
-@click.group(name="dns_providers", help="Iterates through all DNS providers and sets DNS zones in the database.")
+@click.group(
+    name="dns_providers",
+    help="Iterates through all DNS providers and sets DNS zones in the database.",
+)
 @with_appcontext
 def cli():
     pass

@@ -7,6 +7,7 @@
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 
 """
+
 from functools import wraps
 
 from flask import request, current_app
@@ -36,16 +37,10 @@ class LemurSchema(Schema):
         if many:
             for i in data:
                 items.append(
-                    {
-                        camelize(key, uppercase_first_letter=False): value
-                        for key, value in i.items()
-                    }
+                    {camelize(key, uppercase_first_letter=False): value for key, value in i.items()}
                 )
             return items
-        return {
-            camelize(key, uppercase_first_letter=False): value
-            for key, value in data.items()
-        }
+        return {camelize(key, uppercase_first_letter=False): value for key, value in data.items()}
 
     def wrap_with_envelope(self, data, many):
         if many:
@@ -159,7 +154,9 @@ def validate_schema(input_schema, output_schema):
             except KeyError as e:
                 capture_exception()
                 current_app.logger.exception(e)
-                missing_field = str(e).replace("'", "")  # This removes quotes around the missing key
+                missing_field = str(e).replace(
+                    "'", ""
+                )  # This removes quotes around the missing key
                 msg = f"`{missing_field}` is required but is missing or not configured.  Please provide and try again."
                 return dict(message=msg), 500
             except Exception as e:

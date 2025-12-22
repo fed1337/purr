@@ -8,6 +8,7 @@
 
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 from sqlalchemy.orm import relationship
 from sqlalchemy import Integer, String, Column, Boolean
 from sqlalchemy.event import listen
@@ -48,9 +49,7 @@ class User(BaseModel):
         backref=db.backref("user"),
         lazy="dynamic",
     )
-    certificates = relationship(
-        "Certificate", backref=db.backref("user"), lazy="dynamic"
-    )
+    certificates = relationship("Certificate", backref=db.backref("user"), lazy="dynamic")
     pending_certificates = relationship(
         "PendingCertificate", backref=db.backref("user"), lazy="dynamic"
     )

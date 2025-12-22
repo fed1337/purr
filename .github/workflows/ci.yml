@@ -1,0 +1,81 @@
+name: CI
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  check:
+    name: Run checks on codebase
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Install system deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libsasl2-dev \
+            libldap2-dev
+      - uses: actions/checkout@v6
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+      - name: Sync dev dependencies
+        run: uv sync --frozen --dev --group tests
+      - name: Ruff check
+        run: uv run ruff check lemur
+      - name: Ruff format check
+        run: uv run ruff format --check lemur
+      - name: mypy check
+        run: uv run mypy lemur
+
+  test:
+    needs: check
+    name: Tests (py${{ matrix.python }} / pg${{ matrix.postgres }})
+    runs-on: ubuntu-22.04
+
+    strategy:
+      matrix:
+        python: [ "3.10", "3.11", "3.12" ]
+        postgres: [ 14, 15, 16, 17, 18 ]
+
+    services:
+      postgres:
+        image: postgres:${{ matrix.postgres }}
+        env:
+          POSTGRES_USER: lemur
+          POSTGRES_PASSWORD: lemur
+          POSTGRES_DB: lemur
+        options: >-
+          --health-cmd "pg_isready -U lemur"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 3
+        ports:
+          - 5432:5432
+
+    env:
+      SQLALCHEMY_DATABASE_URI: postgresql://lemur:lemur@localhost:5432/lemur
+      BOTO_CONFIG: /doesnotexist
+      PY_COLORS: "1"
+      FORCE_COLOR: "1"
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Set Python ${{ matrix.python }}
+        run: uv python install ${{ matrix.python }}
+
+      - name: Install system deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libsasl2-dev \
+            libldap2-dev
+
+      - name: Sync runtime + dev deps
+        run: uv sync --frozen --dev --group tests
+
+      - name: Run tests
+        run: |
+          uv run pytest --cov=lemur --cov-report=xml

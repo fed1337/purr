@@ -6,6 +6,7 @@
 
 .. moduleauthor:: Fedor S <fedorwww@gmail.com>
 """
+
 import arrow
 import requests
 from flask import current_app
@@ -19,8 +20,8 @@ def escape(text):
     """
     Escape Markdown special characters
     """
-    special = r'_*[]()~`>#+-=|{}.!'
-    return ''.join('\\' + c if c in special else c for c in text)
+    special = r"_*[]()~`>#+-=|{}.!"
+    return "".join("\\" + c if c in special else c for c in text)
 
 
 def create_certificate_url(name):
@@ -75,14 +76,14 @@ class TelegramNotificationPlugin(ExpirationNotificationPlugin):
             "name": "chat",
             "type": "str",
             "required": True,
-            "validation": check_validation("^[+-]?\d+(\.\d+)?$"),
+            "validation": check_validation(r"^[+-]?\d+(\.\d+)?$"),
             "helpMessage": "The chat id to send notification to",
         },
         {
             "name": "token",
             "type": "str",
             "required": True,
-            "validation": check_validation("^\d+:[A-Za-z0-9_]+$"),
+            "validation": check_validation(r"^\d+:[A-Za-z0-9_]+$"),
             "helpMessage": "Bot API Token",
         },
     ]
@@ -106,15 +107,17 @@ class TelegramNotificationPlugin(ExpirationNotificationPlugin):
         data = {
             "parse_mode": "MarkdownV2",
             "chat_id": self.get_option("chat", options),
-            "text": "*Lemur {} Notification*\n\n{}".format(notification_type.capitalize(), *attachments),
+            "text": "*Lemur {} Notification*\n\n{}".format(
+                notification_type.capitalize(), *attachments
+            ),
         }
 
-        r = requests.post("https://api.telegram.org/bot{}/sendMessage".format(self.get_option("token", options)),
-                          data=data)
+        r = requests.post(
+            "https://api.telegram.org/bot{}/sendMessage".format(self.get_option("token", options)),
+            data=data,
+        )
 
         if r.status_code not in [200]:
             raise Exception(f"Failed to send message. Telegram response: {r.status_code} {data}")
 
-        current_app.logger.info(
-            f"Telegram response: {r.status_code} Message Body: {data}"
-        )
+        current_app.logger.info(f"Telegram response: {r.status_code} Message Body: {data}")

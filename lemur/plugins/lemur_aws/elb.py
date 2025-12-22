@@ -5,6 +5,7 @@
 
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 import botocore
 from flask import current_app
 
@@ -94,7 +95,9 @@ def _filter_ignored_elbsv1(elbs, **kwargs):
     :param kwargs: must contain a 'client' from @sts_client
     :return:
     """
-    return _filter_ignored_elbs(elbs, "LoadBalancerName", "LoadBalancerNames", "LoadBalancerName", **kwargs)
+    return _filter_ignored_elbs(
+        elbs, "LoadBalancerName", "LoadBalancerNames", "LoadBalancerName", **kwargs
+    )
 
 
 def _filter_ignored_elbsv2(elbs, **kwargs):
@@ -189,9 +192,7 @@ def get_listener_arn_from_endpoint(endpoint_name, endpoint_port, **kwargs):
         client = kwargs.pop("client")
         elbs = client.describe_load_balancers(Names=[endpoint_name])
         for elb in elbs["LoadBalancers"]:
-            listeners = client.describe_listeners(
-                LoadBalancerArn=elb["LoadBalancerArn"]
-            )
+            listeners = client.describe_listeners(LoadBalancerArn=elb["LoadBalancerArn"])
             for listener in listeners["Listeners"]:
                 if listener["Port"] == endpoint_port:
                     return listener["ListenerArn"]
@@ -310,9 +311,7 @@ def describe_listeners_v2(**kwargs):
         client = kwargs.pop("client")
         return client.describe_listeners(**kwargs)
     except Exception as e:  # noqa
-        metrics.send(
-            "describe_listeners_v2_error", "counter", 1, metric_tags={"error": str(e)}
-        )
+        metrics.send("describe_listeners_v2_error", "counter", 1, metric_tags={"error": str(e)})
         capture_exception()
         raise
 
@@ -382,9 +381,7 @@ def describe_load_balancer_types(policies, **kwargs):
     :param policies:
     :return:
     """
-    return kwargs["client"].describe_load_balancer_policy_types(
-        PolicyTypeNames=policies
-    )
+    return kwargs["client"].describe_load_balancer_policy_types(PolicyTypeNames=policies)
 
 
 @sts_client("elb")
@@ -430,7 +427,9 @@ def attach_certificate_v2(listener_arn, port, certificates, **kwargs):
         )
 
         if needs_cert_update_for_sni:
-            current_app.logger.info(f"Adding cert as listener cert for SNI. listener_arn: {listener_arn}")
+            current_app.logger.info(
+                f"Adding cert as listener cert for SNI. listener_arn: {listener_arn}"
+            )
             kwargs["client"].add_listener_certificates(
                 ListenerArn=listener_arn, Certificates=certificates
             )
@@ -451,9 +450,7 @@ def has_listener_cert_for_sni(listener_arn, client):
     :return: True/False
     """
     try:
-        listener_certificates = client.describe_listener_certificates(
-            ListenerArn=listener_arn
-        )
+        listener_certificates = client.describe_listener_certificates(ListenerArn=listener_arn)
 
         default_cert = ""
 
@@ -466,7 +463,11 @@ def has_listener_cert_for_sni(listener_arn, client):
             return False
 
         for cert in listener_certificates["Certificates"]:
-            if "IsDefault" in cert and cert["IsDefault"] is False and cert["CertificateArn"] == default_cert:
+            if (
+                "IsDefault" in cert
+                and cert["IsDefault"] is False
+                and cert["CertificateArn"] == default_cert
+            ):
                 return True
 
         return False

@@ -29,7 +29,13 @@ SECRET_KEY = "e89dc56e5fa4214f52bfe4d8c84256209c559022da562fd5b1d1a70798923518"
 # You should consider storing these separately from your config
 LEMUR_TOKEN_SECRET = "EO5vLI6sBXBLKDJr_2AYYq"
 LEMUR_TOKEN_SECRETS = [LEMUR_TOKEN_SECRET]
-LEMUR_ENCRYPTION_KEYS = ['Q7AzDsZHJRaKdS4Obeb4bLw6tYRdTqQD24xHQqJbA4A=']
+LEMUR_ENCRYPTION_KEYS = ["Q7AzDsZHJRaKdS4Obeb4bLw6tYRdTqQD24xHQqJbA4A="]
+
+
+OAUTH2_SECRET = "d105a7b3f365423a08917fa0455b353fce966e955c3a6e88f8ff149fac301a03"
+
+# this is the secret used to generate oauth state tokens
+OAUTH_STATE_TOKEN_SECRET = "693e7b68:VY7FS2WY13LQU2n6iBkCo3i7jpKBkyjNU7sQEZz5fXg="
 
 # REQUIRED
 # Certificate Defaults
@@ -40,8 +46,27 @@ LEMUR_DEFAULT_ORGANIZATION = ""
 LEMUR_DEFAULT_ORGANIZATIONAL_UNIT = ""
 LEMUR_SECURITY_TEAM_EMAIL = ["admin@localhost"]
 
+DIGICERT_CIS_API_KEY=""
+DIGICERT_API_KEY=""
+ENTRUST_API_USER=""
+GOOGLE_APPLICATION_CREDENTIALS=""
+DIGICERT_CIS_URL=""
+DIGICERT_URL=""
+ENTRUST_API_PASS=""
+DIGICERT_CIS_ROOTS=""
+DIGICERT_ORG_ID=""
+ENTRUST_URL=""
+DIGICERT_CIS_PROFILE_NAMES=""
+DIGICERT_ORDER_TYPE=""
+ENTRUST_ROOT=""
+ENTRUST_NAME=""
+DIGICERT_ROOT=""
+ENTRUST_EMAIL=""
+ENTRUST_PHONE=""
+
+
 # Database settings
-SQLALCHEMY_DATABASE_URI = environ.get('SQLALCHEMY_DATABASE_URI', 'postgresql://lemur:lemur@localhost:5432/lemur')
+SQLALCHEMY_DATABASE_URI = environ.get("SQLALCHEMY_DATABASE_URI", "postgresql://lemur:lemur@localhost:5432/lemur")
 # SQLALCHEMY_ENABLE_FLASK_REPLICATED = False
 # SQLALCHEMY_TRACK_MODIFICATIONS = False
 # SQLALCHEMY_ECHO = True
@@ -77,22 +102,19 @@ METRIC_PROVIDERS = []
 # VERISIGN_LAST_NAME = ""
 # VERSIGN_EMAIL = ""
 
-IDP_GROUPS_KEYS = ["googleGroups"]  # a list of keys used by IDP(s) to return user groups (profile[IDP_GROUPS_KEY])
-# Note that prefix/suffix can be commented out or set to "" if no filtering against naming convention is desired
-# IDP_ROLES_PREFIX = "PREFIX-"  # prefix for all IDP-defined roles, used to match naming conventions
-# IDP_ROLES_SUFFIX = "_SUFFIX"  # suffix for all IDP-defined roles, used to match naming conventions
-# IDP_ROLES_DESCRIPTION = "Automatically generated role"  # Description to attach to automatically generated roles
-# IDP_ROLES_MAPPING = {}  # Dictionary that matches the IDP group name to the Lemur role. The Lemur role must exist.
-# Example: IDP_ROLES_MAPPING = {"security": "admin", "engineering": "operator", "jane_from_accounting": "read-only"}
-IDP_ASSIGN_ROLES_FROM_USER_GROUPS = True  # Assigns a Lemur role for each group found attached to the user
-IDP_CREATE_ROLES_FROM_USER_GROUPS = True  # Creates a Lemur role for each group found attached to the user if missing
-# Protects the built-in groups and prevents dynamically assigning users to them. Prevents IDP admin from becoming
-# Lemur admin. Use IDP_ROLES_MAPPING to create a mapping to assign these groups if desired. eg {"admin": "admin"}
-IDP_PROTECT_BUILTINS = True
-IDP_CREATE_PER_USER_ROLE = True  # Generates Lemur role for each user (allows cert assignment to a single user)
-
-# # this is the secret used to generate oauth state tokens
-# OAUTH_STATE_TOKEN_SECRET = repr(environ.get('OAUTH_STATE_TOKEN_SECRET', '')
+# IDP_GROUPS_KEYS = ["googleGroups"]  # a list of keys used by IDP(s) to return user groups (profile[IDP_GROUPS_KEY])
+# # Note that prefix/suffix can be commented out or set to "" if no filtering against naming convention is desired
+# # IDP_ROLES_PREFIX = "PREFIX-"  # prefix for all IDP-defined roles, used to match naming conventions
+# # IDP_ROLES_SUFFIX = "_SUFFIX"  # suffix for all IDP-defined roles, used to match naming conventions
+# # IDP_ROLES_DESCRIPTION = "Automatically generated role"  # Description to attach to automatically generated roles
+# # IDP_ROLES_MAPPING = {}  # Dictionary that matches the IDP group name to the Lemur role. The Lemur role must exist.
+# # Example: IDP_ROLES_MAPPING = {"security": "admin", "engineering": "operator", "jane_from_accounting": "read-only"}
+# IDP_ASSIGN_ROLES_FROM_USER_GROUPS = True  # Assigns a Lemur role for each group found attached to the user
+# IDP_CREATE_ROLES_FROM_USER_GROUPS = True  # Creates a Lemur role for each group found attached to the user if missing
+# # Protects the built-in groups and prevents dynamically assigning users to them. Prevents IDP admin from becoming
+# # Lemur admin. Use IDP_ROLES_MAPPING to create a mapping to assign these groups if desired. eg {"admin": "admin"}
+# IDP_PROTECT_BUILTINS = True
+# IDP_CREATE_PER_USER_ROLE = True  # Generates Lemur role for each user (allows cert assignment to a single user)
 
 # REDIS_HOST = 'redis'
 # REDIS_PORT = 6379

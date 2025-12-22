@@ -6,6 +6,7 @@
 
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 import boto3
 from html.parser import HTMLParser
 from flask import current_app
@@ -34,9 +35,7 @@ def render_html(template_name, options, certificates):
     """
     message = {"options": options, "certificates": certificates}
     template = env.get_template(f"{template_name}.html")
-    return template.render(
-        dict(message=message, hostname=current_app.config.get("LEMUR_HOSTNAME"))
-    )
+    return template.render(dict(message=message, hostname=current_app.config.get("LEMUR_HOSTNAME")))
 
 
 def send_via_smtp(subject, body, targets):
@@ -48,9 +47,7 @@ def send_via_smtp(subject, body, targets):
     :param targets:
     :return:
     """
-    msg = Message(
-        subject, recipients=targets, sender=current_app.config.get("LEMUR_EMAIL")
-    )
+    msg = Message(subject, recipients=targets, sender=current_app.config.get("LEMUR_EMAIL"))
     msg.body = ""  # kinda a weird api for sending html emails
     msg.html = body
     smtp_mail.send(msg)
@@ -90,8 +87,11 @@ def send_via_ses(subject, body, targets, **kwargs):
         email_tags["ses_message_id"] = message_id
         current_app.logger.info(f"Sent SES email: {message_id}", extra={"SES-Email": email_tags})
     except Exception:
-        current_app.logger.error("Unable to log message ID of sent SES email", extra={"SES-Email": email_tags},
-                                 exc_info=True)
+        current_app.logger.error(
+            "Unable to log message ID of sent SES email",
+            extra={"SES-Email": email_tags},
+            exc_info=True,
+        )
         capture_exception()
 
 
@@ -99,10 +99,10 @@ class TitleParser(HTMLParser):
     def __init__(self):
         HTMLParser.__init__(self)
         self.match = False
-        self.title = ''
+        self.title = ""
 
     def handle_starttag(self, tag, attributes):
-        self.match = tag == 'title'
+        self.match = tag == "title"
 
     def handle_data(self, data):
         if self.match:
@@ -141,7 +141,9 @@ class EmailNotificationPlugin(ExpirationNotificationPlugin):
         if not targets:
             return
 
-        readable_notification_type = ' '.join(map(lambda x: x.capitalize(), notification_type.split('_')))
+        readable_notification_type = " ".join(
+            map(lambda x: x.capitalize(), notification_type.split("_"))
+        )
         subject = f"Lemur: {readable_notification_type} Notification"
 
         body = render_html(notification_type, options, message)

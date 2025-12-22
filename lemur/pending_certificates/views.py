@@ -4,6 +4,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: James Chuong <jchuong@instartlogic.com>
 """
+
 from flask import Blueprint, g, make_response, jsonify
 from flask_restful import Api, reqparse, inputs
 
@@ -116,9 +117,7 @@ class PendingCertificatesList(AuthenticatedResource):
         parser.add_argument("owner", type=inputs.boolean, location="args")
         parser.add_argument("id", type=str, location="args")
         parser.add_argument("active", type=inputs.boolean, location="args")
-        parser.add_argument(
-            "destinationId", type=int, dest="destination_id", location="args"
-        )
+        parser.add_argument("destinationId", type=int, dest="destination_id", location="args")
         parser.add_argument("creator", type=str, location="args")
         parser.add_argument("show", type=str, location="args")
         args = parser.parse_args()
@@ -210,9 +209,7 @@ class PendingCertificates(AuthenticatedResource):
         """
         return service.get(pending_certificate_id)
 
-    @validate_schema(
-        pending_certificate_edit_input_schema, pending_certificate_output_schema
-    )
+    @validate_schema(pending_certificate_edit_input_schema, pending_certificate_output_schema)
     def put(self, pending_certificate_id, data=None):
         """
         .. http:put:: /pending_certificates/1
@@ -304,9 +301,7 @@ class PendingCertificates(AuthenticatedResource):
         # allow creators
         if g.current_user != pending_cert.user:
             owner_role = role_service.get_by_name(pending_cert.owner)
-            permission = CertificatePermission(
-                owner_role, [x.name for x in pending_cert.roles]
-            )
+            permission = CertificatePermission(owner_role, [x.name for x in pending_cert.roles])
 
             if not permission.can():
                 return (
@@ -369,9 +364,7 @@ class PendingCertificates(AuthenticatedResource):
         # allow creators
         if g.current_user != pending_cert.user:
             owner_role = role_service.get_by_name(pending_cert.owner)
-            permission = CertificatePermission(
-                owner_role, [x.name for x in pending_cert.roles]
-            )
+            permission = CertificatePermission(owner_role, [x.name for x in pending_cert.roles])
 
             if not permission.can():
                 return (
@@ -386,9 +379,7 @@ class PendingCertificates(AuthenticatedResource):
             # service.cancel raises exception if there was an issue, but this will ensure something
             # is relayed to user in case of something unexpected (unsuccessful update somehow).
             return (
-                dict(
-                    message="Unexpected error occurred while trying to cancel this certificate"
-                ),
+                dict(message="Unexpected error occurred while trying to cancel this certificate"),
                 500,
             )
 
@@ -443,21 +434,22 @@ class PendingCertificatePrivateKey(AuthenticatedResource):
         response.headers["cache-control"] = "private, max-age=0, no-cache, no-store"
         response.headers["pragma"] = "no-cache"
 
-        log_service.audit_log("export_private_key_pending_certificate", cert.name,
-                              "Exported Private key for the pending certificate")
+        log_service.audit_log(
+            "export_private_key_pending_certificate",
+            cert.name,
+            "Exported Private key for the pending certificate",
+        )
         return response
 
 
 class PendingCertificatesUpload(AuthenticatedResource):
-    """ Defines the 'pending_certificates' upload endpoint """
+    """Defines the 'pending_certificates' upload endpoint"""
 
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
         super().__init__()
 
-    @validate_schema(
-        pending_certificate_upload_input_schema, pending_certificate_output_schema
-    )
+    @validate_schema(pending_certificate_upload_input_schema, pending_certificate_output_schema)
     def post(self, pending_certificate_id, data=None):
         """
         .. http:post:: /pending_certificates/1/upload
@@ -547,9 +539,7 @@ class PendingCertificatesUpload(AuthenticatedResource):
         return service.upload(pending_certificate_id, **data)
 
 
-api.add_resource(
-    PendingCertificatesList, "/pending_certificates", endpoint="pending_certificates"
-)
+api.add_resource(PendingCertificatesList, "/pending_certificates", endpoint="pending_certificates")
 api.add_resource(
     PendingCertificates,
     "/pending_certificates/<int:pending_certificate_id>",

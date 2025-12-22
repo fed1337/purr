@@ -5,6 +5,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 from datetime import timedelta
 
 import arrow
@@ -83,9 +84,7 @@ def get_or_increase_name(name, serial):
     if not certificates:
         return serial_name
 
-    certificates = Certificate.query.filter(
-        Certificate.name.ilike(f"{serial_name}%")
-    ).all()
+    certificates = Certificate.query.filter(Certificate.name.ilike(f"{serial_name}%")).all()
 
     ends = [0]
     root, end = get_sequence(serial_name)
@@ -111,9 +110,7 @@ class Certificate(BaseModel):
         # since conditional indexes are not supported
     )
     id = Column(Integer, primary_key=True)
-    ix = Index(
-        "ix_certificates_id_desc", id.desc(), postgresql_using="btree", unique=True
-    )
+    ix = Index("ix_certificates_id_desc", id.desc(), postgresql_using="btree", unique=True)
     external_id = Column(String(128))
     owner = Column(String(128), nullable=False)
     name = Column(String(256), unique=True, index=True)
@@ -148,9 +145,7 @@ class Certificate(BaseModel):
     rotation = Column(Boolean, default=False)
     user_id = Column(Integer, ForeignKey("users.id"))
     authority_id = Column(Integer, ForeignKey("authorities.id", ondelete="CASCADE"))
-    root_authority_id = Column(
-        Integer, ForeignKey("authorities.id", ondelete="CASCADE")
-    )
+    root_authority_id = Column(Integer, ForeignKey("authorities.id", ondelete="CASCADE"))
     rotation_policy_id = Column(Integer, ForeignKey("rotation_policies.id"))
     key_type = Column(String(128))
 
@@ -167,14 +162,13 @@ class Certificate(BaseModel):
     sources = relationship(
         "Source", secondary=certificate_source_associations, backref="certificate"
     )
-    domains = association_proxy('certificate_associations', 'domain')
+    domains = association_proxy("certificate_associations", "domain")
     roles = relationship("Role", secondary=roles_certificates, backref="certificate")
     replaces = relationship(
         "Certificate",
         secondary=certificate_replacement_associations,
         primaryjoin=id == certificate_replacement_associations.c.certificate_id,  # noqa
-        secondaryjoin=id
-        == certificate_replacement_associations.c.replaced_certificate_id,  # noqa
+        secondaryjoin=id == certificate_replacement_associations.c.replaced_certificate_id,  # noqa
         backref="replaced",
     )
 
@@ -231,9 +225,7 @@ class Certificate(BaseModel):
         # when destinations are appended they require a valid name
         # do not attempt to modify self.destinations before this step
         if kwargs.get("name"):
-            self.name = get_or_increase_name(
-                defaults.text_to_slug(kwargs["name"]), self.serial
-            )
+            self.name = get_or_increase_name(defaults.text_to_slug(kwargs["name"]), self.serial)
         else:
             self.name = get_or_increase_name(
                 defaults.certificate_name(
@@ -414,14 +406,10 @@ class Certificate(BaseModel):
                     return_extensions["authority_key_identifier"] = aki
 
                 elif isinstance(value, x509.CRLDistributionPoints):
-                    return_extensions["crl_distribution_points"] = {
-                        "include_crl_dp": value
-                    }
+                    return_extensions["crl_distribution_points"] = {"include_crl_dp": value}
         except InvalidCodepoint as e:
             capture_exception()
-            current_app.logger.warning(
-                "Unable to parse extensions due to underscore in dns name"
-            )
+            current_app.logger.warning("Unable to parse extensions due to underscore in dns name")
         except ValueError as e:
             capture_exception()
             current_app.logger.warning("Unable to parse")
@@ -434,14 +422,9 @@ class Certificate(BaseModel):
 
 
 class CertificateAssociation(BaseModel):
-    __tablename__ = 'certificate_associations'
+    __tablename__ = "certificate_associations"
     __table_args__ = (
-        Index(
-            "certificate_associations_ix",
-            "domain_id",
-            "certificate_id",
-            unique=True
-        ),
+        Index("certificate_associations_ix", "domain_id", "certificate_id", unique=True),
         Index(
             "certificate_associations_certificate_id_idx",
             "certificate_id",
@@ -450,10 +433,9 @@ class CertificateAssociation(BaseModel):
     domain_id = Column(Integer, ForeignKey("domains.id"), primary_key=True)
     certificate_id = Column(Integer, ForeignKey("certificates.id"), primary_key=True)
     ports = Column(postgresql.ARRAY(Integer))
-    certificate = relationship(Certificate,
-                               backref=backref("certificate_associations",
-                                               cascade="all, delete-orphan")
-                               )
+    certificate = relationship(
+        Certificate, backref=backref("certificate_associations", cascade="all, delete-orphan")
+    )
     domain = relationship("Domain")
 
     def __init__(self, domain=None, certificate=None, ports=None):

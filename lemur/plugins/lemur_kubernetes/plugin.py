@@ -10,6 +10,7 @@
 
 .. moduleauthor:: Mikhail Khodorovskiy <mikhail.khodorovskiy@jivesoftware.com>
 """
+
 import itertools
 import os
 
@@ -147,7 +148,9 @@ class KubernetesDestinationPlugin(DestinationPlugin):
             "name": "kubernetesServerCertificate",
             "type": "textarea",
             "required": False,
-            "validation": check_validation("-----BEGIN CERTIFICATE-----[a-zA-Z0-9/+\\s\\r\\n]+-----END CERTIFICATE-----"),
+            "validation": check_validation(
+                "-----BEGIN CERTIFICATE-----[a-zA-Z0-9/+\\s\\r\\n]+-----END CERTIFICATE-----"
+            ),
             "helpMessage": "Must be a valid Kubernetes server Certificate!",
         },
         {
@@ -187,7 +190,6 @@ class KubernetesDestinationPlugin(DestinationPlugin):
         super().__init__(*args, **kwargs)
 
     def upload(self, name, body, private_key, cert_chain, options, **kwargs):
-
         try:
             k8_base_uri = self.get_option("kubernetesURL", options)
             secret_format = self.get_option("secretFormat", options)
@@ -195,9 +197,7 @@ class KubernetesDestinationPlugin(DestinationPlugin):
             cn = common_name(parse_certificate(body))
             secret_name_format = self.get_option("secretNameFormat", options)
             secret_name = secret_name_format.format(common_name=cn)
-            secret = build_secret(
-                secret_format, secret_name, body, private_key, cert_chain
-            )
+            secret = build_secret(secret_format, secret_name, body, private_key, cert_chain)
             err = ensure_resource(
                 k8s_api,
                 k8s_base_uri=k8_base_uri,
@@ -208,9 +208,7 @@ class KubernetesDestinationPlugin(DestinationPlugin):
             )
 
         except Exception as e:
-            current_app.logger.exception(
-                f"Exception in upload: {e}", exc_info=True
-            )
+            current_app.logger.exception(f"Exception in upload: {e}", exc_info=True)
             raise
 
         if err is not None:
@@ -226,9 +224,7 @@ class KubernetesDestinationPlugin(DestinationPlugin):
             if bearer:
                 current_app.logger.debug("Using token read from %s", bearer_file)
             else:
-                raise Exception(
-                    "Unable to locate token in options or from %s", bearer_file
-                )
+                raise Exception("Unable to locate token in options or from %s", bearer_file)
         else:
             current_app.logger.debug("Using token from options")
         return bearer
@@ -237,9 +233,7 @@ class KubernetesDestinationPlugin(DestinationPlugin):
         cert_file = self.get_option("kubernetesServerCertificateFile", options)
         cert = self.get_option("kubernetesServerCertificate", options)
         if cert:
-            cert_file = os.path.join(
-                os.path.abspath(os.path.dirname(__file__)), "k8.cert"
-            )
+            cert_file = os.path.join(os.path.abspath(os.path.dirname(__file__)), "k8.cert")
             with open(cert_file, "w") as text_file:
                 text_file.write(cert)
             current_app.logger.debug("Using certificate from options")
@@ -254,13 +248,9 @@ class KubernetesDestinationPlugin(DestinationPlugin):
             with open(namespace_file) as file:
                 namespace = file.readline()
             if namespace:
-                current_app.logger.debug(
-                    "Using namespace %s from %s", namespace, namespace_file
-                )
+                current_app.logger.debug("Using namespace %s from %s", namespace, namespace_file)
             else:
-                raise Exception(
-                    "Unable to locate namespace in options or from %s", namespace_file
-                )
+                raise Exception("Unable to locate namespace in options or from %s", namespace_file)
         else:
             current_app.logger.debug("Using namespace %s from options", namespace)
         return namespace

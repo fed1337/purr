@@ -6,13 +6,12 @@
 
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 from lemur.plugins.base import Plugin
 
 
 class MetricPlugin(Plugin):
     type = "metric"
 
-    def submit(
-        self, metric_name, metric_type, metric_value, metric_tags=None, options=None
-    ):
+    def submit(self, metric_name, metric_type, metric_value, metric_tags=None, options=None):
         raise NotImplementedError

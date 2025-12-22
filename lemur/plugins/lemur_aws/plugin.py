@@ -32,6 +32,7 @@
 .. moduleauthor:: Mikhail Khodorovskiy <mikhail.khodorovskiy@jivesoftware.com>
 .. moduleauthor:: Harm Weites <harm@weites.com>
 """
+
 import sys
 from os.path import join
 
@@ -201,19 +202,14 @@ def get_distribution_endpoint(account_number, cert_id_to_name, distrib_dict):
     cert_name = cert_id_to_name.get(iam_cert_id)
     if not cert_name:
         current_app.logger.warning(
-            f"get_distribution_endpoints: no IAM certificate with id {iam_cert_id}")
+            f"get_distribution_endpoints: no IAM certificate with id {iam_cert_id}"
+        )
         return None
 
-    policy = dict(
-        name='cloudfront-none',
-        ciphers=[]
-    )
+    policy = dict(name="cloudfront-none", ciphers=[])
     minimum_version = cert.get("MinimumProtocolVersion")
     if minimum_version:
-        policy = dict(
-            name=f"cloudfront-%{minimum_version}",
-            ciphers=[minimum_version]
-        )
+        policy = dict(name=f"cloudfront-%{minimum_version}", ciphers=[minimum_version])
 
     aliases = []
     if "Aliases" in distrib_dict and "Items" in distrib_dict["Aliases"]:
@@ -258,15 +254,15 @@ class AWSSourcePlugin(SourcePlugin):
             "validation": r"^(?:|/|/\S+/)$",
             "default": "/",
             "helpMessage": "Only discover certificates with this path prefix. Must begin and end with slash. "
-                           "For CloudFront sources, use '/cloudfront/'.",
+            "For CloudFront sources, use '/cloudfront/'.",
         },
         {
             "name": "endpointType",
             "type": "select",
             "available": [
-                "elb",          # Discover IAM certs, elb and elbv2 in this account and regions
-                "cloudfront",   # Discover IAM certs, CloudFront distributions in this account and regions
-                "none",         # Discover IAM certs only in this account and regions
+                "elb",  # Discover IAM certs, elb and elbv2 in this account and regions
+                "cloudfront",  # Discover IAM certs, CloudFront distributions in this account and regions
+                "none",  # Discover IAM certs only in this account and regions
             ],
             "default": "elb",
             "helpMessage": "Type of AWS endpoint to discover. Defaults to elb if not set.",
@@ -276,7 +272,7 @@ class AWSSourcePlugin(SourcePlugin):
     def get_certificates(self, options, **kwargs):
         cert_data = iam.get_all_certificates(
             restrict_path=self.get_option("path", options),
-            account_number=self.get_option("accountNumber", options)
+            account_number=self.get_option("accountNumber", options),
         )
         return [
             dict(
@@ -308,12 +304,14 @@ class AWSSourcePlugin(SourcePlugin):
 
         for region in regions:
             elbs = elb.get_all_elbs(account_number=account_number, region=region)
-            current_app.logger.info({
-                "message": "Describing classic load balancers",
-                "account_number": account_number,
-                "region": region,
-                "number_of_load_balancers": len(elbs)
-            })
+            current_app.logger.info(
+                {
+                    "message": "Describing classic load balancers",
+                    "account_number": account_number,
+                    "region": region,
+                    "number_of_load_balancers": len(elbs),
+                }
+            )
 
             for e in elbs:
                 try:
@@ -324,12 +322,14 @@ class AWSSourcePlugin(SourcePlugin):
 
             # fetch advanced ELBs
             elbs_v2 = elb.get_all_elbs_v2(account_number=account_number, region=region)
-            current_app.logger.info({
-                "message": "Describing advanced load balancers",
-                "account_number": account_number,
-                "region": region,
-                "number_of_load_balancers": len(elbs_v2)
-            })
+            current_app.logger.info(
+                {
+                    "message": "Describing advanced load balancers",
+                    "account_number": account_number,
+                    "region": region,
+                    "number_of_load_balancers": len(elbs_v2),
+                }
+            )
 
             for e in elbs_v2:
                 try:
@@ -349,11 +349,13 @@ class AWSSourcePlugin(SourcePlugin):
             capture_exception()
             return endpoints
 
-        current_app.logger.info({
-            "message": "Describing CloudFront distributions",
-            "account_number": account_number,
-            "number_of_distributions": len(distributions)
-        })
+        current_app.logger.info(
+            {
+                "message": "Describing CloudFront distributions",
+                "account_number": account_number,
+                "number_of_distributions": len(distributions),
+            }
+        )
 
         for d in distributions:
             try:
@@ -370,26 +372,25 @@ class AWSSourcePlugin(SourcePlugin):
         account_number = self.get_option("accountNumber", options)
 
         if endpoint.type == "cloudfront":
-            cert = iam.get_certificate(certificate.name,
-                                       account_number=account_number)
+            cert = iam.get_certificate(certificate.name, account_number=account_number)
             if not cert:
                 return None
             cert_id = cert["ServerCertificateMetadata"]["ServerCertificateId"]
-            cloudfront.attach_certificate(
-                endpoint.name,
-                cert_id,
-                account_number=account_number
-            )
+            cloudfront.attach_certificate(endpoint.name, cert_id, account_number=account_number)
             return
 
         if endpoint.type not in ["elb", "elbv2"]:
             raise NotImplementedError()
 
         partition = current_app.config.get("LEMUR_AWS_PARTITION", "aws")
-        if endpoint.registry_type == 'iam':
-            arn = iam.create_arn_from_cert(account_number, partition, certificate.name, endpoint.certificate_path)
+        if endpoint.registry_type == "iam":
+            arn = iam.create_arn_from_cert(
+                account_number, partition, certificate.name, endpoint.certificate_path
+            )
         else:
-            raise Exception(f"Lemur doesn't support rotating certificates on {endpoint.registry_type} registry")
+            raise Exception(
+                f"Lemur doesn't support rotating certificates on {endpoint.registry_type} registry"
+            )
 
         # relies on the fact that region is included in DNS name
         region = get_region_from_dns(endpoint.dnsname)
@@ -418,7 +419,8 @@ class AWSSourcePlugin(SourcePlugin):
                 )
         except Exception as e:
             current_app.logger.warning(
-                f"Error attaching certificate to endpoint named {endpoint.name} (ID {endpoint.id}) on port {endpoint.port} in account {account_number} and region {region}: {e}")
+                f"Error attaching certificate to endpoint named {endpoint.name} (ID {endpoint.id}) on port {endpoint.port} in account {account_number} and region {region}: {e}"
+            )
             raise e
 
     def clean(self, certificate, options, **kwargs):
@@ -429,7 +431,7 @@ class AWSSourcePlugin(SourcePlugin):
         account_number = self.get_option("accountNumber", options)
         # certificate name may contain path, in which case we remove it
         if "/" in certificate_name:
-            certificate_name = certificate_name.split('/')[-1]
+            certificate_name = certificate_name.split("/")[-1]
         try:
             cert = iam.get_certificate(certificate_name, account_number=account_number)
             if cert:
@@ -440,11 +442,17 @@ class AWSSourcePlugin(SourcePlugin):
                 )
         except ClientError:
             current_app.logger.warning(
-                f"get_elb_certificate_failed: Unable to get certificate for {certificate_name}")
+                f"get_elb_certificate_failed: Unable to get certificate for {certificate_name}"
+            )
             capture_exception()
             metrics.send(
-                "get_elb_certificate_failed", "counter", 1,
-                metric_tags={"certificate_name": certificate_name, "account_number": account_number}
+                "get_elb_certificate_failed",
+                "counter",
+                1,
+                metric_tags={
+                    "certificate_name": certificate_name,
+                    "account_number": account_number,
+                },
             )
         return None
 
@@ -455,9 +463,11 @@ class AWSSourcePlugin(SourcePlugin):
         certificate_names = []
 
         if endpoint.type == "elb":
-            elb_details = elb.get_elbs(account_number=account_number,
-                                       region=region,
-                                       LoadBalancerNames=[endpoint.name],)
+            elb_details = elb.get_elbs(
+                account_number=account_number,
+                region=region,
+                LoadBalancerNames=[endpoint.name],
+            )
 
             for lb_description in elb_details["LoadBalancerDescriptions"]:
                 for listener_description in lb_description["ListenerDescriptions"]:
@@ -465,14 +475,16 @@ class AWSSourcePlugin(SourcePlugin):
                     if not listener.get("SSLCertificateId"):
                         continue
 
-                    certificate_names.append(iam.get_name_from_arn(listener.get("SSLCertificateId")))
+                    certificate_names.append(
+                        iam.get_name_from_arn(listener.get("SSLCertificateId"))
+                    )
         elif endpoint.type == "elbv2":
             listeners = elb.describe_listeners_v2(
                 account_number=account_number,
                 region=region,
-                LoadBalancerArn=elb.get_load_balancer_arn_from_endpoint(endpoint.name,
-                                                                        account_number=account_number,
-                                                                        region=region),
+                LoadBalancerArn=elb.get_load_balancer_arn_from_endpoint(
+                    endpoint.name, account_number=account_number, region=region
+                ),
             )
             for listener in listeners["Listeners"]:
                 if not listener.get("Certificates"):
@@ -482,7 +494,9 @@ class AWSSourcePlugin(SourcePlugin):
                     certificate_names.append(iam.get_name_from_arn(certificate["CertificateArn"]))
         elif endpoint.type == "cloudfront":
             cert_id_to_name = iam.get_certificate_id_to_name(account_number=account_number)
-            dist = cloudfront.get_distribution(account_number=account_number, distribution_id=endpoint.name)
+            dist = cloudfront.get_distribution(
+                account_number=account_number, distribution_id=endpoint.name
+            )
             loaded = get_distribution_endpoint(account_number, cert_id_to_name, dist)
             if loaded:
                 certificate_names.append(loaded["certificate_name"])
@@ -585,7 +599,7 @@ class S3DestinationPlugin(ExportDestinationPlugin):
             "required": False,
             "validation": check_validation("^(?:[^/].*|)$"),
             "helpMessage": "Must be a valid S3 object prefix!",
-            "default": ""
+            "default": "",
         },
     ]
 
@@ -612,7 +626,7 @@ class S3DestinationPlugin(ExportDestinationPlugin):
                 "message": "upload s3 file",
                 "result": res,
                 "bucket_name": self.get_option("bucket", options),
-                "filename": filename
+                "filename": filename,
             }
             current_app.logger.info(log_data)
 
@@ -642,28 +656,32 @@ class S3DestinationPlugin(ExportDestinationPlugin):
         if not prefix.endswith("/"):
             prefix + "/"
 
-        response = s3.put(bucket_name=bucket_name,
-                          region_name=region,
-                          prefix=prefix + filename,
-                          data=token,
-                          encrypt=False,
-                          account_number=account_number)
+        response = s3.put(
+            bucket_name=bucket_name,
+            region_name=region,
+            prefix=prefix + filename,
+            data=token,
+            encrypt=False,
+            account_number=account_number,
+        )
         res = "Success" if response else "Failure"
         log_data = {
             "function": function,
             "message": "upload acme token challenge",
             "result": res,
             "bucket_name": bucket_name,
-            "filename": filename
+            "filename": filename,
         }
         current_app.logger.info(log_data)
-        metrics.send(f"{function}", "counter", 1, metric_tags={"result": res,
-                                                               "bucket_name": bucket_name,
-                                                               "filename": filename})
+        metrics.send(
+            f"{function}",
+            "counter",
+            1,
+            metric_tags={"result": res, "bucket_name": bucket_name, "filename": filename},
+        )
         return response
 
     def delete_acme_token(self, token_path, options, **kwargs):
-
         current_app.logger.debug("S3 destination plugin is started to delete HTTP-01 challenge")
 
         function = f"{__name__}.{sys._getframe().f_code.co_name}"
@@ -672,21 +690,26 @@ class S3DestinationPlugin(ExportDestinationPlugin):
         bucket_name = self.get_option("bucket", options)
         prefix = self.get_option("prefix", options)
         filename = token_path.split("/")[-1]
-        response = s3.delete(bucket_name=bucket_name,
-                             prefixed_object_name=prefix + filename,
-                             account_number=account_number)
+        response = s3.delete(
+            bucket_name=bucket_name,
+            prefixed_object_name=prefix + filename,
+            account_number=account_number,
+        )
         res = "Success" if response else "Failure"
         log_data = {
             "function": function,
             "message": "delete acme token challenge",
             "result": res,
             "bucket_name": bucket_name,
-            "filename": filename
+            "filename": filename,
         }
         current_app.logger.info(log_data)
-        metrics.send(f"{function}", "counter", 1, metric_tags={"result": res,
-                                                               "bucket_name": bucket_name,
-                                                               "filename": filename})
+        metrics.send(
+            f"{function}",
+            "counter",
+            1,
+            metric_tags={"result": res, "bucket_name": bucket_name, "filename": filename},
+        )
         return response
 
     def clean(self, certificate, options, **kwargs):
@@ -696,16 +719,18 @@ class S3DestinationPlugin(ExportDestinationPlugin):
 
         for ext, passphrase, data in files:
             filename = join(prefix, f"{certificate.name}.{ext.lstrip('.')}")
-            response = s3.delete(bucket_name=self.get_option("bucket", options),
-                  prefixed_object_name=filename,
-                  account_number=self.get_option("accountNumber", options))
+            response = s3.delete(
+                bucket_name=self.get_option("bucket", options),
+                prefixed_object_name=filename,
+                account_number=self.get_option("accountNumber", options),
+            )
             res = "Success" if response else "Failure"
             log_data = {
                 "function": function,
                 "message": "delete s3 file",
                 "result": res,
                 "bucket_name": self.get_option("bucket", options),
-                "filename": filename
+                "filename": filename,
             }
             current_app.logger.info(log_data)
 
@@ -732,7 +757,7 @@ class SNSNotificationPlugin(ExpirationNotificationPlugin):
             "type": "str",
             "required": True,
             "validation": check_validation("[0-9a-z\\-]{1,25}"),
-            "helpMessage": "Region in which the SNS topic is located, e.g. \"us-east-1\"",
+            "helpMessage": 'Region in which the SNS topic is located, e.g. "us-east-1"',
         },
         {
             "name": "topicName",
@@ -741,7 +766,7 @@ class SNSNotificationPlugin(ExpirationNotificationPlugin):
             # base topic name is 1-256 characters (alphanumeric plus underscore and hyphen)
             "validation": check_validation("^[a-zA-Z0-9_\\-]{1,256}$"),
             "helpMessage": "The name of the topic to use for expiration notifications",
-        }
+        },
     ]
 
     def send(self, notification_type, message, excluded_targets, options, **kwargs):
@@ -750,12 +775,20 @@ class SNSNotificationPlugin(ExpirationNotificationPlugin):
         plugin configuration, and can't reasonably be changed dynamically.
         """
         partition = current_app.config.get("LEMUR_AWS_PARTITION", "aws")
-        topic_arn = f"arn:{partition}:sns:{self.get_option('region', options)}:" \
-                    f"{self.get_option('accountNumber', options)}:" \
-                    f"{self.get_option('topicName', options)}"
+        topic_arn = (
+            f"arn:{partition}:sns:{self.get_option('region', options)}:"
+            f"{self.get_option('accountNumber', options)}:"
+            f"{self.get_option('topicName', options)}"
+        )
 
         current_app.logger.info(f"Publishing {notification_type} notification to topic {topic_arn}")
-        sns.publish(topic_arn, message, notification_type, options, region_name=self.get_option("region", options))
+        sns.publish(
+            topic_arn,
+            message,
+            notification_type,
+            options,
+            region_name=self.get_option("region", options),
+        )
 
 
 class AWSACMSourcePlugin(SourcePlugin):

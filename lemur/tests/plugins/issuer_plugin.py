@@ -30,7 +30,7 @@ class TestIssuerPlugin(IssuerPlugin):
 
     @staticmethod
     def create_authority(options):
-        name = "test_" + "_".join(options['name'].split(" ")) + "_admin"
+        name = "test_" + "_".join(options["name"].split(" ")) + "_admin"
         role = {"username": "", "password": "", "name": name}
         return SAN_CERT_STR, "", [role]
 
@@ -54,7 +54,7 @@ class TestAsyncIssuerPlugin(IssuerPlugin):
 
     @staticmethod
     def create_authority(options):
-        name = "test_" + "_".join(options['name'].split(" ")) + "_admin"
+        name = "test_" + "_".join(options["name"].split(" ")) + "_admin"
         role = {"username": "", "password": "", "name": name}
         return SAN_CERT_STR, "", [role]
 

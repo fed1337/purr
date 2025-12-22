@@ -6,6 +6,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 import json
 
 from flask import current_app
@@ -95,7 +96,7 @@ class Authority(BaseModel):
         options_array = json.loads(self.options)
         if isinstance(options_array, list):
             for option in options_array:
-                if "name" in option and option["name"] == 'cab_compliant':
+                if "name" in option and option["name"] == "cab_compliant":
                     return option["value"]
 
         return None
@@ -107,7 +108,9 @@ class Authority(BaseModel):
         If plugin is configured in list LEMUR_PRIVATE_AUTHORITY_PLUGIN_NAMES, the authority is treated as private
         :return: True if private, False otherwise
         """
-        return self.plugin_name in current_app.config.get("LEMUR_PRIVATE_AUTHORITY_PLUGIN_NAMES", [])
+        return self.plugin_name in current_app.config.get(
+            "LEMUR_PRIVATE_AUTHORITY_PLUGIN_NAMES", []
+        )
 
     @property
     def max_issuance_days(self):
@@ -117,7 +120,10 @@ class Authority(BaseModel):
     @property
     def default_validity_days(self):
         if self.is_cab_compliant:
-            return current_app.config.get("PUBLIC_CA_DEFAULT_VALIDITY_DAYS", current_app.config.get("PUBLIC_CA_MAX_VALIDITY_DAYS", 397))
+            return current_app.config.get(
+                "PUBLIC_CA_DEFAULT_VALIDITY_DAYS",
+                current_app.config.get("PUBLIC_CA_MAX_VALIDITY_DAYS", 397),
+            )
 
         return current_app.config.get("DEFAULT_VALIDITY_DAYS", 365)  # 1 year default
 
@@ -136,7 +142,7 @@ class Authority(BaseModel):
         options_array = json.loads(self.options)
         if isinstance(options_array, list):
             for option in options_array:
-                if "name" in option and option["name"] == 'cn_optional':
+                if "name" in option and option["name"] == "cn_optional":
                     return option["value"]
 
         return False

@@ -8,6 +8,7 @@
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 
 """
+
 import binascii
 import json
 from datetime import datetime, timedelta
@@ -58,17 +59,11 @@ def create_token(user, aid=None, ttl=None):
     custom_expiry = current_app.config.get("LEMUR_TOKEN_EXPIRATION")
     if custom_expiry:
         if isinstance(custom_expiry, str) and custom_expiry.endswith("m"):
-            expiration_delta = timedelta(
-                minutes=int(custom_expiry.rstrip("m"))
-            )
+            expiration_delta = timedelta(minutes=int(custom_expiry.rstrip("m")))
         elif isinstance(custom_expiry, str) and custom_expiry.endswith("h"):
-            expiration_delta = timedelta(
-                hours=int(custom_expiry.rstrip("h"))
-            )
+            expiration_delta = timedelta(hours=int(custom_expiry.rstrip("h")))
         else:
-            expiration_delta = timedelta(
-                days=int(custom_expiry)
-            )
+            expiration_delta = timedelta(days=int(custom_expiry))
     payload = {"iat": datetime.utcnow(), "exp": datetime.utcnow() + expiration_delta}
 
     # Handle Just a User ID & User Object.
@@ -85,7 +80,9 @@ def create_token(user, aid=None, ttl=None):
             del payload["exp"]
         else:
             payload["exp"] = datetime.utcnow() + timedelta(days=ttl)
-    token_secrets = current_app.config.get("LEMUR_TOKEN_SECRETS", [current_app.config["LEMUR_TOKEN_SECRET"]])
+    token_secrets = current_app.config.get(
+        "LEMUR_TOKEN_SECRETS", [current_app.config["LEMUR_TOKEN_SECRET"]]
+    )
     token = jwt.encode(payload, token_secrets[0])
     return token
 
@@ -104,7 +101,12 @@ def decode_with_multiple_secrets(encoded_jwt, secrets, algorithms):
                 digest.update(secret.encode())
             else:
                 digest.update(secret)
-            metrics.send("jwt_decode", "counter", 1, metric_tags={**dict(kid=index, fingerprint=digest.finalize().hex()), **payload})
+            metrics.send(
+                "jwt_decode",
+                "counter",
+                1,
+                metric_tags={**dict(kid=index, fingerprint=digest.finalize().hex()), **payload},
+            )
         return payload
     if errors:
         raise errors[0]
@@ -129,10 +131,14 @@ def login_required(f):
             token = request.headers.get("Authorization").split()[1]
         except Exception as e:
             return dict(message="Token is invalid"), 403
-        token_secrets = current_app.config.get("LEMUR_TOKEN_SECRETS", [current_app.config["LEMUR_TOKEN_SECRET"]])
+        token_secrets = current_app.config.get(
+            "LEMUR_TOKEN_SECRETS", [current_app.config["LEMUR_TOKEN_SECRET"]]
+        )
         try:
             header_data = fetch_token_header(token)
-            payload = decode_with_multiple_secrets(token, token_secrets, algorithms=[header_data["alg"]])
+            payload = decode_with_multiple_secrets(
+                token, token_secrets, algorithms=[header_data["alg"]]
+            )
         except jwt.DecodeError:
             return dict(message="Token is invalid"), 403
         except jwt.ExpiredSignatureError:
@@ -151,7 +157,9 @@ def login_required(f):
             if access_key.ttl != -1:
                 current_time = datetime.utcnow()
                 # API key uses days
-                expired_time = datetime.fromtimestamp(access_key.issued_at) + timedelta(days=access_key.ttl)
+                expired_time = datetime.fromtimestamp(access_key.issued_at) + timedelta(
+                    days=access_key.ttl
+                )
                 if current_time >= expired_time:
                     return dict(message="Token has expired"), 403
             if access_key.application_name:
@@ -167,11 +175,17 @@ def login_required(f):
         if not g.current_user:
             return dict(message="You are not logged in"), 403
 
-        metrics.send("user_authentication", "counter", 1,
-                     metric_tags={"application_name": getattr(g, "caller_application", "none"),
-                                  "user_id": g.current_user.id,
-                                  "endpoint": request.endpoint,
-                                  "aid": payload.get("aid", "none")})
+        metrics.send(
+            "user_authentication",
+            "counter",
+            1,
+            metric_tags={
+                "application_name": getattr(g, "caller_application", "none"),
+                "user_id": g.current_user.id,
+                "endpoint": request.endpoint,
+                "aid": payload.get("aid", "none"),
+            },
+        )
 
         # Tell Flask-Principal the identity changed
         identity_changed.send(

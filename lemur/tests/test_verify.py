@@ -27,9 +27,9 @@ def test_verify_crl_unknown_scheme(cert_builder, private_key):
         reasons=None,
         crl_issuer=None,
     )
-    cert = cert_builder.add_extension(
-        x509.CRLDistributionPoints([crl_dp]), critical=False
-    ).sign(private_key, hashes.SHA256(), default_backend())
+    cert = cert_builder.add_extension(x509.CRLDistributionPoints([crl_dp]), critical=False).sign(
+        private_key, hashes.SHA256(), default_backend()
+    )
 
     with mktempfile() as cert_tmp:
         with open(cert_tmp, "wb") as f:

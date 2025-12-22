@@ -5,6 +5,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 import sys
 import time
 from copy import deepcopy
@@ -49,9 +50,7 @@ def validate_sources(source_strings):
             source = source_service.get_by_label(source_str)
 
             if not source:
-                click.echo(
-                    f"Unable to find specified source with label: {source_str}"
-                )
+                click.echo(f"Unable to find specified source with label: {source_str}")
                 sys.exit(1)
 
             sources.append(source)
@@ -76,9 +75,7 @@ def validate_destinations(destination_strings):
         dest = dest_service.get_by_label(label)
 
         if not dest:
-            click.echo(
-                f"Unable to find specified destination with label: {label}"
-            )
+            click.echo(f"Unable to find specified destination with label: {label}")
             sys.exit(1)
 
         destinations.append(dest)
@@ -129,8 +126,11 @@ def sync(source_strings, ttl):
         status = FAILURE_METRIC_STATUS
 
         start_time = time.time()
-        click.echo("[+] Staring to sync source: {label} and expire endpoints ttl={ttl}h\n".format(
-            label=source.label, ttl=ttl))
+        click.echo(
+            "[+] Staring to sync source: {label} and expire endpoints ttl={ttl}h\n".format(
+                label=source.label, ttl=ttl
+            )
+        )
         user = user_service.get_by_username("lemur")
 
         try:
@@ -142,7 +142,9 @@ def sync(source_strings, ttl):
             )
             click.echo(
                 "[+] Endpoints: New: {new} Updated: {updated} Expired: {expired}".format(
-                    new=data["endpoints"][0], updated=data["endpoints"][1], expired=data["endpoints"][2]
+                    new=data["endpoints"][0],
+                    updated=data["endpoints"][1],
+                    expired=data["endpoints"][2],
                 )
             )
             click.echo(
@@ -199,7 +201,9 @@ def clean(source_strings, commit):
         s = plugins.get(source.plugin_name)
 
         if not hasattr(s, "clean"):
-            info_text = f"Cannot clean source: {source.label}, source plugin does not implement 'clean()'"
+            info_text = (
+                f"Cannot clean source: {source.label}, source plugin does not implement 'clean()'"
+            )
             current_app.logger.warning(info_text)
             click.echo(info_text)
             continue
@@ -219,14 +223,22 @@ def clean(source_strings, commit):
                 "certificate_clean",
                 "counter",
                 1,
-                metric_tags={"status": status, "source": source.label, "certificate": certificate.name},
+                metric_tags={
+                    "status": status,
+                    "source": source.label,
+                    "certificate": certificate.name,
+                },
             )
-            current_app.logger.warning(f"Removed {certificate.name} from source {source.label} during cleaning")
+            current_app.logger.warning(
+                f"Removed {certificate.name} from source {source.label} during cleaning"
+            )
             cleaned += 1
 
-        info_text = f"[+] Finished cleaning source: {source.label}. " \
-                    f"Removed {cleaned} certificates from source. " \
-                    f"Run Time: {(time.time() - start_time)}\n"
+        info_text = (
+            f"[+] Finished cleaning source: {source.label}. "
+            f"Removed {cleaned} certificates from source. "
+            f"Run Time: {(time.time() - start_time)}\n"
+        )
         click.echo(info_text)
         current_app.logger.warning(info_text)
 
@@ -265,7 +277,9 @@ def clean_unused_and_expiring_within_days(source_strings, days_to_expire, commit
         s = plugins.get(source.plugin_name)
 
         if not hasattr(s, "clean"):
-            info_text = f"Cannot clean source: {source.label}, source plugin does not implement 'clean()'"
+            info_text = (
+                f"Cannot clean source: {source.label}, source plugin does not implement 'clean()'"
+            )
             current_app.logger.warning(info_text)
             click.echo(info_text)
             continue
@@ -275,7 +289,9 @@ def clean_unused_and_expiring_within_days(source_strings, days_to_expire, commit
         click.echo(f"[+] Staring to clean source: {source.label}!\n")
 
         cleaned = 0
-        certificates = certificate_service.get_all_pending_cleaning_expiring_in_days(source, days_to_expire)
+        certificates = certificate_service.get_all_pending_cleaning_expiring_in_days(
+            source, days_to_expire
+        )
         for certificate in certificates:
             status = FAILURE_METRIC_STATUS
             if commit:
@@ -285,14 +301,22 @@ def clean_unused_and_expiring_within_days(source_strings, days_to_expire, commit
                 "certificate_clean",
                 "counter",
                 1,
-                metric_tags={"status": status, "source": source.label, "certificate": certificate.name},
+                metric_tags={
+                    "status": status,
+                    "source": source.label,
+                    "certificate": certificate.name,
+                },
             )
-            current_app.logger.warning(f"Removed {certificate.name} from source {source.label} during cleaning")
+            current_app.logger.warning(
+                f"Removed {certificate.name} from source {source.label} during cleaning"
+            )
             cleaned += 1
 
-        info_text = f"[+] Finished cleaning source: {source.label}. " \
-                    f"Removed {cleaned} certificates from source. " \
-                    f"Run Time: {(time.time() - start_time)}\n"
+        info_text = (
+            f"[+] Finished cleaning source: {source.label}. "
+            f"Removed {cleaned} certificates from source. "
+            f"Run Time: {(time.time() - start_time)}\n"
+        )
         click.echo(info_text)
         current_app.logger.warning(info_text)
 
@@ -331,7 +355,9 @@ def clean_unused_and_issued_since_days(source_strings, days_since_issuance, comm
         s = plugins.get(source.plugin_name)
 
         if not hasattr(s, "clean"):
-            info_text = f"Cannot clean source: {source.label}, source plugin does not implement 'clean()'"
+            info_text = (
+                f"Cannot clean source: {source.label}, source plugin does not implement 'clean()'"
+            )
             current_app.logger.warning(info_text)
             click.echo(info_text)
             continue
@@ -341,7 +367,9 @@ def clean_unused_and_issued_since_days(source_strings, days_since_issuance, comm
         click.echo(f"[+] Staring to clean source: {source.label}!\n")
 
         cleaned = 0
-        certificates = certificate_service.get_all_pending_cleaning_issued_since_days(source, days_since_issuance)
+        certificates = certificate_service.get_all_pending_cleaning_issued_since_days(
+            source, days_since_issuance
+        )
         for certificate in certificates:
             status = FAILURE_METRIC_STATUS
             if commit:
@@ -351,14 +379,22 @@ def clean_unused_and_issued_since_days(source_strings, days_since_issuance, comm
                 "certificate_clean",
                 "counter",
                 1,
-                metric_tags={"status": status, "source": source.label, "certificate": certificate.name},
+                metric_tags={
+                    "status": status,
+                    "source": source.label,
+                    "certificate": certificate.name,
+                },
             )
-            current_app.logger.warning(f"Removed {certificate.name} from source {source.label} during cleaning")
+            current_app.logger.warning(
+                f"Removed {certificate.name} from source {source.label} during cleaning"
+            )
             cleaned += 1
 
-        info_text = f"[+] Finished cleaning source: {source.label}. " \
-                    f"Removed {cleaned} certificates from source. " \
-                    f"Run Time: {(time.time() - start_time)}\n"
+        info_text = (
+            f"[+] Finished cleaning source: {source.label}. "
+            f"Removed {cleaned} certificates from source. "
+            f"Run Time: {(time.time() - start_time)}\n"
+        )
         click.echo(info_text)
         current_app.logger.warning(info_text)
 
@@ -410,8 +446,10 @@ def enable_cloudfront(source_label):
     :param source_strings:
     :return:
     """
+
     class ValidationError(Exception):
         pass
+
     try:
         source = source_service.get_by_label(source_label)
         if not source:
@@ -434,16 +472,24 @@ def enable_cloudfront(source_label):
             set_plugin_option(name, value, new_options)
         set_plugin_option("path", "/", new_options)
         set_plugin_option("endpointType", "elb", new_options)
-        source_service.update(source.id, source.label, source.plugin_name, new_options, source.description)
+        source_service.update(
+            source.id, source.label, source.plugin_name, new_options, source.description
+        )
 
         cloudfront_options = deepcopy(new_options)
         set_plugin_option("path", "/cloudfront/", cloudfront_options)
         set_plugin_option("endpointType", "cloudfront", cloudfront_options)
-        source_service.create(cloudfront_label, source.plugin_name, cloudfront_options,
-                              f"CloudFront certificates and distributions for {source_label}")
+        source_service.create(
+            cloudfront_label,
+            source.plugin_name,
+            cloudfront_options,
+            f"CloudFront certificates and distributions for {source_label}",
+        )
 
         click.echo(f"[+] Limited source {source_label} to discover ELBs and ELB certificates.\n")
-        click.echo(f"[+] Created source {cloudfront_label} to discover CloudFront distributions and certificates.\n")
+        click.echo(
+            f"[+] Created source {cloudfront_label} to discover CloudFront distributions and certificates.\n"
+        )
 
     except ValidationError as e:
         click.echo(f"[+] Error: {str(e)}")

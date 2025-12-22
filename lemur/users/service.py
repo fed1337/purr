@@ -7,6 +7,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 from flask import current_app
 
 from lemur import database
@@ -29,9 +30,13 @@ def create(username, password, email, active, profile_picture, roles):
     :return:
     """
     strict_role_enforcement = current_app.config.get("LEMUR_STRICT_ROLE_ENFORCEMENT", False)
-    if strict_role_enforcement and not any(role.name in STRICT_ENFORCEMENT_DEFAULT_ROLES for role in roles):
-        return dict(message="Default role required, user needs least one of the following roles assigned: admin, "
-                            "operator, read-only"), 400
+    if strict_role_enforcement and not any(
+        role.name in STRICT_ENFORCEMENT_DEFAULT_ROLES for role in roles
+    ):
+        return dict(
+            message="Default role required, user needs least one of the following roles assigned: admin, "
+            "operator, read-only"
+        ), 400
 
     user = User(
         password=password,
@@ -59,9 +64,13 @@ def update(user_id, username, email, active, profile_picture, roles, password=No
     :return:
     """
     strict_role_enforcement = current_app.config.get("LEMUR_STRICT_ROLE_ENFORCEMENT", False)
-    if strict_role_enforcement and not any(role.name in STRICT_ENFORCEMENT_DEFAULT_ROLES for role in roles):
-        return dict(message="Default role required, user needs least one of the following roles assigned: admin, "
-                            "operator, read-only"), 400
+    if strict_role_enforcement and not any(
+        role.name in STRICT_ENFORCEMENT_DEFAULT_ROLES for role in roles
+    ):
+        return dict(
+            message="Default role required, user needs least one of the following roles assigned: admin, "
+            "operator, read-only"
+        ), 400
 
     user = get(user_id)
     user.username = username
@@ -93,7 +102,7 @@ def update_roles(user, roles):
         else:
             user.roles.remove(ur)
             removed_roles.append(ur.name)
-            if ur.name == 'admin':
+            if ur.name == "admin":
                 current_app.logger.warning(f"Removing admin role for {user.username}")
 
     if removed_roles:
@@ -107,7 +116,7 @@ def update_roles(user, roles):
         else:
             user.roles.append(r)
             added_roles.append(r.name)
-            if r.name == 'admin':
+            if r.name == "admin":
                 current_app.logger.warning(f"{user.username} added as admin")
 
     if added_roles:

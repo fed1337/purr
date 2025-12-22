@@ -51,10 +51,7 @@ def test_create_certificate(user, source):
     ],
 )
 def test_source_get(client, source_plugin, token, status):
-    assert (
-        client.get(api.url_for(Sources, source_id=43543), headers=token).status_code
-        == status
-    )
+    assert client.get(api.url_for(Sources, source_id=43543), headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -68,10 +65,7 @@ def test_source_get(client, source_plugin, token, status):
 )
 def test_source_post_(client, token, status):
     assert (
-        client.post(
-            api.url_for(Sources, source_id=1), data={}, headers=token
-        ).status_code
-        == status
+        client.post(api.url_for(Sources, source_id=1), data={}, headers=token).status_code == status
     )
 
 
@@ -86,10 +80,7 @@ def test_source_post_(client, token, status):
 )
 def test_source_put(client, token, status):
     assert (
-        client.put(
-            api.url_for(Sources, source_id=1), data={}, headers=token
-        ).status_code
-        == status
+        client.put(api.url_for(Sources, source_id=1), data={}, headers=token).status_code == status
     )
 
 
@@ -103,10 +94,7 @@ def test_source_put(client, token, status):
     ],
 )
 def test_source_delete(client, token, status):
-    assert (
-        client.delete(api.url_for(Sources, source_id=1), headers=token).status_code
-        == status
-    )
+    assert client.delete(api.url_for(Sources, source_id=1), headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -120,9 +108,7 @@ def test_source_delete(client, token, status):
 )
 def test_source_patch(client, token, status):
     assert (
-        client.patch(
-            api.url_for(Sources, source_id=1), data={}, headers=token
-        ).status_code
+        client.patch(api.url_for(Sources, source_id=1), data={}, headers=token).status_code
         == status
     )
 
@@ -150,10 +136,7 @@ def test_sources_list_get(client, source_plugin, token, status):
     ],
 )
 def test_sources_list_post(client, token, status):
-    assert (
-        client.post(api.url_for(SourcesList), data={}, headers=token).status_code
-        == status
-    )
+    assert client.post(api.url_for(SourcesList), data={}, headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -166,10 +149,7 @@ def test_sources_list_post(client, token, status):
     ],
 )
 def test_sources_list_put(client, token, status):
-    assert (
-        client.put(api.url_for(SourcesList), data={}, headers=token).status_code
-        == status
-    )
+    assert client.put(api.url_for(SourcesList), data={}, headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -195,7 +175,4 @@ def test_sources_list_delete(client, token, status):
     ],
 )
 def test_sources_list_patch(client, token, status):
-    assert (
-        client.patch(api.url_for(SourcesList), data={}, headers=token).status_code
-        == status
-    )
+    assert client.patch(api.url_for(SourcesList), data={}, headers=token).status_code == status

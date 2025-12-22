@@ -11,6 +11,7 @@ from lemur.tests.test_messaging import verify_sender_email
 
 def test_formatting(certificate):
     from lemur.plugins.lemur_telegram.plugin import create_expiration_attachments
+
     data = [certificate_notification_output_schema.dump(certificate).data]
     attachments = create_expiration_attachments(data)
     body = attachments[0]
@@ -45,10 +46,9 @@ def prepare_test():
 @mock_ses()
 def test_send_expiration_notification(mocker):
     from lemur.notifications.messaging import send_expiration_notifications
+
     # Telegram API request mock
-    mock_post = mocker.patch(
-        "lemur.plugins.lemur_telegram.plugin.requests.post"
-    )
+    mock_post = mocker.patch("lemur.plugins.lemur_telegram.plugin.requests.post")
     mock_post.return_value.status_code = 200
 
     prepare_test()
@@ -72,9 +72,7 @@ def test_send_expiration_notification(mocker):
 def test_send_expiration_notification_telegram_disabled(mocker):
     from lemur.notifications.messaging import send_expiration_notifications
 
-    mocker.patch(
-        "lemur.plugins.lemur_telegram.plugin.requests.post"
-    )
+    mocker.patch("lemur.plugins.lemur_telegram.plugin.requests.post")
 
     prepare_test()
 
@@ -87,9 +85,7 @@ def test_send_expiration_notification_telegram_disabled(mocker):
 def test_send_expiration_notification_email_disabled(mocker):
     from lemur.notifications.messaging import send_expiration_notifications
 
-    mocker.patch(
-        "lemur.plugins.lemur_telegram.plugin.requests.post"
-    )
+    mocker.patch("lemur.plugins.lemur_telegram.plugin.requests.post")
 
     prepare_test()
 
@@ -102,9 +98,7 @@ def test_send_expiration_notification_email_disabled(mocker):
 def test_send_expiration_notification_both_disabled(mocker):
     from lemur.notifications.messaging import send_expiration_notifications
 
-    mocker.patch(
-        "lemur.plugins.lemur_telegram.plugin.requests.post"
-    )
+    mocker.patch("lemur.plugins.lemur_telegram.plugin.requests.post")
 
     prepare_test()
 
@@ -116,9 +110,7 @@ def test_send_failure_on_bad_status(mocker, certificate):
 
     plugin = TelegramNotificationPlugin()
 
-    mock_post = mocker.patch(
-        "lemur.plugins.lemur_telegram.plugin.requests.post"
-    )
+    mock_post = mocker.patch("lemur.plugins.lemur_telegram.plugin.requests.post")
     mock_post.return_value.status_code = 403
 
     options = {"chat": "12345", "token": "999:BAD"}

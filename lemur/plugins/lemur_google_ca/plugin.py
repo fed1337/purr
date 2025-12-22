@@ -30,6 +30,7 @@
 
 .. moduleauthor:: Oleg Dopertchouk <odopertchouk@squarespace.com>
 """
+
 import json
 import re
 import uuid
@@ -66,9 +67,11 @@ def generate_certificate_id(common_name) -> str:
     Generates a readable unique id for a cert based on cert's CN
     """
     name = common_name.lower().strip()
-    name = re.sub(r'[^a-z0-9-]', '_', name)
+    name = re.sub(r"[^a-z0-9-]", "_", name)
     name = name[:50]  # leave space for random id
-    return f"{name}-{uuid.uuid4().hex}"[:63]  # Truncate to 63 characters, to fit the api constraints
+    return f"{name}-{uuid.uuid4().hex}"[
+        :63
+    ]  # Truncate to 63 characters, to fit the api constraints
 
 
 def fetch_authority(ca_path: str) -> tuple[str, str]:
@@ -78,7 +81,7 @@ def fetch_authority(ca_path: str) -> tuple[str, str]:
         raise Exception(f"The CA {ca_path} is not enabled")
     certs = list(resp.pem_ca_certificates)
     ca_pem = certs[0]
-    ca_chain = '\n'.join(certs[1:])
+    ca_chain = "\n".join(certs[1:])
     return ca_pem, ca_chain
 
 
@@ -88,7 +91,7 @@ def create_ca_client():
     """
     return privateca.CertificateAuthorityServiceClient(
         credentials=service_account.Credentials.from_service_account_file(
-            current_app.config['GOOGLE_APPLICATION_CREDENTIALS']
+            current_app.config["GOOGLE_APPLICATION_CREDENTIALS"]
         )
     )
 
@@ -145,30 +148,31 @@ class GoogleCaIssuerPlugin(IssuerPlugin):
         :param csr: Certificate Signing Request to turn into a certificate
         :param options: Options passed from the UI (validated by CertificateInputSchema)
         """
-        authority = options['authority']
+        authority = options["authority"]
         if not authority:
             raise ValueError("Certificate  requires a signer CA to be specified")
         if authority.plugin_name != GoogleCaIssuerPlugin.slug:
             raise ValueError("Certificate must be created by Google CA")
-        ca_options = {opt['name']: opt['value'] for opt in json.loads(authority.options)}
-        ca_path = f"projects/{ca_options['Project']}" \
-                  f"/locations/{ca_options['Location']}" \
-                  f"/caPools/{ca_options['CAPool']}"
+        ca_options = {opt["name"]: opt["value"] for opt in json.loads(authority.options)}
+        ca_path = (
+            f"projects/{ca_options['Project']}"
+            f"/locations/{ca_options['Location']}"
+            f"/caPools/{ca_options['CAPool']}"
+        )
         lifetime = get_duration(options)
 
         client = create_ca_client()
         request = privateca.CreateCertificateRequest(
             parent=ca_path,
             certificate=privateca.Certificate(
-                pem_csr=csr,
-                lifetime=duration_pb2.Duration(seconds=lifetime)
+                pem_csr=csr, lifetime=duration_pb2.Duration(seconds=lifetime)
             ),
-            certificate_id=generate_certificate_id(options['common_name']),
-            issuing_certificate_authority_id=ca_options['CAName']
+            certificate_id=generate_certificate_id(options["common_name"]),
+            issuing_certificate_authority_id=ca_options["CAName"],
         )
         resp = client.create_certificate(request)
         cert_pem = resp.pem_certificate
-        chain_pem = '\n'.join(resp.pem_certificate_chain)
+        chain_pem = "\n".join(resp.pem_certificate_chain)
         ext_id = request.certificate_id
         return cert_pem, chain_pem, ext_id
 
@@ -177,13 +181,18 @@ class GoogleCaIssuerPlugin(IssuerPlugin):
         :param options: Plugin options as specified in AuthorityInputSchema
         :return body, private_key, chain, roles
         """
-        plugin_options = {opt['name']: opt.get('value') for opt in options.get('plugin', {}).get('plugin_options', [])}
+        plugin_options = {
+            opt["name"]: opt.get("value")
+            for opt in options.get("plugin", {}).get("plugin_options", [])
+        }
 
         ca_name = options["name"]
-        ca_path = f"projects/{plugin_options['Project']}" \
-                  f"/locations/{plugin_options['Location']}" \
-                  f"/caPools/{plugin_options['CAPool']}" \
-                  f"/certificateAuthorities/{plugin_options['CAName']}"
+        ca_path = (
+            f"projects/{plugin_options['Project']}"
+            f"/locations/{plugin_options['Location']}"
+            f"/caPools/{plugin_options['CAPool']}"
+            f"/certificateAuthorities/{plugin_options['CAName']}"
+        )
         ca_pem, chain_pem = fetch_authority(ca_path)
 
         name = f"googleca_{ca_name}_admin"
@@ -197,11 +206,13 @@ class GoogleCaIssuerPlugin(IssuerPlugin):
         if authority.plugin_name != GoogleCaIssuerPlugin.slug:
             raise ValueError("Certificate must be created by Google CA")
 
-        ca_options = {opt['name']: opt['value'] for opt in json.loads(authority.options)}
-        ca_path = f"projects/{ca_options['Project']}" \
-                  f"/locations/{ca_options['Location']}" \
-                  f"/caPools/{ca_options['CAPool']}" \
-                  f"/certificates/{certificate.external_id}"
+        ca_options = {opt["name"]: opt["value"] for opt in json.loads(authority.options)}
+        ca_path = (
+            f"projects/{ca_options['Project']}"
+            f"/locations/{ca_options['Location']}"
+            f"/caPools/{ca_options['CAPool']}"
+            f"/certificates/{certificate.external_id}"
+        )
         crl_reason = CRLReason.unspecified
         if "crl_reason" in reason:
             crl_reason = CRLReason[reason["crl_reason"]]

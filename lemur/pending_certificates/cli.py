@@ -26,12 +26,7 @@ def cli():
 
 
 @cli.command("fetch")
-@click.option(
-    "-i",
-    "ids",
-    multiple=True,
-    help="IDs of pending certificates to fetch"
-)
+@click.option("-i", "ids", multiple=True, help="IDs of pending certificates to fetch")
 def fetch_command(ids):
     fetch(ids)
 
@@ -55,9 +50,7 @@ def fetch(ids):
         if real_cert:
             # If a real certificate was returned from issuer, then create it in Lemur and mark
             # the pending certificate as resolved
-            final_cert = pending_certificate_service.create_certificate(
-                cert, real_cert, cert.user
-            )
+            final_cert = pending_certificate_service.create_certificate(cert, real_cert, cert.user)
             pending_certificate_service.update(cert.id, resolved_cert_id=final_cert.id)
             pending_certificate_service.update(cert.id, resolved=True)
             # add metrics to metrics extension
@@ -65,9 +58,7 @@ def fetch(ids):
         else:
             pending_certificate_service.increment_attempt(cert)
             failed += 1
-    click.echo(
-        f"[+] Certificates: New: {new} Failed: {failed}"
-    )
+    click.echo(f"[+] Certificates: New: {new} Failed: {failed}")
 
 
 @cli.command("fetch_all_acme")
@@ -111,9 +102,7 @@ def fetch_all_acme():
             final_cert = pending_certificate_service.create_certificate(
                 pending_cert, real_cert, pending_cert.user
             )
-            pending_certificate_service.update(
-                pending_cert.id, resolved_cert_id=final_cert.id
-            )
+            pending_certificate_service.update(pending_cert.id, resolved_cert_id=final_cert.id)
             pending_certificate_service.update(pending_cert.id, resolved=True)
             # add metrics to metrics extension
             new += 1
@@ -127,9 +116,7 @@ def fetch_all_acme():
 
             if pending_cert.number_attempts > ACME_ADDITIONAL_ATTEMPTS:
                 error_log["message"] = "Marking pending certificate as resolved"
-                send_pending_failure_notification(
-                    pending_cert, notify_owner=pending_cert.notify
-                )
+                send_pending_failure_notification(pending_cert, notify_owner=pending_cert.notify)
                 # Mark "resolved" as True
                 pending_certificate_service.update(cert.id, resolved=True)
             else:

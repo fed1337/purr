@@ -1,4 +1,5 @@
 """ACME DNS providor for NS1"""
+
 import json
 import inspect
 import time
@@ -23,12 +24,10 @@ def get_zones():
     :return: list of Zone Objects
     """
     _check_conf()
-    path = f'{"/v1/zones"}'
+    path = f"{'/v1/zones'}"
     zones = []
     function = inspect.currentframe().f_code.co_name
-    log_data = {
-        "function": function
-    }
+    log_data = {"function": function}
     try:
         records = _get(path)
         log_data["message"] = "Retrieved Zones Successfully"
@@ -40,8 +39,8 @@ def get_zones():
         current_app.logger.debug(log_data)
         raise
     for record in records:
-        zone = record['zone']
-        if record['primary']['enabled']:
+        zone = record["zone"]
+        if record["primary"]["enabled"]:
             zones.append(zone)
     return zones
 
@@ -69,15 +68,15 @@ def create_txt_record(domain, token, account_number=None):
     # Get current records
     found = False
     records = _get_txt_records(domain)
-    for each in records['answers']:
-        if token in each['answer']:
+    for each in records["answers"]:
+        if token in each["answer"]:
             found = True
             break
     if not found:
-        records['answers'].append(answer)
+        records["answers"].append(answer)
     log_data["records"] = records
     try:
-        if 'id' in records:
+        if "id" in records:
             _patch_txt_records(domain, records)
         else:
             _patch_txt_records(domain, records, patch=False)
@@ -128,15 +127,11 @@ def wait_for_dns_change(change_id, account_number=None):
     current_app.logger.debug(log_data)
     if record_found:
         metrics.send(
-            f"{function}.success",
-            "counter", 1,
-            metric_tags={"fqdn": domain, "txt_record": token}
+            f"{function}.success", "counter", 1, metric_tags={"fqdn": domain, "txt_record": token}
         )
     else:
         metrics.send(
-            f"{function}.fail",
-            "counter", 1,
-            metric_tags={"fqdn": domain, "txt_record": token}
+            f"{function}.fail", "counter", 1, metric_tags={"fqdn": domain, "txt_record": token}
         )
 
 
@@ -162,11 +157,11 @@ def delete_txt_record(change_id, account_number, domain, token):
     zone = _get_zone_name(domain)
     records = _get_txt_records(domain)
     found = False
-    for each in records['answers']:
-        if token in each['answer']:
+    for each in records["answers"]:
+        if token in each["answer"]:
             found = True
-            each['answer'].remove(token)
-            if len(each['answer']) == 0:
+            each["answer"].remove(token)
+            if len(each["answer"]) == 0:
                 try:
                     path = f"/v1/zones/{zone}/{domain}/TXT"
                     _delete(path)
@@ -210,7 +205,7 @@ def _generate_header():
     :return: Dict of header parameters
     """
     api_key = current_app.config.get("ACME_NSONE_KEY")
-    headers = {'X-NSONE-Key': api_key}
+    headers = {"X-NSONE-Key": api_key}
     return headers
 
 
@@ -250,13 +245,11 @@ def _get_txt_records(domain):
     path = f"/v1/zones/{zone}/{domain}/TXT"
 
     function = inspect.currentframe().f_code.co_name
-    log_data = {
-        "function": function
-    }
+    log_data = {"function": function}
     try:
         records = _get(path)
         log_data["message"] = "Retrieved TXT Records Successfully"
-        log_data['records'] = records
+        log_data["records"] = records
         current_app.logger.debug(log_data)
 
     except Exception as err:
@@ -265,10 +258,10 @@ def _get_txt_records(domain):
         log_data["message"] = "Failed to Retrieve TXT Records"
         current_app.logger.debug(log_data)
         records = {}
-        records['domain'] = domain
-        records['zone'] = zone
-        records['type'] = 'TXT'
-        records['answers'] = []
+        records["domain"] = domain
+        records["zone"] = zone
+        records["type"] = "TXT"
+        records["answers"] = []
 
     return records
 
@@ -281,13 +274,8 @@ def _get(path, params=None):
     :param params: additional parameters
     :return: json response
     """
-    base_uri = 'https://api.nsone.net'
-    resp = requests.get(
-        f"{base_uri}{path}",
-        headers=_generate_header(),
-        params=params,
-        verify=True
-    )
+    base_uri = "https://api.nsone.net"
+    resp = requests.get(f"{base_uri}{path}", headers=_generate_header(), params=params, verify=True)
     resp.raise_for_status()
     return resp.json()
 
@@ -318,12 +306,9 @@ def _patch(path, payload):
     :param payload:
     :return:
     """
-    base_uri = 'https://api.nsone.net'
+    base_uri = "https://api.nsone.net"
     resp = requests.post(
-        f"{base_uri}{path}",
-        data=json.dumps(payload),
-        headers=_generate_header(),
-        verify=True
+        f"{base_uri}{path}", data=json.dumps(payload), headers=_generate_header(), verify=True
     )
     resp.raise_for_status()
 
@@ -336,12 +321,9 @@ def _put(path, payload):
     :param payload:
     :return:
     """
-    base_uri = 'https://api.nsone.net'
+    base_uri = "https://api.nsone.net"
     resp = requests.put(
-        f"{base_uri}{path}",
-        data=json.dumps(payload),
-        headers=_generate_header(),
-        verify=True
+        f"{base_uri}{path}", data=json.dumps(payload), headers=_generate_header(), verify=True
     )
     resp.raise_for_status()
 
@@ -351,10 +333,6 @@ def _delete(path):
     Execute a Delete requests on the given URL (base_uri + path)
 
     """
-    base_uri = 'https://api.nsone.net'
-    resp = requests.delete(
-        f"{base_uri}{path}",
-        headers=_generate_header(),
-        verify=True
-    )
+    base_uri = "https://api.nsone.net"
+    resp = requests.delete(f"{base_uri}{path}", headers=_generate_header(), verify=True)
     resp.raise_for_status()

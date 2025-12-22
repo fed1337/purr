@@ -114,18 +114,15 @@ def create_txt_record(domain, token, account_number):
     zone = Zone(zone_name)
 
     try:
-        zone.add_record(
-            node_name, record_type="TXT", txtdata=f'"{token}"', ttl=5
-        )
+        zone.add_record(node_name, record_type="TXT", txtdata=f'"{token}"', ttl=5)
         zone.publish()
-        current_app.logger.debug(
-            f"TXT record created: {fqdn}, token: {token}"
-        )
+        current_app.logger.debug(f"TXT record created: {fqdn}, token: {token}")
     except (DynectCreateError, DynectUpdateError) as e:
         if "Cannot duplicate existing record data" in e.message:
             current_app.logger.debug(
-                "Unable to add record. Domain: {}. Token: {}. "
-                "Record already exists: {}".format(domain, token, e),
+                "Unable to add record. Domain: {}. Token: {}. Record already exists: {}".format(
+                    domain, token, e
+                ),
                 exc_info=True,
             )
         else:
@@ -206,9 +203,7 @@ def delete_acme_txt_records(domain):
     if not domain.startswith(acme_challenge_string):
         current_app.logger.debug(
             "delete_acme_txt_records: Domain {} doesn't start with string {}. "
-            "Cowardly refusing to delete TXT records".format(
-                domain, acme_challenge_string
-            )
+            "Cowardly refusing to delete TXT records".format(domain, acme_challenge_string)
         )
         return
 

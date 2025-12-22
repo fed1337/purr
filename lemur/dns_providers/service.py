@@ -52,9 +52,7 @@ def get_friendly(dns_provider_id):
     }
 
     if dns_provider.provider_type == "route53":
-        dns_provider_friendly["account_id"] = json.loads(dns_provider.credentials).get(
-            "account_id"
-        )
+        dns_provider_friendly["account_id"] = json.loads(dns_provider.credentials).get("account_id")
     return dns_provider_friendly
 
 

@@ -57,16 +57,12 @@ def create_txt_record(host, value, account_number):
 
     txt_record = {"name": host, "type": "TXT", "content": value}
 
-    current_app.logger.debug(
-        f"Creating TXT record {host} with value {value}"
-    )
+    current_app.logger.debug(f"Creating TXT record {host} with value {value}")
 
     try:
         r = cf.zones.dns_records.post(zone_id, data=txt_record)
     except Exception as e:
-        current_app.logger.error(
-            "/zones.dns_records.post {}: {}".format(txt_record["name"], e)
-        )
+        current_app.logger.error("/zones.dns_records.post {}: {}".format(txt_record["name"], e))
     return zone_id, r["id"]
 
 

@@ -48,9 +48,7 @@ def get_zones(client=None):
     for page in paginator.paginate():
         for zone in page["HostedZones"]:
             if not zone["Config"]["PrivateZone"]:
-                zones.append(
-                    zone["Name"][:-1]
-                )  # We need [:-1] to strip out the trailing dot.
+                zones.append(zone["Name"][:-1])  # We need [:-1] to strip out the trailing dot.
     return zones
 
 
@@ -86,9 +84,7 @@ def change_txt_record(action, zone_id, domain, value, client=None):
         # If we want to delete one record out of many, we'll update the record to not include the deleted value instead.
         # This allows us to support concurrent issuance.
         current_txt_records = [
-            record
-            for record in current_txt_records
-            if not (record.get("Value") == f'"{value}"')
+            record for record in current_txt_records if not (record.get("Value") == f'"{value}"')
         ]
         action = "UPSERT"
 
@@ -113,9 +109,7 @@ def change_txt_record(action, zone_id, domain, value, client=None):
 
 def create_txt_record(host, value, account_number):
     zone_id = find_zone_id(host, account_number=account_number)
-    change_id = change_txt_record(
-        "UPSERT", zone_id, host, value, account_number=account_number
-    )
+    change_id = change_txt_record("UPSERT", zone_id, host, value, account_number=account_number)
 
     return zone_id, change_id
 
@@ -124,9 +118,7 @@ def delete_txt_record(change_ids, account_number, host, value):
     for change_id in change_ids:
         zone_id, _ = change_id
         try:
-            change_txt_record(
-                "DELETE", zone_id, host, value, account_number=account_number
-            )
+            change_txt_record("DELETE", zone_id, host, value, account_number=account_number)
         except Exception as e:
             if "but it was not found" in e.response.get("Error", {}).get("Message"):
                 # We tried to delete a record that doesn't exist. We'll ignore this error.

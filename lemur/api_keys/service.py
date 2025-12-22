@@ -5,6 +5,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Eric Coan <kungfury@instructure.com>
 """
+
 from lemur import database
 from lemur.api_keys.models import ApiKey
 from lemur.logs import service as log_service

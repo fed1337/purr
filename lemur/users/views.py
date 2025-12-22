@@ -5,6 +5,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 from flask import g, Blueprint
 from flask_restful import reqparse, Api
 
@@ -18,7 +19,8 @@ from lemur.users import service
 from lemur.users.schemas import (
     user_input_schema,
     user_output_schema,
-    users_output_schema, user_create_input_schema,
+    users_output_schema,
+    user_create_input_schema,
 )
 
 mod = Blueprint("users", __name__)
@@ -26,7 +28,7 @@ api = Api(mod)
 
 
 class UsersList(AuthenticatedResource):
-    """ Defines the 'users' endpoint """
+    """Defines the 'users' endpoint"""
 
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
@@ -278,7 +280,7 @@ class Users(AuthenticatedResource):
             data["active"],
             None,
             data["roles"],
-            data.get("password")
+            data.get("password"),
         )
 
 

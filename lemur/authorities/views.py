@@ -5,6 +5,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 from flask import Blueprint, g
 from flask_restful import reqparse, Api
 
@@ -12,7 +13,11 @@ from lemur.common import validators
 from lemur.common.utils import paginated_parser
 from lemur.common.schema import validate_schema
 from lemur.auth.service import AuthenticatedResource
-from lemur.auth.permissions import AuthorityCreatorPermission, AuthorityPermission, StrictRolePermission
+from lemur.auth.permissions import (
+    AuthorityCreatorPermission,
+    AuthorityPermission,
+    StrictRolePermission,
+)
 
 from lemur.certificates import service as certificate_service
 
@@ -30,7 +35,7 @@ api = Api(mod)
 
 
 class AuthoritiesList(AuthenticatedResource):
-    """ Defines the 'authorities' endpoint """
+    """Defines the 'authorities' endpoint"""
 
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
@@ -233,8 +238,10 @@ class AuthoritiesList(AuthenticatedResource):
             return dict(message="You are not allowed to create a new authority."), 403
 
         if not validators.is_valid_owner(data["owner"]):
-            return dict(message=f"Invalid owner: check if {data['owner']} is a valid group email. Individuals cannot "
-                                f"be authority owners."), 412
+            return dict(
+                message=f"Invalid owner: check if {data['owner']} is a valid group email. Individuals cannot "
+                f"be authority owners."
+            ), 412
 
         data["creator"] = g.current_user
         return service.create(**data)
@@ -420,7 +427,7 @@ class Authorities(AuthenticatedResource):
             description=data["description"],
             active=data["active"],
             roles=data["roles"],
-            options=data.get("options")
+            options=data.get("options"),
         )
 
 

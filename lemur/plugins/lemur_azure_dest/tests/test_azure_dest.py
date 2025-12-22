@@ -6,7 +6,7 @@ from lemur.plugins.lemur_azure_dest import plugin
 import json
 
 # mock certificate to test the upload function code
-test_server_cert = '''-----BEGIN CERTIFICATE-----
+test_server_cert = """-----BEGIN CERTIFICATE-----
 MIIDsDCCApigAwIBAgIJAIezI4YBdaH5MA0GCSqGSIb3DQEBCwUAMGYxCzAJBgNV
 BAYTAkFUMQ8wDQYDVQQHDAZWaWVubmExEDAOBgNVBAoMB1NpcmZlcmwxETAPBgNV
 BAMMCExvY2FsIENBMSEwHwYJKoZIhvcNAQkBFhJzaXJmZXJsQGdpdGh1Yi5jb20w
@@ -27,9 +27,9 @@ oSd+GXhOxThRj9euiyP/NA0JbCdrv4z5UEWZ2+U+lsLALoXBZqQAgDpZNggsujqn
 o0BydDBcgoQtQ3w5e9k5Upah6f+X0ZryXQemC/BnjKSdXipkcg295WyV780jTQV1
 9+NK9wF8ED74VGLaqAHjTT2UmVfiyPs7kxU+KqYzLfl2GL49RDcf4V06q5pr/JmR
 tXwUxRyH8L1hRMfyCE/35EhVTmPdc3lRaPXROD1gtuRDEQIb
------END CERTIFICATE-----'''
+-----END CERTIFICATE-----"""
 
-test_server_key = '''-----BEGIN RSA PRIVATE KEY-----
+test_server_key = """-----BEGIN RSA PRIVATE KEY-----
 MIIEpAIBAAKCAQEAtHn0kzfyW2ZQMCNCKiEqOwH/GREzzo9mWwqUvvzJMD9dFusg
 cOr7zwidBqOv5HiyrboyYJoBscG7CftEJWHaj+V60jXhYEvC9giTVEbHAgVHac2R
 B9Mx/B4rdocuIvXvXilbdxlsaCoY2Y/hXkFAsjh4wO7oj05aYZYv4cMmyfu6Dnlo
@@ -55,9 +55,9 @@ cd894+h9y+NtcWqdsTKo49PwB+nkzjqZJjj0kh0xnG5vAoC1G7BrTh4vkcvRVT5J
 vVvHAQKBgQC6499cVGtK/I1QsyqGKOq2IjwSWZTpSwnhPDQur1TT8P1BwGGirFFa
 nl3mjmPSwbFiOUofgwiHvadTkHyC2shsX3MHGiGXe7cfr98Vw9i+XxpeAUeWAwIU
 ja+4tDNMH5MBy6D51R9zzBsY4u8AKSZf7Is78Mnyn21okKGJcjBSuw==
------END RSA PRIVATE KEY-----'''
+-----END RSA PRIVATE KEY-----"""
 
-test_ca_cert = '''-----BEGIN CERTIFICATE-----
+test_ca_cert = """-----BEGIN CERTIFICATE-----
 MIIDnzCCAoegAwIBAgIJAKF8G3Kk9+j9MA0GCSqGSIb3DQEBCwUAMGYxCzAJBgNV
 BAYTAkFUMQ8wDQYDVQQHDAZWaWVubmExEDAOBgNVBAoMB1NpcmZlcmwxETAPBgNV
 BAMMCExvY2FsIENBMSEwHwYJKoZIhvcNAQkBFhJzaXJmZXJsQGdpdGh1Yi5jb20w
@@ -78,7 +78,7 @@ abYHAXG/fVggzOqo0GUgg2xiUJ554Zely9MySAWsttD8ju3zZdcnWaP1VG6r75w5
 X4OJSL6Q/vqLehA8MOjORj3EprM4dv/SixqdTi4hVbkIv+M8vgZTd04O8S98oghl
 Q1eMutMqf45yvSgVIr7SHkh2a+S4E7RjkH9pDE+8MQVTiSSPH5ZgEp7FveK4GkfW
 Qils0nQFsH1VujvoF9Y04MAgZw==
------END CERTIFICATE-----'''
+-----END CERTIFICATE-----"""
 
 
 class TestAzureDestination(unittest.TestCase):
@@ -86,7 +86,7 @@ class TestAzureDestination(unittest.TestCase):
         self.azure_dest = plugin.AzureDestinationPlugin()
         # Creates a new Flask application for a test duration. In python 3.8, manual push of application context is
         # needed to run tests in dev environment without getting error 'Working outside of application context'.
-        _app = Flask('lemur_test_azure_dest')
+        _app = Flask("lemur_test_azure_dest")
         self.ctx = _app.app_context()
         assert self.ctx
         self.ctx.push()
@@ -99,7 +99,6 @@ class TestAzureDestination(unittest.TestCase):
     # @patch("requests.post")
     @patch("lemur.plugins.lemur_azure_dest.plugin.current_app")
     def test_upload(self, patched_app):
-
         from lemur.plugins.lemur_azure_dest.plugin import AzureDestinationPlugin
         import requests_mock
         import requests
@@ -122,18 +121,22 @@ class TestAzureDestination(unittest.TestCase):
 
         subject.session.mount("https://", adapter)
 
-        name = 'Test_Certificate'
+        name = "Test_Certificate"
         body = test_server_cert
         private_key = test_server_key
         cert_chain = test_ca_cert
-        options = [{'name': 'vaultUrl', 'value': 'https://couldbeanyvalue.com'}, {'name': 'azureTenant', 'value': 'mockedTenant'},
-                {'name': 'appID', 'value': 'mockedAPPid'}, {'name': 'azurePassword', 'value': 'norealPW'}]
+        options = [
+            {"name": "vaultUrl", "value": "https://couldbeanyvalue.com"},
+            {"name": "azureTenant", "value": "mockedTenant"},
+            {"name": "appID", "value": "mockedAPPid"},
+            {"name": "azurePassword", "value": "norealPW"},
+        ]
 
         # commented lines: another unsuccessful try
         # return value for HTTP post - we won't access Azure
         # mock_post = Mock()
         # mock_post.open = mock_open()
         # mock_post.return_value =  "['message': 'Response', 'status': 200, 'response': {'id': 'someID'}]"
-        plugin.get_access_token = Mock(return_value='valid_test_token')
+        plugin.get_access_token = Mock(return_value="valid_test_token")
 
         iferl = subject.upload(name, body, private_key, cert_chain, options)

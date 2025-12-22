@@ -5,6 +5,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 import os
 import tempfile
 from contextlib import contextmanager
@@ -32,9 +33,7 @@ def mktempfile():
 @contextmanager
 def mktemppath():
     try:
-        path = os.path.join(
-            tempfile._get_default_tempdir(), next(tempfile._get_candidate_names())
-        )
+        path = os.path.join(tempfile._get_default_tempdir(), next(tempfile._get_candidate_names()))
         yield path
     finally:
         try:
@@ -126,5 +125,7 @@ class Vault(types.TypeDecorator):
             if current_app.config.get("DEBUG", False):
                 current_app.logger.error(f"Error decrypting token: {value}")
             else:
-                current_app.logger.error("Error decrypting token.  (Enable debugging mode to log the token.)")
+                current_app.logger.error(
+                    "Error decrypting token.  (Enable debugging mode to log the token.)"
+                )
             raise

@@ -70,9 +70,7 @@ def test_create_pending(pending_certificate, user, session):
 def test_pending_cancel(client, pending_certificate, token, status):
     assert (
         client.delete(
-            api.url_for(
-                PendingCertificates, pending_certificate_id=pending_certificate.id
-            ),
+            api.url_for(PendingCertificates, pending_certificate_id=pending_certificate.id),
             data=json.dumps({"note": "unit test", "send_email": False}),
             headers=token,
         ).status_code

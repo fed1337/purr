@@ -5,6 +5,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 import re
 
 from flask import current_app
@@ -30,24 +31,28 @@ class UserInputSchema(LemurInputSchema):
 
 
 class UserCreateInputSchema(UserInputSchema):
-    @validates('password')
+    @validates("password")
     def validate_password(self, value):
-        if current_app.config.get('CHECK_PASSWORD_STRENGTH', True):
+        if current_app.config.get("CHECK_PASSWORD_STRENGTH", True):
             # At least 12 characters
             if len(value) < 12:
-                raise ValidationError('Password must be at least 12 characters long.')
+                raise ValidationError("Password must be at least 12 characters long.")
 
             # A mixture of both uppercase and lowercase letters
             if not any(map(str.isupper, value)) or not any(map(str.islower, value)):
-                raise ValidationError('Password must contain both uppercase and lowercase characters.')
+                raise ValidationError(
+                    "Password must contain both uppercase and lowercase characters."
+                )
 
             # A mixture of letters and numbers
             if not any(map(str.isdigit, value)):
-                raise ValidationError('Password must contain at least one digit.')
+                raise ValidationError("Password must contain at least one digit.")
 
             # Inclusion of at least one special character
-            if not re.findall(r'[!@#?\]]', value):
-                raise ValidationError('Password must contain at least one special character (!@#?]).')
+            if not re.findall(r"[!@#?\]]", value):
+                raise ValidationError(
+                    "Password must contain at least one special character (!@#?])."
+                )
 
 
 class UserOutputSchema(LemurOutputSchema):

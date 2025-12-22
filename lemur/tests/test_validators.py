@@ -44,13 +44,7 @@ def test_dates(session):
         dates(dict(validity_end=datetime(2016, 1, 1)))
 
     with pytest.raises(ValidationError):
-        dates(
-            dict(validity_start=datetime(2016, 1, 5), validity_end=datetime(2016, 1, 1))
-        )
+        dates(dict(validity_start=datetime(2016, 1, 5), validity_end=datetime(2016, 1, 1)))
 
     with pytest.raises(ValidationError):
-        dates(
-            dict(
-                validity_start=datetime(2016, 1, 1), validity_end=datetime(2016, 1, 10)
-            )
-        )
+        dates(dict(validity_start=datetime(2016, 1, 1), validity_end=datetime(2016, 1, 10)))

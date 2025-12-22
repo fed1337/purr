@@ -209,8 +209,10 @@ class DestinationFactory(BaseFactory):
 
     plugin_name = "test-destination"
     label = Sequence(lambda n: f"destination{n}")
-    options = [{"name": "exportPlugin", "type": "export-plugin", "value": {"plugin_options": [{}]}},
-               {"name": "accountNumber", "type": "str", "value": "1234567890"}]
+    options = [
+        {"name": "exportPlugin", "type": "export-plugin", "value": {"plugin_options": [{}]}},
+        {"name": "accountNumber", "type": "str", "value": "1234567890"},
+    ]
 
     class Meta:
         """Factory Configuration."""
@@ -223,8 +225,10 @@ class DuplicateAllowedDestinationFactory(BaseFactory):
 
     plugin_name = "test-destination-dupe-allowed"
     label = Sequence(lambda n: f"duplicate-allowed-destination{n}")
-    options = [{"name": "exportPlugin", "type": "export-plugin", "value": {"plugin_options": [{}]}},
-               {"name": "accountNumber", "type": "str", "value": "1234567890"}]
+    options = [
+        {"name": "exportPlugin", "type": "export-plugin", "value": {"plugin_options": [{}]}},
+        {"name": "accountNumber", "type": "str", "value": "1234567890"},
+    ]
 
     class Meta:
         """Factory Configuration."""

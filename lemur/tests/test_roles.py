@@ -55,9 +55,7 @@ def test_multiple_authority_certificate_association(session, client):
     ],
 )
 def test_role_get(client, token, status):
-    assert (
-        client.get(api.url_for(Roles, role_id=1), headers=token).status_code == status
-    )
+    assert client.get(api.url_for(Roles, role_id=1), headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -70,10 +68,7 @@ def test_role_get(client, token, status):
     ],
 )
 def test_role_post_(client, token, status):
-    assert (
-        client.post(api.url_for(Roles, role_id=1), data={}, headers=token).status_code
-        == status
-    )
+    assert client.post(api.url_for(Roles, role_id=1), data={}, headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -86,10 +81,7 @@ def test_role_post_(client, token, status):
     ],
 )
 def test_role_put(client, token, status):
-    assert (
-        client.put(api.url_for(Roles, role_id=1), data={}, headers=token).status_code
-        == status
-    )
+    assert client.put(api.url_for(Roles, role_id=1), data={}, headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -142,9 +134,7 @@ def test_role_put_with_data_and_user(client, session):
         ).status_code
         == 200
     )
-    assert (
-        client.get(api.url_for(RolesList), data={}, headers=headers).json["total"] > 1
-    )
+    assert client.get(api.url_for(RolesList), data={}, headers=headers).json["total"] > 1
 
 
 @pytest.mark.parametrize(
@@ -157,10 +147,7 @@ def test_role_put_with_data_and_user(client, session):
     ],
 )
 def test_role_delete(client, token, status, role):
-    assert (
-        client.delete(api.url_for(Roles, role_id=role.id), headers=token).status_code
-        == status
-    )
+    assert client.delete(api.url_for(Roles, role_id=role.id), headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -173,10 +160,7 @@ def test_role_delete(client, token, status, role):
     ],
 )
 def test_role_patch(client, token, status):
-    assert (
-        client.patch(api.url_for(Roles, role_id=1), data={}, headers=token).status_code
-        == status
-    )
+    assert client.patch(api.url_for(Roles, role_id=1), data={}, headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -189,10 +173,7 @@ def test_role_patch(client, token, status):
     ],
 )
 def test_role_list_post_(client, token, status):
-    assert (
-        client.post(api.url_for(RolesList), data={}, headers=token).status_code
-        == status
-    )
+    assert client.post(api.url_for(RolesList), data={}, headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -231,10 +212,7 @@ def test_role_list_delete(client, token, status):
     ],
 )
 def test_role_list_patch(client, token, status):
-    assert (
-        client.patch(api.url_for(RolesList), data={}, headers=token).status_code
-        == status
-    )
+    assert client.patch(api.url_for(RolesList), data={}, headers=token).status_code == status
 
 
 def test_sensitive_filter(client):

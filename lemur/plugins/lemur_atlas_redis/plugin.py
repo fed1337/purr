@@ -6,6 +6,7 @@
 
 .. moduleauthor:: Jay Zarfoss
 """
+
 from typing import Dict, Any
 
 from redis import Redis
@@ -50,9 +51,7 @@ class AtlasMetricRedisPlugin(MetricPlugin):
     redis_host = None
     redis_port = None
 
-    def submit(
-        self, metric_name, metric_type, metric_value, metric_tags=None, options=None
-    ):
+    def submit(self, metric_name, metric_type, metric_value, metric_tags=None, options=None):
         if not options:
             options = self.options
 
@@ -66,9 +65,7 @@ class AtlasMetricRedisPlugin(MetricPlugin):
 
         if metric_tags:
             if not isinstance(metric_tags, dict):
-                raise Exception(
-                    "Invalid Metric Tags for Atlas: Tags must be in dict format"
-                )
+                raise Exception("Invalid Metric Tags for Atlas: Tags must be in dict format")
 
         self.metric_data["timestamp"] = millis_since_epoch()
         self.metric_data["type"] = metric_type.upper()
@@ -89,10 +86,13 @@ class AtlasMetricRedisPlugin(MetricPlugin):
 
         try:
             r = Redis(host=self.redis_host, port=self.redis_port, socket_timeout=0.1)
-            r.rpush('atlas-agent', json.dumps(self.metric_data))
+            r.rpush("atlas-agent", json.dumps(self.metric_data))
         except Exception as e:
             current_app.logger.warning(
                 "AtlasMetricsRedis: exception [{exception}] could not post atlas metrics to AtlasRedis [{host}:{port}], metric [{metricdata}]".format(
-                    exception=e, host=self.redis_host, port=self.redis_port, metricdata=json.dumps(self.metric_data)
+                    exception=e,
+                    host=self.redis_host,
+                    port=self.redis_port,
+                    metricdata=json.dumps(self.metric_data),
                 )
             )

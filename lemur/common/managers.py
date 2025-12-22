@@ -6,6 +6,7 @@
 
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 from flask import current_app
 
 from lemur.exceptions import InvalidConfiguration
@@ -62,14 +63,10 @@ class InstanceManager:
                     results.append(cls)
 
             except InvalidConfiguration as e:
-                current_app.logger.warning(
-                    f"Plugin '{class_name}' may not work correctly. {e}"
-                )
+                current_app.logger.warning(f"Plugin '{class_name}' may not work correctly. {e}")
 
             except Exception as e:
-                current_app.logger.exception(
-                    f"Unable to import {cls_path}. Reason: {e}"
-                )
+                current_app.logger.exception(f"Unable to import {cls_path}. Reason: {e}")
                 continue
 
         self.cache = results

@@ -5,6 +5,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 import click
 from flask import current_app
 from flask.cli import with_appcontext
@@ -14,8 +15,10 @@ from lemur.certificates.service import get_expiring_deployed_certificates
 from lemur.constants import SUCCESS_METRIC_STATUS, FAILURE_METRIC_STATUS
 from lemur.extensions import metrics
 from lemur.notifications.messaging import send_authority_expiration_notifications
-from lemur.notifications.messaging import send_expiration_notifications, \
-    send_expiring_deployed_certificate_notifications
+from lemur.notifications.messaging import (
+    send_expiration_notifications,
+    send_expiring_deployed_certificate_notifications,
+)
 from lemur.notifications.messaging import send_security_expiration_summary
 
 
@@ -61,8 +64,12 @@ def expirations(exclude, disabled_notification_plugins):
     status = FAILURE_METRIC_STATUS
     try:
         print("Starting to notify subscribers about expiring certificates!")
-        disable_security_team_emails = current_app.config.get("LEMUR_DISABLE_SECURITY_TEAM_EXPIRATION_EMAILS", False)
-        success, failed = send_expiration_notifications(exclude, disabled_notification_plugins, disable_security_team_emails)
+        disable_security_team_emails = current_app.config.get(
+            "LEMUR_DISABLE_SECURITY_TEAM_EXPIRATION_EMAILS", False
+        )
+        success, failed = send_expiration_notifications(
+            exclude, disabled_notification_plugins, disable_security_team_emails
+        )
         print(
             f"Finished notifying subscribers about expiring certificates! Sent: {success} Failed: {failed}"
         )
@@ -70,9 +77,7 @@ def expirations(exclude, disabled_notification_plugins):
     except Exception as e:
         capture_exception()
 
-    metrics.send(
-        "expiration_notification_job", "counter", 1, metric_tags={"status": status}
-    )
+    metrics.send("expiration_notification_job", "counter", 1, metric_tags={"status": status})
 
 
 def authority_expirations():
@@ -84,7 +89,9 @@ def authority_expirations():
     """
     status = FAILURE_METRIC_STATUS
     try:
-        click.echo("Starting to notify subscribers about expiring certificate authority certificates!")
+        click.echo(
+            "Starting to notify subscribers about expiring certificate authority certificates!"
+        )
         success, failed = send_authority_expiration_notifications()
         click.echo(
             "Finished notifying subscribers about expiring certificate authority certificates! "
@@ -109,9 +116,7 @@ def security_expiration_summary(exclude):
     try:
         print("Starting to notify security team about expiring certificates!")
         success = send_security_expiration_summary(exclude)
-        print(
-            f"Finished notifying security team about expiring certificates! Success: {success}"
-        )
+        print(f"Finished notifying security team about expiring certificates! Success: {success}")
         if success:
             status = SUCCESS_METRIC_STATUS
     except Exception:

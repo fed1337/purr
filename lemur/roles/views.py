@@ -7,6 +7,7 @@
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 
 """
+
 from flask import Blueprint, g
 from flask import make_response, jsonify
 from flask_restful import reqparse, Api
@@ -30,7 +31,7 @@ api = Api(mod)
 
 
 class RolesList(AuthenticatedResource):
-    """ Defines the 'roles' endpoint """
+    """Defines the 'roles' endpoint"""
 
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
@@ -189,19 +190,17 @@ class RoleViewCredentials(AuthenticatedResource):
         permission = RoleMemberPermission(role_id)
         if permission.can():
             role = service.get(role_id)
-            response = make_response(
-                jsonify(username=role.username, password=role.password), 200
-            )
+            response = make_response(jsonify(username=role.username, password=role.password), 200)
             response.headers["cache-control"] = "private, max-age=0, no-cache, no-store"
             response.headers["pragma"] = "no-cache"
 
-            log_service.audit_log("view_role_credentials", role.name, "View role username and password")
+            log_service.audit_log(
+                "view_role_credentials", role.name, "View role username and password"
+            )
 
             return response
         return (
-            dict(
-                message="You are not authorized to view the credentials for this role."
-            ),
+            dict(message="You are not authorized to view the credentials for this role."),
             403,
         )
 
@@ -250,9 +249,7 @@ class Roles(AuthenticatedResource):
             return service.get(role_id)
 
         return (
-            dict(
-                message="You are not allowed to view a role which you are not a member of."
-            ),
+            dict(message="You are not allowed to view a role which you are not a member of."),
             403,
         )
 
@@ -297,9 +294,7 @@ class Roles(AuthenticatedResource):
         """
         permission = RoleMemberPermission(role_id)
         if permission.can():
-            return service.update(
-                role_id, data["name"], data.get("description"), data.get("users")
-            )
+            return service.update(role_id, data["name"], data.get("description"), data.get("users"))
         return dict(message="You are not authorized to modify this role."), 403
 
     @admin_permission.require(http_exception=403)
@@ -338,7 +333,7 @@ class Roles(AuthenticatedResource):
 
 
 class UserRolesList(AuthenticatedResource):
-    """ Defines the 'roles' endpoint """
+    """Defines the 'roles' endpoint"""
 
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
@@ -398,7 +393,7 @@ class UserRolesList(AuthenticatedResource):
 
 
 class AuthorityRolesList(AuthenticatedResource):
-    """ Defines the 'roles' endpoint """
+    """Defines the 'roles' endpoint"""
 
     def __init__(self):
         self.reqparse = reqparse.RequestParser()

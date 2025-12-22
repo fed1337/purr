@@ -5,6 +5,7 @@
 
 .. moduleauthor:: Kevin Glisson (kglisson@netflix.com)
 """
+
 from flask import current_app
 from lemur.common.managers import InstanceManager
 
@@ -18,9 +19,7 @@ class PluginManager(InstanceManager):
         return sum(1 for i in self.all())
 
     def all(self, version=1, plugin_type=None):
-        for plugin in sorted(
-            super().all(), key=lambda x: x.get_title()
-        ):
+        for plugin in sorted(super().all(), key=lambda x: x.get_title()):
             if not plugin.type == plugin_type and plugin_type:
                 continue
             if not plugin.is_enabled():

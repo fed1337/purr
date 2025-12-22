@@ -2,16 +2,19 @@
 default_language_version:
   python: python3.10
 
+exclude: ^(\.git|\.[^/]+|lemur/migrations|docs|lemur/static/dist)(/|$)|.*\.(md|rst)$
+
 repos:
-#  - repo: https://github.com/pre-commit/pre-commit-hooks
-#    rev: v6.0.0
-#    hooks:
-#      - id: trailing-whitespace
-#      - id: check-merge-conflict
-#      - id: mixed-line-ending
-#      - id: end-of-file-fixer
-#      - id: check-yaml
-#      - id: check-toml
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-executables-have-shebangs
+      - id: check-shebang-scripts-are-executable
+      - id: trailing-whitespace
+      - id: mixed-line-ending
+      - id: end-of-file-fixer
+      - id: fix-byte-order-marker
 
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.30.0

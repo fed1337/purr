@@ -6,6 +6,7 @@
 
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 import subprocess
 
 from flask import current_app
@@ -38,7 +39,7 @@ def get_openssl_version():
     """
     :return: the openssl version, if it can be determined
     """
-    command = ['openssl', 'version']
+    command = ["openssl", "version"]
     p = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     current_app.logger.debug(command)
     stdout, stderr = p.communicate()
@@ -48,7 +49,7 @@ def get_openssl_version():
         current_app.logger.error(stderr)
         raise Exception(stderr)
 
-    if stdout.startswith(b'OpenSSL'):
+    if stdout.startswith(b"OpenSSL"):
         return stdout.split()[1]
 
 
@@ -97,12 +98,10 @@ def create_pkcs12(cert, chain, p12_tmp, key, alias, passphrase, legacy: bool = F
 
             if legacy:
                 version = get_openssl_version()
-                if version and version >= b'3':
+                if version and version >= b"3":
                     cmd.append("-legacy")
 
-            run_process(
-                cmd
-            )
+            run_process(cmd)
 
 
 class OpenSSLExportPlugin(ExportPlugin):

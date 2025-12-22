@@ -1,6 +1,7 @@
 """
 Unit Tests for NSone DNS provider
 """
+
 import unittest
 from unittest.mock import patch, Mock
 
@@ -13,6 +14,7 @@ class TestNsone(unittest.TestCase):
     """
     Class for testing NSone plugin
     """
+
     @patch("lemur.plugins.lemur_acme.plugin.dns_provider_service")
     def setUp(self, mock_dns_provider_service):
         """
@@ -32,7 +34,7 @@ class TestNsone(unittest.TestCase):
         # Creates a new Flask application for a test duration. In python 3.8,
         # manual push of application context is needed to run tests in dev environment
         # without getting error 'Working outside of application context'.
-        _app = Flask('lemur_test_acme')
+        _app = Flask("lemur_test_acme")
         self.ctx = _app.app_context()
         assert self.ctx
         self.ctx.push()
@@ -47,56 +49,59 @@ class TestNsone(unittest.TestCase):
         """
         account_number = "1234567890"
         path = "a/b/c"
-        zones = ['example.com', 'test.example.com']
-        get_response = [{
-            "dns_servers": ["string"],
-            "expiry": 0,
-            "primary_master": "string",
-            "id": "string",
-            "meta": {
-                "asn": ["string"],
-                "ca_province": ["string"],
-                "connections": 0,
-                "country": ["string"],
-                "georegion": ["string"],
-                "high_watermark": 0,
-                "ip_prefixes": ["string"],
-                "latitude": 0,
-                "loadAvg": 0,
-                "laditude": 0,
-                "low_watermark": 0,
-                "note": "string",
-                "priority": 0,
-                "pulsar": "string",
-                "requests": 0,
-                "up": True,
-                "us_state": ["string"],
-                "weight": 0
-            },
-            "network_pools": ["string"],
-            "networks": [0],
-            "nx_ttl": 0,
-            "primary": {
-                "enabled": True,
-                "secondaries": [{
-                    "ip": "string",
-                    "networks": [0],
-                    "notify": True,
-                    "port": 0}]
-            }, "records": [{
-                "domain": "string",
+        zones = ["example.com", "test.example.com"]
+        get_response = [
+            {
+                "dns_servers": ["string"],
+                "expiry": 0,
+                "primary_master": "string",
                 "id": "string",
-                "short_answers": ["string"],
-                "tier": 0,
+                "meta": {
+                    "asn": ["string"],
+                    "ca_province": ["string"],
+                    "connections": 0,
+                    "country": ["string"],
+                    "georegion": ["string"],
+                    "high_watermark": 0,
+                    "ip_prefixes": ["string"],
+                    "latitude": 0,
+                    "loadAvg": 0,
+                    "laditude": 0,
+                    "low_watermark": 0,
+                    "note": "string",
+                    "priority": 0,
+                    "pulsar": "string",
+                    "requests": 0,
+                    "up": True,
+                    "us_state": ["string"],
+                    "weight": 0,
+                },
+                "network_pools": ["string"],
+                "networks": [0],
+                "nx_ttl": 0,
+                "primary": {
+                    "enabled": True,
+                    "secondaries": [{"ip": "string", "networks": [0], "notify": True, "port": 0}],
+                },
+                "records": [
+                    {
+                        "domain": "string",
+                        "id": "string",
+                        "short_answers": ["string"],
+                        "tier": 0,
+                        "ttl": 0,
+                        "type": "string",
+                    }
+                ],
+                "refresh": 0,
+                "retry": 0,
                 "ttl": 0,
-                "type": "string"}],
-            "refresh": 0,
-            "retry": 0,
-            "ttl": 0,
-            "zone": "string",
-            "view": ["string"],
-            "local_tags": ["string"],
-            "tags": {}}]
+                "zone": "string",
+                "view": ["string"],
+                "local_tags": ["string"],
+                "tags": {},
+            }
+        ]
         nsone._check_conf = Mock()
         nsone._get = Mock(path)
         nsone._get.side_effect = [get_response]
@@ -108,7 +113,7 @@ class TestNsone(unittest.TestCase):
         """
         Testing get_zone_name method
         """
-        zones = ['example.com', 'test.example.com']
+        zones = ["example.com", "test.example.com"]
         zone = "test.example.com"
         domain = "_acme-challenge.test.example.com"
         account_number = "1234567890"
@@ -138,7 +143,7 @@ class TestNsone(unittest.TestCase):
             "token": token,
             "account": account_number,
             "records": {"answers": [{"answer": [token]}]},
-            "message": "TXT record(s) successfully created"
+            "message": "TXT record(s) successfully created",
         }
         result = nsone.create_txt_record(domain, token, account_number)
         mock_current_app.logger.debug.assert_called_with(log_data)
@@ -156,11 +161,9 @@ class TestNsone(unittest.TestCase):
         change_id = (domain, token)
         nsone._check_conf = Mock()
         cur_records = {
-            "answers": [{
-                "answer": ["ABCDEFHG"],
-                "id": "1234567890abcdef"
-            }],
-            "id": "1234567890abcdef"}
+            "answers": [{"answer": ["ABCDEFHG"], "id": "1234567890abcdef"}],
+            "id": "1234567890abcdef",
+        }
         nsone._get_txt_records = Mock(return_value=cur_records)
         nsone._get_zone_name = Mock(return_value=zone)
         mock_current_app.logger.debug = Mock()
@@ -172,15 +175,16 @@ class TestNsone(unittest.TestCase):
             "token": token,
             "account": account_number,
             "records": cur_records,
-            "message": "TXT record(s) successfully created"
+            "message": "TXT record(s) successfully created",
         }
         expected_path = "/v1/zones/test.example.com/_acme_challenge.test.example.com/TXT"
         expected_payload = {
             "answers": [
                 {"answer": ["ABCDEFHG"], "id": "1234567890abcdef"},
-                {"answer": ["ABCDEFGHIJ"]}
+                {"answer": ["ABCDEFGHIJ"]},
             ],
-            "id": "1234567890abcdef"}
+            "id": "1234567890abcdef",
+        }
         result = nsone.create_txt_record(domain, token, account_number)
         mock_current_app.logger.debug.assert_called_with(log_data)
         nsone._patch.assert_called_with(expected_path, expected_payload)
@@ -216,7 +220,7 @@ class TestNsone(unittest.TestCase):
             "fqdn": domain,
             "status": True,
             "account": None,
-            "message": "Record status on NS1 authoritative server"
+            "message": "Record status on NS1 authoritative server",
         }
         mock_current_app.logger.debug.assert_called_with(log_data)
 
@@ -231,10 +235,7 @@ class TestNsone(unittest.TestCase):
         account_number = "1234567890"
         change_id = (domain, token)
         records = {
-            "answers": [{
-                "answer": ["ABCDEFG"],
-                "id": "1234567890abcdef"
-            }],
+            "answers": [{"answer": ["ABCDEFG"], "id": "1234567890abcdef"}],
             "domain": "_acme-challenge.test.example.com",
             "id": "1234567890abcdef",
             "meta": {},
@@ -246,7 +247,7 @@ class TestNsone(unittest.TestCase):
             "type": "TXT",
             "zone_fqdn": "example.com",
             "zone_handle": "example.com",
-            "use_client_subnet": "false"
+            "use_client_subnet": "false",
         }
         nsone._check_conf = Mock()
         nsone._get_zone_name = Mock(return_value=zone)
@@ -261,7 +262,7 @@ class TestNsone(unittest.TestCase):
             "token": token,
             "change": ("_acme-challenge.test.example.com", "ABCDEFGHIJ"),
             "account": "1234567890",
-            "message": "Unable to delete TXT record: Token not found in existing TXT records"
+            "message": "Unable to delete TXT record: Token not found in existing TXT records",
         }
         nsone.delete_txt_record(change_id, account_number, domain, token)
         mock_current_app.logger.debug.assert_called_with(log_data)

@@ -5,6 +5,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Ian Stahnke <ian.stahnke@myob.com>
 """
+
 import ldap
 from flask import current_app
 
@@ -44,9 +45,7 @@ class LdapPrincipal:
         self.ldap_default_role = current_app.config.get("LEMUR_DEFAULT_ROLE", None)
         self.ldap_required_group = current_app.config.get("LDAP_REQUIRED_GROUP", None)
         self.ldap_groups_to_roles = current_app.config.get("LDAP_GROUPS_TO_ROLES", None)
-        self.ldap_is_active_directory = current_app.config.get(
-            "LDAP_IS_ACTIVE_DIRECTORY", False
-        )
+        self.ldap_is_active_directory = current_app.config.get("LDAP_IS_ACTIVE_DIRECTORY", False)
         self.ldap_attrs = ["memberOf"]
         self.ldap_client = None
         self.ldap_groups = None
@@ -110,9 +109,7 @@ class LdapPrincipal:
         # update their 'roles'
         role = role_service.get_by_name(self.ldap_principal)
         if not role:
-            description = "auto generated role based on owner: {}".format(
-                self.ldap_principal
-            )
+            description = "auto generated role based on owner: {}".format(self.ldap_principal)
             role = role_service.create(
                 self.ldap_principal, description=description, third_party=True
             )
@@ -127,14 +124,10 @@ class LdapPrincipal:
             if role:
                 if ldap_group_name in self.ldap_groups:
                     current_app.logger.debug(
-                        "assigning role {} to ldap user {}".format(
-                            self.ldap_principal, role
-                        )
+                        "assigning role {} to ldap user {}".format(self.ldap_principal, role)
                     )
                     if not role.third_party:
-                        role = role_service.set_third_party(
-                            role.id, third_party_status=True
-                        )
+                        role = role_service.set_third_party(role.id, third_party_status=True)
                     roles.add(role)
         return roles
 
@@ -176,9 +169,7 @@ class LdapPrincipal:
                 self.ldap_client.set_option(ldap.OPT_X_TLS_DEMAND, True)
                 self.ldap_client.set_option(ldap.OPT_DEBUG_LEVEL, 255)
             if self.ldap_cacert_file:
-                self.ldap_client.set_option(
-                    ldap.OPT_X_TLS_CACERTFILE, self.ldap_cacert_file
-                )
+                self.ldap_client.set_option(ldap.OPT_X_TLS_CACERTFILE, self.ldap_cacert_file)
             self.ldap_client.simple_bind_s(self.ldap_principal, self.ldap_password)
         except ldap.INVALID_CREDENTIALS:
             self.ldap_client.unbind()

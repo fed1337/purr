@@ -9,6 +9,7 @@
 
 .. moduleauthor:: sirferl
 """
+
 from flask import current_app
 
 from lemur.common.defaults import common_name, bitstrength
@@ -29,16 +30,13 @@ def handle_response(my_response):
     :param my_response:
     :return: :raise Exception:
     """
-    msg = {
-        200: "The request was successful.",
-        400: "Keyvault Error"
-    }
+    msg = {200: "The request was successful.", 400: "Keyvault Error"}
 
     try:
         data = json.loads(my_response.content)
     except ValueError:
         # catch an empty jason object here
-        data = {'response': 'No detailed message'}
+        data = {"response": "No detailed message"}
     status_code = my_response.status_code
     if status_code > 399:
         raise Exception(f"AZURE error: {msg.get(status_code, status_code)}\n{data}")
@@ -47,10 +45,10 @@ def handle_response(my_response):
         "function": f"{__name__}.{sys._getframe().f_code.co_name}",
         "message": "Response",
         "status": status_code,
-        "response": data
+        "response": data,
     }
     current_app.logger.info(log_data)
-    if data == {'response': 'No detailed message'}:
+    if data == {"response": "No detailed message"}:
         # status if no data
         return status_code
     else:
@@ -72,10 +70,10 @@ def get_access_token(tenant, appID, password, self):
     # prepare the call for the access_token
     auth_url = f"https://login.microsoftonline.com/{tenant}/oauth2/token"
     post_data = {
-        'grant_type': 'client_credentials',
-        'client_id': appID,
-        'client_secret': password,
-        'resource': 'https://vault.azure.net'
+        "grant_type": "client_credentials",
+        "client_id": appID,
+        "client_secret": password,
+        "resource": "https://vault.azure.net",
     }
     try:
         response = self.session.post(auth_url, data=post_data)
@@ -124,7 +122,7 @@ class AzureDestinationPlugin(DestinationPlugin):
             "required": True,
             "validation": check_validation("[0-9a-zA-Z.:_~-]+"),
             "helpMessage": "Tenant password for the Azure Key Vault",
-        }
+        },
     ]
 
     def __init__(self, *args, **kwargs):
@@ -154,9 +152,7 @@ class AzureDestinationPlugin(DestinationPlugin):
         access_token = get_access_token(tenant, app_id, password, self)
 
         cert_url = f"{vault_URI}/certificates/{certificate_name}/import?api-version=7.1"
-        post_header = {
-            "Authorization": f"Bearer {access_token}"
-        }
+        post_header = {"Authorization": f"Bearer {access_token}"}
         # Azure keyvault accepts PEM and PKCS12-Format Certificates
         # only the latter is usable for Azure Application Gateway
         # therefore we upload in PKCS12 format
@@ -165,22 +161,20 @@ class AzureDestinationPlugin(DestinationPlugin):
             key=parse_private_key(private_key),
             cert=cert,
             cas=[ca_certs],
-            encryption_algorithm=serialization.NoEncryption()
+            encryption_algorithm=serialization.NoEncryption(),
         )
         # encode the p12 string with b64 and encode is at utf-8 again to get string for JSON
         post_body = {
-            "value": base64.b64encode(cert_p12).decode('utf-8'),
+            "value": base64.b64encode(cert_p12).decode("utf-8"),
             "policy": {
                 "key_props": {
                     "exportable": True,
                     "kty": "RSA",
                     "key_size": bitstrength(cert),
-                    "reuse_key": True
+                    "reuse_key": True,
                 },
-                "secret_props": {
-                    "contentType": "application/x-pkcs12"
-                }
-            }
+                "secret_props": {"contentType": "application/x-pkcs12"},
+            },
         }
 
         try:

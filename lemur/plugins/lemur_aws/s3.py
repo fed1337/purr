@@ -6,6 +6,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 from botocore.exceptions import ClientError
 from flask import current_app
 from sentry_sdk import capture_exception
@@ -19,9 +20,7 @@ def put(bucket_name, region_name, prefix, data, encrypt, **kwargs):
     Use STS to write to an S3 bucket
     """
     bucket = kwargs["resource"].Bucket(bucket_name)
-    current_app.logger.debug(
-        f"Persisting data to S3. Bucket: {bucket_name} Prefix: {prefix}"
-    )
+    current_app.logger.debug(f"Persisting data to S3. Bucket: {bucket_name} Prefix: {prefix}")
 
     # get data ready for writing
     if isinstance(data, str):
@@ -50,11 +49,13 @@ def delete(bucket_name, prefixed_object_name, **kwargs):
     """
     try:
         response = kwargs["client"].delete_object(Bucket=bucket_name, Key=prefixed_object_name)
-        current_app.logger.debug(f"Delete data from S3."
-                                 f"Bucket: {bucket_name},"
-                                 f"Prefix: {prefixed_object_name},"
-                                 f"Status_code: {response}")
-        return response['ResponseMetadata']['HTTPStatusCode'] < 300
+        current_app.logger.debug(
+            f"Delete data from S3."
+            f"Bucket: {bucket_name},"
+            f"Prefix: {prefixed_object_name},"
+            f"Status_code: {response}"
+        )
+        return response["ResponseMetadata"]["HTTPStatusCode"] < 300
     except ClientError:
         capture_exception()
         return False
@@ -67,9 +68,10 @@ def get(bucket_name, prefixed_object_name, **kwargs):
     """
     try:
         response = kwargs["client"].get_object(Bucket=bucket_name, Key=prefixed_object_name)
-        current_app.logger.debug(f"Get data from S3. Bucket: {bucket_name},"
-                                 f"object_name: {prefixed_object_name}")
-        return response['Body'].read().decode("utf-8")
+        current_app.logger.debug(
+            f"Get data from S3. Bucket: {bucket_name},object_name: {prefixed_object_name}"
+        )
+        return response["Body"].read().decode("utf-8")
     except ClientError:
         capture_exception()
         return None

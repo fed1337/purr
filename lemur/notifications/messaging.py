@@ -8,6 +8,7 @@
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 
 """
+
 import sys
 from collections import defaultdict
 from datetime import timedelta
@@ -103,8 +104,9 @@ def get_expiring_authority_certificates():
     :return:
     """
     now = arrow.utcnow()
-    authority_expiration_intervals = current_app.config.get("LEMUR_AUTHORITY_CERT_EXPIRATION_EMAIL_INTERVALS",
-                                                            [365, 180])
+    authority_expiration_intervals = current_app.config.get(
+        "LEMUR_AUTHORITY_CERT_EXPIRATION_EMAIL_INTERVALS", [365, 180]
+    )
     max_not_after = now + timedelta(days=max(authority_expiration_intervals) + 1)
 
     q = (
@@ -147,7 +149,9 @@ def get_eligible_certificates(exclude=None):
                     notification_groups.append((notification, certificate))
 
         # group by notification
-        for notification, items in groupby(sorted(notification_groups, key=lambda x: x[0].label), lambda x: x[0].label):
+        for notification, items in groupby(
+            sorted(notification_groups, key=lambda x: x[0].label), lambda x: x[0].label
+        ):
             certificates[owner][notification] = list(items)
 
     return certificates
@@ -159,8 +163,10 @@ def get_eligible_security_summary_certs(exclude=None):
     now = arrow.utcnow()
 
     # group by expiration interval
-    for interval, interval_certs in groupby(sorted(all_certs, key=lambda x: (x.not_after - now).days),
-                                            lambda x: (x.not_after - now).days):
+    for interval, interval_certs in groupby(
+        sorted(all_certs, key=lambda x: (x.not_after - now).days),
+        lambda x: (x.not_after - now).days,
+    ):
         cert_data = []
         for certificate in interval_certs:
             cert_data.append(certificate_notification_output_schema.dump(certificate).data)
@@ -183,8 +189,10 @@ def get_eligible_authority_certificates():
     # group by owner
     for owner, owner_certs in groupby(sorted(all_certs, key=lambda x: x.owner), lambda x: x.owner):
         # group by expiration interval
-        for interval, interval_certs in groupby(sorted(owner_certs, key=lambda x: (x.not_after - now).days),
-                                                lambda x: (x.not_after - now).days):
+        for interval, interval_certs in groupby(
+            sorted(owner_certs, key=lambda x: (x.not_after - now).days),
+            lambda x: (x.not_after - now).days,
+        ):
             certificates[owner][interval] = list(interval_certs)
 
     return certificates
@@ -224,14 +232,20 @@ def send_plugin_notification(event_type, data, recipients, notification, **kwarg
         "notification",
         "counter",
         1,
-        metric_tags={"status": status, "event_type": event_type, "plugin": notification.plugin.slug},
+        metric_tags={
+            "status": status,
+            "event_type": event_type,
+            "plugin": notification.plugin.slug,
+        },
     )
 
     if status == SUCCESS_METRIC_STATUS:
         return True
 
 
-def send_expiration_notifications(exclude, disabled_notification_plugins, disable_security_team_emails=False):
+def send_expiration_notifications(
+    exclude, disabled_notification_plugins, disable_security_team_emails=False
+):
     """
     This function will check for upcoming certificate expiration,
     and send out notification emails at given intervals.
@@ -246,7 +260,6 @@ def send_expiration_notifications(exclude, disabled_notification_plugins, disabl
         security_email = []
 
     for owner, notification_group in get_eligible_certificates(exclude=exclude).items():
-
         for notification_label, certificates in notification_group.items():
             notification_data = []
             cert_ids = []
@@ -255,21 +268,27 @@ def send_expiration_notifications(exclude, disabled_notification_plugins, disabl
 
             # skip sending the notification if the plugin is marked as disabled
             if notification.plugin.slug not in disabled_notification_plugins:
-
                 for data in certificates:
                     n, certificate = data
-                    cert_data = certificate_notification_output_schema.dump(
-                        certificate
-                    ).data
+                    cert_data = certificate_notification_output_schema.dump(certificate).data
                     notification_data.append(cert_data)
                     cert_ids.append(certificate.id)
 
-                email_recipients = notification.plugin.get_recipients(notification.options, security_email + [owner])
-                email_tags = {"cert_ids": cert_ids, "notification_id": notification.id,
-                              "notification_label": notification.label}
+                email_recipients = notification.plugin.get_recipients(
+                    notification.options, security_email + [owner]
+                )
+                email_tags = {
+                    "cert_ids": cert_ids,
+                    "notification_id": notification.id,
+                    "notification_label": notification.label,
+                }
                 # Plugin will ONLY use the provided recipients if it's email; any other notification plugin ignores them
                 if send_plugin_notification(
-                        "expiration", notification_data, email_recipients, notification, email_tags=email_tags
+                    "expiration",
+                    notification_data,
+                    email_recipients,
+                    notification,
+                    email_tags=email_tags,
                 ):
                     success += len(email_recipients)
                 else:
@@ -288,8 +307,11 @@ def send_expiration_notifications(exclude, disabled_notification_plugins, disabl
                     # If email-notification plugin is disabled, we won't sent these extra notifications.
                     if "email-notification" not in disabled_notification_plugins:
                         if send_default_notification(
-                                "expiration", notification_data, email_recipients, notification.options,
-                                email_tags=email_tags
+                            "expiration",
+                            notification_data,
+                            email_recipients,
+                            notification.options,
+                            email_tags=email_tags,
                         ):
                             success += len(email_recipients)
                         else:
@@ -314,19 +336,24 @@ def send_authority_expiration_notifications():
             cert_ids = []
 
             for certificate in certificates:
-                cert_data = certificate_notification_output_schema.dump(
-                    certificate
-                ).data
-                cert_data['self_signed'] = is_selfsigned(certificate.parsed_cert)
-                cert_data['issued_cert_count'] = certificates_service.get_issued_cert_count_for_authority(certificate.root_authority)
+                cert_data = certificate_notification_output_schema.dump(certificate).data
+                cert_data["self_signed"] = is_selfsigned(certificate.parsed_cert)
+                cert_data["issued_cert_count"] = (
+                    certificates_service.get_issued_cert_count_for_authority(
+                        certificate.root_authority
+                    )
+                )
                 notification_data.append(cert_data)
                 cert_ids.append(certificate.id)
 
             email_recipients = security_email + [owner]
             email_tags = {"cert_ids": cert_ids}
             if send_default_notification(
-                    "authority_expiration", notification_data, email_recipients,
-                    notification_options=[{'name': 'interval', 'value': interval}], email_tags=email_tags
+                "authority_expiration",
+                notification_data,
+                email_recipients,
+                notification_options=[{"name": "interval", "value": interval}],
+                email_tags=email_tags,
             ):
                 success = len(email_recipients)
             else:
@@ -335,7 +362,9 @@ def send_authority_expiration_notifications():
     return success, failure
 
 
-def send_default_notification(notification_type, data, targets, notification_options=None, **kwargs):
+def send_default_notification(
+    notification_type, data, targets, notification_options=None, **kwargs
+):
     """
     Sends a report to the specified target via the default notification plugin. Applicable for any notification_type.
     At present, "default" means email, as the other notification plugins do not support dynamically configured targets.
@@ -364,8 +393,10 @@ def send_default_notification(notification_type, data, targets, notification_opt
         notification_plugin.send(notification_type, data, targets, notification_options, **kwargs)
         status = SUCCESS_METRIC_STATUS
     except Exception as e:
-        log_data["message"] = f"Unable to send {notification_type} notification for certificate data {data} " \
-                              f"to targets {targets}"
+        log_data["message"] = (
+            f"Unable to send {notification_type} notification for certificate data {data} "
+            f"to targets {targets}"
+        )
         current_app.logger.error(log_data, exc_info=True)
         capture_exception()
 
@@ -373,7 +404,11 @@ def send_default_notification(notification_type, data, targets, notification_opt
         "notification",
         "counter",
         1,
-        metric_tags={"status": status, "event_type": notification_type, "plugin": notification_plugin.slug},
+        metric_tags={
+            "status": status,
+            "event_type": notification_type,
+            "plugin": notification_plugin.slug,
+        },
     )
 
     if status == SUCCESS_METRIC_STATUS:
@@ -383,14 +418,22 @@ def send_default_notification(notification_type, data, targets, notification_opt
 def send_revocation_notification(certificate):
     data = certificate_notification_output_schema.dump(certificate).data
     data["security_email"] = current_app.config.get("LEMUR_SECURITY_TEAM_EMAIL")
-    email_tags = {"cert_id": certificate.id, "cert_name": certificate.name, "owner": certificate.owner}
+    email_tags = {
+        "cert_id": certificate.id,
+        "cert_name": certificate.name,
+        "owner": certificate.owner,
+    }
     return send_default_notification("revocation", data, [data["owner"]], email_tags=email_tags)
 
 
 def send_rotation_notification(certificate):
     data = certificate_notification_output_schema.dump(certificate).data
     data["security_email"] = current_app.config.get("LEMUR_SECURITY_TEAM_EMAIL")
-    email_tags = {"cert_id": certificate.id, "cert_name": certificate.name, "owner": certificate.owner}
+    email_tags = {
+        "cert_id": certificate.id,
+        "cert_name": certificate.name,
+        "owner": certificate.owner,
+    }
     return send_default_notification("rotation", data, [data["owner"]], email_tags=email_tags)
 
 
@@ -400,17 +443,27 @@ def send_reissue_no_endpoints_notification(old_cert, new_cert):
         # Endpoints get moved from old to new cert during rotation, so the new cert won't have endpoints yet;
         # instead, we have to check the old cert for endpoints.
         if not old_cert.endpoints:
-            excluded_destinations = current_app.config.get("LEMUR_REISSUE_NOTIFICATION_EXCLUDED_DESTINATIONS", [])
-            has_excluded_destination = excluded_destinations and old_cert.destinations and \
-                [d for d in old_cert.destinations if d.label in excluded_destinations]
+            excluded_destinations = current_app.config.get(
+                "LEMUR_REISSUE_NOTIFICATION_EXCLUDED_DESTINATIONS", []
+            )
+            has_excluded_destination = (
+                excluded_destinations
+                and old_cert.destinations
+                and [d for d in old_cert.destinations if d.label in excluded_destinations]
+            )
             if not has_excluded_destination:
                 data = certificate_notification_output_schema.dump(new_cert).data
                 data["security_email"] = current_app.config.get("LEMUR_SECURITY_TEAM_EMAIL")
                 email_recipients = [data["owner"]] + data["security_email"]
-                email_tags = {"old_cert_id": old_cert.id, "new_cert_id": new_cert.id, "new_cert_name": new_cert.name,
-                              "new_cert_owner": new_cert.owner}
-                return send_default_notification("reissued_with_no_endpoints", data, email_recipients,
-                                                 email_tags=email_tags)
+                email_tags = {
+                    "old_cert_id": old_cert.id,
+                    "new_cert_id": new_cert.id,
+                    "new_cert_name": new_cert.name,
+                    "new_cert_owner": new_cert.owner,
+                }
+                return send_default_notification(
+                    "reissued_with_no_endpoints", data, email_recipients, email_tags=email_tags
+                )
     except Exception:
         current_app.logger.warn(
             f"Error sending reissue notification for certificate: {old_cert.name}", exc_info=True
@@ -422,17 +475,22 @@ def send_reissue_failed_notification(certificate):
         data = certificate_notification_output_schema.dump(certificate).data
         data["security_email"] = current_app.config.get("LEMUR_SECURITY_TEAM_EMAIL")
         email_recipients = [data["owner"]] + data["security_email"]
-        email_tags = {"cert_id": certificate.id, "cert_name": certificate.name, "owner": certificate.owner}
-        return send_default_notification("reissue_failed", data, email_recipients, email_tags=email_tags)
+        email_tags = {
+            "cert_id": certificate.id,
+            "cert_name": certificate.name,
+            "owner": certificate.owner,
+        }
+        return send_default_notification(
+            "reissue_failed", data, email_recipients, email_tags=email_tags
+        )
     except Exception:
         current_app.logger.warn(
-            f"Error sending reissue failed notification for certificate: {certificate.name}", exc_info=True
+            f"Error sending reissue failed notification for certificate: {certificate.name}",
+            exc_info=True,
         )
 
 
-def send_pending_failure_notification(
-    pending_cert, notify_owner=True, notify_security=True
-):
+def send_pending_failure_notification(pending_cert, notify_owner=True, notify_security=True):
     """
     Sends a report to certificate owners when their pending certificate failed to be created.
 
@@ -452,9 +510,15 @@ def send_pending_failure_notification(
     if notify_security:
         email_recipients = email_recipients + data["security_email"]
 
-    email_tags = {"cert_id": pending_cert.id, "cert_name": pending_cert.name, "status": pending_cert.status,
-                  "owner": pending_cert.owner}
-    return send_default_notification("failed", data, email_recipients, pending_cert, email_tags=email_tags)
+    email_tags = {
+        "cert_id": pending_cert.id,
+        "cert_name": pending_cert.name,
+        "status": pending_cert.status,
+        "owner": pending_cert.owner,
+    }
+    return send_default_notification(
+        "failed", data, email_recipients, pending_cert, email_tags=email_tags
+    )
 
 
 def needs_notification(certificate):
@@ -488,9 +552,7 @@ def needs_notification(certificate):
             pass
 
         else:
-            raise Exception(
-                f"Invalid base unit for expiration interval: {unit}"
-            )
+            raise Exception(f"Invalid base unit for expiration interval: {unit}")
         if days == interval:
             notifications.append(notification)
     return notifications

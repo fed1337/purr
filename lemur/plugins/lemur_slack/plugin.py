@@ -7,6 +7,7 @@
 .. moduleauthor:: Harm Weites <harm@weites.com>
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 import json
 import arrow
 from flask import current_app
@@ -36,9 +37,7 @@ def create_expiration_attachments(certificates):
                     {"title": "Owner", "value": certificate["owner"], "short": True},
                     {
                         "title": "Expires",
-                        "value": arrow.get(certificate["validityEnd"]).format(
-                            "dddd, MMMM D, YYYY"
-                        ),
+                        "value": arrow.get(certificate["validityEnd"]).format("dddd, MMMM D, YYYY"),
                         "short": True,
                     },
                     {
@@ -62,9 +61,7 @@ def create_rotation_attachments(certificate):
             {"title": "Owner", "value": certificate["owner"], "short": True},
             {
                 "title": "Expires",
-                "value": arrow.get(certificate["validityEnd"]).format(
-                    "dddd, MMMM D, YYYY"
-                ),
+                "value": arrow.get(certificate["validityEnd"]).format("dddd, MMMM D, YYYY"),
                 "short": True,
             },
             {
@@ -139,6 +136,4 @@ class SlackNotificationPlugin(ExpirationNotificationPlugin):
         if r.status_code not in [200]:
             raise Exception(f"Failed to send message. Slack response: {r.status_code} {body}")
 
-        current_app.logger.info(
-            f"Slack response: {r.status_code} Message Body: {body}"
-        )
+        current_app.logger.info(f"Slack response: {r.status_code} Message Body: {body}")

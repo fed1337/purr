@@ -3,6 +3,7 @@
     :copyright: (c) 2018 by Netflix Inc., see AUTHORS for more
     :license: Apache, see LICENSE for more details.
 """
+
 from flask import current_app
 
 
@@ -31,9 +32,7 @@ class InvalidDistribution(LemurException):
         self.field = field
 
     def __str__(self):
-        return repr(
-            f"Invalid distribution {self.field}, must use IAM certificates"
-        )
+        return repr(f"Invalid distribution {self.field}, must use IAM certificates")
 
 
 class TokenExchangeFailed(LemurException):
@@ -42,7 +41,7 @@ class TokenExchangeFailed(LemurException):
         self.description = description
 
     def __str__(self):
-        return f'Token exchange failed with {self.error}. {self.description}'
+        return f"Token exchange failed with {self.error}. {self.description}"
 
 
 class AttrNotFound(LemurException):

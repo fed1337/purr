@@ -34,10 +34,7 @@ def test_api_key_list_get(client, token, status):
     ],
 )
 def test_api_key_list_post_invalid(client, token, status):
-    assert (
-        client.post(api.url_for(ApiKeyList), data={}, headers=token).status_code
-        == status
-    )
+    assert client.post(api.url_for(ApiKeyList), data={}, headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -110,10 +107,7 @@ def test_api_key_list_post_valid_no_permission(client, token, status):
     ],
 )
 def test_api_key_list_patch(client, token, status):
-    assert (
-        client.patch(api.url_for(ApiKeyList), data={}, headers=token).status_code
-        == status
-    )
+    assert client.patch(api.url_for(ApiKeyList), data={}, headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -139,10 +133,7 @@ def test_api_key_list_delete(client, token, status):
     ],
 )
 def test_user_api_key_list_get(client, token, status):
-    assert (
-        client.get(api.url_for(ApiKeyUserList, user_id=1), headers=token).status_code
-        == status
-    )
+    assert client.get(api.url_for(ApiKeyUserList, user_id=1), headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -156,9 +147,7 @@ def test_user_api_key_list_get(client, token, status):
 )
 def test_user_api_key_list_post_invalid(client, token, status):
     assert (
-        client.post(
-            api.url_for(ApiKeyUserList, user_id=1), data={}, headers=token
-        ).status_code
+        client.post(api.url_for(ApiKeyUserList, user_id=1), data={}, headers=token).status_code
         == status
     )
 
@@ -176,9 +165,7 @@ def test_user_api_key_list_post_valid_self(client, user_id, token, status):
     assert (
         client.post(
             api.url_for(ApiKeyUserList, user_id=1),
-            data=json.dumps(
-                {"name": "a test token", "user": {"id": user_id}, "ttl": -1}
-            ),
+            data=json.dumps({"name": "a test token", "user": {"id": user_id}, "ttl": -1}),
             headers=token,
         ).status_code
         == status
@@ -216,9 +203,7 @@ def test_user_api_key_list_post_valid_no_permission(client, token, status):
 )
 def test_user_api_key_list_patch(client, token, status):
     assert (
-        client.patch(
-            api.url_for(ApiKeyUserList, user_id=1), data={}, headers=token
-        ).status_code
+        client.patch(api.url_for(ApiKeyUserList, user_id=1), data={}, headers=token).status_code
         == status
     )
 
@@ -234,8 +219,7 @@ def test_user_api_key_list_patch(client, token, status):
 )
 def test_user_api_key_list_delete(client, token, status):
     assert (
-        client.delete(api.url_for(ApiKeyUserList, user_id=1), headers=token).status_code
-        == status
+        client.delete(api.url_for(ApiKeyUserList, user_id=1), headers=token).status_code == status
     )
 
 
@@ -248,9 +232,7 @@ def test_user_api_key_list_delete(client, token, status):
         ("", 401),
     ],
 )
-@pytest.mark.skip(
-    reason="no way of getting an actual user onto the access key to generate a jwt"
-)
+@pytest.mark.skip(reason="no way of getting an actual user onto the access key to generate a jwt")
 def test_api_key_get(client, token, status):
     assert client.get(api.url_for(ApiKeys, aid=1), headers=token).status_code == status
 
@@ -278,9 +260,7 @@ def test_api_key_post(client, token, status):
     ],
 )
 def test_api_key_patch(client, token, status):
-    assert (
-        client.patch(api.url_for(ApiKeys, aid=1), headers=token).status_code == status
-    )
+    assert client.patch(api.url_for(ApiKeys, aid=1), headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -292,9 +272,7 @@ def test_api_key_patch(client, token, status):
         ("", 401),
     ],
 )
-@pytest.mark.skip(
-    reason="no way of getting an actual user onto the access key to generate a jwt"
-)
+@pytest.mark.skip(reason="no way of getting an actual user onto the access key to generate a jwt")
 def test_api_key_put_permssions(client, token, status):
     assert (
         client.put(
@@ -317,10 +295,7 @@ def test_api_key_put_permssions(client, token, status):
     ],
 )
 def test_api_key_described_get(client, token, status):
-    assert (
-        client.get(api.url_for(ApiKeysDescribed, aid=1), headers=token).status_code
-        == status
-    )
+    assert client.get(api.url_for(ApiKeysDescribed, aid=1), headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -332,14 +307,9 @@ def test_api_key_described_get(client, token, status):
         ("", 401),
     ],
 )
-@pytest.mark.skip(
-    reason="no way of getting an actual user onto the access key to generate a jwt"
-)
+@pytest.mark.skip(reason="no way of getting an actual user onto the access key to generate a jwt")
 def test_user_api_key_get(client, token, status):
-    assert (
-        client.get(api.url_for(UserApiKeys, uid=1, aid=1), headers=token).status_code
-        == status
-    )
+    assert client.get(api.url_for(UserApiKeys, uid=1, aid=1), headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -353,9 +323,7 @@ def test_user_api_key_get(client, token, status):
 )
 def test_user_api_key_post(client, token, status):
     assert (
-        client.post(
-            api.url_for(UserApiKeys, uid=2, aid=1), data={}, headers=token
-        ).status_code
+        client.post(api.url_for(UserApiKeys, uid=2, aid=1), data={}, headers=token).status_code
         == status
     )
 
@@ -371,9 +339,7 @@ def test_user_api_key_post(client, token, status):
 )
 def test_user_api_key_patch(client, token, status):
     assert (
-        client.patch(
-            api.url_for(UserApiKeys, uid=2, aid=1), data={}, headers=token
-        ).status_code
+        client.patch(api.url_for(UserApiKeys, uid=2, aid=1), data={}, headers=token).status_code
         == status
     )
 
@@ -387,9 +353,7 @@ def test_user_api_key_patch(client, token, status):
         ("", 401),
     ],
 )
-@pytest.mark.skip(
-    reason="no way of getting an actual user onto the access key to generate a jwt"
-)
+@pytest.mark.skip(reason="no way of getting an actual user onto the access key to generate a jwt")
 def test_user_api_key_put_permssions(client, token, status):
     assert (
         client.put(

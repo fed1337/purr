@@ -6,7 +6,6 @@ services:
       POSTGRES_USER: lemur
       POSTGRES_PASSWORD: lemur
       POSTGRES_HOST: postgres
-    network_mode: host
     ports:
       - "5432:5432"
     volumes:
@@ -41,8 +40,10 @@ services:
       LOG_FILE: "/opt/lemur/lemur.log"
       SQLALCHEMY_DATABASE_URI: "postgresql://lemur:lemur@postgres:5432/lemur"
       LEMUR_CONF: "/opt/lemur/lemur.conf.py"
-      LEMUR_INIT: "1"
       LEMUR_PASSWORD: "lemur"
+    volumes:
+      - ./lemur.conf.py:/home/lemur/.lemur/lemur.conf.py
+      - ./lemur.log:/opt/lemur/lemur.log
     ports:
       - "80:80"
     healthcheck:

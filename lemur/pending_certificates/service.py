@@ -3,6 +3,7 @@
     Copyright (c) 2018 and onwards Netflix, Inc.  All rights reserved.
 .. moduleauthor:: James Chuong <jchuong@instartlogic.com>
 """
+
 import arrow
 from flask import current_app
 from sqlalchemy import or_, cast, Integer
@@ -58,7 +59,9 @@ def get_by_name(pending_cert_name):
 
 
 def delete(pending_certificate):
-    log_service.audit_log("delete_pending_certificate", pending_certificate.name, "Deleting the pending certificate")
+    log_service.audit_log(
+        "delete_pending_certificate", pending_certificate.name, "Deleting the pending certificate"
+    )
     database.delete(pending_certificate)
 
 
@@ -105,9 +108,7 @@ def create_certificate(pending_certificate, certificate, user):
     certificate["owner"] = pending_certificate.owner
     data, errors = CertificateUploadInputSchema().load(certificate)
     if errors:
-        raise Exception(
-            f"Unable to create certificate: {errors}"
-        )
+        raise Exception(f"Unable to create certificate: {errors}")
 
     data.update(vars(pending_certificate))
     # Copy relationships, vars doesn't copy this without explicit fields
@@ -135,17 +136,22 @@ def create_certificate(pending_certificate, certificate, user):
     cert = certificate_service.import_certificate(**data)
     database.update(cert)
 
-    metrics.send("certificate_issued", "counter", 1, metric_tags=dict(owner=cert.owner, issuer=cert.issuer))
-    log_service.audit_log("certificate_from_pending_certificate", cert.name,
-                          f"Created from the pending certificate {pending_certificate.name}")
+    metrics.send(
+        "certificate_issued", "counter", 1, metric_tags=dict(owner=cert.owner, issuer=cert.issuer)
+    )
+    log_service.audit_log(
+        "certificate_from_pending_certificate",
+        cert.name,
+        f"Created from the pending certificate {pending_certificate.name}",
+    )
     log_data = {
         "function": "lemur.certificates.service.create",
         "owner": cert.owner,
         "name": cert.name,
         "serial": cert.serial,
         "issuer": cert.issuer,
-        "not_after": cert.not_after.format('YYYY-MM-DD HH:mm:ss'),
-        "not_before": cert.not_before.format('YYYY-MM-DD HH:mm:ss'),
+        "not_after": cert.not_after.format("YYYY-MM-DD HH:mm:ss"),
+        "not_before": cert.not_before.format("YYYY-MM-DD HH:mm:ss"),
         "sans": cert.san,
     }
     current_app.logger.info(log_data)
@@ -159,8 +165,11 @@ def increment_attempt(pending_certificate):
     pending_certificate.number_attempts += 1
     database.update(pending_certificate)
 
-    log_service.audit_log("increment_attempt_pending_certificate", pending_certificate.name,
-                          "Incremented attempts for the pending certificate")
+    log_service.audit_log(
+        "increment_attempt_pending_certificate",
+        pending_certificate.name,
+        "Incremented attempts for the pending certificate",
+    )
     return pending_certificate.number_attempts
 
 
@@ -173,7 +182,9 @@ def update(pending_cert_id, **kwargs):
     for key, value in kwargs.items():
         setattr(pending_cert, key, value)
 
-    log_service.audit_log("update_pending_certificate", pending_cert.name, f"Update summary - {kwargs}")
+    log_service.audit_log(
+        "update_pending_certificate", pending_cert.name, f"Update summary - {kwargs}"
+    )
     return database.update(pending_cert)
 
 
@@ -190,7 +201,9 @@ def cancel(pending_certificate, **kwargs):
     pending_certificate.status = "Cancelled"
     database.update(pending_certificate)
 
-    log_service.audit_log("cancel_pending_certificate", pending_certificate.name, "Cancelled the pending certificate")
+    log_service.audit_log(
+        "cancel_pending_certificate", pending_certificate.name, "Cancelled the pending certificate"
+    )
     return pending_certificate
 
 
@@ -224,9 +237,7 @@ def render(args):
             )
 
         elif "destination" in terms:
-            query = query.filter(
-                PendingCertificate.destinations.any(Destination.id == terms[1])
-            )
+            query = query.filter(PendingCertificate.destinations.any(Destination.id == terms[1]))
         elif "notify" in filt:
             query = query.filter(PendingCertificate.notify == truthiness(terms[1]))
         elif "active" in filt:
@@ -235,9 +246,7 @@ def render(args):
             query = query.filter(
                 or_(
                     PendingCertificate.cn.ilike(f"%{terms[1]}%"),
-                    PendingCertificate.domains.any(
-                        Domain.name.ilike(f"%{terms[1]}%")
-                    ),
+                    PendingCertificate.domains.any(Domain.name.ilike(f"%{terms[1]}%")),
                 )
             )
         elif "name" in terms:
@@ -251,9 +260,7 @@ def render(args):
 
     if show:
         sub_query = (
-            database.session_query(Role.name)
-            .filter(Role.user_id == args["user"].id)
-            .subquery()
+            database.session_query(Role.name).filter(Role.user_id == args["user"].id).subquery()
         )
         query = query.filter(
             or_(
@@ -263,9 +270,7 @@ def render(args):
         )
 
     if destination_id:
-        query = query.filter(
-            PendingCertificate.destinations.any(Destination.id == destination_id)
-        )
+        query = query.filter(PendingCertificate.destinations.any(Destination.id == destination_id))
 
     if notification_id:
         query = query.filter(
@@ -305,15 +310,15 @@ def upload(pending_certificate_id, **kwargs):
     parsed_chain = parse_cert_chain(chain)
 
     # Check that the certificate is actually signed by the CA to avoid incorrect cert pasting
-    validators.verify_cert_chain(
-        [parse_certificate(partial_cert["body"])] + parsed_chain
-    )
+    validators.verify_cert_chain([parse_certificate(partial_cert["body"])] + parsed_chain)
 
     final_cert = create_certificate(pending_cert, partial_cert, pending_cert.user)
 
     pending_cert_final_result = update(pending_cert.id, resolved_cert_id=final_cert.id)
     update(pending_cert.id, resolved=True)
 
-    log_service.audit_log("resolve_pending_certificate", pending_cert.name, "Resolved the pending certificate")
+    log_service.audit_log(
+        "resolve_pending_certificate", pending_cert.name, "Resolved the pending certificate"
+    )
 
     return pending_cert_final_result

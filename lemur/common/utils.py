@@ -6,6 +6,7 @@
 
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 import base64
 import json
 import re
@@ -60,18 +61,18 @@ def get_psuedo_random_string():
     Create a random and strongish challenge.
     """
     chars = string.ascii_uppercase + string.ascii_lowercase + string.digits + "~!@#$%^&*()_+"
-    challenge = ''.join(secrets.choice(chars) for x in range(24))
+    challenge = "".join(secrets.choice(chars) for x in range(24))
     return challenge
 
 
 def get_random_secret(length):
-    """ Similar to get_pseudo_random_string, but accepts a length parameter. """
+    """Similar to get_pseudo_random_string, but accepts a length parameter."""
     chars = string.ascii_uppercase + string.ascii_lowercase + string.digits + "~!@#$%^&*()_+"
-    return ''.join(secrets.choice(chars) for x in range(length))
+    return "".join(secrets.choice(chars) for x in range(length))
 
 
 def get_state_token_secret():
-    return base64.b64encode(get_random_secret(32).encode('utf8'))
+    return base64.b64encode(get_random_secret(32).encode("utf8"))
 
 
 def parse_certificate(body):
@@ -111,9 +112,7 @@ def get_key_type_from_certificate(body):
     """
     parsed_cert = parse_certificate(body)
     if isinstance(parsed_cert.public_key(), rsa.RSAPublicKey):
-        return "RSA{key_size}".format(
-            key_size=parsed_cert.public_key().key_size
-        )
+        return "RSA{key_size}".format(key_size=parsed_cert.public_key().key_size)
     elif isinstance(parsed_cert.public_key(), ec.EllipticCurvePublicKey):
         return get_key_type_from_ec_curve(parsed_cert.public_key().curve.name)
 
@@ -241,9 +240,7 @@ def generate_private_key(key_type):
             public_exponent=65537, key_size=key_size, backend=default_backend()
         )
     elif "ECC" in key_type:
-        return ec.generate_private_key(
-            _CURVE_TYPES[key_type], backend=default_backend()
-        )
+        return ec.generate_private_key(_CURVE_TYPES[key_type], backend=default_backend())
 
 
 def key_to_alg(key):
@@ -295,9 +292,7 @@ def check_cert_signature(cert, issuer_public_key):
         )
     else:
         raise UnsupportedAlgorithm(
-            "Unsupported Algorithm '{var}'.".format(
-                var=cert.signature_algorithm_oid._name
-            )
+            "Unsupported Algorithm '{var}'.".format(var=cert.signature_algorithm_oid._name)
         )
 
 
@@ -334,9 +329,7 @@ def validate_conf(app, required_vars):
     """
     for var in required_vars:
         if var not in app.config:
-            raise InvalidConfiguration(
-                f"Required variable '{var}' is not set in Lemur's conf."
-            )
+            raise InvalidConfiguration(f"Required variable '{var}' is not set in Lemur's conf.")
 
 
 def check_validation(validation):
@@ -378,14 +371,14 @@ def column_windows(session, column, windowsize):
         else:
             return column >= start_id
 
-    q = session.query(
-        column, func.row_number().over(order_by=column).label("rownum")
-    ).from_self(column)
+    q = session.query(column, func.row_number().over(order_by=column).label("rownum")).from_self(
+        column
+    )
 
     if windowsize > 1:
         q = q.filter(sqlalchemy.text("rownum %% %d=1" % windowsize))
 
-    intervals = [id for id, in q]
+    intervals = [id for (id,) in q]
 
     while intervals:
         start = intervals.pop(0)
@@ -397,7 +390,7 @@ def column_windows(session, column, windowsize):
 
 
 def windowed_query(q, column, windowsize):
-    """"Break a Query into windows on a given column."""
+    """ "Break a Query into windows on a given column."""
 
     for whereclause in column_windows(q.session, column, windowsize):
         yield from q.filter(whereclause).order_by(column)
@@ -450,7 +443,9 @@ def get_certificate_via_tls(host, port, timeout=10):
     """
     context = ssl.create_default_context()
     context.check_hostname = False  # we don't care about validating the cert
-    context.verify_mode = ssl.CERT_NONE  # we don't care about validating the cert; it may be self-signed
+    context.verify_mode = (
+        ssl.CERT_NONE
+    )  # we don't care about validating the cert; it may be self-signed
     conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     conn.settimeout(timeout)
     conn.connect((host, port))
@@ -469,7 +464,9 @@ def parse_serial(pem_certificate):
     """
     x509_cert = OpenSSL.crypto.load_certificate(OpenSSL.crypto.FILETYPE_PEM, pem_certificate)
     x509_cert.get_notAfter()
-    parsed_certificate = OpenSSL.crypto.load_certificate(OpenSSL.crypto.FILETYPE_PEM, pem_certificate)
+    parsed_certificate = OpenSSL.crypto.load_certificate(
+        OpenSSL.crypto.FILETYPE_PEM, pem_certificate
+    )
     return parsed_certificate.get_serial_number()
 
 
@@ -515,13 +512,14 @@ def drop_last_cert_from_chain(full_chain: str) -> str:
     :param full_chain: string of a certificate chain
     :return:  string of a new certificate chain, omitting the last certificate
     """
-    if full_chain == '' or full_chain.count("BEGIN CERTIFICATE") <= 1:
+    if full_chain == "" or full_chain.count("BEGIN CERTIFICATE") <= 1:
         return full_chain
     full_chain_certs = CERT_PEM_REGEX.findall(full_chain.encode())
     pem_certificate = OpenSSL.crypto.dump_certificate(
         OpenSSL.crypto.FILETYPE_PEM,
         OpenSSL.crypto.load_certificate(
-            OpenSSL.crypto.FILETYPE_PEM, ''.join(cert.decode() for cert in full_chain_certs[:-1]).encode()
+            OpenSSL.crypto.FILETYPE_PEM,
+            "".join(cert.decode() for cert in full_chain_certs[:-1]).encode(),
         ),
     ).decode()
     return pem_certificate

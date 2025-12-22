@@ -19,9 +19,7 @@ def text_to_slug(value, joiner="-"):
         raise ValueError("Input value is too long.")
 
     # Strip all character accents: decompose Unicode characters and then drop combining chars.
-    value = "".join(
-        c for c in unicodedata.normalize("NFKD", value) if not unicodedata.combining(c)
-    )
+    value = "".join(c for c in unicodedata.normalize("NFKD", value) if not unicodedata.combining(c))
 
     # Replace all remaining non-alphanumeric characters with joiner string. Multiple characters get collapsed into a
     # single joiner. Except, keep 'xn--' used in IDNA domain names as is.
@@ -90,9 +88,9 @@ def common_name(cert):
             {
                 "message": "Unable to get common name",
                 "error": e,
-                "public_key": cert.public_bytes(Encoding.PEM).decode("utf-8")
+                "public_key": cert.public_bytes(Encoding.PEM).decode("utf-8"),
             },
-            exc_info=True
+            exc_info=True,
         )
 
 
@@ -278,9 +276,7 @@ def issuer(cert):
         x509.OID_COMMON_NAME
     ) or cert.issuer.get_attributes_for_oid(x509.OID_ORGANIZATION_NAME)
     if not attrs:
-        current_app.logger.error(
-            f"Unable to get issuer! Cert serial {cert.serial_number:x}"
-        )
+        current_app.logger.error(f"Unable to get issuer! Cert serial {cert.serial_number:x}")
         return "<unknown>"
 
     return text_to_slug(attrs[0].value, "")

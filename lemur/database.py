@@ -9,6 +9,7 @@
 
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 from inflection import underscore
 from flask_sqlalchemy.model import DefaultMeta
 from sqlalchemy import exc, func, distinct
@@ -295,11 +296,7 @@ def get_count(q):
         count_func = func.count()
     if q._group_by and not disable_group_by:
         count_func = count_func.over(None)
-    count_q = (
-        q.options(lazyload("*"))
-        .statement.with_only_columns([count_func])
-        .order_by(None)
-    )
+    count_q = q.options(lazyload("*")).statement.with_only_columns([count_func]).order_by(None)
     if disable_group_by:
         count_q = count_q.group_by(None)
     try:

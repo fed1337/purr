@@ -66,9 +66,7 @@ class PendingCertificateOutputSchema(LemurOutputSchema):
     authority = fields.Nested(AuthorityNestedOutputSchema)
     roles = fields.Nested(RoleNestedOutputSchema, many=True)
     endpoints = fields.Nested(EndpointNestedOutputSchema, many=True, missing=[])
-    replaced_by = fields.Nested(
-        CertificateNestedOutputSchema, many=True, attribute="replaced"
-    )
+    replaced_by = fields.Nested(CertificateNestedOutputSchema, many=True, attribute="replaced")
     rotation_policy = fields.Nested(RotationPolicyNestedOutputSchema)
 
 
@@ -92,12 +90,8 @@ class PendingCertificateEditInputSchema(PendingCertificateSchema):
         :return:
         """
         if data["owner"]:
-            notification_name = "DEFAULT_{}".format(
-                data["owner"].split("@")[0].upper()
-            )
-            data[
-                "notifications"
-            ] += notification_service.create_default_expiration_notifications(
+            notification_name = "DEFAULT_{}".format(data["owner"].split("@")[0].upper())
+            data["notifications"] += notification_service.create_default_expiration_notifications(
                 notification_name, [data["owner"]]
             )
         return data

@@ -6,6 +6,7 @@
 
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 import json
 from typing import Any, Dict
 
@@ -51,9 +52,7 @@ class AtlasMetricPlugin(MetricPlugin):
     sidecar_host = None
     sidecar_port = None
 
-    def submit(
-        self, metric_name, metric_type, metric_value, metric_tags=None, options=None
-    ):
+    def submit(self, metric_name, metric_type, metric_value, metric_tags=None, options=None):
         if not options:
             options = self.options
 
@@ -68,9 +67,7 @@ class AtlasMetricPlugin(MetricPlugin):
 
         if metric_tags:
             if not isinstance(metric_tags, dict):
-                raise Exception(
-                    "Invalid Metric Tags for Atlas: Tags must be in dict format"
-                )
+                raise Exception("Invalid Metric Tags for Atlas: Tags must be in dict format")
 
         if (
             metric_value == "NaN"
@@ -98,9 +95,7 @@ class AtlasMetricPlugin(MetricPlugin):
             )
 
             if res.status_code != 200:
-                current_app.logger.warning(
-                    f"Failed to publish altas metric. {res.content}"
-                )
+                current_app.logger.warning(f"Failed to publish altas metric. {res.content}")
 
         except ConnectionError:
             current_app.logger.warning(

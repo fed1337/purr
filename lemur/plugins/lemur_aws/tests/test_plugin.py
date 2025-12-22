@@ -74,15 +74,17 @@ def test_upload_invalid_prefix(app):
         },
     ]
 
-    s3_client = boto3.client('s3')
+    s3_client = boto3.client("s3")
     s3_client.create_bucket(Bucket=bucket)
     p = plugins.get("aws-s3")
 
     with raises(ValueError) as e:
-        p.upload_acme_token(token_path=token_path,
-                           token_content=token_content,
-                           token=token_content,
-                           options=additional_options)
+        p.upload_acme_token(
+            token_path=token_path,
+            token_content=token_content,
+            token=token_content,
+            options=additional_options,
+        )
     assert "'prefix' cannot be validated" in str(e)
 
 
@@ -122,12 +124,14 @@ def test_clean(app):
         },
     ]
 
-    s3_client = boto3.client('s3')
+    s3_client = boto3.client("s3")
     s3_client.create_bucket(Bucket=bucket)
 
     p = plugins.get("aws-s3")
     Certificate = namedtuple("Certificate", ["name", "body", "private_key", "chain"])
-    certificate = Certificate(name="certificate", body="body", private_key="private_key", chain="chain")
+    certificate = Certificate(
+        name="certificate", body="body", private_key="private_key", chain="chain"
+    )
     s3_client.put_object(
         Bucket=bucket,
         Body="PEM_DATA",
@@ -194,27 +198,31 @@ def test_upload_acme_token(app):
         },
     ]
 
-    s3_client = boto3.client('s3')
+    s3_client = boto3.client("s3")
     s3_client.create_bucket(Bucket=bucket)
     p = plugins.get("aws-s3")
 
-    response = p.upload_acme_token(token_path=token_path,
-                                   token_content=token_content,
-                                   token=token_content,
-                                   options=additional_options)
+    response = p.upload_acme_token(
+        token_path=token_path,
+        token_content=token_content,
+        token=token_content,
+        options=additional_options,
+    )
     assert response
 
-    response = get(bucket_name=bucket,
-                   prefixed_object_name=prefix + token_name,
-                   encrypt=False,
-                   account_number=account)
+    response = get(
+        bucket_name=bucket,
+        prefixed_object_name=prefix + token_name,
+        encrypt=False,
+        account_number=account,
+    )
 
     # put data, and getting the same data
-    assert (response == token_content)
+    assert response == token_content
 
-    response = p.delete_acme_token(token_path=token_path,
-                                   options=additional_options,
-                                   account_number=account)
+    response = p.delete_acme_token(
+        token_path=token_path, options=additional_options, account_number=account
+    )
     assert response
 
 
@@ -265,9 +273,7 @@ def test_get_all_elb_and_elbv2s(app, aws_credentials):
     elbv2 = boto3.client("elbv2", region_name="us-east-1")
     vpc = ec2.create_vpc(CidrBlock="10.0.1.0/24")
     subnet1 = ec2.create_subnet(
-        VpcId=vpc.id,
-        CidrBlock="10.0.1.128/25",
-        AvailabilityZone="us-east-1b"
+        VpcId=vpc.id, CidrBlock="10.0.1.128/25", AvailabilityZone="us-east-1b"
     )
     elbv2.create_load_balancer(
         Name="test-lbv2",
@@ -275,14 +281,12 @@ def test_get_all_elb_and_elbv2s(app, aws_credentials):
             subnet1.id,
         ],
     )
-    lb_arn = get_load_balancer_arn_from_endpoint("test-lbv2",
-                                                 account_number="123456789012",
-                                                 region="us-east-1")
+    lb_arn = get_load_balancer_arn_from_endpoint(
+        "test-lbv2", account_number="123456789012", region="us-east-1"
+    )
     target_group_arn = elbv2.create_target_group(
-        Name="a-target",
-        Protocol="HTTPS",
-        Port=443,
-        VpcId=vpc.id).get("TargetGroups")[0]["TargetGroupArn"]
+        Name="a-target", Protocol="HTTPS", Port=443, VpcId=vpc.id
+    ).get("TargetGroups")[0]["TargetGroupArn"]
     listener = elbv2.create_listener(
         LoadBalancerArn=lb_arn,
         Protocol="HTTPS",

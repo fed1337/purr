@@ -5,6 +5,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Eric Coan <kungfury@instructure.com>
 """
+
 from flask import g
 from marshmallow import fields
 
@@ -22,9 +23,7 @@ def current_user_id():
 
 class ApiKeyInputSchema(LemurInputSchema):
     name = fields.String(required=False)
-    user = fields.Nested(
-        UserInputSchema, missing=current_user_id, default=current_user_id
-    )
+    user = fields.Nested(UserInputSchema, missing=current_user_id, default=current_user_id)
     ttl = fields.Integer()
 
 

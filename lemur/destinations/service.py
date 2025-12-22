@@ -5,6 +5,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 from sqlalchemy import func
 from flask import current_app
 
@@ -84,11 +85,14 @@ def delete(destination_id):
     destination = get(destination_id)
     if destination:
         # remove association of this source from all valid certificates
-        certificates = certificate_service.get_all_valid_certificates_with_destination(destination_id)
+        certificates = certificate_service.get_all_valid_certificates_with_destination(
+            destination_id
+        )
         for certificate in certificates:
             certificate_service.remove_destination_association(certificate, destination)
             current_app.logger.warning(
-                f"Removed destination {destination.label} for {certificate.name} during destination delete")
+                f"Removed destination {destination.label} for {certificate.name} during destination delete"
+            )
 
         # proceed with destination delete
         log_service.audit_log("delete_destination", destination.label, "Deleting destination")
@@ -131,9 +135,7 @@ def render(args):
     certificate_id = args.pop("certificate_id", None)
 
     if certificate_id:
-        query = database.session_query(Destination).join(
-            Certificate, Destination.certificate
-        )
+        query = database.session_query(Destination).join(Certificate, Destination.certificate)
         query = query.filter(Certificate.id == certificate_id)
     else:
         query = database.session_query(Destination)

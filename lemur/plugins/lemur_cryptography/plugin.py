@@ -6,6 +6,7 @@
 
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 import uuid
 
 from flask import current_app
@@ -46,21 +47,15 @@ def issue_certificate(csr, options, private_key=None):
     if options.get("authority"):
         # Issue certificate signed by an existing lemur_certificates authority
         issuer_subject = options["authority"].authority_certificate.subject
-        assert (
-            private_key is None
-        ), "Private would be ignored, authority key used instead"
+        assert private_key is None, "Private would be ignored, authority key used instead"
         private_key = options["authority"].authority_certificate.private_key
         chain_cert_pem = options["authority"].authority_certificate.body
-        authority_key_identifier_public = options[
-            "authority"
-        ].authority_certificate.public_key
+        authority_key_identifier_public = options["authority"].authority_certificate.public_key
         authority_key_identifier_subject = x509.SubjectKeyIdentifier.from_public_key(
             authority_key_identifier_public
         )
         authority_key_identifier_issuer = issuer_subject
-        authority_key_identifier_serial = int(
-            options["authority"].authority_certificate.serial
-        )
+        authority_key_identifier_serial = int(options["authority"].authority_certificate.serial)
         # TODO figure out a better way to increment serial
         # New authorities have a value at options['serial_number'] that is being ignored here.
         serial = int(uuid.uuid4())
@@ -212,9 +207,7 @@ class CryptographyIssuerPlugin(IssuerPlugin):
         :param options:
         :return: :raise Exception:
         """
-        current_app.logger.debug(
-            f"Issuing new cryptography certificate with options: {options}"
-        )
+        current_app.logger.debug(f"Issuing new cryptography certificate with options: {options}")
         cert_pem, chain_cert_pem = issue_certificate(csr, options)
         return cert_pem, chain_cert_pem, None
 
@@ -227,9 +220,7 @@ class CryptographyIssuerPlugin(IssuerPlugin):
         :param options:
         :return:
         """
-        current_app.logger.debug(
-            f"Issuing new cryptography authority with options: {options}"
-        )
+        current_app.logger.debug(f"Issuing new cryptography authority with options: {options}")
         cert_pem, private_key, chain_cert_pem = build_certificate_authority(options)
         roles = [
             {"username": "", "password": "", "name": options["name"] + "_admin"},

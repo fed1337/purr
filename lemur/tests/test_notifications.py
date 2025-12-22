@@ -91,9 +91,7 @@ def test_notification_put(client, token, status):
 )
 def test_notification_delete(client, token, status):
     assert (
-        client.delete(
-            api.url_for(Notifications, notification_id=1), headers=token
-        ).status_code
+        client.delete(api.url_for(Notifications, notification_id=1), headers=token).status_code
         == status
     )
 
@@ -126,10 +124,7 @@ def test_notification_patch(client, token, status):
     ],
 )
 def test_notification_list_post_(client, token, status):
-    assert (
-        client.post(api.url_for(NotificationsList), data={}, headers=token).status_code
-        == status
-    )
+    assert client.post(api.url_for(NotificationsList), data={}, headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -141,12 +136,8 @@ def test_notification_list_post_(client, token, status):
         ("", 401),
     ],
 )
-def test_notification_list_get(
-    client, notification_plugin, notification, token, status
-):
-    assert (
-        client.get(api.url_for(NotificationsList), headers=token).status_code == status
-    )
+def test_notification_list_get(client, notification_plugin, notification, token, status):
+    assert client.get(api.url_for(NotificationsList), headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -159,10 +150,7 @@ def test_notification_list_get(
     ],
 )
 def test_notification_list_delete(client, token, status):
-    assert (
-        client.delete(api.url_for(NotificationsList), headers=token).status_code
-        == status
-    )
+    assert client.delete(api.url_for(NotificationsList), headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -176,6 +164,5 @@ def test_notification_list_delete(client, token, status):
 )
 def test_notification_list_patch(client, token, status):
     assert (
-        client.patch(api.url_for(NotificationsList), data={}, headers=token).status_code
-        == status
+        client.patch(api.url_for(NotificationsList), data={}, headers=token).status_code == status
     )

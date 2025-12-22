@@ -6,6 +6,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 from flask import Blueprint
 from flask_restful import Api, reqparse, inputs
 from lemur.notifications import service
@@ -27,7 +28,7 @@ api = Api(mod)
 
 
 class NotificationsList(AuthenticatedResource):
-    """ Defines the 'notifications' endpoint """
+    """Defines the 'notifications' endpoint"""
 
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
@@ -388,7 +389,7 @@ class Notifications(AuthenticatedResource):
 
 
 class CertificateNotifications(AuthenticatedResource):
-    """ Defines the 'certificate/<int:certificate_id/notifications'' endpoint """
+    """Defines the 'certificate/<int:certificate_id/notifications'' endpoint"""
 
     def __init__(self):
         super().__init__()
@@ -472,9 +473,7 @@ class CertificateNotifications(AuthenticatedResource):
 
 
 api.add_resource(NotificationsList, "/notifications", endpoint="notifications")
-api.add_resource(
-    Notifications, "/notifications/<int:notification_id>", endpoint="notification"
-)
+api.add_resource(Notifications, "/notifications/<int:notification_id>", endpoint="notification")
 api.add_resource(
     CertificateNotifications,
     "/certificates/<int:certificate_id>/notifications",

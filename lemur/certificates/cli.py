@@ -5,6 +5,7 @@
     :license: Apache, see LICENSE for more details.
 .. moduleauthor:: Kevin Glisson <kglisson@netflix.com>
 """
+
 import sys
 from time import sleep
 
@@ -37,7 +38,9 @@ from lemur.certificates.service import (
     list_recent_valid_certs_issued_by_authority,
     get_certificates_with_same_cn_with_rotate_on,
     identify_and_persist_expiring_deployed_certificates,
-    send_certificate_expiration_metrics, get_all_certs_not_attached_to_endpoint_with_autorotate, get_by_serial
+    send_certificate_expiration_metrics,
+    get_all_certs_not_attached_to_endpoint_with_autorotate,
+    get_by_serial,
 )
 from lemur.certificates.verify import verify_string
 from lemur.constants import SUCCESS_METRIC_STATUS, FAILURE_METRIC_STATUS, CRLReason
@@ -45,8 +48,11 @@ from lemur.deployment import service as deployment_service
 from lemur.domains.models import Domain
 from lemur.endpoints import service as endpoint_service
 from lemur.extensions import metrics
-from lemur.notifications.messaging import send_rotation_notification, send_reissue_no_endpoints_notification, \
-    send_reissue_failed_notification
+from lemur.notifications.messaging import (
+    send_rotation_notification,
+    send_reissue_no_endpoints_notification,
+    send_reissue_failed_notification,
+)
 from lemur.plugins.base import plugins
 
 
@@ -71,9 +77,7 @@ def print_certificate_details(details):
         "\t[+] Validity Start: {validity_start}\n"
         "\t[+] Validity End: {validity_end}\n".format(
             common_name=details["commonName"],
-            sans=",".join(
-                x["value"] for x in details["extensions"]["subAltNames"]["names"]
-            )
+            sans=",".join(x["value"] for x in details["extensions"]["subAltNames"]["names"])
             or None,
             authority_name=details["authority"]["name"],
             validity_start=details["validityStart"],
@@ -171,8 +175,9 @@ def request_rotation(endpoint, certificate, message, commit):
             status = SUCCESS_METRIC_STATUS
 
         except Exception as e:
-            capture_exception(extra={"certificate_name": str(certificate.name),
-                                     "endpoint": str(endpoint.dnsname)})
+            capture_exception(
+                extra={"certificate_name": str(certificate.name), "endpoint": str(endpoint.dnsname)}
+            )
             current_app.logger.exception(
                 f"Error rotating certificate: {certificate.name}", exc_info=True
             )
@@ -182,9 +187,16 @@ def request_rotation(endpoint, certificate, message, commit):
                 )
             )
 
-    metrics.send("endpoint_rotation", "counter", 1, metric_tags={"status": status,
-                                                                 "certificate_name": str(certificate.name),
-                                                                 "endpoint": str(endpoint.dnsname)})
+    metrics.send(
+        "endpoint_rotation",
+        "counter",
+        1,
+        metric_tags={
+            "status": status,
+            "certificate_name": str(certificate.name),
+            "endpoint": str(endpoint.dnsname),
+        },
+    )
 
 
 def request_reissue(certificate, notify, commit):
@@ -209,7 +221,9 @@ def request_reissue(certificate, notify, commit):
         if commit:
             new_cert = reissue_certificate(certificate, notify=notify, replace=True)
             click.echo(f"[+] New certificate named: {new_cert.name}")
-            if notify and isinstance(new_cert, Certificate):  # let celery handle PendingCertificates
+            if notify and isinstance(
+                new_cert, Certificate
+            ):  # let celery handle PendingCertificates
                 send_reissue_no_endpoints_notification(certificate, new_cert)
 
         status = SUCCESS_METRIC_STATUS
@@ -272,7 +286,9 @@ def request_reissue(certificate, notify, commit):
     default=False,
     help="Persist changes.",
 )
-def rotate_command(endpoint_name, source, new_certificate_name, old_certificate_name, message, commit):
+def rotate_command(
+    endpoint_name, source, new_certificate_name, old_certificate_name, message, commit
+):
     rotate(endpoint_name, source, new_certificate_name, old_certificate_name, message, commit)
 
 
@@ -301,16 +317,18 @@ def rotate(endpoint_name, source, new_certificate_name, old_certificate_name, me
             try:
                 endpoint = validate_endpoint(endpoint_name)
             except MultipleResultsFound as e:
-                click.echo(f"[!] Multiple endpoints found with name {endpoint_name}, try narrowing the search down to an endpoint from a specific source by re-running this command with the --source flag.")
-                log_data["message"] = "Multiple endpoints found with same name, unable to perform rotation"
+                click.echo(
+                    f"[!] Multiple endpoints found with name {endpoint_name}, try narrowing the search down to an endpoint from a specific source by re-running this command with the --source flag."
+                )
+                log_data["message"] = (
+                    "Multiple endpoints found with same name, unable to perform rotation"
+                )
                 log_data["duplicated_endpoint_name"] = endpoint_name
                 current_app.logger.info(log_data)
                 raise
 
         if endpoint and new_cert:
-            click.echo(
-                f"[+] Rotating endpoint: {endpoint.name} to certificate {new_cert.name}"
-            )
+            click.echo(f"[+] Rotating endpoint: {endpoint.name} to certificate {new_cert.name}")
             log_data["message"] = "Rotating one endpoint"
             log_data["endpoint"] = endpoint.dnsname
             log_data["certificate"] = new_cert.name
@@ -333,11 +351,12 @@ def rotate(endpoint_name, source, new_certificate_name, old_certificate_name, me
             # which are associated with a certificate that has been replaced
             click.echo("[+] Rotating all endpoints that have new certificates available")
             for endpoint in endpoint_service.get_all_pending_rotation():
-
                 log_data["message"] = "Rotating endpoint from old to new cert"
                 if len(endpoint.certificate.replaced) > 1:
-                    log_data["message"] = f"Multiple replacement certificates found, going with the first one out of " \
-                                          f"{len(endpoint.certificate.replaced)}"
+                    log_data["message"] = (
+                        f"Multiple replacement certificates found, going with the first one out of "
+                        f"{len(endpoint.certificate.replaced)}"
+                    )
 
                 log_data["endpoint"] = endpoint.dnsname
                 log_data["certificate"] = endpoint.certificate.replaced[0].name
@@ -428,11 +447,17 @@ def request_rotation_region(endpoint, new_cert, message, commit, log_data, regio
     required=True,
     help="Region in which to rotate the endpoint.",
 )
-def rotate_region_command(endpoint_name, new_certificate_name, old_certificate_name, message, commit, region):
-    rotate_region(endpoint_name, new_certificate_name, old_certificate_name, message, commit, region)
+def rotate_region_command(
+    endpoint_name, new_certificate_name, old_certificate_name, message, commit, region
+):
+    rotate_region(
+        endpoint_name, new_certificate_name, old_certificate_name, message, commit, region
+    )
 
 
-def rotate_region(endpoint_name, new_certificate_name, old_certificate_name, message, commit, region):
+def rotate_region(
+    endpoint_name, new_certificate_name, old_certificate_name, message, commit, region
+):
     """
     Rotates an endpoint in a defined region it if it has not already been replaced. If it has
     been replaced, will use the replacement certificate for the rotation.
@@ -501,8 +526,10 @@ def rotate_region(endpoint_name, new_certificate_name, old_certificate_name, mes
                 log_data["certificate"] = endpoint.certificate.replaced[0].name
                 log_data["message"] = "Rotating all endpoints in region"
                 if len(endpoint.certificate.replaced) > 1:
-                    log_data["message"] = f"Multiple replacement certificates found, going with the first one out of " \
-                                          f"{len(endpoint.certificate.replaced)}"
+                    log_data["message"] = (
+                        f"Multiple replacement certificates found, going with the first one out of "
+                        f"{len(endpoint.certificate.replaced)}"
+                    )
 
                 request_rotation(endpoint, endpoint.certificate.replaced[0], message, commit)
                 current_app.logger.info(log_data)
@@ -610,13 +637,17 @@ def reissue(old_certificate_name, notify, commit, serial_numbers):
         old_certs_by_serial_numbers = validate_certificates_by_serial_numbers(serial_numbers)
         if old_certs_by_serial_numbers:
             certs_to_reissue.extend(old_certs_by_serial_numbers)
-            click.echo(f"[+] Reissuing {len(old_certs_by_serial_numbers)} certificates by serial number")
+            click.echo(
+                f"[+] Reissuing {len(old_certs_by_serial_numbers)} certificates by serial number"
+            )
 
         # if neither name nor serial numbers were specified, reissue all pending reissues
         if not certs_to_reissue:
             certs_to_reissue = get_all_pending_reissue()
             if current_app.config.get("REISSUE_FILTER"):
-                certs_to_reissue = [c for c in certs_to_reissue if current_app.config.get("REISSUE_FILTER")(c)]
+                certs_to_reissue = [
+                    c for c in certs_to_reissue if current_app.config.get("REISSUE_FILTER")(c)
+                ]
             click.echo(f"[+] Reissuing all {len(certs_to_reissue)} pending certificates.")
 
         for old_cert in certs_to_reissue:
@@ -629,9 +660,7 @@ def reissue(old_certificate_name, notify, commit, serial_numbers):
         current_app.logger.exception("Error reissuing certificate.", exc_info=True)
         click.echo(f"[!] Failed to reissue certificates. Reason: {e}")
 
-    metrics.send(
-        "certificate_reissue_job", "counter", 1, metric_tags={"status": status}
-    )
+    metrics.send("certificate_reissue_job", "counter", 1, metric_tags={"status": status})
 
 
 @cli.command("query")
@@ -738,7 +767,13 @@ def clear_pending():
 @cli.command("revoke")
 @click.option("-p", "--path", "path", help="Absolute file path to a Lemur query csv.")
 @click.option("-id", "--certid", "cert_id", help="ID of the certificate to be revoked")
-@click.option("-r", "--reason", "reason", default="unspecified", help="CRL Reason as per RFC 5280 section 5.3.1")
+@click.option(
+    "-r",
+    "--reason",
+    "reason",
+    default="unspecified",
+    help="CRL Reason as per RFC 5280 section 5.3.1",
+)
 @click.option("-m", "--message", "message", help="Message explaining reason for revocation")
 @click.option(
     "-c",
@@ -796,7 +831,7 @@ def check_revoked():
 
     log_data = {
         "function": f"{__name__}.{sys._getframe().f_code.co_name}",
-        "message": "Checking for revoked Certificates"
+        "message": "Checking for revoked Certificates",
     }
     there_are_still_certs = True
     page = 1
@@ -805,19 +840,18 @@ def check_revoked():
     crl_err_count = 0
     while there_are_still_certs:
         # get all valid certs issued until day before. This is to avoid OCSP not knowing about a newly created cert.
-        certs = get_all_valid_certs(current_app.config.get("SUPPORTED_REVOCATION_AUTHORITY_PLUGINS", []),
-                                    paginate=True, page=page, count=count,
-                                    created_on_or_before=arrow.now().shift(days=-1))
+        certs = get_all_valid_certs(
+            current_app.config.get("SUPPORTED_REVOCATION_AUTHORITY_PLUGINS", []),
+            paginate=True,
+            page=page,
+            count=count,
+            created_on_or_before=arrow.now().shift(days=-1),
+        )
         if len(certs) < count:
             # this must be tha last page
             there_are_still_certs = False
         else:
-            metrics.send(
-                "certificate_revoked_progress",
-                "counter",
-                1,
-                metric_tags={"page": page}
-            )
+            metrics.send("certificate_revoked_progress", "counter", 1, metric_tags={"page": page})
             page += 1
 
         for cert in certs:
@@ -843,9 +877,11 @@ def check_revoked():
                         "certificate_revoked",
                         "counter",
                         1,
-                        metric_tags={"status": log_data["valid"],
-                                 "certificate_name": log_data["certificate_name"],
-                                 "certificate_id": log_data["certificate_id"]},
+                        metric_tags={
+                            "status": log_data["valid"],
+                            "certificate_name": log_data["certificate_name"],
+                            "certificate_id": log_data["certificate_id"],
+                        },
                     )
                     current_app.logger.info(log_data)
 
@@ -891,7 +927,7 @@ def automatically_enable_autorotate_with_endpoint():
     """
     log_data = {
         "function": f"{__name__}.{sys._getframe().f_code.co_name}",
-        "message": "Enabling auto-rotate for certificate"
+        "message": "Enabling auto-rotate for certificate",
     }
     no_authority_restrictions = current_app.config.get("ENABLE_AUTO_ROTATE_ALL_AUTHORITIES", False)
     permitted_authorities = current_app.config.get("ENABLE_AUTO_ROTATE_AUTHORITY", [])
@@ -907,23 +943,29 @@ def automatically_enable_autorotate_with_endpoint():
             log_data["authority_id"] = cert.authority_id
             log_data["authority_name"] = authorities_get_by_id(cert.authority_id).name
             if cert.destinations:
-                log_data["destination_names"] = ', '.join([d.label for d in cert.destinations])
+                log_data["destination_names"] = ", ".join([d.label for d in cert.destinations])
             else:
                 log_data["destination_names"] = "NONE"
             current_app.logger.info(log_data)
-            metrics.send("automatically_enable_autorotate_with_endpoint",
-                         "counter", 1,
-                         metric_tags={"certificate": log_data["certificate"],
-                                      "certificate_id": log_data["certificate_id"],
-                                      "authority_id": log_data["authority_id"],
-                                      "authority_name": log_data["authority_name"],
-                                      "destination_names": log_data["destination_names"]
-                                      })
+            metrics.send(
+                "automatically_enable_autorotate_with_endpoint",
+                "counter",
+                1,
+                metric_tags={
+                    "certificate": log_data["certificate"],
+                    "certificate_id": log_data["certificate_id"],
+                    "authority_id": log_data["authority_id"],
+                    "authority_name": log_data["authority_name"],
+                    "destination_names": log_data["destination_names"],
+                },
+            )
             cert.rotation = True
             database.update(cert)
         except Exception as e:
             capture_exception()
-            current_app.logger.warning(f"Unable to enable auto-rotate for certificate {cert.name}. Reason: {e}")
+            current_app.logger.warning(
+                f"Unable to enable auto-rotate for certificate {cert.name}. Reason: {e}"
+            )
 
 
 @cli.command("disable_autorotate_without_endpoint")
@@ -940,13 +982,14 @@ def disable_autorotate_without_endpoint():
     """
     log_data = {
         "function": f"{__name__}.{sys._getframe().f_code.co_name}",
-        "message": "Disabling auto-rotate for certificate"
+        "message": "Disabling auto-rotate for certificate",
     }
 
     eligible_certs = get_all_certs_not_attached_to_endpoint_with_autorotate()
     for cert in eligible_certs:
-
-        if not current_app.config.get("DISABLE_AUTOROTATION_FILTER") or not current_app.config.get("DISABLE_AUTOROTATION_FILTER")(cert):
+        if not current_app.config.get("DISABLE_AUTOROTATION_FILTER") or not current_app.config.get(
+            "DISABLE_AUTOROTATION_FILTER"
+        )(cert):
             continue
 
         log_data["certificate"] = cert.name
@@ -958,14 +1001,18 @@ def disable_autorotate_without_endpoint():
             log_data["authority_name"] = authority.name
         log_data["destination_names"] = "NONE"
         current_app.logger.info(log_data)
-        metrics.send("automatically_disable_autorotate_without_endpoint",
-                     "counter", 1,
-                     metric_tags={"certificate": log_data["certificate"],
-                                  "certificate_id": log_data["certificate_id"],
-                                  "authority_id": log_data["authority_id"],
-                                  "authority_name": log_data["authority_name"],
-                                  "destination_names": log_data["destination_names"]
-                                  })
+        metrics.send(
+            "automatically_disable_autorotate_without_endpoint",
+            "counter",
+            1,
+            metric_tags={
+                "certificate": log_data["certificate"],
+                "certificate_id": log_data["certificate_id"],
+                "authority_id": log_data["authority_id"],
+                "authority_name": log_data["authority_name"],
+                "destination_names": log_data["destination_names"],
+            },
+        )
         cert.rotation = False
         database.update(cert)
 
@@ -984,15 +1031,16 @@ def automatically_enable_autorotate_with_destination():
     """
     log_data = {
         "function": f"{__name__}.{sys._getframe().f_code.co_name}",
-        "message": "Enabling auto-rotate for certificate"
+        "message": "Enabling auto-rotate for certificate",
     }
     no_authority_restrictions = current_app.config.get("ENABLE_AUTO_ROTATE_ALL_AUTHORITIES", False)
     permitted_authorities = current_app.config.get("ENABLE_AUTO_ROTATE_AUTHORITY", [])
     destination_plugin_name = current_app.config.get("ENABLE_AUTO_ROTATE_DESTINATION_TYPE", None)
 
-    eligible_certs = get_all_certs_attached_to_destination_without_autorotate(plugin_name=destination_plugin_name)
+    eligible_certs = get_all_certs_attached_to_destination_without_autorotate(
+        plugin_name=destination_plugin_name
+    )
     for cert in eligible_certs:
-
         if not no_authority_restrictions and cert.authority_id not in permitted_authorities:
             continue
 
@@ -1001,18 +1049,22 @@ def automatically_enable_autorotate_with_destination():
         log_data["authority_id"] = cert.authority_id
         log_data["authority_name"] = authorities_get_by_id(cert.authority_id).name
         if cert.destinations:
-            log_data["destination_names"] = ', '.join([d.label for d in cert.destinations])
+            log_data["destination_names"] = ", ".join([d.label for d in cert.destinations])
         else:
             log_data["destination_names"] = "NONE"
         current_app.logger.info(log_data)
-        metrics.send("automatically_enable_autorotate_with_destination",
-                     "counter", 1,
-                     metric_tags={"certificate": log_data["certificate"],
-                                  "certificate_id": log_data["certificate_id"],
-                                  "authority_id": log_data["authority_id"],
-                                  "authority_name": log_data["authority_name"],
-                                  "destination_names": log_data["destination_names"]
-                                  })
+        metrics.send(
+            "automatically_enable_autorotate_with_destination",
+            "counter",
+            1,
+            metric_tags={
+                "certificate": log_data["certificate"],
+                "certificate_id": log_data["certificate_id"],
+                "authority_id": log_data["authority_id"],
+                "authority_name": log_data["authority_name"],
+                "destination_names": log_data["destination_names"],
+            },
+        )
         cert.rotation = True
         database.update(cert)
 
@@ -1029,11 +1081,11 @@ def deactivate_entrust_certificates():
 
     log_data = {
         "function": f"{__name__}.{sys._getframe().f_code.co_name}",
-        "message": "Deactivating Entrust certificates"
+        "message": "Deactivating Entrust certificates",
     }
 
-    certificates = get_all_valid_certs(['entrust-issuer'])
-    entrust_plugin = plugins.get('entrust-issuer')
+    certificates = get_all_valid_certs(["entrust-issuer"])
+    entrust_plugin = plugins.get("entrust-issuer")
     for index, cert in enumerate(certificates):
         if (index % 10) == 0:
             # Entrust enforces a 10 request per 30s rate limit
@@ -1052,9 +1104,11 @@ def deactivate_entrust_certificates():
                 "certificate_deactivate",
                 "counter",
                 1,
-                metric_tags={"status": log_data["valid"],
-                             "certificate_name": log_data["certificate_name"],
-                             "certificate_id": log_data["certificate_id"]},
+                metric_tags={
+                    "status": log_data["valid"],
+                    "certificate_name": log_data["certificate_name"],
+                    "certificate_id": log_data["certificate_id"],
+                },
             )
             current_app.logger.info(log_data)
 
@@ -1075,20 +1129,24 @@ def disable_rotation_of_duplicate_certificates_command(commit):
 def disable_rotation_of_duplicate_certificates(commit):
     log_data = {
         "function": f"{__name__}.{sys._getframe().f_code.co_name}",
-        "message": "Disabling auto-rotate for duplicate certificates"
+        "message": "Disabling auto-rotate for duplicate certificates",
     }
 
     if commit:
         click.echo("[!] Running in COMMIT mode.")
 
-    authority_names = current_app.config.get("AUTHORITY_TO_DISABLE_ROTATE_OF_DUPLICATE_CERTIFICATES")
+    authority_names = current_app.config.get(
+        "AUTHORITY_TO_DISABLE_ROTATE_OF_DUPLICATE_CERTIFICATES"
+    )
     if not authority_names:
         log_data["message"] = "Skipping task: No authorities configured"
         current_app.logger.debug(log_data)
         return
 
     log_data["authorities"] = authority_names
-    days_since_issuance = current_app.config.get("DAYS_SINCE_ISSUANCE_DISABLE_ROTATE_OF_DUPLICATE_CERTIFICATES", None)
+    days_since_issuance = current_app.config.get(
+        "DAYS_SINCE_ISSUANCE_DISABLE_ROTATE_OF_DUPLICATE_CERTIFICATES", None
+    )
     log_data["days_since_issuance"] = f"{days_since_issuance} (Ignored if none)"
 
     authority_ids = []
@@ -1107,7 +1165,9 @@ def disable_rotation_of_duplicate_certificates(commit):
         current_app.logger.error(log_data)
         return
 
-    duplicate_candidate_certs = list_recent_valid_certs_issued_by_authority(authority_ids, days_since_issuance)
+    duplicate_candidate_certs = list_recent_valid_certs_issued_by_authority(
+        authority_ids, days_since_issuance
+    )
 
     log_data["duplicate_candidate_certs_count"] = len(duplicate_candidate_certs)
     current_app.logger.info(log_data)
@@ -1118,19 +1178,23 @@ def disable_rotation_of_duplicate_certificates(commit):
     failed_certs = []
 
     for duplicate_candidate_cert in duplicate_candidate_certs:
-        success, duplicates = process_duplicates(duplicate_candidate_cert,
-                                                 days_since_issuance,
-                                                 skipped_certs,
-                                                 rotation_disabled_certs,
-                                                 unique_common_names,
-                                                 commit
-                                                 )
+        success, duplicates = process_duplicates(
+            duplicate_candidate_cert,
+            days_since_issuance,
+            skipped_certs,
+            rotation_disabled_certs,
+            unique_common_names,
+            commit,
+        )
         if not success:
             for cert in duplicates:
                 failed_certs.append(cert.name)
-                metrics.send("disable_rotation_duplicates", "counter", 1,
-                             metric_tags={"status": "failed", "certificate": cert.name}
-                             )
+                metrics.send(
+                    "disable_rotation_duplicates",
+                    "counter",
+                    1,
+                    metric_tags={"status": "failed", "certificate": cert.name},
+                )
 
     # certs_with_serial_number_count + unique_common_names_count should be equal to
     # rotation_disabled_cert_count + rotation_disabled_cert_count + failed_to_determine_if_duplicate_count
@@ -1143,7 +1207,14 @@ def disable_rotation_of_duplicate_certificates(commit):
     current_app.logger.info(log_data)
 
 
-def process_duplicates(duplicate_candidate_cert, days_since_issuance, skipped_certs, rotation_disabled_certs, processed_unique_cn, commit):
+def process_duplicates(
+    duplicate_candidate_cert,
+    days_since_issuance,
+    skipped_certs,
+    rotation_disabled_certs,
+    processed_unique_cn,
+    commit,
+):
     """
     Process duplicate_candidate_cert to see if there are more certs with exact same details (logic in `is_duplicate()`).
     If Yes, turn off auto
@@ -1161,15 +1232,19 @@ def process_duplicates(duplicate_candidate_cert, days_since_issuance, skipped_ce
 
     processed_unique_cn.append(duplicate_candidate_cert.cn)
 
-    certs_with_same_cn = get_certificates_with_same_cn_with_rotate_on(duplicate_candidate_cert.cn,
-                                                                      duplicate_candidate_cert.date_created)
+    certs_with_same_cn = get_certificates_with_same_cn_with_rotate_on(
+        duplicate_candidate_cert.cn, duplicate_candidate_cert.date_created
+    )
 
     if len(certs_with_same_cn) == 1:
         # this is the only cert with rotation ON, no further action needed
         skipped_certs.append(certs_with_same_cn[0].name)
-        metrics.send("disable_rotation_duplicates", "counter", 1,
-                     metric_tags={"status": "skipped", "certificate": certs_with_same_cn[0].name}
-                     )
+        metrics.send(
+            "disable_rotation_duplicates",
+            "counter",
+            1,
+            metric_tags={"status": "skipped", "certificate": certs_with_same_cn[0].name},
+        )
         return True, None
 
     skip_cert = False
@@ -1195,9 +1270,12 @@ def process_duplicates(duplicate_candidate_cert, days_since_issuance, skipped_ce
         # comparision is working as intended
         for skipped_cert in certs_with_same_cn:
             skipped_certs.append(skipped_cert.name)
-            metrics.send("disable_rotation_duplicates", "counter", 1,
-                         metric_tags={"status": "skipped", "certificate": skipped_cert.name}
-                         )
+            metrics.send(
+                "disable_rotation_duplicates",
+                "counter",
+                1,
+                metric_tags={"status": "skipped", "certificate": skipped_cert.name},
+            )
         return True, None
 
     # If no certificate has endpoint, allow autorotaion of only input duplicate_candidate_cert
@@ -1207,18 +1285,24 @@ def process_duplicates(duplicate_candidate_cert, days_since_issuance, skipped_ce
     for matching_cert in certs_with_same_cn:
         if matching_cert.name in certs_to_stay_on_autorotate:
             skipped_certs.append(matching_cert.name)
-            metrics.send("disable_rotation_duplicates", "counter", 1,
-                         metric_tags={"status": "skipped", "certificate": matching_cert.name}
-                         )
+            metrics.send(
+                "disable_rotation_duplicates",
+                "counter",
+                1,
+                metric_tags={"status": "skipped", "certificate": matching_cert.name},
+            )
         else:
             # disable rotation and update DB
             matching_cert.rotation = False
             if commit:
                 database.update(matching_cert)
             rotation_disabled_certs.append(matching_cert.name)
-            metrics.send("disable_rotation_duplicates", "counter", 1,
-                         metric_tags={"status": "success", "certificate": matching_cert.name}
-                         )
+            metrics.send(
+                "disable_rotation_duplicates",
+                "counter",
+                1,
+                metric_tags={"status": "success", "certificate": matching_cert.name},
+            )
     return True, None
 
 
@@ -1236,12 +1320,15 @@ def is_duplicate(matching_cert, compare_to):
     matching_destinations = [destination.label for destination in matching_cert.destinations]
     compare_to_destinations = [destination.label for destination in compare_to.destinations]
 
-    if (len(matching_destinations) == len(compare_to_destinations)
-            and set(matching_destinations) == set(compare_to_destinations)):
+    if len(matching_destinations) == len(compare_to_destinations) and set(
+        matching_destinations
+    ) == set(compare_to_destinations):
         matching_sans = [domain.name for domain in matching_cert.domains]
         compare_to_sans = [domain.name for domain in compare_to.domains]
 
-        return len(matching_sans) == len(compare_to_sans) and set(matching_sans) == set(compare_to_sans)
+        return len(matching_sans) == len(compare_to_sans) and set(matching_sans) == set(
+            compare_to_sans
+        )
 
     return False
 
@@ -1281,9 +1368,13 @@ def identify_expiring_deployed_certificates(exclude_domains, exclude_owners, com
         status = SUCCESS_METRIC_STATUS
     except Exception:
         capture_exception()
-        current_app.logger.exception("Error identifying expiring deployed certificates", exc_info=True)
+        current_app.logger.exception(
+            "Error identifying expiring deployed certificates", exc_info=True
+        )
 
-    metrics.send("identify_expiring_deployed_certificates", "counter", 1, metric_tags={"status": status})
+    metrics.send(
+        "identify_expiring_deployed_certificates", "counter", 1, metric_tags={"status": status}
+    )
 
 
 @cli.command("expiration_metrics")
@@ -1307,6 +1398,4 @@ def expiration_metrics(expiry_window):
         status = FAILURE_METRIC_STATUS
         capture_exception()
 
-    metrics.send(
-        "expiration_metrics_job", "counter", 1, metric_tags={"status": status}
-    )
+    metrics.send("expiration_metrics_job", "counter", 1, metric_tags={"status": status})

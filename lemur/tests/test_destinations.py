@@ -12,6 +12,7 @@ from .vectors import (
 
 def test_invalid_label():
     from lemur.destinations.models import Destination
+
     with pytest.raises(ValueError) as e:
         Destination(label="too_long" * 50)
     assert "Label exceeds max length" in str(e)
@@ -44,10 +45,7 @@ def test_destination_input_schema(client, destination_plugin, destination):
 )
 def test_destination_get(client, token, status):
     assert (
-        client.get(
-            api.url_for(Destinations, destination_id=1), headers=token
-        ).status_code
-        == status
+        client.get(api.url_for(Destinations, destination_id=1), headers=token).status_code == status
     )
 
 
@@ -62,9 +60,7 @@ def test_destination_get(client, token, status):
 )
 def test_destination_post_(client, token, status):
     assert (
-        client.post(
-            api.url_for(Destinations, destination_id=1), data={}, headers=token
-        ).status_code
+        client.post(api.url_for(Destinations, destination_id=1), data={}, headers=token).status_code
         == status
     )
 
@@ -80,9 +76,7 @@ def test_destination_post_(client, token, status):
 )
 def test_destination_put(client, token, status):
     assert (
-        client.put(
-            api.url_for(Destinations, destination_id=1), data={}, headers=token
-        ).status_code
+        client.put(api.url_for(Destinations, destination_id=1), data={}, headers=token).status_code
         == status
     )
 
@@ -98,9 +92,7 @@ def test_destination_put(client, token, status):
 )
 def test_destination_delete(client, token, status):
     assert (
-        client.delete(
-            api.url_for(Destinations, destination_id=1), headers=token
-        ).status_code
+        client.delete(api.url_for(Destinations, destination_id=1), headers=token).status_code
         == status
     )
 
@@ -133,10 +125,7 @@ def test_destination_patch(client, token, status):
     ],
 )
 def test_destination_list_post_(client, token, status):
-    assert (
-        client.post(api.url_for(DestinationsList), data={}, headers=token).status_code
-        == status
-    )
+    assert client.post(api.url_for(DestinationsList), data={}, headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -149,9 +138,7 @@ def test_destination_list_post_(client, token, status):
     ],
 )
 def test_destination_list_get(client, token, status):
-    assert (
-        client.get(api.url_for(DestinationsList), headers=token).status_code == status
-    )
+    assert client.get(api.url_for(DestinationsList), headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -164,10 +151,7 @@ def test_destination_list_get(client, token, status):
     ],
 )
 def test_destination_list_delete(client, token, status):
-    assert (
-        client.delete(api.url_for(DestinationsList), headers=token).status_code
-        == status
-    )
+    assert client.delete(api.url_for(DestinationsList), headers=token).status_code == status
 
 
 @pytest.mark.parametrize(
@@ -180,7 +164,4 @@ def test_destination_list_delete(client, token, status):
     ],
 )
 def test_destination_list_patch(client, token, status):
-    assert (
-        client.patch(api.url_for(DestinationsList), data={}, headers=token).status_code
-        == status
-    )
+    assert client.patch(api.url_for(DestinationsList), data={}, headers=token).status_code == status
