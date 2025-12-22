@@ -32,9 +32,9 @@ def test_verify_state_token(client):
     token = generate_state_token()
     assert verify_state_token(token)
 
-    with freeze_time(datetime.now() + timedelta(
-            seconds=OAUTH_STATE_TOKEN_STALE_TOLERANCE_SECONDS + 1
-    )):
+    with freeze_time(
+        datetime.now() + timedelta(seconds=OAUTH_STATE_TOKEN_STALE_TOLERANCE_SECONDS + 1)
+    ):
         assert not verify_state_token(token)
 
     assert not verify_state_token("123456:f4k8")
